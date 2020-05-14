@@ -1,0 +1,31 @@
+.alert {
+  padding: 10px;
+  color: #4caf50 ;
+  border: 1px solid #4caf50 ;
+  border-radius: 10px;
+  height: 25px;
+}
+
+.closebtn {
+  margin-left: 15px;
+  color: #4caf50 ;
+  font-weight: bold;
+  float: right;
+  font-size: 22px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.icon {
+  float: left;
+}
+
+.message {
+  float: left;
+  margin-top: 3px;
+  padding-left: 10px;
+}
+
+.closebtn:hover {
+  color: black;
+}

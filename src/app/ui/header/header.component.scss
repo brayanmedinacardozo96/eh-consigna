@@ -1,0 +1,31 @@
+.title {
+  width: 100%;
+}
+
+.title div {
+  color: #FFFFFF;
+  text-align: center;
+}
+
+.container-right {
+  right: 0;
+  top: 0;
+  position: absolute;
+  margin-right: 20px;
+  margin-top: 15px;
+  line-height: 30px;
+}
+
+.name-user {
+  color: white;
+  margin-right: 20px;
+  font-size: 13px;
+  vertical-align: middle;
+}
+
+.btn-logout {
+  cursor: pointer;
+  color: white;
+  font-size: 30px;
+  vertical-align: middle;
+}

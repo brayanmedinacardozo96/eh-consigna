@@ -1,0 +1,14 @@
+::ng-deep .mat-sort-header-container {
+  display: flex;
+  justify-content: center;
+}
+
+::ng-deep .mat-sort-header-arrow {
+  color: #FFFFFF;
+}
+
+.container-table {
+  margin-bottom: 1%;
+  max-height: 500px;
+  overflow-y: auto;
+}

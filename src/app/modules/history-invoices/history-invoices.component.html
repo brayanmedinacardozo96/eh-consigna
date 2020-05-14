@@ -1,0 +1,47 @@
+<mat-card class="container">
+  <mat-card-content>
+    <h1>Estado del proceso de generación</h1>
+
+    <fieldset>
+      <legend style="text-align: left;">Parámetros de búsqueda</legend>
+
+      <app-input-number
+        class="input"
+        (keyup.enter)="search()"
+        [name]="form.package.name"
+        [value]="form.package.value"
+        [label]="form.package.label"
+        [messages]="form.package.messages"
+        (valueChange)="setData(form.package.name, $event)"
+        [style]="'width: 250px'"
+      ></app-input-number>
+
+      <button (click)="search()" mat-mini-fab color="accent" style="margin-left: 20px;">
+        <mat-icon style="color: #FFFFFF">search</mat-icon>
+      </button>
+
+    </fieldset>
+
+    <div *ngIf="data.length > 0">
+      <div class="message-process" *ngIf="completeProcess === false">
+        <span class="material-icons">sync</span> Generando facturación masiva ...
+        <br/><br/>
+        <mat-checkbox (change)="syncAutomatic($event)">Sincronización automática</mat-checkbox>
+        <span style="font-weight: normal; font-size: 12px; font-style: italic;">
+          <br/>(Si activa la sincronizacion automática los datos se actualizaran cada {{seconds}} segundos.)
+        </span>
+      </div>
+      <div class="message-complete" *ngIf="completeProcess === true">
+        <span class="material-icons">check</span>
+        El proceso se ejecutó por completo, puede descargar las facturas generadas dando clic
+        <a href="javascript:void(0)" (click)="download()">aquí</a>
+        <br/><span>Total registros: {{totalRecords}}</span>
+        <br/><span style="color: #4caf50;">Registros exitosos: {{successRecords}}</span>
+        <br/><span style="color: #f44336;">Registros fallidos: {{failedsRecords}}</span>
+      </div>
+    </div>
+
+    <app-history-invoices-list [data]="data"></app-history-invoices-list>
+
+  </mat-card-content>
+</mat-card>

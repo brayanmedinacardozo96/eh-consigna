@@ -1,0 +1,29 @@
+@import "../../../custom-palettes";
+
+.container {
+  height: 520px;
+  position: relative;
+}
+
+.center {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.container-login {
+  width: 400px;
+  margin: auto;
+}
+
+.button {
+  color: #FFFFFF;
+  width: 100%;
+}
+
+.icon-login {
+  color: $custom-accent;
+}

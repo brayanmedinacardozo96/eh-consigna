@@ -1,0 +1,46 @@
+<div class="container">
+  <div class="center">
+    <mat-card class="container-login">
+      <mat-card-content>
+
+        <div style="text-align: center;">
+          <span class="material-icons icon-login" style="font-size: 30px;">lock</span>
+          <h1>Iniciar sesión</h1>
+        </div>
+
+        <mat-grid-list cols="1" rowHeight="80px">
+          <mat-grid-tile>
+            <app-input-text-icon
+              class="input"
+              (keyup.enter)="login()"
+              [label]="form.user.label"
+              [value]="form.user.value"
+              [name]="form.user.name"
+              [icon]="'sentiment_very_satisfied'"
+              [messages]="form.user.messages"
+              (valueChange)="setData(form.user.name, $event)"></app-input-text-icon>
+          </mat-grid-tile>
+
+          <mat-grid-tile>
+            <app-input-password-icon
+              class="input"
+              (keyup.enter)="login()"
+              [name]="form.password.name"
+              [value]="form.password.value"
+              [label]="form.password.label"
+              [messages]="form.password.messages"
+              (valueChange)="setData(form.password.name, $event)"
+            ></app-input-password-icon>
+          </mat-grid-tile>
+
+          <mat-grid-tile>
+            <button (click)="login()" mat-raised-button color="accent" class="button">Ingresar</button>
+          </mat-grid-tile>
+        </mat-grid-list>
+
+        <app-box-alert-error [message]="message" (messageOut)="message = null"></app-box-alert-error>
+
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

@@ -1,0 +1,47 @@
+<mat-card class="container">
+  <mat-card-content>
+    <h1>Generar facturas</h1>
+
+    <fieldset>
+      <legend style="text-align: left;">Parámetros de búsqueda</legend>
+
+      <mat-form-field style="width: 300px;">
+        <mat-label>{{form.cycle.label}}</mat-label>
+        <mat-select [(ngModel)]="form.cycle.value" style="padding-top: 5px;padding-bottom: 5px;">
+          <mat-option *ngFor="let cycle of dataControls?.cycles;" [value]="cycle.codigo">
+            {{cycle.codigo}} - {{cycle.nombre}}
+          </mat-option>
+        </mat-select>
+        <mat-hint style="color: red" *ngIf="form.cycle.messages">{{form.cycle.messages}}</mat-hint>
+      </mat-form-field>
+
+      <button (click)="search()" mat-mini-fab color="accent" style="margin-left: 20px;">
+        <mat-icon style="color: #FFFFFF">search</mat-icon>
+      </button>
+
+    </fieldset>
+
+    <app-generate-invoices-list [data]="data"></app-generate-invoices-list>
+
+    <button *ngIf="data.length > 0" (click)="generate()" mat-raised-button color="accent" style="color: #FFFFFF">
+      GENERAR
+    </button>
+
+    <br/><br/>
+
+    <div class="alert" *ngIf="success === true && message">
+      <span class="closebtn" (click)="message = null">&times;</span>
+      <span class="material-icons icon">check_circle</span>
+      <span class="message">
+        <b>Nro Lote: {{package}}</b>
+        <br/><b>Facturas a procesar: {{numberInvoices}}</b>
+        <br/>Ha iniciado el proceso de generación de facturas para el ciclo <b>{{form.cycle.value}}</b>
+        <br/>Puede hacer seguimiento al proceso dando clic
+        <a [routerLink]="['/history-invoices/' + package]" target="_blank">aquí</a></span>
+    </div>
+
+    <app-box-alert-error *ngIf="success === false" [message]="message"
+                         (messageOut)="message = null"></app-box-alert-error>
+
+  </mat-card-content>
+</mat-card>

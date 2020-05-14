@@ -1,0 +1,13 @@
+<mat-grid-list cols="3" rowHeight="180px">
+  <ng-container *ngFor="let item of options;">
+    <mat-grid-tile>
+      <mat-card class="item" [routerLink]="[item.path]" style="cursor: pointer">
+        <mat-card-content style="text-align: center">
+          <h1>{{item.title}}</h1>
+          <span class="material-icons icon">{{item.icon}}</span>
+          <p>{{item.description}}</p>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+  </ng-container>
+</mat-grid-list>

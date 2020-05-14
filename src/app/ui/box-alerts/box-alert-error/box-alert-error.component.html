@@ -1,0 +1,5 @@
+<div class="alert" *ngIf="message">
+  <span class="closebtn" (click)="messageOut.emit(null)">&times;</span>
+  <span class="material-icons icon">error</span>
+  <span class="message" [innerHTML]="message"></span>
+</div>
