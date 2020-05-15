@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  appName: 'Facturación Masiva',
+  appName: 'Sistema Local de Consignas',
   companyName: 'Electrohuila S.A. - E.S.P.',
   apiTransverseSecurity: 'http://localhost/back-transverse-security/public/api',
   keyTransverseSecurity: '$2y$12$RlpDrLNHdXV/n84cK2D3AeKZyw3YedG6IPhq.i.hW1ZQuvsOwsPWW',
