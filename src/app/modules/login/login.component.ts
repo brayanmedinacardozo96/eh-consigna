@@ -34,6 +34,12 @@ export class LoginComponent implements OnInit {
 
   constructor(private api: ApiService,
               private router: Router) {
+    const dataUser = Auth.getLogin();
+    if(dataUser != null){
+      if(dataUser.user_data.id != null){
+        this.router.navigate(['/dashboard']);
+      }
+    }
   }
 
   ngOnInit(): void {
