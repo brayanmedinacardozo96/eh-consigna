@@ -11,6 +11,7 @@ import {DashboardModule} from './modules/dashboard/dashboard.module';
 import {HashLocationStrategy, LocationStrategy} from '@angular/common';
 import {GenerateInvoicesModule} from './modules/generate-invoices/generate-invoices.module';
 import {HistoryInvoicesModule} from './modules/history-invoices/history-invoices.module';
+import {ConsignaModule} from './modules/consigna/consigna.module';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import {HistoryInvoicesModule} from './modules/history-invoices/history-invoices
     DashboardModule,
     GenerateInvoicesModule,
     HistoryInvoicesModule,
+    ConsignaModule,
   ],
   providers: [
     {provide: LocationStrategy, useClass: HashLocationStrategy},
