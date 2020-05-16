@@ -5,7 +5,10 @@
 
       <div *ngIf="auth.getLogin()" class="container-right">
         <span class="name-user">{{auth.getNameUser()}}</span>
-        <span (click)="logout()" class="material-icons btn-logout">exit_to_app</span>
+        <span (click)="logout()" class="material-icons btn-logout"
+          matTooltip="Salir"
+          matTooltipClass="custom-tooltip"
+        >exit_to_app</span>
       </div>
 
     </div>
