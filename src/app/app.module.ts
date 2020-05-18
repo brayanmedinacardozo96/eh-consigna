@@ -3,6 +3,7 @@ import {NgModule} from '@angular/core';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {MatNativeDateModule} from '@angular/material/core';
 import {LoginModule} from './modules/login/login.module';
 import {UiModule} from './ui/ui.module';
 import {ApiService} from './shared/services/api.service';
@@ -21,13 +22,14 @@ import {ConsignaModule} from './modules/consigna/consigna.module';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    MatNativeDateModule,
     LoginModule,
     HttpClientModule,
     UiModule,
     DashboardModule,
     GenerateInvoicesModule,
     HistoryInvoicesModule,
-    ConsignaModule,
+    ConsignaModule
   ],
   providers: [
     {provide: LocationStrategy, useClass: HashLocationStrategy},

@@ -9,6 +9,7 @@ import {FormsModule} from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 import { InputNumberComponent } from './input-number/input-number.component';
+import {MatSelectModule} from '@angular/material/select';
 
 @NgModule({
   declarations: [InputTextIconComponent, InputPasswordIconComponent, InputTextComponent, InputNumberComponent],
@@ -19,6 +20,7 @@ import { InputNumberComponent } from './input-number/input-number.component';
     FormsModule,
     MatInputModule,
     MatButtonModule,
+    MatSelectModule
   ],
   exports: [
     InputTextIconComponent, InputPasswordIconComponent, InputTextComponent, InputNumberComponent
