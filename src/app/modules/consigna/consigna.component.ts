@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import {environment} from '../../../environments/environment';
 import {ApiService} from '../../shared/services/api.service';
 
 @Component({
   selector: 'app-consigna',
   templateUrl: './consigna.component.html',
-  styleUrls: ['./consigna.component.scss']
+  styleUrls: ['./consigna.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class ConsignaComponent implements OnInit {
 
@@ -36,6 +37,16 @@ export class ConsignaComponent implements OnInit {
       {nombre:'Riesgo Disparo',codigo:'RD'},
       {nombre:'Apertura',codigo:'A'},
     ],
+    solicitante:[
+      {nombre:'Brayan Herney Medina Cardozo',identificacion:'1075412102',id:1},
+      {nombre:'Jhonatan Parra Almario',identificacion:'1080934291',id:10}
+    ],
+    subestacion:[
+      {nombre:'El Bote',codigo:'12345'},
+      {nombre:'Solarte',codigo:'14'},
+      {nombre:'Las Brisas',codigo:'15'},
+      {nombre:'Timaná',codigo:'1'}
+    ]
   };
   form = {
     numeroConsigna:{
@@ -43,56 +54,70 @@ export class ConsignaComponent implements OnInit {
       name: 'numeroConsigna',
       value: null,
       messages: null,
-      required: true,
+      required: false,
     },
     consecutivoSnc:{
       label: 'Consecutivo SNC',
       name: 'consecutivoSnc',
       value: null,
       messages: null,
-      required: true,
+      required: false,
     },
     tipoZona: {
       label: 'Tipo zona',
       name: 'tipoZona',
       value: null,
       messages: null,
-      required: true,
+      required: false,
     },
     tipoSolicitud: {
       label: 'Tipo de solicitud',
       name: 'tipoSolicitud',
       value: null,
       messages: null,
-      required: true,
+      required: false,
     },
     tipoConsignacion: {
       label: 'Tipo de consignación',
       name: 'tipoConsignacion',
       value: null,
       messages: null,
-      required: true,
+      required: false,
     },
     fechaSolicitud: {
       label: 'Fecha de solicitud',
       name: 'fechaSolicitud',
       value: null,
       messages: null,
-      required: true,
+      required: false,
     },
     estadoConsigna: {
       label: 'Estado consignación',
       name: 'estadoConsigna',
       value: null,
       messages: null,
-      required: true,
+      required: false,
     },
     estadoEquipo: {
       label: 'Estado del equipo',
       name: 'estadoEquipo',
       value: null,
       messages: null,
-      required: true,
+      required: false,
+    },
+    solicitante: {
+      label: 'Solicitante',
+      name: 'solicitante',
+      value: null,
+      messages: null,
+      required: false,
+    },
+    subestacion: {
+      label: 'Subestación',
+      name: 'subestacion',
+      value: null,
+      messages: null,
+      required: false,
     },
   };
   constructor(private api: ApiService) { }
