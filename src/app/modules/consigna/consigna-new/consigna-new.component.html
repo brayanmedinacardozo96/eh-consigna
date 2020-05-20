@@ -154,7 +154,7 @@
                 <mat-grid-tile>
                     <mat-form-field>
                         <mat-label>{{formElementos.tipoElemento.label}}</mat-label>
-                        <mat-select id="consigna-tipo_elemento" (selectionChange)="onSelectName($event)" [(ngModel)]="formElementos.tipoElemento.value" style="padding-top: 5px;padding-bottom: 5px;">
+                        <mat-select id="form_consigna-tipo_elemento" [(ngModel)]="formElementos.tipoElemento.value" style="padding-top: 5px;padding-bottom: 5px;">
                             <mat-option *ngFor="let value of dataControls?.tipoElemento;" [value]="value.codigo">
                                 {{ value.nombre }}
                             </mat-option>
@@ -166,7 +166,7 @@
                 <mat-grid-tile>
                     <mat-form-field>
                         <mat-label>{{formElementos.elemento.label}}</mat-label>
-                        <mat-select [(ngModel)]="formElementos.elemento.value" style="padding-top: 5px;padding-bottom: 5px;">
+                        <mat-select id="form_consigna-elemento" [(ngModel)]="formElementos.elemento.value" style="padding-top: 5px;padding-bottom: 5px;">
                             <mat-option *ngFor="let value of dataControls?.elemento;" [value]="value.codigo">
                                 {{ value.nombre }}
                             </mat-option>
@@ -178,7 +178,7 @@
                 <mat-grid-tile>
                     <mat-form-field>
                         <mat-label>{{formElementos.ramal.label}}</mat-label>
-                        <mat-select [(ngModel)]="formElementos.ramal.value" style="padding-top: 5px;padding-bottom: 5px;">
+                        <mat-select id="form_consigna-ramal" [(ngModel)]="formElementos.ramal.value" style="padding-top: 5px;padding-bottom: 5px;">
                             <mat-option *ngFor="let value of dataControls?.ramal;" [value]="value.value">
                                 {{ value.nombre }}
                             </mat-option>
@@ -206,7 +206,7 @@
                         [value]="formElementos.horaInicio.value"
                         [name]="formElementos.horaInicio.name"
                         [messages]="formElementos.horaInicio.messages"
-                        (valueChange)="setDataFormElementos(formElementos.horaInicio.name, $event)">
+                        (valueChange)="setData(formElementos.horaInicio.name, $event,this.formElementos)">
                     </app-input-text>
                 </mat-grid-tile>
                 
@@ -227,7 +227,7 @@
                         [value]="formElementos.horaFinal.value"
                         [name]="formElementos.horaFinal.name"
                         [messages]="formElementos.horaFinal.messages"
-                        (valueChange)="setDataFormElementos(formElementos.horaFinal.name, $event)">
+                        (valueChange)="setData(formElementos.horaFinal.name, $event,this.formElementos)">
                     </app-input-text>
                 </mat-grid-tile>
             </mat-grid-list>
@@ -248,20 +248,119 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr *ngFor="let value of dataElementos">
+                <tr *ngFor="let value of dataElementos; let i=index">
                     <td>{{ value.tipoElemento.nombre }}</td>
-                    <td>2</td>
-                    <td>3</td>
-                    <td>4</td>
-                    <td>5</td>
+                    <td>{{ value.elemento.nombre }}</td>
+                    <td>{{ value.ramal.nombre }}</td>
+                    <td>{{ value.fechaInicio.nombre }} - {{ value.horaInicio.nombre }}</td>
+                    <td>{{ value.fechaFinal.nombre }} - {{ value.horaFinal.nombre }}</td>
                     <td>
-                        <button (click)="removeListElement(value.id)" mat-icon-button matTooltip="Eliminar" matTooltipClass="custom-tooltip">
+                        <button (click)="removeListElement(i)" mat-icon-button matTooltip="Eliminar" matTooltipClass="custom-tooltip">
                             <mat-icon>delete_forever</mat-icon>
                         </button>
                     </td>
                 </tr>
                 </tbody>
               </table>
+        </fieldset>
+        <br><br>
+        <!-- trabajos a efectuar -->
+        <mat-grid-list class="row" cols="1" rowHeight="110px">
+            <mat-grid-tile>
+                <app-input-text-area style="width: 100%;"
+                    class="input"
+                    [label]="form.trabajoEfectuar.label"
+                    [value]="form.trabajoEfectuar.value"
+                    [name]="form.trabajoEfectuar.name"
+                    [messages]="form.trabajoEfectuar.messages"
+                    (valueChange)="setData(form.trabajoEfectuar.name, $event)">
+                </app-input-text-area>
+            </mat-grid-tile>
+            
+            <mat-grid-tile>
+                <app-input-text-area style="width: 100%;"
+                    class="input"
+                    [label]="form.justificacion.label"
+                    [value]="form.justificacion.value"
+                    [name]="form.justificacion.name"
+                    [messages]="form.justificacion.messages"
+                    (valueChange)="setData(form.justificacion.name, $event)">
+                </app-input-text-area>
+            </mat-grid-tile>
+            
+            <mat-grid-tile>
+                <app-input-text-area style="width: 100%;"
+                    class="input"
+                    [label]="form.observacionOpeyman.label"
+                    [value]="form.observacionOpeyman.value"
+                    [name]="form.observacionOpeyman.name"
+                    [messages]="form.observacionOpeyman.messages"
+                    (valueChange)="setData(form.observacionOpeyman.name, $event)">
+                </app-input-text-area>
+            </mat-grid-tile>
+            
+            <mat-grid-tile>
+                <div><h3>aqui va el input file de diagrama de areas a intervenir</h3></div>
+            </mat-grid-tile>
+
+        </mat-grid-list>
+
+        <!-- areas afectadas -->
+        <fieldset>
+            <legend style="text-align: left;">Areas Afectadas</legend>
+            <h3 style="text-align: left;">Interrupciones Mietras Dura el Trabajo</h3>
+            <mat-grid-list class="row" cols="2" rowHeight="110px">
+
+                <mat-grid-tile>
+                    <app-input-text-area style="width: 100%;"
+                        class="input"
+                        [label]="interrupcionesTrabajo.barrios.label"
+                        [value]="interrupcionesTrabajo.barrios.value"
+                        [name]="interrupcionesTrabajo.barrios.name"
+                        [messages]="interrupcionesTrabajo.barrios.messages"
+                        (valueChange)="setData(interrupcionesTrabajo.barrios.name, $event, this.interrupcionesTrabajo)">
+                    </app-input-text-area>
+                </mat-grid-tile>
+                
+                <mat-grid-tile>
+                    <app-input-text-area style="width: 100%;"
+                        class="input"
+                        [label]="interrupcionesTrabajo.clientesNoRegulados.label"
+                        [value]="interrupcionesTrabajo.clientesNoRegulados.value"
+                        [name]="interrupcionesTrabajo.clientesNoRegulados.name"
+                        [messages]="interrupcionesTrabajo.clientesNoRegulados.messages"
+                        (valueChange)="setData(interrupcionesTrabajo.clientesNoRegulados.name, $event, this.interrupcionesTrabajo)">
+                    </app-input-text-area>
+                </mat-grid-tile>
+    
+            </mat-grid-list>
+            
+            <h3 style="text-align: left;">Interrupciones Por Corto Tiempo</h3>
+            <mat-grid-list class="row" cols="2" rowHeight="110px">
+
+                <mat-grid-tile>
+                    <app-input-text-area style="width: 100%;"
+                        class="input"
+                        [label]="interrupcionesCortoTiempo.barrios.label"
+                        [value]="interrupcionesCortoTiempo.barrios.value"
+                        [name]="interrupcionesCortoTiempo.barrios.name"
+                        [messages]="interrupcionesCortoTiempo.barrios.messages"
+                        (valueChange)="setData(interrupcionesCortoTiempo.barrios.name, $event, this.interrupcionesCortoTiempo)">
+                    </app-input-text-area>
+                </mat-grid-tile>
+                
+                <mat-grid-tile>
+                    <app-input-text-area style="width: 100%;"
+                        class="input"
+                        [label]="interrupcionesCortoTiempo.clientesNoRegulados.label"
+                        [value]="interrupcionesCortoTiempo.clientesNoRegulados.value"
+                        [name]="interrupcionesCortoTiempo.clientesNoRegulados.name"
+                        [messages]="interrupcionesCortoTiempo.clientesNoRegulados.messages"
+                        (valueChange)="setData(interrupcionesCortoTiempo.clientesNoRegulados.name, $event, this.interrupcionesCortoTiempo)">
+                    </app-input-text-area>
+                </mat-grid-tile>
+    
+            </mat-grid-list>
         </fieldset>
                 
     <button (click)="search()" mat-raised-button color="primary" style="margin-left: 20px; margin-top: 10px;">

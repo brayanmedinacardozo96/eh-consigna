@@ -154,7 +154,112 @@ export class ConsignaNewComponent implements OnInit {
       value: null,
       messages: null,
       required: false,
-    },    
+    },
+    trabajoEfectuar: {
+      label: 'Trabajos a efectuar',
+      name: 'trabajoEfectuar',
+      value: null,
+      messages: null,
+      required: false,
+    },
+    justificacion: {
+      label: 'Justificación',
+      name: 'justificacion',
+      value: null,
+      messages: null,
+      required: false,
+    },
+    observacionOpeyman: {
+      label: 'Observación OPEYMAN',
+      name: 'observacionOpeyman',
+      value: null,
+      messages: null,
+      required: false,
+    },
+    consignaOperativa: {
+      label: 'Consigna operativa',
+      name: 'consignaOperativa',
+      value: null,
+      messages: null,
+      required: false,
+    },
+    medidasSeguiridad: {
+      label: 'Medidas de seguridad',
+      name: 'medidasSeguiridad',
+      value: null,
+      messages: null,
+      required: false,
+    },
+    jefeTrabajo: {
+      label: 'Jefe de trabajo',
+      name: 'jefeTrabajo',
+      value: null,
+      messages: null,
+      required: false,
+    },
+    telefonoJefeTrabajo: {
+      label: 'Teléfono jefe de trabajo',
+      name: 'telefonoJefeTrabajo',
+      value: null,
+      messages: null,
+      required: false,
+    },
+    jefeTrabajoContratista: {
+      label: 'Jefe de trabajo contratista',
+      name: 'jefeTrabajoContratista',
+      value: null,
+      messages: null,
+      required: false,
+    },
+    telJefeTrabajoContratosta: {
+      label: 'Jefe de trabajo contratista',
+      name: 'telJefeTrabajoContratosta',
+      value: null,
+      messages: null,
+      required: false,
+    },
+    moviles: {
+      label: 'Móviles',
+      name: 'moviles',
+      value: null,
+      messages: null,
+      required: false,
+    },
+
+  };
+
+  interrupcionesTrabajo = {
+    barrios: {
+      label: 'Barrios',
+      name: 'barrios',
+      value: null,
+      messages: null,
+      required: false,
+    },
+    clientesNoRegulados: {
+      label: 'Clientes No Regulados',
+      name: 'clientesNoRegulados',
+      value: null,
+      messages: null,
+      required: false,
+    }
+  };
+
+  interrupcionesCortoTiempo = {
+    barrios: {
+      label: 'Barrios',
+      name: 'barrios',
+      value: null,
+      messages: null,
+      required: false,
+    },
+    clientesNoRegulados: {
+      label: 'Clientes No Regulados',
+      name: 'clientesNoRegulados',
+      value: null,
+      messages: null,
+      required: false,
+    }
   };
 
   formElementos = {
@@ -220,14 +325,16 @@ export class ConsignaNewComponent implements OnInit {
     console.log(this.form)
   }
 
-  setData(name, event) {
-    this.form[name].value = event;
-  }
+  setData(name, event, obj: any = undefined) {
+    
+    if(obj == undefined){
+      this.form[name].value = event;
+    }else{
+      obj[name].value = event;
+    }
 
-  setDataFormElementos(name, event) {
-    this.formElementos[name].value = event;
   }
-
+  
   addListElements(){
     const responseValidate = this.validations.validateEmptyFields(this.formElementos);
 
@@ -235,36 +342,43 @@ export class ConsignaNewComponent implements OnInit {
       return false;
     }
 
-    var DropdownList = (document.getElementById("consigna-tipo_elemento")) as HTMLSelectElement;
-    var tipoElemento = DropdownList.selectedIndex;
-    
-    console.log(DropdownList);
-    console.log(tipoElemento);
+    var textTipoElemento = ((document.getElementById("form_consigna-tipo_elemento")) as HTMLSelectElement).textContent;
+    var textElemento = ((document.getElementById("form_consigna-elemento")) as HTMLSelectElement).textContent;
+    var textRamal = ((document.getElementById("form_consigna-ramal")) as HTMLSelectElement).textContent;
+    var fechaInicio = this.formElementos.fechaInicio.value;
+    var horaInicio = this.formElementos.horaInicio.value;
+    var fechaFinal = this.formElementos.fechaFinal.value;
+    var horaFinal = this.formElementos.horaFinal.value;
     
     const elemento = {
-      id:'1',
-      tipoElemento:{nombre: tipoElemento,valor:'2'},
-      elemento:{nombre:'bb',valor:'3'},
-      ramal:{nombre:'Si',valor:'1'},
-      fechaInicio:{nombre:'12/12/2020',valor:'12/12/2020'},
-      fechaFinal:{nombre:'01/01/2020',valor:'01/01/2020'},
+      tipoElemento: {nombre: textTipoElemento,  valor: this.formElementos.tipoElemento.value},
+      elemento:     {nombre: textElemento,      valor: this.formElementos.elemento.value},
+      ramal:        {nombre: textRamal,         valor: this.formElementos.ramal.value},
+      fechaInicio:  {nombre: fechaInicio,       valor: fechaInicio },
+      horaInicio:   {nombre: horaInicio,        valor: horaInicio },
+      fechaFinal:   {nombre: fechaFinal,        valor: fechaFinal},
+      horaFinal:    {nombre: horaFinal,         valor: horaFinal},
     }
 
     this.dataElementos.push(elemento);
-    console.log(this.formElementos);
-
+    console.log(this.dataElementos);
   }
 
   removeListElement(id){
+    this.dataElementos.splice(id,1);
     console.log(id);
+    console.log(this.dataElementos);
   }
 
-  onSelectName(e) {
-    console.log(e);
-    const select = e.target;
-    const value = select.value;
-    const desc = select.selectedOptions[0].text;
-    console.log(desc);
- }
+  changeSelect(dataSelect,id) {
+    /* for(let value of dataSelect){
+      console.log(value);
+    } */
+  }
+
+  getNameSelect(dataSelect,id){
+    let name = '';
+    return name;    
+  }
 
 }
