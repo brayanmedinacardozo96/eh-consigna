@@ -1,3 +1,15 @@
 .container {
   min-height: 500px;
 }
+
+
+::ng-deep .snackbar-alert {
+  background-color: #fA2;
+  color: white;
+}
+
+::ng-deep .snackbar-error {
+  background-color: red;
+  color: white;
+}
+

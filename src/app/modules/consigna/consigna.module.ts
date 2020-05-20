@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ConsignaComponent } from './consigna.component';
+import {RouterModule} from '@angular/router';
 import {MatCardModule} from '@angular/material/card';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
@@ -17,12 +18,15 @@ import {MatGridListModule} from '@angular/material/grid-list';
 import {MatSelectModule} from '@angular/material/select';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import { ConsignaNewComponent } from './consigna-new/consigna-new.component';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 @NgModule({
-  declarations: [ConsignaComponent],
+  declarations: [ConsignaComponent, ConsignaNewComponent],
   imports: [
     CommonModule,
     MatCardModule,
+    RouterModule,
     MatIconModule,
     MatButtonModule,
     CustomFormsModule,
@@ -37,7 +41,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     MatGridListModule,
     MatSelectModule,
     MatDatepickerModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatSnackBarModule
   ]
 })
 export class ConsignaModule { }

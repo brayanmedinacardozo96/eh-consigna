@@ -7,6 +7,7 @@ import {NotFoundComponent} from './ui/not-found/not-found.component';
 import {GenerateInvoicesComponent} from './modules/generate-invoices/generate-invoices.component';
 import {HistoryInvoicesComponent} from './modules/history-invoices/history-invoices.component';
 import {ConsignaComponent} from './modules/consigna/consigna.component';
+import {ConsignaNewComponent} from './modules/consigna/consigna-new/consigna-new.component';
 
 const routes: Routes = [
   {path: '', component: LoginComponent}
@@ -17,6 +18,7 @@ const routes: Routes = [
   , {path: 'history-invoices', component: HistoryInvoicesComponent, canActivate: [AuthGuard]}
   , {path: 'history-invoices/:package', component: HistoryInvoicesComponent, canActivate: [AuthGuard]}
   , {path: 'consigna', component: ConsignaComponent, canActivate: [AuthGuard]}
+  , {path: 'consigna/nueva-consigna', component: ConsignaNewComponent, canActivate: [AuthGuard]}
 
   , {path: '404', component: NotFoundComponent}
   , {path: '**', redirectTo: '/404'}
