@@ -1,4 +1,3 @@
-import { FormsModule } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import {ApiService} from '../../../shared/services/api.service';
 import {ValidationService} from '../../../shared/services/validations.service';
@@ -211,8 +210,8 @@ export class ConsignaNewComponent implements OnInit {
       messages: null,
       required: false,
     },
-    telJefeTrabajoContratosta: {
-      label: 'Jefe de trabajo contratista',
+    telJefeTrabajoContratista: {
+      label: 'Telefóno jefe de trabajo contratista',
       name: 'telJefeTrabajoContratosta',
       value: null,
       messages: null,
@@ -381,4 +380,26 @@ export class ConsignaNewComponent implements OnInit {
     return name;    
   }
 
+  srcResult: FormData;
+
+  onFileSelected(event) {
+    var files = event.target.files;
+    var fileName = files [0].name
+    
+    console.log(files);
+    console.log(fileName);
+    /* const inputNode: any = document.querySelector('#file');
+  
+    if (typeof (FileReader) !== 'undefined') {
+      const reader = new FileReader();
+  
+      reader.onload = (e: any) => {
+        this.srcResult = e.target.result;
+      };
+  
+      reader.readAsArrayBuffer(inputNode.files[0]);
+
+      console.log(this.srcResult);
+    } */
+  }
 }

@@ -11,6 +11,8 @@ import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 import { InputNumberComponent } from './input-number/input-number.component';
 import {MatSelectModule} from '@angular/material/select';
+import {InputFileComponent} from './input-file/input-file.component';
+import {MatGridListModule} from '@angular/material/grid-list';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,8 @@ import {MatSelectModule} from '@angular/material/select';
     InputPasswordIconComponent,
     InputTextComponent,
     InputNumberComponent,
-    InputTextAreaComponent
+    InputTextAreaComponent,
+    InputFileComponent
   ],
   imports: [
     CommonModule,
@@ -27,14 +30,16 @@ import {MatSelectModule} from '@angular/material/select';
     FormsModule,
     MatInputModule,
     MatButtonModule,
-    MatSelectModule
+    MatSelectModule,
+    MatGridListModule
   ],
   exports: [
     InputTextIconComponent, 
     InputPasswordIconComponent, 
     InputTextComponent, 
     InputNumberComponent,
-    InputTextAreaComponent
+    InputTextAreaComponent,
+    InputFileComponent
   ]
 })
 export class CustomFormsModule {

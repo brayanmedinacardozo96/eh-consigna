@@ -298,12 +298,12 @@
                     (valueChange)="setData(form.observacionOpeyman.name, $event)">
                 </app-input-text-area>
             </mat-grid-tile>
-            
-            <mat-grid-tile>
-                <div><h3>aqui va el input file de diagrama de areas a intervenir</h3></div>
-            </mat-grid-tile>
 
         </mat-grid-list>
+
+        <!-- adjuntar archivo -->
+        <app-input-file>                    
+        </app-input-file>
 
         <!-- areas afectadas -->
         <fieldset>
@@ -362,6 +362,116 @@
     
             </mat-grid-list>
         </fieldset>
+        <br><br>
+        <mat-grid-list class="row" cols="2" rowHeight="110px">
+            <!-- consigna operativa -->
+            <mat-grid-tile>
+                <app-input-text-area style="width: 100%;"
+                    class="input"
+                    [label]="form.consignaOperativa.label"
+                    [value]="form.consignaOperativa.value"
+                    [name]="form.consignaOperativa.name"
+                    [messages]="form.consignaOperativa.messages"
+                    (valueChange)="setData(form.consignaOperativa.name, $event)">
+                </app-input-text-area>
+            </mat-grid-tile>
+
+            <!-- medidas de seguridad -->
+            <mat-grid-tile>
+                <app-input-text-area style="width: 100%;"
+                    class="input"
+                    [label]="form.medidasSeguiridad.label"
+                    [value]="form.medidasSeguiridad.value"
+                    [name]="form.medidasSeguiridad.name"
+                    [messages]="form.medidasSeguiridad.messages"
+                    (valueChange)="setData(form.medidasSeguiridad.name, $event)">
+                </app-input-text-area>
+            </mat-grid-tile>
+
+        </mat-grid-list>
+
+        <mat-grid-list class="row" cols="2" rowHeight="80px">
+            <!-- jefe de trabajos -->
+            <mat-grid-tile>
+                <app-input-text style="width: 100%;"
+                    class="input"
+                    [label]="form.jefeTrabajo.label"
+                    [value]="form.jefeTrabajo.value"
+                    [name]="form.jefeTrabajo.name"
+                    [messages]="form.jefeTrabajo.messages"
+                    [disable] = "'false'"
+                    (valueChange)="setData(form.jefeTrabajo.name, $event)">
+                </app-input-text>
+            </mat-grid-tile>
+
+            <!-- telefono jefe trabajo -->
+            <mat-grid-tile>
+                <app-input-text style="width: 100%;"
+                    class="input"
+                    [label]="form.telefonoJefeTrabajo.label"
+                    [value]="form.telefonoJefeTrabajo.value"
+                    [name]="form.telefonoJefeTrabajo.name"
+                    [messages]="form.telefonoJefeTrabajo.messages"
+                    [disable] = "'false'"
+                    (valueChange)="setData(form.telefonoJefeTrabajo.name, $event)">
+                </app-input-text>
+            </mat-grid-tile>
+
+            <!-- jefe de trabajo contratista -->
+            <mat-grid-tile>
+                <app-input-text style="width: 100%;"
+                    class="input"
+                    [label]="form.jefeTrabajoContratista.label"
+                    [value]="form.jefeTrabajoContratista.value"
+                    [name]="form.jefeTrabajoContratista.name"
+                    [messages]="form.jefeTrabajoContratista.messages"
+                    [disable] = "'false'"
+                    (valueChange)="setData(form.jefeTrabajoContratista.name, $event)">
+                </app-input-text>
+            </mat-grid-tile>
+
+            <!-- telefono jefe trabajo contratista -->
+            <mat-grid-tile>
+                <app-input-text style="width: 100%;"
+                    class="input"
+                    [label]="form.telJefeTrabajoContratista.label"
+                    [value]="form.telJefeTrabajoContratista.value"
+                    [name]="form.telJefeTrabajoContratista.name"
+                    [messages]="form.telJefeTrabajoContratista.messages"
+                    [disable] = "'false'"
+                    (valueChange)="setData(form.telJefeTrabajoContratista.name, $event)">
+                </app-input-text>
+            </mat-grid-tile>
+            
+            <!-- moviles -->
+            <mat-grid-tile>
+                <app-input-text style="width: 100%;"
+                    class="input"
+                    [label]="form.moviles.label"
+                    [value]="form.moviles.value"
+                    [name]="form.moviles.name"
+                    [messages]="form.moviles.messages"
+                    [disable] = "'false'"
+                    (valueChange)="setData(form.moviles.name, $event)">
+                </app-input-text>
+            </mat-grid-tile>
+
+        </mat-grid-list>
+
+        
+
+        <!-- <div><mat-card>  
+            <mat-card-actions>  
+                <button mat-button color="warn" (click)="onClick()">  
+                    <mat-icon>file_upload</mat-icon>  
+                    Upload  
+                </button>  
+            </mat-card-actions>  
+        </mat-card>
+        <input type="file" #fileInput id="fileUpload" name="fileUpload" multiple="multiple" accept="image/*" style="display:none;" /></div>
+        -->
+
+        
                 
     <button (click)="search()" mat-raised-button color="primary" style="margin-left: 20px; margin-top: 10px;">
         <span style="color: #FFF">Guardar</span>
