@@ -16,12 +16,11 @@ import {GenerateInvoicesModule} from './modules/generate-invoices/generate-invoi
 import {HistoryInvoicesModule} from './modules/history-invoices/history-invoices.module';
 import {ConsignaModule} from './modules/consigna/consigna.module';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
-import { TrabajoOportunidadComponent } from './modules/trabajo-oportunidad/trabajo-oportunidad.component';
+import {TrabajoOportunidadModule} from './modules/trabajo-oportunidad/trabajo-oportunidad.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    TrabajoOportunidadComponent,
   ],
   imports: [
     BrowserModule,
@@ -35,7 +34,8 @@ import { TrabajoOportunidadComponent } from './modules/trabajo-oportunidad/traba
     GenerateInvoicesModule,
     HistoryInvoicesModule,
     ConsignaModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    TrabajoOportunidadModule,
   ],
   providers: [
     {provide: LocationStrategy, useClass: HashLocationStrategy},
