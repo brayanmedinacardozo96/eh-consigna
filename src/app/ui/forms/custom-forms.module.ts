@@ -14,7 +14,8 @@ import {MatSelectModule} from '@angular/material/select';
 import {InputFileComponent} from './input-file/input-file.component';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatTooltipModule} from '@angular/material/tooltip';
-
+import { DatepickerComponent } from './datepicker/datepicker.component';
+import {MatDatepickerModule} from '@angular/material/datepicker';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     InputTextComponent,
     InputNumberComponent,
     InputTextAreaComponent,
-    InputFileComponent
+    InputFileComponent,
+    DatepickerComponent
   ],
   imports: [
     CommonModule,
@@ -34,7 +36,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     MatButtonModule,
     MatSelectModule,
     MatGridListModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatDatepickerModule
   ],
   exports: [
     InputTextIconComponent, 
@@ -42,7 +45,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     InputTextComponent, 
     InputNumberComponent,
     InputTextAreaComponent,
-    InputFileComponent
+    InputFileComponent,
+    DatepickerComponent
   ]
 })
 export class CustomFormsModule {

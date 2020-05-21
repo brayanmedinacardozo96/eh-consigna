@@ -29,12 +29,14 @@
             </mat-grid-tile>
 
             <mat-grid-tile>
-                <mat-form-field>
-                    <mat-label>{{ form.fechaSolicitud.label }}</mat-label>
-                    <input [(ngModel)]="form.fechaSolicitud.value" matInput [matDatepicker]="dp3" disabled>
-                    <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
-                    <mat-datepicker #dp3 disabled="false"></mat-datepicker>
-                </mat-form-field>
+                <app-datepicker 
+                    [label]="form.fechaSolicitud.label" 
+                    [value]="form.fechaSolicitud.value"
+                    [name]="form.fechaSolicitud.name" 
+                    [messages]="form.fechaSolicitud.messages"
+                    [id]="'mat-prueba'"
+                    (valueChange)="setData(form.fechaSolicitud.name, $event)"
+                ></app-datepicker>
             </mat-grid-tile>
 
             <mat-grid-tile>
@@ -190,15 +192,18 @@
 
             <mat-grid-list class="row" cols="4" rowHeight="80px">
                 <mat-grid-tile>
-                    <mat-form-field>
-                        <mat-label>{{ formElementos.fechaInicio.label }}</mat-label>
-                        <input [(ngModel)]="formElementos.fechaInicio.value" matInput [matDatepicker]="pickerFechaInicio" disabled>
-                        <mat-datepicker-toggle matSuffix [for]="pickerFechaInicio"></mat-datepicker-toggle>
-                        <mat-datepicker #pickerFechaInicio disabled="false"></mat-datepicker>
-                        <mat-hint style="color: red" *ngIf="formElementos.fechaInicio.messages">{{formElementos.fechaInicio.messages}}</mat-hint>
-                    </mat-form-field>
+                    <app-datepicker 
+                        [label]="formElementos.fechaInicio.label" 
+                        [value]="formElementos.fechaInicio.value"
+                        [name]="formElementos.fechaInicio.name" 
+                        [messages]="formElementos.fechaInicio.messages"
+                        [id]="'mat-prueba'"
+                        (valueChange)="setData(formElementos.fechaInicio.name, $event,this.formElementos)"
+                    >                        
+                    </app-datepicker>
+                    
                 </mat-grid-tile>
-                
+                 
                 <mat-grid-tile>
                     <app-input-text style="width: 85%;"
                         class="input"
@@ -211,13 +216,15 @@
                 </mat-grid-tile>
                 
                 <mat-grid-tile>
-                    <mat-form-field>
-                        <mat-label>{{ formElementos.fechaFinal.label }}</mat-label>
-                        <input [(ngModel)]="formElementos.fechaFinal.value" matInput [matDatepicker]="pickerFechaFinal" disabled>
-                        <mat-datepicker-toggle matSuffix [for]="pickerFechaFinal"></mat-datepicker-toggle>
-                        <mat-datepicker #pickerFechaFinal disabled="false"></mat-datepicker>
-                        <mat-hint style="color: red" *ngIf="formElementos.fechaInicio.messages">{{formElementos.fechaInicio.messages}}</mat-hint>
-                    </mat-form-field>
+                    <app-datepicker 
+                        [label]="formElementos.fechaFinal.label" 
+                        [value]="formElementos.fechaFinal.value"
+                        [name]="formElementos.fechaFinal.name" 
+                        [messages]="formElementos.fechaFinal.messages"
+                        [id]="'mat-prueba'"
+                        (valueChange)="setData(formElementos.fechaFinal.name, $event,this.formElementos)"
+                    >                        
+                    </app-datepicker>
                 </mat-grid-tile>
                 
                 <mat-grid-tile>
