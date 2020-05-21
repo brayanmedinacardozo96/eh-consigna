@@ -1,5 +1,5 @@
 <mat-form-field appearance="outline" class="input" [style]="style">
     <mat-label>{{label}}</mat-label>
-    <input matInput [(ngModel)]="value" (ngModelChange)="valueChange.emit($event)" disabled="{{ disable ? disable : 'false' }}">
+    <textarea matInput [(ngModel)]="value" (ngModelChange)="valueChange.emit($event)" disabled="{{ disable ? disable : 'false' }}"> </textarea>
     <mat-hint style="color: red" *ngIf="messages">{{messages}}</mat-hint>
 </mat-form-field>
