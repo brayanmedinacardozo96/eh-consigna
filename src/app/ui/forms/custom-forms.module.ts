@@ -13,6 +13,8 @@ import { InputNumberComponent } from './input-number/input-number.component';
 import {MatSelectModule} from '@angular/material/select';
 import {InputFileComponent} from './input-file/input-file.component';
 import {MatGridListModule} from '@angular/material/grid-list';
+import {MatTooltipModule} from '@angular/material/tooltip';
+
 
 @NgModule({
   declarations: [
@@ -31,7 +33,8 @@ import {MatGridListModule} from '@angular/material/grid-list';
     MatInputModule,
     MatButtonModule,
     MatSelectModule,
-    MatGridListModule
+    MatGridListModule,
+    MatTooltipModule
   ],
   exports: [
     InputTextIconComponent, 

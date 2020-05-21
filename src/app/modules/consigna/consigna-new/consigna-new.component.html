@@ -302,7 +302,9 @@
         </mat-grid-list>
 
         <!-- adjuntar archivo -->
-        <app-input-file>                    
+        <app-input-file [placeholder]="'Ingrese el documento a adjuntar en la consigna'"
+            [typeExtension]="'pdf'" [maxSize]="'5'"
+        >                    
         </app-input-file>
 
         <!-- areas afectadas -->
