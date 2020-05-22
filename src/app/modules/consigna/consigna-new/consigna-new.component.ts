@@ -313,6 +313,16 @@ export class ConsignaNewComponent implements OnInit {
     },
   };
 
+  formPrueba = {
+    prueba: {
+      label: 'picker prueba',
+      name: 'prueba',
+      value: null,
+      messages: null,
+      required: true,
+    },
+  }
+
   constructor(private api: ApiService,
               private validations: ValidationService
               ) { }
@@ -333,6 +343,23 @@ export class ConsignaNewComponent implements OnInit {
     }
 
   }
+
+  setDataDatePicker(name, event, obj: any = undefined){
+    let day: string = event.getDate().toString();
+    day = +day < 10 ? '0' + day : day;
+    let month: string = (event.getMonth() + 1).toString();
+    month = +month < 10 ? '0' + month : month;
+    let year = event.getFullYear();
+    let date = `${day}-${month}-${year}`;
+
+    if(obj == undefined){
+      this.form[name].value = date;
+    }else{
+      obj[name].value = date;
+    }
+
+    console.log(obj[name].value);
+  }
   
   addListElements(){
     const responseValidate = this.validations.validateEmptyFields(this.formElementos);
@@ -340,7 +367,6 @@ export class ConsignaNewComponent implements OnInit {
     if (!responseValidate.success) {
       return false;
     }
-
     var textTipoElemento = ((document.getElementById("form_consigna-tipo_elemento")) as HTMLSelectElement).textContent;
     var textElemento = ((document.getElementById("form_consigna-elemento")) as HTMLSelectElement).textContent;
     var textRamal = ((document.getElementById("form_consigna-ramal")) as HTMLSelectElement).textContent;
@@ -358,48 +384,19 @@ export class ConsignaNewComponent implements OnInit {
       fechaFinal:   {nombre: fechaFinal,        valor: fechaFinal},
       horaFinal:    {nombre: horaFinal,         valor: horaFinal},
     }
-
     this.dataElementos.push(elemento);
-    console.log(this.dataElementos);
+    this.formElementos.tipoElemento.value = null;
+    this.formElementos.elemento.value = null;
+    this.formElementos.ramal.value = null;
+    this.formElementos.ramal.value = null;
+    this.formElementos.fechaInicio.value = null;
+    this.formElementos.horaInicio.value = null;
+    this.formElementos.fechaFinal.value = null;
+    this.formElementos.horaFinal.value = null;
   }
 
   removeListElement(id){
     this.dataElementos.splice(id,1);
-    console.log(id);
-    console.log(this.dataElementos);
   }
 
-  changeSelect(dataSelect,id) {
-    /* for(let value of dataSelect){
-      console.log(value);
-    } */
-  }
-
-  getNameSelect(dataSelect,id){
-    let name = '';
-    return name;    
-  }
-
-  srcResult: FormData;
-
-  onFileSelected(event) {
-    var files = event.target.files;
-    var fileName = files [0].name
-    
-    console.log(files);
-    console.log(fileName);
-    /* const inputNode: any = document.querySelector('#file');
-  
-    if (typeof (FileReader) !== 'undefined') {
-      const reader = new FileReader();
-  
-      reader.onload = (e: any) => {
-        this.srcResult = e.target.result;
-      };
-  
-      reader.readAsArrayBuffer(inputNode.files[0]);
-
-      console.log(this.srcResult);
-    } */
-  }
 }

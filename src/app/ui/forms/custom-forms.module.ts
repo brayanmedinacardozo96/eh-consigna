@@ -15,6 +15,9 @@ import {InputFileComponent} from './input-file/input-file.component';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatAutocompleteModule} from '@angular/material/autocomplete'; 
 import { InputAutocompleteComponent } from './input-autocomplete/input-autocomplete.component';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import { DatepickerComponent } from './datepicker/datepicker.component';
+import {MatDatepickerModule} from '@angular/material/datepicker';
 
 @NgModule({
   declarations: [
@@ -24,7 +27,8 @@ import { InputAutocompleteComponent } from './input-autocomplete/input-autocompl
     InputNumberComponent,
     InputTextAreaComponent,
     InputFileComponent,
-    InputAutocompleteComponent
+    InputAutocompleteComponent,
+    DatepickerComponent
   ],
   imports: [
     CommonModule,
@@ -36,7 +40,9 @@ import { InputAutocompleteComponent } from './input-autocomplete/input-autocompl
     MatSelectModule,
     MatGridListModule,
     MatAutocompleteModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatTooltipModule,
+    MatDatepickerModule
   ],
   exports: [
     InputTextIconComponent, 
@@ -45,7 +51,8 @@ import { InputAutocompleteComponent } from './input-autocomplete/input-autocompl
     InputNumberComponent,
     InputTextAreaComponent,
     InputFileComponent,
-    InputAutocompleteComponent
+    InputAutocompleteComponent,
+    DatepickerComponent
   ]
 })
 export class CustomFormsModule {

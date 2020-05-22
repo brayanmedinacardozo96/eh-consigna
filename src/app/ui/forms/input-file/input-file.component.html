@@ -1,8 +1,8 @@
 <mat-grid-list class="row" cols="1" rowHeight="110px">
     <mat-grid-tile>
         <mat-form-field appearance="outline" style="width: 40%;">
-            <input matInput (click)="fileInput.click()" [(ngModel)]="fileName" [placeholder]="placeholder ? placeholder : 'Ingrese el documento'">
-            <input hidden (change)="onFileSelected($event)" #fileInput type="file" id="file">
+            <input matInput [id]="'form-file'" (click)="fileInput.click()" [(ngModel)]="fileName" [placeholder]="placeholder ? placeholder : 'Ingrese el documento'">
+            <input hidden (change)="onFileSelected($event,'form-file')" #fileInput type="file" id="file">
         </mat-form-field>
         
         <button matTooltip="Agregar Documento" matTooltipClass="custom-tooltip"
