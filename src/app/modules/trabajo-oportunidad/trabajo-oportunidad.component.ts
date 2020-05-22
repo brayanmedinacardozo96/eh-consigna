@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
+
 @Component({
   selector: 'app-trabajo-oportunidad',
   templateUrl: './trabajo-oportunidad.component.html',
@@ -20,6 +21,7 @@ export class TrabajoOportunidadComponent implements OnInit {
       value: null,
       messages: null,
       required: false,
+      url:"https://jsonplaceholder.typicode.com/users"
     },
     trabajo:{
       label: 'Trabajos',
@@ -62,8 +64,11 @@ export class TrabajoOportunidadComponent implements OnInit {
     elemento:[
       {nombre:'xxxxxx',codigo:'x'},
       {nombre:'xxxxx',codigo:'x'},
-    ]
+    ],
+      options:  ['123', '456', '789']
   }
+
+  
 
   ngOnInit(): void {
   }
