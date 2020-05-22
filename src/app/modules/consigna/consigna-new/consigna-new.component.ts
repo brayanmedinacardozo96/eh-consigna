@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ApiService} from '../../../shared/services/api.service';
 import {ValidationService} from '../../../shared/services/validations.service';
+import {DateFormatService} from '../../../shared/services/date-format.service';
 
 @Component({
   selector: 'app-consigna-new',
@@ -94,7 +95,7 @@ export class ConsignaNewComponent implements OnInit {
     tipoZona: {
       label: 'Tipo zona',
       name: 'tipoZona',
-      value: null,
+      value: 'ZN',
       messages: null,
       required: false,
     },
@@ -313,18 +314,9 @@ export class ConsignaNewComponent implements OnInit {
     },
   };
 
-  formPrueba = {
-    prueba: {
-      label: 'picker prueba',
-      name: 'prueba',
-      value: null,
-      messages: null,
-      required: true,
-    },
-  }
-
   constructor(private api: ApiService,
-              private validations: ValidationService
+              private validations: ValidationService,
+              private dateFormat: DateFormatService,
               ) { }
 
   ngOnInit(): void {
@@ -335,13 +327,11 @@ export class ConsignaNewComponent implements OnInit {
   }
 
   setData(name, event, obj: any = undefined) {
-    
     if(obj == undefined){
       this.form[name].value = event;
     }else{
       obj[name].value = event;
     }
-
   }
 
   setDataDatePicker(name, event, obj: any = undefined){
@@ -358,7 +348,6 @@ export class ConsignaNewComponent implements OnInit {
       obj[name].value = date;
     }
 
-    console.log(obj[name].value);
   }
   
   addListElements(){
@@ -370,9 +359,9 @@ export class ConsignaNewComponent implements OnInit {
     var textTipoElemento = ((document.getElementById("form_consigna-tipo_elemento")) as HTMLSelectElement).textContent;
     var textElemento = ((document.getElementById("form_consigna-elemento")) as HTMLSelectElement).textContent;
     var textRamal = ((document.getElementById("form_consigna-ramal")) as HTMLSelectElement).textContent;
-    var fechaInicio = this.formElementos.fechaInicio.value;
+    var fechaInicio = this.dateFormat.yearMounthDay(this.formElementos.fechaInicio.value);
     var horaInicio = this.formElementos.horaInicio.value;
-    var fechaFinal = this.formElementos.fechaFinal.value;
+    var fechaFinal = this.dateFormat.yearMounthDay(this.formElementos.fechaFinal.value);
     var horaFinal = this.formElementos.horaFinal.value;
     
     const elemento = {
@@ -399,4 +388,9 @@ export class ConsignaNewComponent implements OnInit {
     this.dataElementos.splice(id,1);
   }
 
+  guardarConsigna(){
+    console.log(this.form);
+    console.log(this.formElementos)
+    console.log(this.dataElementos)
+  }
 }
