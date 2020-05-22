@@ -6,13 +6,15 @@ import {InputTextComponent} from './input-text/input-text.component';
 import {InputTextAreaComponent} from './input-text-area/input-text-area.component';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatIconModule} from '@angular/material/icon';
-import {FormsModule} from '@angular/forms';
+import {FormsModule,ReactiveFormsModule} from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 import { InputNumberComponent } from './input-number/input-number.component';
 import {MatSelectModule} from '@angular/material/select';
 import {InputFileComponent} from './input-file/input-file.component';
 import {MatGridListModule} from '@angular/material/grid-list';
+import {MatAutocompleteModule} from '@angular/material/autocomplete'; 
+import { InputAutocompleteComponent } from './input-autocomplete/input-autocomplete.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,8 @@ import {MatGridListModule} from '@angular/material/grid-list';
     InputTextComponent,
     InputNumberComponent,
     InputTextAreaComponent,
-    InputFileComponent
+    InputFileComponent,
+    InputAutocompleteComponent
   ],
   imports: [
     CommonModule,
@@ -31,7 +34,9 @@ import {MatGridListModule} from '@angular/material/grid-list';
     MatInputModule,
     MatButtonModule,
     MatSelectModule,
-    MatGridListModule
+    MatGridListModule,
+    MatAutocompleteModule,
+    ReactiveFormsModule
   ],
   exports: [
     InputTextIconComponent, 
@@ -39,7 +44,8 @@ import {MatGridListModule} from '@angular/material/grid-list';
     InputTextComponent, 
     InputNumberComponent,
     InputTextAreaComponent,
-    InputFileComponent
+    InputFileComponent,
+    InputAutocompleteComponent
   ]
 })
 export class CustomFormsModule {
