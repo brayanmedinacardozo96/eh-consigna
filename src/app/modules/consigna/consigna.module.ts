@@ -21,9 +21,11 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import { ConsignaNewComponent } from './consigna-new/consigna-new.component';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { ConsignaListComponent } from './consigna-list/consigna-list.component';
+import {MatDialogModule} from '@angular/material/dialog';
 
 @NgModule({
-  declarations: [ConsignaComponent, ConsignaNewComponent],
+  declarations: [ConsignaComponent, ConsignaNewComponent, ConsignaListComponent],
   imports: [
     CommonModule,
     MatCardModule,
@@ -44,7 +46,8 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
     MatDatepickerModule,
     MatTooltipModule,
     MatSnackBarModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatDialogModule
   ]
 })
 export class ConsignaModule { }

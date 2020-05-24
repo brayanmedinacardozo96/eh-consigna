@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import {environment} from '../../../environments/environment';
 import {ApiService} from '../../shared/services/api.service';
+import {ValidationService} from './../../shared/services/validations.service';
+import {DateValidationervice} from './../../shared/services/date-validations.service';
 
 @Component({
   selector: 'app-consigna',
@@ -10,7 +12,11 @@ import {ApiService} from '../../shared/services/api.service';
 })
 export class ConsignaComponent implements OnInit {
 
-  data = [];
+  data = [
+    {numeroConsigna:'1234',tipoZona:'ZN',estadoConsigna:'Pendiente',
+    elementosConsignados:'',trabajosOportunidad:'',maniobras:'',acciones:''}
+  ];
+  
   dataControls = {
     tipoZona:[
       {nombre:'Zona Norte',codigo:'ZN'},
@@ -120,13 +126,19 @@ export class ConsignaComponent implements OnInit {
       required: false,
     },
   };
-  constructor(private api: ApiService) { }
+  constructor(private api: ApiService,
+              private validations: ValidationService,
+              private dateValidation: DateValidationervice) { }
 
   ngOnInit(): void {
   }
 
   async search() {
-    console.log(this.form)
+    const responseValidate = this.validations.validateACompleteField(this.form);
+    //modificar las fechas por fomatos especificos
+    // this.form.fechaSolicitud.value = this.form.fechaSolicitud.value !== null ? this.dateValidation.getYearMounthDay(this.form.fechaSolicitud.value) : null;
+
+    console.log(responseValidate)
   }
 
   setData(name, event) {
