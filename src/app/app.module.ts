@@ -9,6 +9,8 @@ import {UiModule} from './ui/ui.module';
 import {ApiService} from './shared/services/api.service';
 import {ValidationService} from './shared/services/validations.service';
 import {SnackBarService} from './shared/services/snack-bar.service';
+import {FileValidationService} from './shared/services/file-validation.service';
+import {DateValidationervice} from './shared/services/date-validations.service';
 import {HttpClientModule} from '@angular/common/http';
 import {DashboardModule} from './modules/dashboard/dashboard.module';
 import {HashLocationStrategy, LocationStrategy} from '@angular/common';
@@ -39,7 +41,7 @@ import {TrabajoOportunidadModule} from './modules/trabajo-oportunidad/trabajo-op
   ],
   providers: [
     {provide: LocationStrategy, useClass: HashLocationStrategy},
-    ApiService,ValidationService,SnackBarService
+    ApiService,ValidationService,SnackBarService,FileValidationService,DateValidationervice
   ],
   bootstrap: [AppComponent]
 })

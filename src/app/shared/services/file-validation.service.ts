@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import {SnackBarService} from './snack-bar.service';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class FileValidationService {
 
   constructor(private snackBarService: SnackBarService) { }

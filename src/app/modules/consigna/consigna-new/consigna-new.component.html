@@ -1,9 +1,7 @@
 <mat-card class="container">
     <mat-card-content>
         <h1>Nueva Consigna</h1>
-        <div>
-            <app-date-time-picker></app-date-time-picker>
-        </div>
+        
         <mat-grid-list class="row" cols="4" rowHeight="80px">
 
             <mat-grid-tile>
@@ -205,16 +203,16 @@
                     </app-datepicker>
                     
                 </mat-grid-tile>
-                 
+
                 <mat-grid-tile>
-                    <app-input-text style="width: 85%;"
-                        class="input"
+                    <app-date-time-picker
                         [label]="formElementos.horaInicio.label"
                         [value]="formElementos.horaInicio.value"
                         [name]="formElementos.horaInicio.name"
                         [messages]="formElementos.horaInicio.messages"
+                        [messages]="formElementos.horaInicio.messages"
                         (valueChange)="setData(formElementos.horaInicio.name, $event,this.formElementos)">
-                    </app-input-text>
+                    </app-date-time-picker>
                 </mat-grid-tile>
                 
                 <mat-grid-tile>
@@ -228,21 +226,24 @@
                     >                        
                     </app-datepicker>
                 </mat-grid-tile>
-                
+
                 <mat-grid-tile>
-                    <app-input-text style="width: 85%;"
-                        class="input"
+                    <app-date-time-picker
                         [label]="formElementos.horaFinal.label"
                         [value]="formElementos.horaFinal.value"
                         [name]="formElementos.horaFinal.name"
                         [messages]="formElementos.horaFinal.messages"
+                        [messages]="formElementos.horaFinal.messages"
                         (valueChange)="setData(formElementos.horaFinal.name, $event,this.formElementos)">
-                    </app-input-text>
+                    </app-date-time-picker>
                 </mat-grid-tile>
             </mat-grid-list>
 
-            <button (click)="addListElements()" mat-raised-button color="warn" style="margin-left: 20px; margin-bottom:20px;">
-                <span style="color: #FFF">Adicionar</span>
+            <button (click)="addListElements()" mat-mini-fab color="success" 
+                style="margin-left: 20px; margin-bottom:20px;"
+                matTooltip="Adicionar Elemento" matTooltipClass="custom-tooltip"
+            >
+                <mat-icon style="color: #FFF;">add</mat-icon>
             </button>
 
             <table class="custom-table">
@@ -253,7 +254,7 @@
                   <th>Ramal</th>
                   <th>Fecha y hora inicio</th>
                   <th>Fecha y hora final</th>
-                  <th>Aciiones</th>
+                  <th>Acciones</th>
                 </tr>
                 </thead>
                 <tbody>
