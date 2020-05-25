@@ -19,10 +19,11 @@ import {HistoryInvoicesModule} from './modules/history-invoices/history-invoices
 import {ConsignaModule} from './modules/consigna/consigna.module';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {TrabajoOportunidadModule} from './modules/trabajo-oportunidad/trabajo-oportunidad.module';
+import { ManiobraModule } from './modules/maniobra/maniobra.module';
 
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
   ],
   imports: [
     BrowserModule,
@@ -38,6 +39,7 @@ import {TrabajoOportunidadModule} from './modules/trabajo-oportunidad/trabajo-op
     ConsignaModule,
     MatSnackBarModule,
     TrabajoOportunidadModule,
+    ManiobraModule,
   ],
   providers: [
     {provide: LocationStrategy, useClass: HashLocationStrategy},

@@ -5,11 +5,6 @@
 
       <mat-grid-tile [colspan]="2">
 
-        <!--<app-input-text style="width: 96%;" class="input" [label]="form.numeroConsigna.label"
-            [value]="form.numeroConsigna.value" [name]="form.numeroConsigna.name"
-            [messages]="form.numeroConsigna.messages"
-             (valueChange)="setData(form.numeroConsigna.name, $event)">
-          </app-input-text>-->
         <app-input-autocomplete style="width: 96%;" [label]="form.numeroConsigna.label"
           [value]="form.numeroConsigna.value" [name]="form.numeroConsigna.name"
           [messages]="form.numeroConsigna.messages" (valueChange)="setData(form.numeroConsigna.name, $event)"
@@ -41,25 +36,6 @@
 
       </mat-grid-tile>
 
-      <!--<mat-grid-tile  [colspan]="2">
-
-        <mat-accordion maxHe style="width: 96%;">
-          <mat-expansion-panel>
-            <mat-expansion-panel-header  [collapsedHeight]="customCollapsedHeight" [expandedHeight]="customExpandedHeight">
-              <mat-panel-title>
-                Información de la consigna
-              </mat-panel-title>
-            </mat-expansion-panel-header>
-
-            <mat-form-field>
-              <mat-label>First name</mat-label>
-              <input matInput>
-            </mat-form-field>
-          </mat-expansion-panel>
-        </mat-accordion>
-
-
-      </mat-grid-tile>-->
 
       <mat-grid-tile [colspan]="2">
 
@@ -101,8 +77,12 @@
 
       </mat-grid-tile>
 
-
-
     </mat-grid-list>
+
+    <button  mat-raised-button color="primary" style="margin-left: 20px; margin-top: 10px;">
+      <span style="color: #FFF">Guardar</span>
+    </button>
+
+
   </mat-card-content>
 </mat-card>
