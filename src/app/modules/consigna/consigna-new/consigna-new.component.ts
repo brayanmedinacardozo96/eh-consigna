@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ApiService} from '../../../shared/services/api.service';
 import {ValidationService} from '../../../shared/services/validations.service';
-import {DateFormatService} from '../../../shared/services/date-format.service';
+import {DateValidationervice} from '../../../shared/services/date-validations.service';
 
 @Component({
   selector: 'app-consigna-new',
@@ -316,7 +316,7 @@ export class ConsignaNewComponent implements OnInit {
 
   constructor(private api: ApiService,
               private validations: ValidationService,
-              private dateFormat: DateFormatService,
+              private DateValidation: DateValidationervice,
               ) { }
 
   ngOnInit(): void {
@@ -351,6 +351,7 @@ export class ConsignaNewComponent implements OnInit {
   }
   
   addListElements(){
+    console.log(this.formElementos)
     const responseValidate = this.validations.validateEmptyFields(this.formElementos);
 
     if (!responseValidate.success) {
@@ -359,9 +360,9 @@ export class ConsignaNewComponent implements OnInit {
     var textTipoElemento = ((document.getElementById("form_consigna-tipo_elemento")) as HTMLSelectElement).textContent;
     var textElemento = ((document.getElementById("form_consigna-elemento")) as HTMLSelectElement).textContent;
     var textRamal = ((document.getElementById("form_consigna-ramal")) as HTMLSelectElement).textContent;
-    var fechaInicio = this.dateFormat.yearMounthDay(this.formElementos.fechaInicio.value);
+    var fechaInicio = this.DateValidation.getYearMounthDay(this.formElementos.fechaInicio.value);
     var horaInicio = this.formElementos.horaInicio.value;
-    var fechaFinal = this.dateFormat.yearMounthDay(this.formElementos.fechaFinal.value);
+    var fechaFinal = this.DateValidation.getYearMounthDay(this.formElementos.fechaFinal.value);
     var horaFinal = this.formElementos.horaFinal.value;
     
     const elemento = {

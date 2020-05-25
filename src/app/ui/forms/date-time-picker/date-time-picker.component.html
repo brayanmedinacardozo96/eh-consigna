@@ -1,0 +1,13 @@
+<mat-form-field appearance="outline" class="input">
+    <mat-label>{{ label }}</mat-label>
+    <input matInput aria-label="default time" [ngxTimepicker]="defaultValue" [(ngModel)]="value"  (ngModelChange)="valueChange.emit($event)" readonly>
+    <ngx-material-timepicker #defaultValue [cancelBtnTmpl]="cancelBtn"
+    [confirmBtnTmpl]="confirmBtn"></ngx-material-timepicker>
+    <mat-hint style="color: red" *ngIf="messages">{{messages}}</mat-hint>
+    <ng-template #cancelBtn>
+        <button mat-raised-button color="warn" style="margin-right: 10px;">Cancelar</button>
+    </ng-template>
+    <ng-template #confirmBtn>
+        <button mat-raised-button color="primary"><span style="color: #FFF">Aceptar</span></button>
+    </ng-template>
+</mat-form-field>

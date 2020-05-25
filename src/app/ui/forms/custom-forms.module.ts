@@ -19,6 +19,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import { DatepickerComponent } from './datepicker/datepicker.component';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MDialogComponent } from './m-dialog/m-dialog.component';
+import { DateTimePickerComponent } from './date-time-picker/date-time-picker.component';
+import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,8 @@ import { MDialogComponent } from './m-dialog/m-dialog.component';
     InputFileComponent,
     InputAutocompleteComponent,
     DatepickerComponent,
-    MDialogComponent
+    MDialogComponent,
+    DateTimePickerComponent
   ],
   imports: [
     CommonModule,
@@ -44,7 +47,8 @@ import { MDialogComponent } from './m-dialog/m-dialog.component';
     MatAutocompleteModule,
     ReactiveFormsModule,
     MatTooltipModule,
-    MatDatepickerModule
+    MatDatepickerModule,
+    NgxMaterialTimepickerModule
   ],
   exports: [
     InputTextIconComponent, 
@@ -54,7 +58,8 @@ import { MDialogComponent } from './m-dialog/m-dialog.component';
     InputTextAreaComponent,
     InputFileComponent,
     InputAutocompleteComponent,
-    DatepickerComponent
+    DatepickerComponent,
+    DateTimePickerComponent
   ]
 })
 export class CustomFormsModule {

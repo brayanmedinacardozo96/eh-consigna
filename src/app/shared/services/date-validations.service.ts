@@ -1,13 +1,11 @@
 import { Injectable } from '@angular/core';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class DateFormatService {
+@Injectable()
+export class DateValidationervice {
 
   constructor() { }
 
-  yearMounthDay(date){
+  getYearMounthDay(date){
     var d = new Date(date),
     month = '' + (d.getMonth() + 1),
     day = '' + d.getDate(),
