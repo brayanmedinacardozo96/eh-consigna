@@ -18,6 +18,7 @@ import { InputAutocompleteComponent } from './input-autocomplete/input-autocompl
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { DatepickerComponent } from './datepicker/datepicker.component';
 import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MDialogComponent } from './m-dialog/m-dialog.component';
 import { DateTimePickerComponent } from './date-time-picker/date-time-picker.component';
 import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
 
@@ -31,6 +32,7 @@ import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
     InputFileComponent,
     InputAutocompleteComponent,
     DatepickerComponent,
+    MDialogComponent,
     DateTimePickerComponent
   ],
   imports: [

@@ -3,9 +3,6 @@
     <h1>Trabajos de oportunidad</h1>
     <mat-grid-list class="row" cols="2" rowHeight="103px">
 
-
-
-      
       <mat-grid-tile [colspan]="2">
 
         <!--<app-input-text style="width: 96%;" class="input" [label]="form.numeroConsigna.label"
@@ -19,7 +16,7 @@
           [urlApi]="form.numeroConsigna.url">
         </app-input-autocomplete>
         <div style="padding-bottom:20px">
-          <button mat-mini-fab color="accent" matTooltip="Consultar" matTooltipClass="custom-tooltip">
+          <button mat-mini-fab color="accent" (click)="dialogConsigna()" matTooltip="Consultar" matTooltipClass="custom-tooltip">
             <mat-icon style="color: #FFFFFF">search</mat-icon>
           </button>
         </div>

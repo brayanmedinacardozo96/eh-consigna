@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-
+import {MDialogComponent} from '../../ui/forms/m-dialog/m-dialog.component';
+import {MatDialog} from '@angular/material/dialog';
+import {Mensaje} from '../../ui/forms/m-dialog/dialog';
 
 @Component({
   selector: 'app-trabajo-oportunidad',
@@ -8,7 +10,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TrabajoOportunidadComponent implements OnInit {
 
-  constructor() { }
+  constructor(public dialog: MatDialog) { }
 
   panelOpenState = false;
   customCollapsedHeight: string = '25px';
@@ -25,7 +27,7 @@ export class TrabajoOportunidadComponent implements OnInit {
     },
     trabajo:{
       label: 'Trabajos',
-      name: 'Trabajos',
+      name: 'trabajo',
       value: null,
       messages: null,
       required: false,
@@ -41,8 +43,8 @@ export class TrabajoOportunidadComponent implements OnInit {
       label: 'Jefe de trabajos',
       name: 'jefeTrabajo',
       value: null,
-      messages: null,
-      required: false,
+      messages: "",
+      required: true,
     },
     telefono:{
       label: 'Telefono',
@@ -53,7 +55,7 @@ export class TrabajoOportunidadComponent implements OnInit {
     },
     elemnto: {
       label: 'Elemento',
-      name: 'elemnto',
+      name: 'elemento',
       value: null,
       messages: null,
       required: false,
@@ -74,7 +76,15 @@ export class TrabajoOportunidadComponent implements OnInit {
   }
 
   setData(name, event) {
+    console.log(this.form[name].value);
     this.form[name].value = event;
+  }
+
+  dialogConsigna()
+  {
+    this.dialog.open(MDialogComponent, {
+      data: new Mensaje('Consigna #'+this.form.numeroConsigna.value,"<strong>hola</strong>")
+    });
   }
 
 }
