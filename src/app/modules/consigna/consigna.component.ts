@@ -13,10 +13,10 @@ import {DateValidationervice} from './../../shared/services/date-validations.ser
 export class ConsignaComponent implements OnInit {
 
   data = [
-    {numeroConsigna:'1234',tipoZona:'ZN',estadoConsigna:'Pendiente',
-    elementosConsignados:'',trabajosOportunidad:'',maniobras:'',acciones:''}
+    {numeroConsigna:'1234',tipoZona:'ZN',estadoConsigna:'Pendiente',elementosConsignados:'aaa',trabajosOportunidad:'aaa',maniobras:'',acciones:''},
+    {numeroConsigna:'536',tipoZona:'ZS',estadoConsigna:'Ejecutada',elementosConsignados:[{lista:'aa'}],trabajosOportunidad:'aa',maniobras:'abc',acciones:''},
   ];
-  
+
   dataControls = {
     tipoZona:[
       {nombre:'Zona Norte',codigo:'ZN'},

@@ -23,9 +23,12 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { ConsignaListComponent } from './consigna-list/consigna-list.component';
 import {MatDialogModule} from '@angular/material/dialog';
+import { ConsignaElementoListComponent } from './consigna-elemento-list/consigna-elemento-list.component';
+import { ConsignaTrabajoListComponent } from './consigna-trabajo-list/consigna-trabajo-list.component';
+import { ConsignaManiobraListComponent } from './consigna-maniobra-list/consigna-maniobra-list.component';
 
 @NgModule({
-  declarations: [ConsignaComponent, ConsignaNewComponent, ConsignaListComponent],
+  declarations: [ConsignaComponent, ConsignaNewComponent, ConsignaListComponent, ConsignaElementoListComponent, ConsignaTrabajoListComponent, ConsignaManiobraListComponent],
   imports: [
     CommonModule,
     MatCardModule,

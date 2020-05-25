@@ -4,6 +4,9 @@ import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatDialog} from '@angular/material/dialog';
 import {environment} from '../../../../environments/environment';
+import { ConsignaElementoListComponent } from './../consigna-elemento-list/consigna-elemento-list.component';
+import { ConsignaTrabajoListComponent } from './../consigna-trabajo-list/consigna-trabajo-list.component';
+import { ConsignaManiobraListComponent } from './../consigna-maniobra-list/consigna-maniobra-list.component';
 
 @Component({
   selector: 'app-consigna-list',
@@ -14,7 +17,6 @@ export class ConsignaListComponent implements OnInit {
 
   displayedColumns: string[] = ['numeroConsigna', 'tipoZona', 'estadoConsigna', 'elementosConsignados', 'trabajosOportunidad', 'maniobras', 'acciones'];
   dataSource: MatTableDataSource<any>;
-
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
@@ -29,7 +31,6 @@ export class ConsignaListComponent implements OnInit {
   }
 
   init(data) {
-    console.log(data);
     this.dataSource = new MatTableDataSource(data);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
@@ -48,12 +49,15 @@ export class ConsignaListComponent implements OnInit {
     window.open(`${environment.urlFiles}${pathPdf}`, '_blank');
   }
 
-  showElementoConsignado(){
-    /* const dialogRef = this.dialog.open(DialogContentExampleDialog);
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
-    }); */
+  showElementoConsignado(data){
+    const dialogRef = this.dialog.open(ConsignaElementoListComponent);
   }
 
+  showTrabajoOportunidad(data){
+    const dialogRef = this.dialog.open(ConsignaTrabajoListComponent);
+  }
+
+  showManiobra(data){
+    const dialogRef = this.dialog.open(ConsignaManiobraListComponent);
+  }
 }
