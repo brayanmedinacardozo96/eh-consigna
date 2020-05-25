@@ -30,8 +30,6 @@ export class InputAutocompleteComponent implements OnInit {
   options = [];
   filteredOptions: Observable<any[]>;
   
-
-  //constructor(private http: HttpClient,private apiService:ApiService) { }
   constructor(private http: HttpClient) { }
 
   ngOnInit() {
@@ -63,7 +61,7 @@ export class InputAutocompleteComponent implements OnInit {
 
     }
 
-    setUrl(link,event)
+    setUrl(link)
     {
 
       this.url=link;

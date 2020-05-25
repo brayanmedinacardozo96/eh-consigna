@@ -131,6 +131,7 @@ export class ConsignaComponent implements OnInit {
 
   setData(name, event) {
     this.form[name].value = event;
+    console.log(   this.form[name].value );
   }
 
 }

@@ -18,6 +18,7 @@ import { InputAutocompleteComponent } from './input-autocomplete/input-autocompl
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { DatepickerComponent } from './datepicker/datepicker.component';
 import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MDialogComponent } from './m-dialog/m-dialog.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
     InputTextAreaComponent,
     InputFileComponent,
     InputAutocompleteComponent,
-    DatepickerComponent
+    DatepickerComponent,
+    MDialogComponent
   ],
   imports: [
     CommonModule,
