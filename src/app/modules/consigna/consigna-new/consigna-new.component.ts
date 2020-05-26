@@ -317,7 +317,9 @@ export class ConsignaNewComponent implements OnInit {
   constructor(private api: ApiService,
               private validations: ValidationService,
               private DateValidation: DateValidationervice,
-              ) { }
+              ) { 
+                window.scrollTo(0,0);
+              }
 
   ngOnInit(): void {
   }
