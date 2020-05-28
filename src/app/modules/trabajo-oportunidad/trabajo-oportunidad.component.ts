@@ -70,6 +70,12 @@ export class TrabajoOportunidadComponent implements OnInit {
       options:  ['123', '456', '789']
   }
 
+  dataTrabajo=[
+    {elemento:"elemento", trabajo:'XXXX', medidaSeguridad:'XXX', jefeTrabajo:'XXX', telefono:'XXX'}
+  ]
+
+  
+
   
 
   ngOnInit(): void {
