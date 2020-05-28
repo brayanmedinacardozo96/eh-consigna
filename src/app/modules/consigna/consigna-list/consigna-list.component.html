@@ -7,25 +7,25 @@
     <div style="text-align: center !important; width: 100%; overflow-x: auto; ">
       <table mat-table [dataSource]="dataSource" matSort class="custom-table">
   
-        <!-- Lote Column -->
+        <!-- # Consignación -->
         <ng-container matColumnDef="numeroConsigna">
           <th mat-header-cell *matHeaderCellDef mat-sort-header># Consignación</th>
           <td mat-cell *matCellDef="let row"> {{row?.numeroConsigna}} </td>
         </ng-container>
   
-        <!-- Cuenta Column -->
+        <!-- Zona -->
         <ng-container matColumnDef="tipoZona">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Zona</th>
           <td mat-cell *matCellDef="let row">{{row?.tipoZona}}</td>
         </ng-container>
   
-        <!-- Nro. Factura Column -->
+        <!--Estado Consignación -->
         <ng-container matColumnDef="estadoConsigna">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado Consignación</th>
           <td mat-cell *matCellDef="let row">{{row?.estadoConsigna}}</td>
         </ng-container>
   
-        <!-- Ciclo Column -->
+        <!-- Elemento Consignado -->
         <ng-container matColumnDef="elementosConsignados">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Elemento Consignado</th>
           <td mat-cell *matCellDef="let row">
@@ -37,7 +37,7 @@
           </td>
         </ng-container>
   
-        <!-- Mes Column -->
+        <!-- Trabajos Oportunidad -->
         <ng-container matColumnDef="trabajosOportunidad">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Trabajos Oportunidad</th>
           <td mat-cell *matCellDef="let row">
@@ -49,7 +49,7 @@
           </td>
         </ng-container>
   
-        <!-- Año Column -->
+        <!-- Maniobras -->
         <ng-container matColumnDef="maniobras">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Maniobras</th>
           <td mat-cell *matCellDef="let row">
@@ -61,7 +61,7 @@
           </td>
         </ng-container>
   
-        <!-- Email Column -->
+        <!-- Acciones -->
         <ng-container matColumnDef="acciones">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Acciones</th>
           <td mat-cell *matCellDef="let row">
@@ -70,7 +70,7 @@
                 matTooltip="Editar" matTooltipClass="custom-tooltip"
                 color="accent">edit
                 </mat-icon>
-                <mat-icon (click)="showElementoConsignado(row?.elementosConsignados)" style="cursor: pointer;"
+                <mat-icon (click)="imprimir(row?.elementosConsignados)" style="cursor: pointer;"
                 matTooltip="Imprimir" matTooltipClass="custom-tooltip"
                 color="basic">print
                 </mat-icon>

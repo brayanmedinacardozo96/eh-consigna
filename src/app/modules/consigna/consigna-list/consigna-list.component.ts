@@ -50,14 +50,28 @@ export class ConsignaListComponent implements OnInit {
   }
 
   showElementoConsignado(data){
-    const dialogRef = this.dialog.open(ConsignaElementoListComponent);
+    const dialogRef = this.dialog.open(ConsignaElementoListComponent,{
+      width:'100%',
+      data: {data}
+    });
+
   }
 
   showTrabajoOportunidad(data){
-    const dialogRef = this.dialog.open(ConsignaTrabajoListComponent);
+    const dialogRef = this.dialog.open(ConsignaTrabajoListComponent,{
+      width:'100%',
+      data: {data}
+    });
   }
 
   showManiobra(data){
-    const dialogRef = this.dialog.open(ConsignaManiobraListComponent);
+    const dialogRef = this.dialog.open(ConsignaManiobraListComponent, {
+      width:'100%',
+      data: {data}
+    });
+  }
+
+  imprimir(data){
+    console.log(data)
   }
 }
