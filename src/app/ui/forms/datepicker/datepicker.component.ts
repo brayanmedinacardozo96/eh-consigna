@@ -19,6 +19,7 @@ export class DatepickerComponent implements OnInit {
   @Input() messages;
   @Input() style;
   @Input() id;
+  @Input() required;
   @Output() valueChange = new EventEmitter();
   constructor() { }
 

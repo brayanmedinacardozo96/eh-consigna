@@ -13,19 +13,29 @@ export class InputFileComponent implements OnInit {
   @Input() typeExtension;
   @Input() maxSize;
   @Input() placeholder;
+  @Input() messages = '';
+  @Output() valueChange = new EventEmitter();
   constructor(private fileValidation: FileValidationService) { }
 
   ngOnInit(): void {
   }
 
-  onFileSelected(event,id){
-    var files = event.target.files;
+  onFileSelected(event){
+    this.messages = ''
+    var files = event.target.files
     this.fileName = files [0].name
-
-    var stateValidation = this.fileValidation.validateDocumentPdf(event,this.maxSize,this.typeExtension)
-    if(!stateValidation){
-      this.fileName = '';
+    const validationFile = this.fileValidation.validateDocument(event,this.maxSize,this.typeExtension)
+    
+    if(!validationFile.success){
+      this.fileName = ''
+      this.messages = validationFile.message
+      event = undefined;
     }
+    this.valueChange.emit(event)
+  }
+
+  setMessage(message){
+
   }
 
 }

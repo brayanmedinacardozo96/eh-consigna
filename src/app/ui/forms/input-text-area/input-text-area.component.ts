@@ -13,6 +13,7 @@ export class InputTextAreaComponent implements OnInit {
   @Input() messages;
   @Input() style;
   @Input() disable;
+  @Input() required;
   @Output() valueChange = new EventEmitter();
   constructor() { }
 

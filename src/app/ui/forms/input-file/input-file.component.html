@@ -2,7 +2,8 @@
     <mat-grid-tile>
         <mat-form-field appearance="outline" style="width: 40%;">
             <input matInput [id]="'form-file'" (click)="fileInput.click()" [(ngModel)]="fileName" [placeholder]="placeholder ? placeholder : 'Ingrese el documento'">
-            <input hidden (change)="onFileSelected($event,'form-file')" #fileInput type="file" id="file">
+            <input hidden (change)="onFileSelected($event)" #fileInput type="file" id="file">
+            <mat-hint style="color: red" *ngIf="messages">{{messages}}</mat-hint>
         </mat-form-field>
         
         <button matTooltip="Agregar Documento" matTooltipClass="custom-tooltip"

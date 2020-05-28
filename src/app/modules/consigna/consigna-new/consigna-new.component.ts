@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import {ApiService} from '../../../shared/services/api.service';
 import {ValidationService} from '../../../shared/services/validations.service';
 import {DateValidationervice} from '../../../shared/services/date-validations.service';
+import { FileValidationService } from './../../../shared/services/file-validation.service';
+import {environment} from '../../../../environments/environment';
+import { SnackBarService } from './../../../shared/services/snack-bar.service';
+import { Auth } from './../../../shared/auth';
 
 @Component({
   selector: 'app-consigna-new',
@@ -9,6 +13,7 @@ import {DateValidationervice} from '../../../shared/services/date-validations.se
   styleUrls: ['./consigna-new.component.scss']
 })
 export class ConsignaNewComponent implements OnInit {
+  
   data = [];
   dataElementos = [];
   dataControls = {
@@ -95,135 +100,135 @@ export class ConsignaNewComponent implements OnInit {
     tipoZona: {
       label: 'Tipo zona',
       name: 'tipoZona',
-      value: 'ZN',
+      value: null,
       messages: null,
-      required: false,
+      required: true,
     },
     tipoSolicitud: {
       label: 'Tipo de solicitud',
       name: 'tipoSolicitud',
       value: null,
       messages: null,
-      required: false,
+      required: true,
     },
     tipoConsignacion: {
       label: 'Tipo de consignación',
       name: 'tipoConsignacion',
       value: null,
       messages: null,
-      required: false,
+      required: true,
     },
     fechaSolicitud: {
       label: 'Fecha de solicitud',
       name: 'fechaSolicitud',
       value: null,
       messages: null,
-      required: false,
+      required: true,
     },
     estadoConsigna: {
       label: 'Estado consignación',
       name: 'estadoConsigna',
       value: null,
       messages: null,
-      required: false,
+      required: true,
     },
     estadoEquipo: {
       label: 'Estado del equipo',
       name: 'estadoEquipo',
       value: null,
       messages: null,
-      required: false,
+      required: true,
     },
     solicitante: {
       label: 'Solicitante',
       name: 'solicitante',
       value: null,
       messages: null,
-      required: false,
+      required: true,
     },
     subestacion: {
       label: 'Subestación',
       name: 'subestacion',
       value: null,
       messages: null,
-      required: false,
+      required: true,
     },
     tipoMantenimiento: {
       label: 'Tipo mantenimiento',
       name: 'tipoMantenimiento',
       value: null,
       messages: null,
-      required: false,
+      required: true,
     },
     trabajoEfectuar: {
       label: 'Trabajos a efectuar',
       name: 'trabajoEfectuar',
       value: null,
       messages: null,
-      required: false,
+      required: true,
     },
     justificacion: {
       label: 'Justificación',
       name: 'justificacion',
       value: null,
       messages: null,
-      required: false,
+      required: true,
     },
     observacionOpeyman: {
       label: 'Observación OPEYMAN',
       name: 'observacionOpeyman',
       value: null,
       messages: null,
-      required: false,
+      required: true,
     },
     consignaOperativa: {
       label: 'Consigna operativa',
       name: 'consignaOperativa',
       value: null,
       messages: null,
-      required: false,
+      required: true,
     },
     medidasSeguiridad: {
       label: 'Medidas de seguridad',
       name: 'medidasSeguiridad',
       value: null,
       messages: null,
-      required: false,
+      required: true,
     },
     jefeTrabajo: {
       label: 'Jefe de trabajo',
       name: 'jefeTrabajo',
       value: null,
       messages: null,
-      required: false,
+      required: true,
     },
     telefonoJefeTrabajo: {
       label: 'Teléfono jefe de trabajo',
       name: 'telefonoJefeTrabajo',
       value: null,
       messages: null,
-      required: false,
+      required: true,
     },
     jefeTrabajoContratista: {
       label: 'Jefe de trabajo contratista',
       name: 'jefeTrabajoContratista',
       value: null,
       messages: null,
-      required: false,
+      required: true,
     },
     telJefeTrabajoContratista: {
       label: 'Telefóno jefe de trabajo contratista',
-      name: 'telJefeTrabajoContratosta',
+      name: 'telJefeTrabajoContratista',
       value: null,
       messages: null,
-      required: false,
+      required: true,
     },
     moviles: {
       label: 'Móviles',
       name: 'moviles',
       value: null,
       messages: null,
-      required: false,
+      required: true,
     },
 
   };
@@ -234,14 +239,14 @@ export class ConsignaNewComponent implements OnInit {
       name: 'barrios',
       value: null,
       messages: null,
-      required: false,
+      required: true,
     },
     clientesNoRegulados: {
       label: 'Clientes No Regulados',
       name: 'clientesNoRegulados',
       value: null,
       messages: null,
-      required: false,
+      required: true,
     }
   };
 
@@ -251,14 +256,14 @@ export class ConsignaNewComponent implements OnInit {
       name: 'barrios',
       value: null,
       messages: null,
-      required: false,
+      required: true,
     },
     clientesNoRegulados: {
       label: 'Clientes No Regulados',
       name: 'clientesNoRegulados',
       value: null,
       messages: null,
-      required: false,
+      required: true,
     }
   };
 
@@ -314,11 +319,24 @@ export class ConsignaNewComponent implements OnInit {
     },
   };
 
+  inputFile: any;
+  fileUpload = {
+    success: null,
+    message: null,
+    files: new FormData()
+  };
+
+  messageListaElementos = '';
+
   constructor(private api: ApiService,
               private validations: ValidationService,
-              private DateValidation: DateValidationervice,
+              private dateValidation: DateValidationervice,
+              private fileValidation: FileValidationService,
+              private snackBar: SnackBarService
               ) { 
                 window.scrollTo(0,0);
+                const dataUser = Auth.getUserDataPerson();
+                this.form.solicitante.value = `${dataUser.document_number} - ${dataUser.first_name} ${dataUser.second_name} ${dataUser.first_lastname} ${dataUser.second_lastname}`;
               }
 
   ngOnInit(): void {
@@ -353,7 +371,6 @@ export class ConsignaNewComponent implements OnInit {
   }
   
   addListElements(){
-    console.log(this.formElementos)
     const responseValidate = this.validations.validateEmptyFields(this.formElementos);
 
     if (!responseValidate.success) {
@@ -362,9 +379,9 @@ export class ConsignaNewComponent implements OnInit {
     var textTipoElemento = ((document.getElementById("form_consigna-tipo_elemento")) as HTMLSelectElement).textContent;
     var textElemento = ((document.getElementById("form_consigna-elemento")) as HTMLSelectElement).textContent;
     var textRamal = ((document.getElementById("form_consigna-ramal")) as HTMLSelectElement).textContent;
-    var fechaInicio = this.DateValidation.getYearMounthDay(this.formElementos.fechaInicio.value);
+    var fechaInicio = this.dateValidation.getYearMounthDay(this.formElementos.fechaInicio.value);
     var horaInicio = this.formElementos.horaInicio.value;
-    var fechaFinal = this.DateValidation.getYearMounthDay(this.formElementos.fechaFinal.value);
+    var fechaFinal = this.dateValidation.getYearMounthDay(this.formElementos.fechaFinal.value);
     var horaFinal = this.formElementos.horaFinal.value;
     
     const elemento = {
@@ -391,9 +408,45 @@ export class ConsignaNewComponent implements OnInit {
     this.dataElementos.splice(id,1);
   }
 
-  guardarConsigna(){
-    console.log(this.form);
-    console.log(this.formElementos)
-    console.log(this.dataElementos)
+  async guardarConsigna(){
+    let formData: FormData = new FormData();
+    // valida si se a adjuntado un documento
+    this.fileUpload = this.fileValidation.fileUp(this.inputFile);
+
+    if( this.validateEmptyFields() && this.fileUpload.success){
+      formData = this.fileUpload.files;
+      formData.append('form',JSON.stringify(this.form));
+      formData.append('dataElementos',JSON.stringify(this.dataElementos));
+      formData.append('interrupcionesTrabajo',JSON.stringify(this.interrupcionesTrabajo));
+      formData.append('interrupcionesCortoTiempo',JSON.stringify(this.interrupcionesCortoTiempo));
+      formData.append('interrupcionesCortoTiempo',JSON.stringify(this.interrupcionesCortoTiempo));
+
+      const response = await this.api.post(`${environment.apiBackend}/test-post`, formData);
+      let success = response.success;
+      let message = response.message;
+
+    }else{
+      this.snackBar.alert('Faltan campos adiligenciar',5000)
+    }
+
+  }
+
+  setInput(event){
+    this.inputFile = event;
+  }
+
+  validateEmptyFields(){
+    this.messageListaElementos = '';
+    let success = true;
+
+    if(!this.validations.validateEmptyFields(this.form).success){
+      success = false;
+    }
+
+    if(this.dataElementos.length < 1){
+      this.messageListaElementos = 'Debe ingresar mínimo un valor en la lista de elementos a consignar'
+      success = false;
+    }
+    return success;
   }
 }
