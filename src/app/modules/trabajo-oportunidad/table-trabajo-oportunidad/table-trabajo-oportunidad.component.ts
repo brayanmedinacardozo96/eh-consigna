@@ -1,7 +1,9 @@
-import { Component, OnInit,ViewChild,Input } from '@angular/core';
+import { Component, OnInit,ViewChild,Input,Output,EventEmitter } from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
+import {TrabajoOportunidadComponent} from '../trabajo-oportunidad.component';
+
 
 @Component({
   selector: 'app-table-trabajo-oportunidad',
@@ -14,6 +16,7 @@ export class TableTrabajoOportunidadComponent implements OnInit {
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
+  @Output() valueChange = new EventEmitter();
   @Input() set data(data: []) {
     this.init(data);
   }
@@ -21,7 +24,7 @@ export class TableTrabajoOportunidadComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-
+      console.log(this.valueChange);
   }
 
   init(data) {
@@ -42,6 +45,13 @@ export class TableTrabajoOportunidadComponent implements OnInit {
 
   imprimir(data){
     console.log(data)
+  }
+
+  seleccionar(row)
+  {
+    
+    this.valueChange.emit(row);
+
   }
   
 

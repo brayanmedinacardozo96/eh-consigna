@@ -24,8 +24,8 @@
 
         <mat-form-field class="input" style="width: 95%;">
 
-          <mat-label>{{form.elemnto.label}}</mat-label>
-          <mat-select [(ngModel)]="form.elemnto.value">
+          <mat-label>{{form.elemento.label}}</mat-label>
+          <mat-select [(ngModel)]="form.elemento.value">
             <mat-option *ngFor="let value of dataControls?.elemento;" [value]="value.codigo">
               {{value.nombre}}
             </mat-option>
@@ -83,8 +83,12 @@
       <span style="color: #FFF">Guardar</span>
     </button>
 
+    <button  mat-raised-button (click)="limpiar()" style="background-color:lightslategrey;margin-left: 20px; margin-top: 10px;">
+      <span style="color: #FFF">Limpiar</span>
+    </button>
+
     <div style="padding: 10px;">
-      <app-table-trabajo-oportunidad [data]="dataTrabajo"></app-table-trabajo-oportunidad>
+      <app-table-trabajo-oportunidad  (valueChange)="setDataTable(dataTrabajo, $event)" [data]="dataTrabajo"></app-table-trabajo-oportunidad>
     </div>
 
   </mat-card-content>

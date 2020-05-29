@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ViewChild } from '@angular/core';
 import {MDialogComponent} from '../../ui/forms/m-dialog/m-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
 import {Mensaje} from '../../ui/forms/m-dialog/dialog';
+import {TableTrabajoOportunidadComponent} from './table-trabajo-oportunidad/table-trabajo-oportunidad.component';
 
 @Component({
   selector: 'app-trabajo-oportunidad',
@@ -10,6 +11,8 @@ import {Mensaje} from '../../ui/forms/m-dialog/dialog';
 })
 export class TrabajoOportunidadComponent implements OnInit {
 
+  @ViewChild(TableTrabajoOportunidadComponent) child;
+  
   constructor(public dialog: MatDialog) { }
 
   panelOpenState = false;
@@ -53,7 +56,7 @@ export class TrabajoOportunidadComponent implements OnInit {
       messages: null,
       required: false,
     },
-    elemnto: {
+    elemento: {
       label: 'Elemento',
       name: 'elemento',
       value: null,
@@ -64,14 +67,15 @@ export class TrabajoOportunidadComponent implements OnInit {
 
   dataControls = {
     elemento:[
-      {nombre:'xxxxxx',codigo:'x'},
-      {nombre:'xxxxx',codigo:'x'},
+      {nombre:'xxxxxx',codigo:'1'},
+      {nombre:'yyyy',codigo:'2'},
     ],
       options:  ['123', '456', '789']
   }
 
   dataTrabajo=[
-    {elemento:"elemento", trabajo:'XXXX', medidaSeguridad:'XXX', jefeTrabajo:'XXX', telefono:'XXX'}
+    {elemento:"elemento",codigo:"1", trabajo:'XXXX', medidaSeguridad:'XXX', jefeTrabajo:'XXX', telefono:'XXX'},
+    {elemento:"elemento 2",codigo:"2", trabajo:'yyy', medidaSeguridad:'yy', jefeTrabajo:'yy', telefono:'yy'}
   ]
 
   
@@ -79,6 +83,9 @@ export class TrabajoOportunidadComponent implements OnInit {
   
 
   ngOnInit(): void {
+    
+    //console.log(this.child.message);
+
   }
 
   setData(name, event) {
@@ -86,11 +93,30 @@ export class TrabajoOportunidadComponent implements OnInit {
     this.form[name].value = event;
   }
 
+  setDataTable(data,event) {
+
+    this.form.trabajo.value=event.trabajo;
+    this.form.medidaSeguridad.value=event.medidaSeguridad;
+    this.form.telefono.value=event.telefono;
+    this.form.jefeTrabajo.value=event.jefeTrabajo;
+    this.form.elemento.value=event.codigo;
+
+  }
+
   dialogConsigna()
   {
     this.dialog.open(MDialogComponent, {
       data: new Mensaje('Consigna #'+this.form.numeroConsigna.value,"<strong>hola</strong>")
     });
+  }
+
+  limpiar()
+  {
+    this.form.trabajo.value="";
+    this.form.medidaSeguridad.value="";
+    this.form.telefono.value="";
+    this.form.jefeTrabajo.value="";
+    this.form.elemento.value="";
   }
 
 }
