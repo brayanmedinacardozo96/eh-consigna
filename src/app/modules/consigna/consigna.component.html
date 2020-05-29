@@ -66,12 +66,14 @@
             </mat-grid-tile>  
             
             <mat-grid-tile>
-                <mat-form-field>
-                    <mat-label>{{ form.fechaSolicitud.label }}</mat-label>
-                    <input [(ngModel)]="form.fechaSolicitud.value" matInput [matDatepicker]="dp3" disabled>
-                    <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
-                    <mat-datepicker #dp3 disabled="false"></mat-datepicker>
-                </mat-form-field>
+                <app-datepicker 
+                    [label]="form.fechaSolicitud.label" 
+                    [value]="form.fechaSolicitud.value"
+                    [name]="form.fechaSolicitud.name" 
+                    [messages]="form.fechaSolicitud.messages"
+                    [id]="'mat-prueba'"
+                    (valueChange)="setData(form.fechaSolicitud.name, $event)"
+                ></app-datepicker>       
             </mat-grid-tile>
             
             <mat-grid-tile class="col col-lg-4 col-sm-12">
@@ -143,7 +145,13 @@
   
     </mat-card-content>
   </mat-card>
-  
+
+  <div style="padding: 10px;">
+    <app-consigna-list [data]="data"></app-consigna-list>
+  </div>
+
+
+  <!-- botón para abrir form nueva consigna -->
   <button mat-fab style="position: fixed; right: 3%; top: 12%; background-color: #92D400;" [routerLink]="['/consigna/nueva-consigna']" matTooltip="Nueva Consigna" matTooltipClass="custom-tooltip">
     <mat-icon style="color: #FFFFFF; transform: scale(2);">add</mat-icon>
   </button> 

@@ -1,0 +1,89 @@
+<div style="width: 100%">
+    <mat-form-field style="width: 35%;">
+      <mat-label>Buscar en el listado</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Ej: 123456789">
+    </mat-form-field>
+  
+    <div style="text-align: center !important; width: 100%; overflow-x: auto; ">
+      <table mat-table [dataSource]="dataSource" matSort class="custom-table">
+  
+        <!-- # Consignación -->
+        <ng-container matColumnDef="numeroConsigna">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header># Consignación</th>
+          <td mat-cell *matCellDef="let row"> {{row?.numeroConsigna}} </td>
+        </ng-container>
+  
+        <!-- Zona -->
+        <ng-container matColumnDef="tipoZona">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Zona</th>
+          <td mat-cell *matCellDef="let row">{{row?.tipoZona}}</td>
+        </ng-container>
+  
+        <!--Estado Consignación -->
+        <ng-container matColumnDef="estadoConsigna">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado Consignación</th>
+          <td mat-cell *matCellDef="let row">{{row?.estadoConsigna}}</td>
+        </ng-container>
+  
+        <!-- Elemento Consignado -->
+        <ng-container matColumnDef="elementosConsignados">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Elemento Consignado</th>
+          <td mat-cell *matCellDef="let row">
+            <mat-icon *ngIf="row?.elementosConsignados" 
+            (click)="showElementoConsignado(row?.elementosConsignados)" style="cursor: pointer;"
+            matTooltip="Ver Elementos Consignados" matTooltipClass="custom-tooltip"
+            color="primary">list
+            </mat-icon>
+          </td>
+        </ng-container>
+  
+        <!-- Trabajos Oportunidad -->
+        <ng-container matColumnDef="trabajosOportunidad">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Trabajos Oportunidad</th>
+          <td mat-cell *matCellDef="let row">
+            <mat-icon *ngIf="row?.trabajosOportunidad" 
+            (click)="showTrabajoOportunidad(row?.trabajosOportunidad)" style="cursor: pointer;"
+            matTooltip="Ver Trabajos de Oportunidad" matTooltipClass="custom-tooltip"
+            color="accent">dvr
+            </mat-icon>
+          </td>
+        </ng-container>
+  
+        <!-- Maniobras -->
+        <ng-container matColumnDef="maniobras">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Maniobras</th>
+          <td mat-cell *matCellDef="let row">
+            <mat-icon *ngIf="row?.maniobras" 
+            (click)="showManiobra(row?.maniobras)" style="cursor: pointer;"
+            matTooltip="Ver Registros de maniobras" matTooltipClass="custom-tooltip"
+            color="primary">content_paste
+            </mat-icon>
+          </td>
+        </ng-container>
+  
+        <!-- Acciones -->
+        <ng-container matColumnDef="acciones">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Acciones</th>
+          <td mat-cell *matCellDef="let row">
+            <ul style="text-align: left;">
+                <mat-icon (click)="showElementoConsignado(row?.elementosConsignados)" style="cursor: pointer;"
+                matTooltip="Editar" matTooltipClass="custom-tooltip"
+                color="accent">edit
+                </mat-icon>
+                <mat-icon (click)="imprimir(row?.elementosConsignados)" style="cursor: pointer;"
+                matTooltip="Imprimir" matTooltipClass="custom-tooltip"
+                color="basic">print
+                </mat-icon>
+            </ul>
+          </td>
+        </ng-container>
+  
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+        </tr>
+      </table>
+  
+      <mat-paginator [pageSizeOptions]="[10, 50, 100]"></mat-paginator>
+    </div>
+  
+  </div>
