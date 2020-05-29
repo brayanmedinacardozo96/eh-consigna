@@ -1,18 +1,18 @@
-import { Component, OnInit,ViewChild,Input,Output,EventEmitter } from '@angular/core';
+import { Component, OnInit,ViewChild,Output,EventEmitter,Input } from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 
-
-
 @Component({
-  selector: 'app-table-trabajo-oportunidad',
-  templateUrl: './table-trabajo-oportunidad.component.html',
-  styleUrls: ['./table-trabajo-oportunidad.component.scss']
+  selector: 'app-table-elemento-calidad',
+  templateUrl: './table-elemento-calidad.component.html',
+  styleUrls: ['./table-elemento-calidad.component.scss']
 })
-export class TableTrabajoOportunidadComponent implements OnInit {
+export class TableElementoCalidadComponent implements OnInit {
 
-  displayedColumns: string[] = ['elemento', 'trabajo', 'medidaSeguridad', 'jefeTrabajo', 'telefono','acciones'];
+  constructor() { }
+  
+  displayedColumns: string[] = ['elemento', 'sDesconexion', 'desMax', 'feMax', 'deHora','feHora'];
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
@@ -20,11 +20,7 @@ export class TableTrabajoOportunidadComponent implements OnInit {
   @Input() set data(data: []) {
     this.init(data);
   }
-
-  constructor() { }
-
   ngOnInit(): void {
-      console.log(this.valueChange);
   }
 
   init(data) {
@@ -42,17 +38,5 @@ export class TableTrabajoOportunidadComponent implements OnInit {
       this.dataSource.paginator.firstPage();
     }
   }
-
-  imprimir(data){
-    console.log(data)
-  }
-
-  seleccionar(row)
-  {
-    
-    this.valueChange.emit(row);
-
-  }
-  
 
 }
