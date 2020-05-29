@@ -10,6 +10,7 @@ import {ConsignaComponent} from './modules/consigna/consigna.component';
 import {ConsignaNewComponent} from './modules/consigna/consigna-new/consigna-new.component';
 import {TrabajoOportunidadComponent} from './modules/trabajo-oportunidad/trabajo-oportunidad.component';
 import {ManiobraComponent} from './modules/maniobra/maniobra.component';
+import {AutorizarComponent}  from './modules/autorizar/autorizar.component'
 
 const routes: Routes = [
   {path: '', component: LoginComponent}
@@ -23,6 +24,7 @@ const routes: Routes = [
   , {path: 'consigna/nueva-consigna', component: ConsignaNewComponent, canActivate: [AuthGuard]}
   , {path: 'trabajo-oportunidad', component: TrabajoOportunidadComponent, canActivate: [AuthGuard]}
   , {path: 'maniobra', component: ManiobraComponent, canActivate: [AuthGuard]}
+  , {path: 'autorizar', component: AutorizarComponent, canActivate: [AuthGuard]}
 
   , {path: '404', component: NotFoundComponent}
   , {path: '**', redirectTo: '/404'}
