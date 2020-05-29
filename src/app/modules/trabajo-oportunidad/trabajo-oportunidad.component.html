@@ -10,8 +10,10 @@
           [messages]="form.numeroConsigna.messages" (valueChange)="setData(form.numeroConsigna.name, $event)"
           [urlApi]="form.numeroConsigna.url">
         </app-input-autocomplete>
+      
         <div style="padding-bottom:20px">
-          <button mat-mini-fab color="accent" (click)="dialogConsigna()" matTooltip="Consultar" matTooltipClass="custom-tooltip">
+          <button mat-mini-fab color="accent" (click)="dialogConsigna()" matTooltip="Consultar"
+            matTooltipClass="custom-tooltip">
             <mat-icon style="color: #FFFFFF">search</mat-icon>
           </button>
         </div>

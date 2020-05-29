@@ -5,10 +5,9 @@
             <input hidden (change)="onFileSelected($event)" #fileInput type="file" id="file">
             <mat-hint style="color: red" *ngIf="messages">{{messages}}</mat-hint>
         </mat-form-field>
-        
-        <button matTooltip="Agregar Documento" matTooltipClass="custom-tooltip"
-            type="button" color="primary" style="margin-top: -19px; padding: 7px; border-radius: 10%;" mat-raised-button (click)="fileInput.click()">
+          <button  matTooltip="Agregar Documento" matTooltipClass="custom-tooltip" type="button" color="primary"
+            style="margin-top: -19px; padding: 7px; border-radius: 10%;" mat-raised-button (click)="fileInput.click()">
             <mat-icon style="color: #FFF">insert_drive_file</mat-icon>
-        </button>    
-    </mat-grid-tile>
-</mat-grid-list>    
+          </button>    
+ </mat-grid-tile>
+</mat-grid-list>  
