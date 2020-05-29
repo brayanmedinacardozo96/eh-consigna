@@ -9,17 +9,11 @@ export class FileValidationService {
   /**
      * Función que se encarga validar el tamaño y extension del archivo
      */
-    validateDocumentPdf(event, maxSize = 1, typeExtension = null) {
-      let state = true;
+    validateDocument(event, maxSize = 1, typeExtension = null) {
+      let response = {success: true, message: null, data: null};
       let file = event.target.files[0];
       let extDoc = file.name;
       extDoc = extDoc.slice((extDoc.lastIndexOf('.') - 1 >>> 0) + 2).toLowerCase();
-      let message = null;
-
-      /* console.log(file);
-      console.log(extDoc);
-      console.log(typeof(typeExtension));
-      console.log(typeExtension); */
 
       //extensión
       if(typeExtension != null ){
@@ -39,18 +33,51 @@ export class FileValidationService {
             stateExtension = true;  
           }
         }
-        message = !stateExtension ? 'El archivo debe ser de tipo ' + nameExtension: null;
+        response.message = !stateExtension ? 'El archivo debe ser de tipo ' + nameExtension: null;
       }
       //tamaño maximo (MB)
       if (file.size >= maxSize * 1024 * 1024) {
-          message = 'El archivo a adjuntar supera ' + maxSize + ' MB de tamaño permitido';
+        response.message = 'El archivo a adjuntar supera ' + maxSize + ' MB de tamaño permitido';
       }
 
-      if (message != null) {
-        this.snackBarService.alert(message,'',5000);
-          return state = false;
+      if (response.message != null) {
+        this.snackBarService.alert(response.message,5000);
+        response.success = false;
       }
 
-      return state;
+      return response;
+  }
+
+  fileUp(eventFile, snackbar = false){
+    let response = {
+      files: new FormData(),
+      success: false,
+      message: null
+    }
+    let nameFile = [];
+    if(eventFile != undefined ){
+      let files = eventFile.target.files;
+      let size = files.length;
+      let fileUpload = null;
+
+      for(let i = 0; i<size; i++){
+        let file = files[i];
+        let document = file.name.replace(/ /g,"-").toLowerCase().split('.');
+        let nameDocument = document[0];
+
+        response.files.append("file-"+nameDocument,file,file.name);
+        nameFile.push(nameDocument);
+      }
+      response.files.append("nameFiles",JSON.stringify(nameFile));
+      response.success = true;
+    }else{
+      response.message = 'Debe adjuntar un documento';
+      if(snackbar){
+        this.snackBarService.alert(response.message,5000);
+      }
+      response.success = false;
+    }
+
+    return response;
   }
 }

@@ -30,4 +30,10 @@ export class Auth {
     localStorage.clear();
   }
 
+  public static getUserDataPerson(){
+    const token = this.getLogin();
+    const person = token.user_data.person;
+    return person;
+  }
+
 }
