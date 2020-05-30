@@ -20,10 +20,12 @@ import {ConsignaModule} from './modules/consigna/consigna.module';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {TrabajoOportunidadModule} from './modules/trabajo-oportunidad/trabajo-oportunidad.module';
 import { ManiobraModule } from './modules/maniobra/maniobra.module';
+import { AutorizarComponent } from './modules/autorizar/autorizar.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    AutorizarComponent
   ],
   imports: [
     BrowserModule,
