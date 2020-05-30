@@ -426,7 +426,7 @@ export class ConsignaNewComponent implements OnInit {
       let message = response.message;
 
     }else{
-      this.snackBar.alert('Faltan campos adiligenciar',5000)
+      this.snackBar.alert('Faltan campos a diligenciar',5000)
     }
 
   }
