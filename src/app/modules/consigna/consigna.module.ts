@@ -18,17 +18,19 @@ import {MatGridListModule} from '@angular/material/grid-list';
 import {MatSelectModule} from '@angular/material/select';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatTooltipModule} from '@angular/material/tooltip';
-import { ConsignaNewComponent } from './consigna-new/consigna-new.component';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
-import { ConsignaListComponent } from './consigna-list/consigna-list.component';
 import {MatDialogModule} from '@angular/material/dialog';
+import {MatTabsModule} from '@angular/material/tabs';
+import { ConsignaListComponent } from './consigna-list/consigna-list.component';
+import { ConsignaNewComponent } from './consigna-new/consigna-new.component';
 import { ConsignaElementoListComponent } from './consigna-elemento-list/consigna-elemento-list.component';
 import { ConsignaTrabajoListComponent } from './consigna-trabajo-list/consigna-trabajo-list.component';
 import { ConsignaManiobraListComponent } from './consigna-maniobra-list/consigna-maniobra-list.component';
+import { ConsignaTabsComponent } from './consigna-tabs/consigna-tabs.component';
 
 @NgModule({
-  declarations: [ConsignaComponent, ConsignaNewComponent, ConsignaListComponent, ConsignaElementoListComponent, ConsignaTrabajoListComponent, ConsignaManiobraListComponent],
+  declarations: [ConsignaComponent, ConsignaNewComponent, ConsignaListComponent, ConsignaElementoListComponent, ConsignaTrabajoListComponent, ConsignaManiobraListComponent, ConsignaTabsComponent],
   imports: [
     CommonModule,
     MatCardModule,
@@ -50,7 +52,8 @@ import { ConsignaManiobraListComponent } from './consigna-maniobra-list/consigna
     MatTooltipModule,
     MatSnackBarModule,
     MatProgressBarModule,
-    MatDialogModule
+    MatDialogModule,
+    MatTabsModule
   ]
 })
 export class ConsignaModule { }

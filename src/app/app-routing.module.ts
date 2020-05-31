@@ -7,10 +7,10 @@ import {NotFoundComponent} from './ui/not-found/not-found.component';
 import {GenerateInvoicesComponent} from './modules/generate-invoices/generate-invoices.component';
 import {HistoryInvoicesComponent} from './modules/history-invoices/history-invoices.component';
 import {ConsignaComponent} from './modules/consigna/consigna.component';
-import {ConsignaNewComponent} from './modules/consigna/consigna-new/consigna-new.component';
 import {TrabajoOportunidadComponent} from './modules/trabajo-oportunidad/trabajo-oportunidad.component';
 import {ManiobraComponent} from './modules/maniobra/maniobra.component';
 import {AutorizarComponent}  from './modules/autorizar/autorizar.component'
+import { ConsignaTabsComponent } from './modules/consigna/consigna-tabs/consigna-tabs.component';
 
 const routes: Routes = [
   {path: '', component: LoginComponent}
@@ -21,7 +21,7 @@ const routes: Routes = [
   , {path: 'history-invoices', component: HistoryInvoicesComponent, canActivate: [AuthGuard]}
   , {path: 'history-invoices/:package', component: HistoryInvoicesComponent, canActivate: [AuthGuard]}
   , {path: 'consigna', component: ConsignaComponent, canActivate: [AuthGuard]}
-  , {path: 'consigna/nueva-consigna', component: ConsignaNewComponent, canActivate: [AuthGuard]}
+  , {path: 'consigna/nueva-consigna', component: ConsignaTabsComponent, canActivate: [AuthGuard]}
   , {path: 'trabajo-oportunidad', component: TrabajoOportunidadComponent, canActivate: [AuthGuard]}
   , {path: 'maniobra', component: ManiobraComponent, canActivate: [AuthGuard]}
   , {path: 'autorizar', component: AutorizarComponent, canActivate: [AuthGuard]}

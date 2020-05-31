@@ -1,7 +1,9 @@
 <mat-toolbar color="primary">
   <mat-toolbar-row>
     <div class="title">
-      <div>{{appName}}</div>
+      <div>
+        <a [routerLink]="['/dashboard']" style="cursor: pointer; text-decoration: none; color: #FFFFFF;">{{appName}}</a>
+      </div>
 
       <div *ngIf="auth.getLogin()" class="container-right">
         <span class="name-user">{{auth.getNameUser()}}</span>
