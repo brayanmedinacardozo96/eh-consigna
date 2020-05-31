@@ -1,0 +1,33 @@
+<mat-card class="container">
+    <mat-card-content>
+      <h1>Mis Consignas</h1>
+      <mat-grid-list class="row" cols="3" rowHeight="80px">
+        <mat-grid-tile class="item" (click)="buscarConsigna()" matTooltip="Ver Consignas Pendientes" matTooltipClass="custom-tooltip">
+            <mat-icon style="transform: scale(2); color: #e1a900f0;">preview</mat-icon>
+            <div style="margin-left: 10px;">Pendientes
+                <br>
+                20
+            </div><br>
+        </mat-grid-tile>
+        <mat-grid-tile class="item" (click)="buscarConsigna()" matTooltip="Ver Consignas Aprobadas" matTooltipClass="custom-tooltip">
+            <mat-icon style="transform: scale(2); color: #6868ae">check_circle_outline</mat-icon>
+            <div style="margin-left: 10px;">Aprobadas - Ejecutadas
+                <br>
+                20
+            </div><br>
+        </mat-grid-tile>
+        <mat-grid-tile class="item" (click)="buscarConsigna()" matTooltip="Ver Consignas Canceladas" matTooltipClass="custom-tooltip">
+            <mat-icon style="transform: scale(2); color: #c64e4e;">cancel</mat-icon>
+            <div style="margin-left: 10px;">Canceladas
+                <br>
+                20
+            </div><br>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </mat-card-content>
+</mat-card>
+
+<div style="padding: 10px;"  *ngIf="viewList">
+    <app-consigna-list [data]="data"></app-consigna-list>
+</div>
+              

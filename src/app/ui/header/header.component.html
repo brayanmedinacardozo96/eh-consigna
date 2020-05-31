@@ -1,6 +1,13 @@
 <mat-toolbar color="primary">
   <mat-toolbar-row>
     <div class="title">
+      <div class="container-left" *ngIf="auth.getLogin()">
+        <span class="material-icons btn-logout"
+          matTooltip="Inicio"
+          matTooltipClass="custom-tooltip"
+          [routerLink]="['/dashboard']"
+          >home</span>
+      </div>
       <div>
         <a [routerLink]="['/dashboard']" style="cursor: pointer; text-decoration: none; color: #FFFFFF;">{{appName}}</a>
       </div>

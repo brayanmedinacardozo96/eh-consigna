@@ -22,15 +22,17 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatTabsModule} from '@angular/material/tabs';
+import {MatListModule} from '@angular/material/list';
 import { ConsignaListComponent } from './consigna-list/consigna-list.component';
 import { ConsignaNewComponent } from './consigna-new/consigna-new.component';
 import { ConsignaElementoListComponent } from './consigna-elemento-list/consigna-elemento-list.component';
 import { ConsignaTrabajoListComponent } from './consigna-trabajo-list/consigna-trabajo-list.component';
 import { ConsignaManiobraListComponent } from './consigna-maniobra-list/consigna-maniobra-list.component';
 import { ConsignaTabsComponent } from './consigna-tabs/consigna-tabs.component';
+import { ConsignaUserComponent } from './consigna-user/consigna-user.component';
 
 @NgModule({
-  declarations: [ConsignaComponent, ConsignaNewComponent, ConsignaListComponent, ConsignaElementoListComponent, ConsignaTrabajoListComponent, ConsignaManiobraListComponent, ConsignaTabsComponent],
+  declarations: [ConsignaComponent, ConsignaNewComponent, ConsignaListComponent, ConsignaElementoListComponent, ConsignaTrabajoListComponent, ConsignaManiobraListComponent, ConsignaTabsComponent, ConsignaUserComponent],
   imports: [
     CommonModule,
     MatCardModule,
@@ -53,7 +55,8 @@ import { ConsignaTabsComponent } from './consigna-tabs/consigna-tabs.component';
     MatSnackBarModule,
     MatProgressBarModule,
     MatDialogModule,
-    MatTabsModule
+    MatTabsModule,
+    MatListModule
   ]
 })
 export class ConsignaModule { }

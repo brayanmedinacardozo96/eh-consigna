@@ -11,6 +11,7 @@ import {TrabajoOportunidadComponent} from './modules/trabajo-oportunidad/trabajo
 import {ManiobraComponent} from './modules/maniobra/maniobra.component';
 import {AutorizarComponent}  from './modules/autorizar/autorizar.component'
 import { ConsignaTabsComponent } from './modules/consigna/consigna-tabs/consigna-tabs.component';
+import { ConsignaUserComponent } from './modules/consigna/consigna-user/consigna-user.component';
 
 const routes: Routes = [
   {path: '', component: LoginComponent}
@@ -21,6 +22,7 @@ const routes: Routes = [
   , {path: 'history-invoices', component: HistoryInvoicesComponent, canActivate: [AuthGuard]}
   , {path: 'history-invoices/:package', component: HistoryInvoicesComponent, canActivate: [AuthGuard]}
   , {path: 'consigna', component: ConsignaComponent, canActivate: [AuthGuard]}
+  , {path: 'mis-consignas', component: ConsignaUserComponent, canActivate: [AuthGuard]}
   , {path: 'consigna/nueva-consigna', component: ConsignaTabsComponent, canActivate: [AuthGuard]}
   , {path: 'trabajo-oportunidad', component: TrabajoOportunidadComponent, canActivate: [AuthGuard]}
   , {path: 'maniobra', component: ManiobraComponent, canActivate: [AuthGuard]}

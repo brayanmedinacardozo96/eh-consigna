@@ -1,0 +1,17 @@
+.container {
+    width: 90%;
+    text-align: center;
+    margin: 1% auto;
+  }
+
+  .mat-list-icon {
+    color: rgba(0, 0, 0, 0.54);
+  }
+
+
+.item :hover{
+      background-color: #f0efef;
+}
+.item{
+      cursor: pointer;
+}
