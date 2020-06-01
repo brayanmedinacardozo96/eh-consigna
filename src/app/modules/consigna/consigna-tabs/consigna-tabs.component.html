@@ -1,0 +1,14 @@
+<mat-tab-group mat-align-tabs="center" animationDuration="0ms">
+    <mat-tab label="Nueva Consigna">
+        <app-consigna-new></app-consigna-new>
+    </mat-tab>
+    <mat-tab label="Trabajos de Oportunidad">
+          <app-trabajo-oportunidad></app-trabajo-oportunidad>
+    </mat-tab>
+    <mat-tab label="Registro de Maniobras">Registro de Maniobras</mat-tab>
+</mat-tab-group>
+
+<!-- botón para abrir form nueva consigna -->
+<button mat-fab color="primary" style="position: fixed; right: 3%; top: 12%; z-index: 1;" matTooltip="Guardar Consigna" matTooltipClass="custom-tooltip">
+    <mat-icon style="color: #FFFFFF;">save</mat-icon>
+</button> 

@@ -67,7 +67,7 @@ export class LoginComponent implements OnInit {
       return false;
     }
     Auth.login(response.token);
-    this.router.navigate(['/dashboard']);
+    this.router.navigate(['/mis-consignas']);
 
   }
 
