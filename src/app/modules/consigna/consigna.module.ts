@@ -32,8 +32,9 @@ import { ConsignaTabsComponent } from './consigna-tabs/consigna-tabs.component';
 import { ConsignaUserComponent } from './consigna-user/consigna-user.component';
 import {TrabajoOportunidadComponent} from '../trabajo-oportunidad/trabajo-oportunidad.component';
 import {TableTrabajoOportunidadComponent} from '../trabajo-oportunidad/table-trabajo-oportunidad/table-trabajo-oportunidad.component';
+import {ManiobraComponent} from '../maniobra/maniobra.component'
 @NgModule({
-  declarations: [ConsignaComponent, ConsignaNewComponent, ConsignaListComponent, ConsignaElementoListComponent, ConsignaTrabajoListComponent, ConsignaManiobraListComponent, ConsignaTabsComponent, ConsignaUserComponent,TrabajoOportunidadComponent,TableTrabajoOportunidadComponent],
+  declarations: [ConsignaComponent, ConsignaNewComponent, ConsignaListComponent, ConsignaElementoListComponent, ConsignaTrabajoListComponent, ConsignaManiobraListComponent, ConsignaTabsComponent, ConsignaUserComponent,TrabajoOportunidadComponent,TableTrabajoOportunidadComponent,ManiobraComponent],
   imports: [
     CommonModule,
     MatCardModule,

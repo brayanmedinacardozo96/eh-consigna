@@ -16,7 +16,7 @@ import {MatIconModule} from '@angular/material/icon';
 
 
 @NgModule({
-  declarations: [ManiobraComponent],
+  declarations: [],
   imports: [
     CommonModule,
     MatCardModule,
