@@ -1,0 +1,52 @@
+<mat-card class="container">
+  <mat-card-content>
+    <h2>Parametros</h2>
+    <mat-grid-list class="row" cols="2" rowHeight="103px">
+
+      <mat-grid-tile [colspan]="2">
+
+        <app-input-text style="width: 98%;" [label]="form.nombre.label" [value]="form.nombre.value"
+          [name]="form.nombre.name" [messages]="form.nombre.messages"
+          (valueChange)="setData(form.nombre.name, $event)">
+        </app-input-text>
+
+      </mat-grid-tile>
+
+
+      <mat-grid-tile [colspan]="2">
+
+        <app-input-text-area style="width: 98%;" class="input" [label]="form.descripcion.label"
+          [value]="form.descripcion.value" [name]="form.descripcion.name" [messages]="form.descripcion.messages"
+          (valueChange)="setData(form.descripcion.name, $event)">
+        </app-input-text-area>
+
+
+      </mat-grid-tile>
+
+      <mat-grid-tile [colspan]="2">
+
+        <mat-form-field class="input" style="width: 95%;">
+
+          <mat-label>{{form.tipo.label}}</mat-label>
+          <mat-select [(ngModel)]="form.tipo.value">
+            <mat-option *ngFor="let value of dataControls?.tipo;" [value]="value.codigo">
+              {{value.nombre}}
+            </mat-option>
+          </mat-select>
+
+        </mat-form-field>
+
+
+      </mat-grid-tile>
+
+
+    </mat-grid-list>
+
+
+    <button  mat-raised-button color="primary" style="margin-left: 20px; margin-top: 10px;">
+      <span style="color: #FFF">Guardar</span>
+    </button>
+
+  </mat-card-content>
+</mat-card>
+
