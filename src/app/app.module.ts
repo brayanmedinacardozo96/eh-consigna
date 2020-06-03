@@ -21,6 +21,7 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {TrabajoOportunidadModule} from './modules/trabajo-oportunidad/trabajo-oportunidad.module';
 import {ManiobraModule} from './modules/maniobra/maniobra.module';
 import {AutorizarModule} from './modules/autorizar/autorizar.module';
+import {ParametrosModule} from './modules/parametros/parametros.module';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import {AutorizarModule} from './modules/autorizar/autorizar.module';
     TrabajoOportunidadModule,
     ManiobraModule,
     AutorizarModule,
+    ParametrosModule,
   ],
   providers: [
     {provide: LocationStrategy, useClass: HashLocationStrategy},
