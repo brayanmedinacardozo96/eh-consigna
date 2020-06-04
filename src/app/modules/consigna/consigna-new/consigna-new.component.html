@@ -105,7 +105,7 @@
                 <mat-form-field>
                     <mat-label>{{form.subestacion.required ? form.subestacion.label+' *' : form.subestacion.label}}</mat-label>
                     <mat-select [(ngModel)]="form.subestacion.value" style="padding-top: 5px;padding-bottom: 5px;">
-                        <mat-option *ngFor="let value of dataControls?.subestacion;" [value]="value.codigo">
+                        <mat-option *ngFor="let value of dataControls?.subestacion;" [value]="value.id">
                             {{ value.nombre }}
                         </mat-option>
                     </mat-select>
@@ -148,7 +148,7 @@
                     <mat-form-field>
                         <mat-label>{{formElementos.tipoElemento.required ? formElementos.tipoElemento.label+' *' :formElementos.tipoElemento.label}}</mat-label>
                         <mat-select id="form_consigna-tipo_elemento" [(ngModel)]="formElementos.tipoElemento.value" style="padding-top: 5px;padding-bottom: 5px;">
-                            <mat-option *ngFor="let value of dataControls?.tipoElemento;" [value]="value.codigo">
+                            <mat-option *ngFor="let value of dataControls?.tipoElemento;" [value]="value.id">
                                 {{ value.nombre }}
                             </mat-option>
                         </mat-select>
@@ -160,7 +160,7 @@
                     <mat-form-field>
                         <mat-label>{{formElementos.elemento.required? formElementos.elemento.label+' *':formElementos.elemento.label}}</mat-label>
                         <mat-select id="form_consigna-elemento" [(ngModel)]="formElementos.elemento.value" style="padding-top: 5px;padding-bottom: 5px;">
-                            <mat-option *ngFor="let value of dataControls?.elemento;" [value]="value.codigo">
+                            <mat-option *ngFor="let value of dataControls?.elemento;" [value]="value.id">
                                 {{ value.nombre }}
                             </mat-option>
                         </mat-select>

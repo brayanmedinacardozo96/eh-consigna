@@ -25,31 +25,10 @@ export class ConsignaNewComponent implements OnInit {
     estadoConsigna:[],
     estadoEquipo:[],
     subestacion:[
-      {nombre:'El Bote',codigo:'12345'},
-      {nombre:'Solarte',codigo:'14'},
-      {nombre:'Las Brisas',codigo:'15'},
-      {nombre:'Timaná',codigo:'1'}
     ],
     tipoMantenimiento:[],
-    tipoElemento:[
-      {nombre:'tp E 1',codigo:'12345'},
-      {nombre:'tp E 2',codigo:'14'},
-      {nombre:'tp E 3',codigo:'15'},
-      {nombre:'tp E 4',codigo:'1'},
-      {nombre:'tp E 5',codigo:'1'},
-      {nombre:'tp E 6',codigo:'1'},
-      {nombre:'tp E 7',codigo:'1'},
-      {nombre:'tp E 8',codigo:'1'},
-      {nombre:'tp E 9',codigo:'1'}
-    ],
-    elemento:[
-      {nombre:'E 1',codigo:'12345'},
-      {nombre:'E 2',codigo:'14'},
-      {nombre:'E 3',codigo:'15'},
-      {nombre:'E 4',codigo:'1'},
-      {nombre:'E 5',codigo:'1'},
-      {nombre:'E 6',codigo:'1'}
-    ],
+    tipoElemento:[],
+    elemento:[],
     ramal:[
       {nombre:'Si',value:'1'},
       {nombre:'No',value:'0'}
@@ -468,6 +447,9 @@ export class ConsignaNewComponent implements OnInit {
       this.dataControls.estadoConsigna = data.estadoConsigna;
       this.dataControls.estadoEquipo = data.estadoEquipo;
       this.dataControls.tipoMantenimiento = data.tipoMantenimiento;
+      this.dataControls.subestacion = data.subestacion
+      this.dataControls.tipoElemento = data.tipoElemento
+      this.dataControls.elemento = data.elemento
     }
     let message = response.message;
   }
