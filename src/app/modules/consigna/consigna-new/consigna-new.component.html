@@ -7,8 +7,8 @@
             <mat-grid-tile>
                 <mat-form-field>
                     <mat-label>{{ form.tipoZona.required ? form.tipoZona.label+' *' : form.tipoZona.label}}</mat-label>
-                    <mat-select [(ngModel)]="form.tipoZona.value" style="padding-top: 5px;padding-bottom: 5px;">
-                        <mat-option *ngFor="let value of dataControls?.tipoZona;" [value]="value.codigo">
+                    <mat-select [(ngModel)]="form.tipoZona.value" (ngModelChange)="setConsecutivo(2,dataControls?.tipoZona,form.tipoZona.value)" style="padding-top: 5px;padding-bottom: 5px;">
+                        <mat-option *ngFor="let value of dataControls?.tipoZona;" [value]="value.id">
                             {{value.nombre}}
                         </mat-option>
                     </mat-select>
@@ -19,8 +19,8 @@
             <mat-grid-tile>
                 <mat-form-field>
                     <mat-label>{{form.tipoSolicitud.required ? form.tipoSolicitud.label+' *' : form.tipoSolicitud.label}}</mat-label>
-                    <mat-select [(ngModel)]="form.tipoSolicitud.value" style="padding-top: 5px;padding-bottom: 5px;">
-                        <mat-option *ngFor="let value of dataControls?.tipoSolicitud;" [value]="value.codigo">
+                    <mat-select [(ngModel)]="form.tipoSolicitud.value" (ngModelChange)="setConsecutivo(1,dataControls?.tipoSolicitud,form.tipoSolicitud.value)" style="padding-top: 5px;padding-bottom: 5px;">
+                        <mat-option *ngFor="let value of dataControls?.tipoSolicitud;" [value]="value.id">
                             {{value.nombre}}
                         </mat-option>
                     </mat-select>
@@ -42,8 +42,8 @@
             <mat-grid-tile>
                 <mat-form-field>
                     <mat-label>{{form.tipoConsignacion.required ? form.tipoConsignacion.label+' *' : form.tipoConsignacion.label}}</mat-label>
-                    <mat-select [(ngModel)]="form.tipoConsignacion.value" style="padding-top: 5px;padding-bottom: 5px;">
-                        <mat-option *ngFor="let value of dataControls?.tipoConsignacion;" [value]="value.codigo">
+                    <mat-select [(ngModel)]="form.tipoConsignacion.value" (ngModelChange)="setConsecutivo(0,dataControls?.tipoConsignacion,form.tipoConsignacion.value)" style="padding-top: 5px;padding-bottom: 5px;">
+                        <mat-option *ngFor="let value of dataControls?.tipoConsignacion;" [value]="value.id">
                             {{value.nombre}}
                         </mat-option>
                     </mat-select>
@@ -71,6 +71,7 @@
                     [name]="form.consecutivoSnc.name"
                     [messages]="form.consecutivoSnc.messages"
                     [required]="form.consecutivoSnc.required"
+                    [disable]="form.consecutivoSnc.disable"
                     (valueChange)="setData(form.consecutivoSnc.name, $event)">
                 </app-input-text>
             </mat-grid-tile> 
@@ -79,7 +80,7 @@
                 <mat-form-field>
                     <mat-label>{{form.estadoConsigna.required ? form.estadoConsigna.label+' *':form.estadoConsigna.label}}</mat-label>
                     <mat-select [(ngModel)]="form.estadoConsigna.value" style="padding-top: 5px;padding-bottom: 5px;">
-                        <mat-option *ngFor="let value of dataControls?.estadoConsigna;" [value]="value.codigo">
+                        <mat-option *ngFor="let value of dataControls?.estadoConsigna;" [value]="value.id">
                             {{value.nombre}}
                         </mat-option>
                     </mat-select>
@@ -91,7 +92,7 @@
                 <mat-form-field>
                     <mat-label>{{form.estadoEquipo.required ? form.estadoEquipo.label+' *' : form.estadoEquipo.label}}</mat-label>
                     <mat-select [(ngModel)]="form.estadoEquipo.value" style="padding-top: 5px;padding-bottom: 5px;">
-                        <mat-option *ngFor="let value of dataControls?.estadoEquipo;" [value]="value.codigo">
+                        <mat-option *ngFor="let value of dataControls?.estadoEquipo;" [value]="value.id">
                             {{value.nombre}}
                         </mat-option>
                     </mat-select>
@@ -116,7 +117,7 @@
                 <mat-form-field>
                     <mat-label>{{form.tipoMantenimiento.required ? form.tipoMantenimiento.label+' *' : form.tipoMantenimiento.label}}</mat-label>
                     <mat-select [(ngModel)]="form.tipoMantenimiento.value" style="padding-top: 5px;padding-bottom: 5px;">
-                        <mat-option *ngFor="let value of dataControls?.tipoMantenimiento;" [value]="value.valor">
+                        <mat-option *ngFor="let value of dataControls?.tipoMantenimiento;" [value]="value.id">
                             {{ value.nombre }}
                         </mat-option>
                     </mat-select>
@@ -251,11 +252,11 @@
                 </thead>
                 <tbody>
                 <tr *ngFor="let value of dataElementos; let i=index">
-                    <td>{{ value.tipoElemento.nombre }}</td>
-                    <td>{{ value.elemento.nombre }}</td>
-                    <td>{{ value.ramal.nombre }}</td>
-                    <td>{{ value.fechaInicio.nombre }} - {{ value.horaInicio.nombre }}</td>
-                    <td>{{ value.fechaFinal.nombre }} - {{ value.horaFinal.nombre }}</td>
+                    <td>{{ value.tipoElemento.name }}</td>
+                    <td>{{ value.elemento.name }}</td>
+                    <td>{{ value.ramal.name }}</td>
+                    <td>{{ value.fechaInicio.name }} - {{ value.horaInicio.name }}</td>
+                    <td>{{ value.fechaFinal.name }} - {{ value.horaFinal.name }}</td>
                     <td>
                         <button (click)="removeListElement(i)" mat-icon-button matTooltip="Eliminar" matTooltipClass="custom-tooltip">
                             <mat-icon>delete_forever</mat-icon>

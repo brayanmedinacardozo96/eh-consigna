@@ -6,6 +6,7 @@ import { FileValidationService } from './../../../shared/services/file-validatio
 import {environment} from '../../../../environments/environment';
 import { SnackBarService } from './../../../shared/services/snack-bar.service';
 import { Auth } from './../../../shared/auth';
+import { User } from './../../../shared/models/user';
 
 @Component({
   selector: 'app-consigna-new',
@@ -15,49 +16,21 @@ import { Auth } from './../../../shared/auth';
 export class ConsignaNewComponent implements OnInit {
   
   data = [];
+  argNumConsigna = ['','','',''];
   dataElementos = [];
   dataControls = {
-    tipoZona:[
-      {nombre:'Zona Norte',codigo:'ZN'},
-      {nombre:'Zona Centro',codigo:'ZC'},
-      {nombre:'Zona Occidente',codigo:'ZO'},
-      {nombre:'Zona Sur',codigo:'ZS'}
-    ],
-    tipoSolicitud:[
-      {nombre:'Plan Semanal',codigo:'ZN'},
-      {nombre:'Emergencia',codigo:'ZC'},
-    ],
-    tipoConsignacion:[
-      {nombre:'Plan Semanal',codigo:'ZN'},
-      {nombre:'Emergencia',codigo:'ZC'},
-    ],
-    estadoConsigna:[
-      {nombre:'Pendiente',codigo:'P'},
-      {nombre:'Aprobada',codigo:'A'},
-      {nombre:'Reprogramada',codigo:'R'},
-      {nombre:'Ejecutada',codigo:'E'},
-      {nombre:'Cancelada',codigo:'C'},
-    ],
-    estadoEquipo:[
-      {nombre:'Riesgo Disparo',codigo:'RD'},
-      {nombre:'Apertura',codigo:'A'},
-    ],
-    solicitante:[
-      {nombre:'Brayan Herney Medina Cardozo',identificacion:'1075412102',id:1},
-      {nombre:'Jhonatan Parra Almario',identificacion:'1080934291',id:10}
-    ],
+    tipoZona:[],
+    tipoSolicitud:[],
+    tipoConsignacion:[],
+    estadoConsigna:[],
+    estadoEquipo:[],
     subestacion:[
       {nombre:'El Bote',codigo:'12345'},
       {nombre:'Solarte',codigo:'14'},
       {nombre:'Las Brisas',codigo:'15'},
       {nombre:'Timaná',codigo:'1'}
     ],
-    tipoMantenimiento:[
-      {nombre:'Preventivo Sin Reposición Equipoe', valor:'12345'},
-      {nombre:'Correctivo',valor:'14'},
-      {nombre:'Preventivo Con Reposición Equipo ',valor:'15'},
-      {nombre:'Trabajo Expansión',valor:'1'}
-    ],
+    tipoMantenimiento:[],
     tipoElemento:[
       {nombre:'tp E 1',codigo:'12345'},
       {nombre:'tp E 2',codigo:'14'},
@@ -82,6 +55,7 @@ export class ConsignaNewComponent implements OnInit {
       {nombre:'No',value:'0'}
     ]
   };
+
   form = {
     numeroConsigna:{
       label: 'Consignación No.',
@@ -96,13 +70,14 @@ export class ConsignaNewComponent implements OnInit {
       value: null,
       messages: null,
       required: false,
+      disable: false,
     },
     tipoZona: {
       label: 'Tipo zona',
       name: 'tipoZona',
       value: null,
       messages: null,
-      required: true,
+      required: true,      
     },
     tipoSolicitud: {
       label: 'Tipo de solicitud',
@@ -327,6 +302,7 @@ export class ConsignaNewComponent implements OnInit {
   };
 
   messageListaElementos = '';
+  user: User = Auth.getUserDataPerson();
 
   constructor(private api: ApiService,
               private validations: ValidationService,
@@ -335,11 +311,11 @@ export class ConsignaNewComponent implements OnInit {
               private snackBar: SnackBarService
               ) { 
                 window.scrollTo(0,0);
-                const dataUser = Auth.getUserDataPerson();
-                this.form.solicitante.value = `${dataUser.document_number} - ${dataUser.first_name} ${dataUser.second_name} ${dataUser.first_lastname} ${dataUser.second_lastname}`;
+                this.form.solicitante.value = `${this.user.document_number} - ${this.user.first_name} ${this.user.second_name} ${this.user.first_lastname} ${this.user.second_lastname}`;
               }
 
   ngOnInit(): void {
+    this.getDataSelectConsigna();
   }
 
   async search() {
@@ -385,13 +361,13 @@ export class ConsignaNewComponent implements OnInit {
     var horaFinal = this.formElementos.horaFinal.value;
     
     const elemento = {
-      tipoElemento: {nombre: textTipoElemento,  valor: this.formElementos.tipoElemento.value},
-      elemento:     {nombre: textElemento,      valor: this.formElementos.elemento.value},
-      ramal:        {nombre: textRamal,         valor: this.formElementos.ramal.value},
-      fechaInicio:  {nombre: fechaInicio,       valor: fechaInicio },
-      horaInicio:   {nombre: horaInicio,        valor: horaInicio },
-      fechaFinal:   {nombre: fechaFinal,        valor: fechaFinal},
-      horaFinal:    {nombre: horaFinal,         valor: horaFinal},
+      tipoElemento: {name: textTipoElemento,  value: this.formElementos.tipoElemento.value},
+      elemento:     {name: textElemento,      value: this.formElementos.elemento.value},
+      ramal:        {name: textRamal,         value: this.formElementos.ramal.value},
+      fechaInicio:  {name: fechaInicio,       value: fechaInicio },
+      horaInicio:   {name: horaInicio,        value: horaInicio },
+      fechaFinal:   {name: fechaFinal,        value: fechaFinal},
+      horaFinal:    {name: horaFinal,         value: horaFinal},
     }
     this.dataElementos.push(elemento);
     this.formElementos.tipoElemento.value = null;
@@ -419,9 +395,9 @@ export class ConsignaNewComponent implements OnInit {
       formData.append('dataElementos',JSON.stringify(this.dataElementos));
       formData.append('interrupcionesTrabajo',JSON.stringify(this.interrupcionesTrabajo));
       formData.append('interrupcionesCortoTiempo',JSON.stringify(this.interrupcionesCortoTiempo));
-      formData.append('interrupcionesCortoTiempo',JSON.stringify(this.interrupcionesCortoTiempo));
+      formData.append('user',JSON.stringify(this.user));
 
-      const response = await this.api.post(`${environment.apiBackend}/test-post`, formData);
+      const response = await this.api.post(`${environment.apiBackend}/consigna/save-consigna`, formData);
       let success = response.success;
       let message = response.message;
 
@@ -449,4 +425,51 @@ export class ConsignaNewComponent implements OnInit {
     }
     return success;
   }
+
+  setConsecutivo(position,data,id){
+    let value = '';
+    // obtiene el código
+    for(let val of data){
+      if(val.id == id){
+        value = position == 2 ? val.codigo.charAt(1): val.codigo;
+      }
+    }
+
+    switch(position){
+      case 0:
+          if(value == 'A'){
+            this.form.consecutivoSnc.disable = false;
+            this.form.consecutivoSnc.required = true;
+          }else{
+            value = '';
+            this.form.consecutivoSnc.disable = true;
+            this.form.consecutivoSnc.required = false;
+            this.form.consecutivoSnc.messages = '';
+            this.form.consecutivoSnc.value = '';
+          }
+          value = value=='A' ? value : '';
+        break;
+    }
+    this.argNumConsigna[position] = value;
+
+    this.form.numeroConsigna.value = this.argNumConsigna.join('');
+  }
+
+  //Llena los selects del formulario
+  async getDataSelectConsigna(){
+    const response = await this.api.post(`${environment.apiBackend}/consigna/get-data-select`, null);
+    let success = response.success;
+    let data = response.data;
+
+    if(success){
+      this.dataControls.tipoZona = data.tipoZona;
+      this.dataControls.tipoSolicitud = data.tipoSolicitud;
+      this.dataControls.tipoConsignacion = data.tipoConsignacion;
+      this.dataControls.estadoConsigna = data.estadoConsigna;
+      this.dataControls.estadoEquipo = data.estadoEquipo;
+      this.dataControls.tipoMantenimiento = data.tipoMantenimiento;
+    }
+    let message = response.message;
+  }
+
 }

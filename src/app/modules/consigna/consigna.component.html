@@ -33,7 +33,7 @@
                 <mat-form-field>
                     <mat-label>{{form.tipoZona.label}}</mat-label>
                     <mat-select [(ngModel)]="form.tipoZona.value" style="padding-top: 5px;padding-bottom: 5px;">
-                        <mat-option *ngFor="let value of dataControls?.tipoZona;" [value]="value.codigo">
+                        <mat-option *ngFor="let value of dataControls?.tipoZona;" [value]="value.id">
                             {{value.nombre}}
                         </mat-option>
                     </mat-select>
@@ -45,7 +45,7 @@
                 <mat-form-field>
                     <mat-label>{{form.tipoSolicitud.label}}</mat-label>
                     <mat-select [(ngModel)]="form.tipoSolicitud.value" style="padding-top: 5px;padding-bottom: 5px;">
-                        <mat-option *ngFor="let value of dataControls?.tipoSolicitud;" [value]="value.codigo">
+                        <mat-option *ngFor="let value of dataControls?.tipoSolicitud;" [value]="value.id">
                             {{value.nombre}}
                         </mat-option>
                     </mat-select>
@@ -57,7 +57,7 @@
                 <mat-form-field>
                     <mat-label>{{form.tipoConsignacion.label}}</mat-label>
                     <mat-select [(ngModel)]="form.tipoConsignacion.value" style="padding-top: 5px;padding-bottom: 5px;">
-                        <mat-option *ngFor="let value of dataControls?.tipoConsignacion;" [value]="value.codigo">
+                        <mat-option *ngFor="let value of dataControls?.tipoConsignacion;" [value]="value.id">
                             {{value.nombre}}
                         </mat-option>
                     </mat-select>
@@ -78,21 +78,9 @@
             
             <mat-grid-tile class="col col-lg-4 col-sm-12">
                 <mat-form-field>
-                    <mat-label>{{form.tipoConsignacion.label}}</mat-label>
-                    <mat-select [(ngModel)]="form.tipoConsignacion.value" style="padding-top: 5px;padding-bottom: 5px;">
-                        <mat-option *ngFor="let value of dataControls?.tipoConsignacion;" [value]="value.codigo">
-                            {{value.nombre}}
-                        </mat-option>
-                    </mat-select>
-                    <mat-hint style="color: red" *ngIf="form.tipoConsignacion.messages">{{form.tipoConsignacion.messages}}</mat-hint>
-                </mat-form-field>
-            </mat-grid-tile>  
-            
-            <mat-grid-tile class="col col-lg-4 col-sm-12">
-                <mat-form-field>
                     <mat-label>{{form.estadoConsigna.label}}</mat-label>
                     <mat-select [(ngModel)]="form.estadoConsigna.value" style="padding-top: 5px;padding-bottom: 5px;">
-                        <mat-option *ngFor="let value of dataControls?.estadoConsigna;" [value]="value.codigo">
+                        <mat-option *ngFor="let value of dataControls?.estadoConsigna;" [value]="value.id">
                             {{value.nombre}}
                         </mat-option>
                     </mat-select>
@@ -104,7 +92,7 @@
                 <mat-form-field>
                     <mat-label>{{form.estadoEquipo.label}}</mat-label>
                     <mat-select [(ngModel)]="form.estadoEquipo.value" style="padding-top: 5px;padding-bottom: 5px;">
-                        <mat-option *ngFor="let value of dataControls?.estadoEquipo;" [value]="value.codigo">
+                        <mat-option *ngFor="let value of dataControls?.estadoEquipo;" [value]="value.id">
                             {{value.nombre}}
                         </mat-option>
                     </mat-select>

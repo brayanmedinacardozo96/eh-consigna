@@ -49,31 +49,11 @@ export class ConsignaComponent implements OnInit {
   ];
 
   dataControls = {
-    tipoZona:[
-      {nombre:'Zona Norte',codigo:'ZN'},
-      {nombre:'Zona Centro',codigo:'ZC'},
-      {nombre:'Zona Occidente',codigo:'ZO'},
-      {nombre:'Zona Sur',codigo:'ZS'}
-    ],
-    tipoSolicitud:[
-      {nombre:'Plan Semanal',codigo:'ZN'},
-      {nombre:'Emergencia',codigo:'ZC'},
-    ],
-    tipoConsignacion:[
-      {nombre:'Plan Semanal',codigo:'ZN'},
-      {nombre:'Emergencia',codigo:'ZC'},
-    ],
-    estadoConsigna:[
-      {nombre:'Pendiente',codigo:'P'},
-      {nombre:'Aprobada',codigo:'A'},
-      {nombre:'Reprogramada',codigo:'R'},
-      {nombre:'Ejecutada',codigo:'E'},
-      {nombre:'Cancelada',codigo:'C'},
-    ],
-    estadoEquipo:[
-      {nombre:'Riesgo Disparo',codigo:'RD'},
-      {nombre:'Apertura',codigo:'A'},
-    ],
+    tipoZona:[],
+    tipoSolicitud:[],
+    tipoConsignacion:[],
+    estadoConsigna:[],
+    estadoEquipo:[],
     solicitante:[
       {nombre:'Brayan Herney Medina Cardozo',identificacion:'1075412102',id:1},
       {nombre:'Jhonatan Parra Almario',identificacion:'1080934291',id:10}
@@ -162,10 +142,12 @@ export class ConsignaComponent implements OnInit {
               private dateValidation: DateValidationervice) { }
 
   ngOnInit(): void {
+    this.getDataSelectConsigna();
   }
 
   async search() {
     const responseValidate = this.validations.validateACompleteField(this.form);
+    const response = await this.api.post(`${environment.apiBackend}/consigna/search`, this.form);
     //modificar las fechas por fomatos especificos
     // this.form.fechaSolicitud.value = this.form.fechaSolicitud.value !== null ? this.dateValidation.getYearMounthDay(this.form.fechaSolicitud.value) : null;
 
@@ -175,6 +157,23 @@ export class ConsignaComponent implements OnInit {
   setData(name, event) {
     this.form[name].value = event;
     console.log(   this.form[name].value );
+  }
+
+  //Llena los selects del formulario
+  async getDataSelectConsigna(){
+    const response = await this.api.post(`${environment.apiBackend}/consigna/get-data-select`, null);
+    let success = response.success;
+    let data = response.data;
+    console.log(data);
+
+    if(success){
+      this.dataControls.tipoZona = data.tipoZona;
+      this.dataControls.tipoSolicitud = data.tipoSolicitud;
+      this.dataControls.tipoConsignacion = data.tipoConsignacion;
+      this.dataControls.estadoConsigna = data.estadoConsigna;
+      this.dataControls.estadoEquipo = data.estadoEquipo;
+    }
+    let message = response.message;
   }
 
 }
