@@ -12,7 +12,7 @@ import {ManiobraComponent} from './modules/maniobra/maniobra.component';
 import {AutorizarComponent}  from './modules/autorizar/autorizar.component'
 import { ConsignaTabsComponent } from './modules/consigna/consigna-tabs/consigna-tabs.component';
 import { ConsignaUserComponent } from './modules/consigna/consigna-user/consigna-user.component';
-
+import {ParametrosComponent} from './modules/parametros/parametros.component';
 const routes: Routes = [
   {path: '', component: LoginComponent}
   , {path: 'login', component: LoginComponent}
@@ -27,7 +27,8 @@ const routes: Routes = [
   , {path: 'trabajo-oportunidad', component: TrabajoOportunidadComponent, canActivate: [AuthGuard]}
   , {path: 'maniobra', component: ManiobraComponent, canActivate: [AuthGuard]}
   , {path: 'autorizar', component: AutorizarComponent, canActivate: [AuthGuard]}
-
+  , {path: 'parametros', component: ParametrosComponent, canActivate: [AuthGuard]}
+  
   , {path: '404', component: NotFoundComponent}
   , {path: '**', redirectTo: '/404'}
 ];
