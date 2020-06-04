@@ -112,18 +112,6 @@
                 </mat-form-field>
             </mat-grid-tile>
             
-            <mat-grid-tile class="col col-lg-4 col-sm-12">
-                <mat-form-field style="width: 95%;">
-                    <mat-label>{{form.subestacion.label}}</mat-label>
-                    <mat-select [(ngModel)]="form.subestacion.value" style="padding-top: 5px;padding-bottom: 5px;">
-                        <mat-option *ngFor="let value of dataControls?.subestacion;" [value]="value.codigo">
-                            {{ value.nombre }}
-                        </mat-option>
-                    </mat-select>
-                    <mat-hint style="color: red" *ngIf="form.subestacion.messages">{{form.subestacion.messages}}</mat-hint>
-                </mat-form-field>
-            </mat-grid-tile>
-
         </mat-grid-list>    
                     
         <button (click)="search()" mat-mini-fab color="accent" style="margin-left: 20px;" matTooltip="Consultar" matTooltipClass="custom-tooltip">

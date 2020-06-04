@@ -57,12 +57,6 @@ export class ConsignaComponent implements OnInit {
     solicitante:[
       {nombre:'Brayan Herney Medina Cardozo',identificacion:'1075412102',id:1},
       {nombre:'Jhonatan Parra Almario',identificacion:'1080934291',id:10}
-    ],
-    subestacion:[
-      {nombre:'El Bote',codigo:'12345'},
-      {nombre:'Solarte',codigo:'14'},
-      {nombre:'Las Brisas',codigo:'15'},
-      {nombre:'Timaná',codigo:'1'}
     ]
   };
   form = {
@@ -128,14 +122,7 @@ export class ConsignaComponent implements OnInit {
       value: null,
       messages: null,
       required: false,
-    },
-    subestacion: {
-      label: 'Subestación',
-      name: 'subestacion',
-      value: null,
-      messages: null,
-      required: false,
-    },
+    }
   };
   constructor(private api: ApiService,
               private validations: ValidationService,

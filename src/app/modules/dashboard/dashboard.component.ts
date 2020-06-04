@@ -33,8 +33,8 @@ export class DashboardComponent implements OnInit {
   loadOptions() {
     this.options = [];
     const dataApp = Auth.getDataApp();
-   console.log(dataApp.modules);
-    for (const module of dataApp.modules) {
+
+    for (const module of dataApp) {
       for (const form of module.forms) {
         this.options.push({
           title: form.name,
