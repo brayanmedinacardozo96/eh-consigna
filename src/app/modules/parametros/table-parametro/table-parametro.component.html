@@ -8,9 +8,9 @@
     <table mat-table [dataSource]="dataSource" matSort class="custom-table">
 
 
-      <ng-container matColumnDef="tipo">
+      <ng-container matColumnDef="tp_nombre">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo</th>
-        <td style="text-align:left" mat-cell *matCellDef="let row">{{row?.tipo}}</td>
+        <td style="text-align:left" mat-cell *matCellDef="let row">{{row?.tp_nombre}}</td>
       </ng-container>
 
       <ng-container matColumnDef="codigo">
