@@ -26,8 +26,8 @@
       <mat-grid-tile [colspan]="2">
 
         <app-input-text style="width: 98%;" [label]="form.codigo.label" [value]="form.codigo.value"
-          [name]="form.codigo.name" [messages]="form.codigo.messages"
-          (valueChange)="setData(form.nombre.name, $event)">
+          [name]="form.codigo.name" [messages]="form.codigo.messages" [length]="form.codigo.length"
+          (valueChange)="setData(form.codigo.name, $event)">
         </app-input-text>
 
       </mat-grid-tile>
@@ -36,9 +36,13 @@
     </mat-grid-list>
 
 
-    <button  mat-raised-button color="primary" (onclick)="guardar()" style="margin-left: 20px; margin-top: 10px;">
-      <span style="color: #FFF">Guardar</span>
+    <button  mat-raised-button class="{{boton.color}}" (click)="guardar()" style="margin-left: 20px; margin-top: 10px;">
+      <span style="color: #FFF">{{boton.value}}</span>
     </button>
+
+    <button mat-flat-button class="btn-default" (click)="limpiar()" style="margin-left: 20px; margin-top: 10px;">Limpiar</button>
+
+    <app-table-tipo-parametro style="width: 98%;" (valueChange)="setDataTable(data, $event)" [data]="data"></app-table-tipo-parametro>
 
   </mat-card-content>
 </mat-card>

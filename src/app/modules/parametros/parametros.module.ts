@@ -13,10 +13,14 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {ParametrosComponent} from './parametros.component';
 import { ParametrosRegistroComponent } from './parametros-registro/parametros-registro.component';
-import { TipoParametrosComponent } from './tipo-parametros/tipo-parametros.component'
+import { TipoParametrosComponent } from './tipo-parametros/tipo-parametros.component';
+import { TableTipoParametroComponent } from './table-tipo-parametro/table-tipo-parametro.component';
+import { TableParametroComponent } from './table-parametro/table-parametro.component'
+import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatTableModule} from '@angular/material/table';
 
 @NgModule({
-  declarations: [ParametrosComponent, ParametrosRegistroComponent, TipoParametrosComponent],
+  declarations: [ParametrosComponent, ParametrosRegistroComponent, TipoParametrosComponent, TableTipoParametroComponent, TableParametroComponent],
   imports: [
     CommonModule,
     MatTabsModule,
@@ -31,6 +35,8 @@ import { TipoParametrosComponent } from './tipo-parametros/tipo-parametros.compo
     MatButtonToggleModule,
     MatButtonModule,
     MatIconModule,
+    MatPaginatorModule,
+    MatTableModule,
   ]
 })
 export class ParametrosModule { }

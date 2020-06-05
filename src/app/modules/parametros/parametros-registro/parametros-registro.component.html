@@ -43,9 +43,13 @@
     </mat-grid-list>
 
 
-    <button  mat-raised-button color="primary" style="margin-left: 20px; margin-top: 10px;">
-      <span style="color: #FFF">Guardar</span>
+    <button  mat-raised-button class="{{boton.color}}" (click)="guardar()" style="margin-left: 20px; margin-top: 10px;">
+      <span style="color: #FFF">{{boton.value}}</span>
     </button>
+
+    <button mat-flat-button class="btn-default" (click)="limpiar()" style="margin-left: 20px; margin-top: 10px;">Limpiar</button>
+
+    <app-table-parametro style="width: 98%;" (valueChange)="setDataTable(data, $event)" [data]="dataControls.data"></app-table-parametro>
 
   </mat-card-content>
 </mat-card>

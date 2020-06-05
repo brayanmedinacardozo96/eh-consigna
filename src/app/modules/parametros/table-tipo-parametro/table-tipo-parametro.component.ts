@@ -3,16 +3,14 @@ import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 
-
-
 @Component({
-  selector: 'app-table-trabajo-oportunidad',
-  templateUrl: './table-trabajo-oportunidad.component.html',
-  styleUrls: ['./table-trabajo-oportunidad.component.scss']
+  selector: 'app-table-tipo-parametro',
+  templateUrl: './table-tipo-parametro.component.html',
+  styleUrls: ['./table-tipo-parametro.component.scss']
 })
-export class TableTrabajoOportunidadComponent implements OnInit {
+export class TableTipoParametroComponent implements OnInit {
 
-  displayedColumns: string[] = ['elemento', 'trabajo', 'medidaSeguridad', 'jefeTrabajo', 'telefono','acciones'];
+  displayedColumns: string[] = ['nombre', 'descripcion', 'codigo','acciones'];
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
@@ -23,12 +21,12 @@ export class TableTrabajoOportunidadComponent implements OnInit {
 
   constructor() { }
 
+
   ngOnInit(): void {
-      console.log(this.valueChange);
   }
 
   init(data) {
-    console.log(data);
+
     this.dataSource = new MatTableDataSource(data);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
@@ -43,16 +41,17 @@ export class TableTrabajoOportunidadComponent implements OnInit {
     }
   }
 
-  imprimir(data){
-    console.log(data)
-  }
 
   seleccionar(row)
   {
 
-    this.valueChange.emit(row);
+    this.valueChange.emit(["select",row]);
 
   }
 
+  eliminar(row)
+  {
+     this.valueChange.emit(["delete",row]);
+  }
 
 }

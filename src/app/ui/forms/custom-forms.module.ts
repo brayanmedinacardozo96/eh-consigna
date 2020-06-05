@@ -13,7 +13,7 @@ import { InputNumberComponent } from './input-number/input-number.component';
 import {MatSelectModule} from '@angular/material/select';
 import {InputFileComponent} from './input-file/input-file.component';
 import {MatGridListModule} from '@angular/material/grid-list';
-import {MatAutocompleteModule} from '@angular/material/autocomplete'; 
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { InputAutocompleteComponent } from './input-autocomplete/input-autocomplete.component';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { DatepickerComponent } from './datepicker/datepicker.component';
@@ -21,6 +21,7 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MDialogComponent } from './m-dialog/m-dialog.component';
 import { DateTimePickerComponent } from './date-time-picker/date-time-picker.component';
 import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
+import {ModalConfirmComponent} from './modal-confirm/modal-confirm.component'
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
     InputAutocompleteComponent,
     DatepickerComponent,
     MDialogComponent,
-    DateTimePickerComponent
+    DateTimePickerComponent,
+    ModalConfirmComponent
   ],
   imports: [
     CommonModule,
@@ -51,15 +53,16 @@ import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
     NgxMaterialTimepickerModule
   ],
   exports: [
-    InputTextIconComponent, 
-    InputPasswordIconComponent, 
-    InputTextComponent, 
+    InputTextIconComponent,
+    InputPasswordIconComponent,
+    InputTextComponent,
     InputNumberComponent,
     InputTextAreaComponent,
     InputFileComponent,
     InputAutocompleteComponent,
     DatepickerComponent,
-    DateTimePickerComponent
+    DateTimePickerComponent,
+    ModalConfirmComponent
   ]
 })
 export class CustomFormsModule {
