@@ -9,7 +9,13 @@ export class ParametrosComponent implements OnInit {
 
   constructor() { }
 
+  data="";
+
   ngOnInit(): void {
   }
 
+  estado(event)
+  {
+    this.data=event.tab.textLabel;
+  }
 }

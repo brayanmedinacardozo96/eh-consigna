@@ -5,7 +5,7 @@
 
       <mat-grid-tile [colspan]="2">
 
-        <app-input-text style="width: 98%;" [label]="form.nombre.label" [value]="form.nombre.value"
+        <app-input-text style="width: 98%;" [required]="form.nombre.required" [label]="form.nombre.label" [value]="form.nombre.value"
           [name]="form.nombre.name" [messages]="form.nombre.messages"
           (valueChange)="setData(form.nombre.name, $event)">
         </app-input-text>
@@ -15,7 +15,7 @@
 
       <mat-grid-tile [colspan]="2">
 
-        <app-input-text-area style="width: 98%;" class="input" [label]="form.descripcion.label"
+        <app-input-text-area style="width: 98%;" [required]="form.descripcion.required" class="input" [label]="form.descripcion.label"
           [value]="form.descripcion.value" [name]="form.descripcion.name" [messages]="form.descripcion.messages"
           (valueChange)="setData(form.descripcion.name, $event)">
         </app-input-text-area>
@@ -25,7 +25,7 @@
 
       <mat-grid-tile [colspan]="2">
 
-        <app-input-text style="width: 98%;" [label]="form.codigo.label" [value]="form.codigo.value"
+        <app-input-text style="width: 98%;" [required]="form.codigo.required" [label]="form.codigo.label" [value]="form.codigo.value"
           [name]="form.codigo.name" [messages]="form.codigo.messages" [length]="form.codigo.length"
           (valueChange)="setData(form.codigo.name, $event)">
         </app-input-text>

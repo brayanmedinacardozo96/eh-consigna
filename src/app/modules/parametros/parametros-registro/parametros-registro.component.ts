@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Input } from '@angular/core';
 import {ApiService} from '../../../shared/services/api.service';
 import {environment} from 'src/environments/environment';
 import {SnackBarClass} from '../../../ui/snack-bar/snack-bar';
@@ -6,6 +6,8 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import {MatDialog} from "@angular/material/dialog";
 import {ModalConfirmComponent} from "../../../ui/forms/modal-confirm/modal-confirm.component";
 import {Mensaje} from '../../../ui/forms/modal-confirm/mensaje';
+import {ValidationService} from '../../../shared/services/validations.service';
+import {Scroll} from '../../../ui/forms/scroll/scroll';
 
 @Component({
   selector: 'app-parametros-registro',
@@ -14,7 +16,22 @@ import {Mensaje} from '../../../ui/forms/modal-confirm/mensaje';
 })
 export class ParametrosRegistroComponent implements OnInit {
 
-  constructor(private apiService: ApiService, private snackBar: MatSnackBar, private dialogo: MatDialog) { }
+
+  @Input() set data(data: String) {
+    if(data=="Parametros")
+    {
+      this.tipoParametro();
+    }
+  }
+
+  constructor(private apiService: ApiService,
+              private snackBar: MatSnackBar,
+              private dialogo: MatDialog,
+              private validations: ValidationService,
+              ) {}
+
+
+
   form = {
     id: {
       value: null,
@@ -24,30 +41,39 @@ export class ParametrosRegistroComponent implements OnInit {
       name: 'nombre',
       value: null,
       messages: null,
-      required: false,
+      required: true,
     },
     descripcion: {
       label: 'Descripción',
       name: 'descripcion',
       value: null,
       messages: null,
-      required: false,
+      required: true,
     },tipo: {
+      id:null,
       label: 'Tipo',
       name: 'tipo',
       value: null,
       messages: null,
-      required: false,
+      required: true,
+    },codigo: {
+      label: 'Código',
+      name: 'codigo',
+      value: null,
+      messages: null,
+      required: true,
+      length: 10
     }
 
   }
 
   dataControls = {
     tipo: [{
-      nombre: '',
-      codigo: ''
+      nombre: "",
+      id: ""
     }, ],
     data: [{
+      tp_nombre:"",
       tipo:"",
       nombre: "",
       codigo: "",
@@ -61,7 +87,9 @@ export class ParametrosRegistroComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.select();
     this.tipoParametro();
+
   }
 
   setData(name, event) {
@@ -76,8 +104,11 @@ export class ParametrosRegistroComponent implements OnInit {
       this.form.nombre.value = event[1].nombre;
       this.form.descripcion.value = event[1].descripcion;
       this.form.id = event[1].id;
+      this.form.tipo.id= parseInt( event[1].tp_id );
+      this.form.codigo.value=event[1].codigo;
       this.boton.color = "btn-success";
       this.boton.value = "Actualizar";
+      new Scroll("0");
     }
 
     if (event[0] == "delete") {
@@ -99,7 +130,7 @@ export class ParametrosRegistroComponent implements OnInit {
 
   async tipoParametro()
   {
-    const response = await this.apiService.get(`${environment.apiBackend}/tipo-elemento/getElemento`);
+    const response = await this.apiService.get(`${environment.apiBackend}/tipo-parametro/getTipoParametro`);
 
     if (response.length > 0) {
       this.dataControls.tipo = response;
@@ -112,51 +143,71 @@ export class ParametrosRegistroComponent implements OnInit {
       color: "btn-primary"
     }
     this.form.nombre.value = "";
+    this.form.nombre.messages = "";
     this.form.descripcion.value = "";
+    this.form.descripcion.messages="";
+    this.form.tipo.id=null;
+    this.form.tipo.messages="";
+    this.form.codigo.value="";
+    this.form.codigo.messages="";
+    new Scroll("0");
 
   }
 
+
   async guardar() {
 
+    if (this.validateEmptyFields()) {
+      var obj = {
+        id: this.form.id,
+        nombre: this.form.nombre.value,
+        descripcion: this.form.descripcion.value,
+        tipo_parametro_id: this.form.tipo.id,
+        codigo: this.form.codigo.value
+      }
 
-    var obj = {
-      id: this.form.id,
+      var response;
+      var mensaje = [];
 
-      nombre: this.form.nombre.value,
-      descripcion: this.form.descripcion.value
+      if (this.boton.value == "Guardar") {
+        response = await this.apiService.post(`${environment.apiBackend}/parametro/postParametro`, obj);
+        mensaje = ["Guardado con éxito", "btn-primary"];
+      } else {
+
+        response = await this.apiService.post(`${environment.apiBackend}/parametro/putParametro`, obj);
+        mensaje = ["Registro actualizado", "btn-success"];
+      }
+
+      this.evaluar(response, mensaje);
     }
-
-    var response;
-    var mensaje = [];
-
-    if (this.boton.value == "Guardar") {
-      response = await this.apiService.post(`${environment.apiBackend}/tipo-elemento/postElemento`, obj);
-      mensaje = ["Guardado con éxito", "btn-primary"];
-    } else {
-
-      response = await this.apiService.post(`${environment.apiBackend}/tipo-elemento/putElemento`, obj);
-      mensaje = ["Registro actualizado", "btn-success"];
-    }
-
-    this.evaluar(response, mensaje);
 
   }
 
   async select() {
 
-    const response = await this.apiService.get(`${environment.apiBackend}/tipo-elemento/getElemento`);
+    var api = `${environment.apiBackend}/parametro/getParametro`;
 
-    if (response.length > 0) {
-      this.dataControls.data = response;
+    if(this.form.tipo.id!=null)
+    {
+       api = `${environment.apiBackend}/parametro/getParametro/${this.form.tipo.id}`;
+       new Scroll("1000");
 
     }
+
+    const  response = await this.apiService.get(api);
+
+    if (response.messages==null) {
+      this.dataControls.data = response.data;
+    }
+
+
 
   }
 
   async eliminar(key) {
     var mensaje = [];
 
-    var response = await this.apiService.post(`${environment.apiBackend}/tipo-elemento/deleteElemento`, {
+    var response = await this.apiService.post(`${environment.apiBackend}/parametro/deleteParametro`, {
       id: key.id
     });
 
@@ -181,6 +232,18 @@ export class ParametrosRegistroComponent implements OnInit {
 
     new SnackBarClass(this.snackBar, mensaje[0], mensaje[1]).openSnackBar();
   }
+
+  validateEmptyFields() {
+
+    let success = true;
+
+    if (!this.validations.validateEmptyFields(this.form).success) {
+      success = false;
+    }
+
+    return success;
+  }
+
 
 
 }
