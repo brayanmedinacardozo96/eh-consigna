@@ -14,6 +14,7 @@ export class InputTextComponent implements OnInit {
   @Input() style;
   @Input() disable;
   @Input() required;
+  @Input() length;
   @Output() valueChange = new EventEmitter();
   constructor() { }
 
