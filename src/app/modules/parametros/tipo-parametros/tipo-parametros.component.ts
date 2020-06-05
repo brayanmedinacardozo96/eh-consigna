@@ -120,11 +120,11 @@ export class TipoParametrosComponent implements OnInit {
     var mensaje = [];
 
     if (this.boton.value == "Guardar") {
-      response = await this.apiService.post(`${environment.apiBackend}/tipo-elemento/postElemento`, obj);
+      response = await this.apiService.post(`${environment.apiBackend}/tipo-parametro/postTipoParametro`, obj);
       mensaje = ["Guardado con éxito", "btn-primary"];
     } else {
 
-      response = await this.apiService.post(`${environment.apiBackend}/tipo-elemento/putElemento`, obj);
+      response = await this.apiService.post(`${environment.apiBackend}/tipo-parametro/putTipoParametro`, obj);
       mensaje = ["Registro actualizado", "btn-success"];
     }
 
@@ -134,7 +134,7 @@ export class TipoParametrosComponent implements OnInit {
 
   async select() {
 
-    const response = await this.apiService.get(`${environment.apiBackend}/tipo-elemento/getElemento`);
+    const response = await this.apiService.get(`${environment.apiBackend}/tipo-parametro/getTipoParametro`);
 
     if (response.length > 0) {
       this.data = response;
@@ -146,7 +146,7 @@ export class TipoParametrosComponent implements OnInit {
   async eliminar(key) {
     var mensaje = [];
 
-    var response = await this.apiService.post(`${environment.apiBackend}/tipo-elemento/deleteElemento`, {
+    var response = await this.apiService.post(`${environment.apiBackend}/tipo-parametro/deleteTipoParametro`, {
       id: key.id
     });
 
