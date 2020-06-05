@@ -7,6 +7,8 @@ import {environment} from '../../../../environments/environment';
 import { SnackBarService } from './../../../shared/services/snack-bar.service';
 import { Auth } from './../../../shared/auth';
 import { User } from './../../../shared/models/user';
+import { ConsignaNewMessageComponent } from './../consigna-new-message/consigna-new-message.component';
+import {MatDialog} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-consigna-new',
@@ -287,7 +289,8 @@ export class ConsignaNewComponent implements OnInit {
               private validations: ValidationService,
               private dateValidation: DateValidationervice,
               private fileValidation: FileValidationService,
-              private snackBar: SnackBarService
+              private snackBar: SnackBarService,
+              public dialog: MatDialog
               ) { 
                 window.scrollTo(0,0);
                 this.form.solicitante.value = `${this.user.document_number} - ${this.user.first_name} ${this.user.second_name} ${this.user.first_lastname} ${this.user.second_lastname}`;
@@ -295,10 +298,6 @@ export class ConsignaNewComponent implements OnInit {
 
   ngOnInit(): void {
     this.getDataSelectConsigna();
-  }
-
-  async search() {
-    console.log(this.form)
   }
 
   setData(name, event, obj: any = undefined) {
@@ -374,11 +373,19 @@ export class ConsignaNewComponent implements OnInit {
       formData.append('dataElementos',JSON.stringify(this.dataElementos));
       formData.append('interrupcionesTrabajo',JSON.stringify(this.interrupcionesTrabajo));
       formData.append('interrupcionesCortoTiempo',JSON.stringify(this.interrupcionesCortoTiempo));
+      formData.append('argNumConsigna',JSON.stringify(this.argNumConsigna));
       formData.append('user',JSON.stringify(this.user));
 
       const response = await this.api.post(`${environment.apiBackend}/consigna/save-consigna`, formData);
       let success = response.success;
       let message = response.message;
+      if(success){
+        this.dialog.open(ConsignaNewMessageComponent,{
+          backdropClass: 'cdk-overlay-transparent-backdrop',
+          hasBackdrop: false,
+          data: {response}
+        });
+      }
 
     }else{
       this.snackBar.alert('Faltan campos a diligenciar',5000)
