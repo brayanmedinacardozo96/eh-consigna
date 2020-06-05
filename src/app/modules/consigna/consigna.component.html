@@ -114,9 +114,18 @@
             
         </mat-grid-list>    
                     
-        <button (click)="search()" mat-mini-fab color="accent" style="margin-left: 20px;" matTooltip="Consultar" matTooltipClass="custom-tooltip">
-            <mat-icon style="color: #FFFFFF">search</mat-icon>
-        </button>        
+        <mat-grid-list class="row" cols="1" rowHeight="80px">
+            <mat-grid-tile>
+                <button (click)="cleanFields()" 
+                    mat-raised-button color="accent" 
+                    style="margin-left: 20px;" matTooltip="Limpiar" matTooltipClass="custom-tooltip">
+                    <mat-icon style="color: #FFFFFF">brush</mat-icon>
+                </button>
+                <button (click)="search()" mat-raised-button color="primary" style="margin-left: 20px;" matTooltip="Consultar" matTooltipClass="custom-tooltip">
+                    <mat-icon style="color: #FFFFFF">search</mat-icon>
+                </button>           
+            </mat-grid-tile>           
+        </mat-grid-list>
       </fieldset>
   
     </mat-card-content>

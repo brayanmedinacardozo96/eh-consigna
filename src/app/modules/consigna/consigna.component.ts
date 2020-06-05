@@ -3,6 +3,7 @@ import {environment} from '../../../environments/environment';
 import {ApiService} from '../../shared/services/api.service';
 import {ValidationService} from './../../shared/services/validations.service';
 import {DateValidationervice} from './../../shared/services/date-validations.service';
+import { SnackBarService } from './../../shared/services/snack-bar.service';
 
 @Component({
   selector: 'app-consigna',
@@ -92,7 +93,8 @@ export class ConsignaComponent implements OnInit {
   };
   constructor(private api: ApiService,
               private validations: ValidationService,
-              private dateValidation: DateValidationervice) { }
+              private dateValidation: DateValidationervice,
+              private snackBar: SnackBarService,) { }
 
   ngOnInit(): void {
     this.getDataSelectConsigna();
@@ -100,21 +102,23 @@ export class ConsignaComponent implements OnInit {
 
   async search() {
     const responseValidate = this.validations.validateACompleteField(this.form);
-    this.data = [];
-    const response = await this.api.post(`${environment.apiBackend}/consigna/get-list`, this.form);
-    if(response.success){
-      this.data = response.data;
-    }
-    //modificar las fechas por fomatos especificos
-    // this.form.fechaSolicitud.value = this.form.fechaSolicitud.value !== null ? this.dateValidation.getYearMounthDay(this.form.fechaSolicitud.value) : null;
+    if(responseValidate.success){
+      this.data = [];
+      const response = await this.api.post(`${environment.apiBackend}/consigna/get-list`, this.form);
+      if(response.success){
+        this.data = response.data;
+        if(this.data.length < 1){
+          this.snackBar.alert('No se encontraron registros con los parámetros consultados.',5000);
+        }else{
+          this.validations.cleanFields(this.form);
+        }
+      }
 
-    console.log(response)
-    console.log(this.data)
+    }
   }
 
   setData(name, event) {
     this.form[name].value = event;
-    console.log(   this.form[name].value );
   }
 
   //Llena los selects del formulario
@@ -131,6 +135,10 @@ export class ConsignaComponent implements OnInit {
       this.dataControls.estadoEquipo = data.estadoEquipo;
     }
     let message = response.message;
+  }
+
+  cleanFields(){
+    this.validations.cleanFields(this.form);
   }
 
 }

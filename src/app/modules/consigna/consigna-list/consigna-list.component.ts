@@ -7,6 +7,7 @@ import {environment} from '../../../../environments/environment';
 import { ConsignaElementoListComponent } from './../consigna-elemento-list/consigna-elemento-list.component';
 import { ConsignaTrabajoListComponent } from './../consigna-trabajo-list/consigna-trabajo-list.component';
 import { ConsignaManiobraListComponent } from './../consigna-maniobra-list/consigna-maniobra-list.component';
+import { ApiService } from 'src/app/shared/services/api.service';
 
 @Component({
   selector: 'app-consigna-list',
@@ -24,7 +25,8 @@ export class ConsignaListComponent implements OnInit {
     this.init(data);
   }
 
-  constructor(public dialog: MatDialog) { }
+  constructor(private api: ApiService,
+              public dialog: MatDialog) { }
 
   ngOnInit() {
     // this.init([]);
@@ -49,10 +51,12 @@ export class ConsignaListComponent implements OnInit {
     window.open(`${environment.urlFiles}${pathPdf}`, '_blank');
   }
 
-  showElementoConsignado(data){
+  async showElementoConsignado(id){
+    const response = await this.api.post(`${environment.apiBackend}/lista-elemento/get-list`, {consignaId: id});
+
     const dialogRef = this.dialog.open(ConsignaElementoListComponent,{
       width:'100%',
-      data: {data}
+      data: {response}
     });
 
   }
