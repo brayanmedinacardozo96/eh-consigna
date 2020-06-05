@@ -10,27 +10,38 @@
         <!-- # Consignación -->
         <ng-container matColumnDef="numeroConsigna">
           <th mat-header-cell *matHeaderCellDef mat-sort-header># Consignación</th>
-          <td mat-cell *matCellDef="let row"> {{row?.numeroConsigna}} </td>
+          <td mat-cell *matCellDef="let row"> {{row?.codigo}} </td>
+        </ng-container>
+        
+        <!-- # consecutivoSnc -->
+        <ng-container matColumnDef="consecutivoSnc">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Consecutivo SNC</th>
+          <td mat-cell *matCellDef="let row"> {{row?.codigo_snc}} </td>
         </ng-container>
   
         <!-- Zona -->
         <ng-container matColumnDef="tipoZona">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Zona</th>
-          <td mat-cell *matCellDef="let row">{{row?.tipoZona}}</td>
+          <td mat-cell *matCellDef="let row">{{row?.codigo_zona}}</td>
         </ng-container>
   
         <!--Estado Consignación -->
         <ng-container matColumnDef="estadoConsigna">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado Consignación</th>
-          <td mat-cell *matCellDef="let row">{{row?.estadoConsigna}}</td>
+          <td mat-cell *matCellDef="let row">{{row?.estado_consigna}}</td>
+        </ng-container>
+
+        <!--Estado Equipo -->
+        <ng-container matColumnDef="estadoEquipo">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado Equipo</th>
+          <td mat-cell *matCellDef="let row">{{row?.estado_equipo_codigo}}</td>
         </ng-container>
   
         <!-- Elemento Consignado -->
         <ng-container matColumnDef="elementosConsignados">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Elemento Consignado</th>
           <td mat-cell *matCellDef="let row">
-            <mat-icon *ngIf="row?.elementosConsignados" 
-            (click)="showElementoConsignado(row?.elementosConsignados)" style="cursor: pointer;"
+            <mat-icon (click)="showElementoConsignado(row?.consignacion_id)" style="cursor: pointer;"
             matTooltip="Ver Elementos Consignados" matTooltipClass="custom-tooltip"
             color="primary">list
             </mat-icon>
@@ -41,7 +52,7 @@
         <ng-container matColumnDef="trabajosOportunidad">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Trabajos Oportunidad</th>
           <td mat-cell *matCellDef="let row">
-            <mat-icon *ngIf="row?.trabajosOportunidad" 
+            <mat-icon *ngIf="row?.trabajo_oportunidad == 'true'" 
             (click)="showTrabajoOportunidad(row?.trabajosOportunidad)" style="cursor: pointer;"
             matTooltip="Ver Trabajos de Oportunidad" matTooltipClass="custom-tooltip"
             color="accent">dvr
@@ -53,7 +64,7 @@
         <ng-container matColumnDef="maniobras">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Maniobras</th>
           <td mat-cell *matCellDef="let row">
-            <mat-icon *ngIf="row?.maniobras" 
+            <mat-icon *ngIf="row?.registro_maniobra == 'true'" 
             (click)="showManiobra(row?.maniobras)" style="cursor: pointer;"
             matTooltip="Ver Registros de maniobras" matTooltipClass="custom-tooltip"
             color="primary">content_paste

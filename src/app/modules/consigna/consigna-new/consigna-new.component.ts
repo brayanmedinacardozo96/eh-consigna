@@ -380,11 +380,14 @@ export class ConsignaNewComponent implements OnInit {
       let success = response.success;
       let message = response.message;
       if(success){
+        this.cleanAllFields();
         this.dialog.open(ConsignaNewMessageComponent,{
           backdropClass: 'cdk-overlay-transparent-backdrop',
           hasBackdrop: false,
           data: {response}
         });
+      }else{
+        this.snackBar.alert('Ocurrió un error, por favor vuelva a intentarlo o contáctese con el administrador.',10000)
       }
 
     }else{
@@ -459,6 +462,16 @@ export class ConsignaNewComponent implements OnInit {
       this.dataControls.elemento = data.elemento
     }
     let message = response.message;
+  }
+
+  cleanAllFields(){
+    console.log('entra men');
+    this.validations.cleanFields(this.form);
+    this.validations.cleanFields(this.formElementos);
+    this.validations.cleanFields(this.interrupcionesTrabajo);
+    this.validations.cleanFields(this.interrupcionesCortoTiempo);
+    this.fileValidation.fileUp(this.inputFile)
+    this.dataElementos = [];
   }
 
 }

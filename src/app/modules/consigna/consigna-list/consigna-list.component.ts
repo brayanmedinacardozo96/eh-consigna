@@ -15,7 +15,7 @@ import { ConsignaManiobraListComponent } from './../consigna-maniobra-list/consi
 })
 export class ConsignaListComponent implements OnInit {
 
-  displayedColumns: string[] = ['numeroConsigna', 'tipoZona', 'estadoConsigna', 'elementosConsignados', 'trabajosOportunidad', 'maniobras', 'acciones'];
+  displayedColumns: string[] = ['numeroConsigna', 'consecutivoSnc', 'tipoZona', 'estadoConsigna','estadoEquipo', 'elementosConsignados', 'trabajosOportunidad', 'maniobras', 'acciones'];
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
