@@ -8,7 +8,7 @@ import {
 export class SnackBarClass {
 
  private horizontalPosition: MatSnackBarHorizontalPosition='right';
- private verticalPosition: MatSnackBarVerticalPosition = 'bottom';
+ private verticalPosition: MatSnackBarVerticalPosition = 'top';
 
 
   constructor(private _snackBar: MatSnackBar, private mensaje:string,private panelClass:string) {

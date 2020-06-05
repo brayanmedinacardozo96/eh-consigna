@@ -6,6 +6,8 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import {MatDialog} from "@angular/material/dialog";
 import {ModalConfirmComponent} from "../../../ui/forms/modal-confirm/modal-confirm.component";
 import {Mensaje} from '../../../ui/forms/modal-confirm/mensaje';
+import {ValidationService} from '../../../shared/services/validations.service';
+import {Scroll} from '../../../ui/forms/scroll/scroll';
 
 @Component({
   selector: 'app-tipo-parametros',
@@ -15,7 +17,10 @@ import {Mensaje} from '../../../ui/forms/modal-confirm/mensaje';
 
 export class TipoParametrosComponent implements OnInit {
 
-  constructor(private apiService: ApiService, private snackBar: MatSnackBar, private dialogo: MatDialog) {}
+  constructor(private apiService: ApiService,
+      private snackBar: MatSnackBar,
+      private dialogo: MatDialog,
+      private validations: ValidationService) {}
 
 
   form = {
@@ -27,21 +32,21 @@ export class TipoParametrosComponent implements OnInit {
       name: 'nombre',
       value: null,
       messages: null,
-      required: false,
+      required: true,
     },
     descripcion: {
       label: 'Descripción',
       name: 'descripcion',
       value: null,
       messages: null,
-      required: false,
+      required: true,
     },
     codigo: {
       label: 'Código',
       name: 'codigo',
       value: null,
       messages: null,
-      required: false,
+      required: true,
       length: 5
     }
 
@@ -77,6 +82,7 @@ export class TipoParametrosComponent implements OnInit {
       this.form.id = event[1].id;
       this.boton.color = "btn-success";
       this.boton.value = "Actualizar";
+      new Scroll("0");
     }
 
     if (event[0] == "delete") {
@@ -104,31 +110,34 @@ export class TipoParametrosComponent implements OnInit {
     this.form.nombre.value = "";
     this.form.descripcion.value = "";
     this.form.codigo.value = "";
+    new Scroll("0");
   }
 
   async guardar() {
 
+    if(this.validateEmptyFields())
+    {
+      var obj = {
+        id: this.form.id,
+        codigo: this.form.codigo.value,
+        nombre: this.form.nombre.value,
+        descripcion: this.form.descripcion.value
+      }
 
-    var obj = {
-      id: this.form.id,
-      codigo: this.form.codigo.value,
-      nombre: this.form.nombre.value,
-      descripcion: this.form.descripcion.value
+      var response;
+      var mensaje = [];
+
+      if (this.boton.value == "Guardar") {
+        response = await this.apiService.post(`${environment.apiBackend}/tipo-parametro/postTipoParametro`, obj);
+        mensaje = ["Guardado con éxito", "btn-primary"];
+      } else {
+
+        response = await this.apiService.post(`${environment.apiBackend}/tipo-parametro/putTipoParametro`, obj);
+        mensaje = ["Registro actualizado", "btn-success"];
+      }
+
+      this.evaluar(response, mensaje);
     }
-
-    var response;
-    var mensaje = [];
-
-    if (this.boton.value == "Guardar") {
-      response = await this.apiService.post(`${environment.apiBackend}/tipo-parametro/postTipoParametro`, obj);
-      mensaje = ["Guardado con éxito", "btn-primary"];
-    } else {
-
-      response = await this.apiService.post(`${environment.apiBackend}/tipo-parametro/putTipoParametro`, obj);
-      mensaje = ["Registro actualizado", "btn-success"];
-    }
-
-    this.evaluar(response, mensaje);
 
   }
 
@@ -172,5 +181,15 @@ export class TipoParametrosComponent implements OnInit {
     new SnackBarClass(this.snackBar, mensaje[0], mensaje[1]).openSnackBar();
   }
 
+  validateEmptyFields() {
+
+    let success = true;
+
+    if (!this.validations.validateEmptyFields(this.form).success) {
+      success = false;
+    }
+
+    return success;
+  }
 
 }

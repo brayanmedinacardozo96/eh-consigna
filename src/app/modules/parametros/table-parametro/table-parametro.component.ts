@@ -10,7 +10,7 @@ import {MatSort} from '@angular/material/sort';
 })
 export class TableParametroComponent implements OnInit {
 
-  displayedColumns: string[] = ['tipo','nombre', 'descripcion', 'codigo','acciones'];
+  displayedColumns: string[] = ['tp_nombre','codigo','nombre', 'descripcion','acciones'];
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
