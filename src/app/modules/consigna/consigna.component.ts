@@ -151,7 +151,6 @@ export class ConsignaComponent implements OnInit {
     const response = await this.api.post(`${environment.apiBackend}/consigna/get-data-select`, null);
     let success = response.success;
     let data = response.data;
-    console.log(data);
 
     if(success){
       this.dataControls.tipoZona = data.tipoZona;
