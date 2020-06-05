@@ -143,9 +143,13 @@ export class ParametrosRegistroComponent implements OnInit {
       color: "btn-primary"
     }
     this.form.nombre.value = "";
+    this.form.nombre.messages = "";
     this.form.descripcion.value = "";
+    this.form.descripcion.messages="";
     this.form.tipo.id=null;
+    this.form.tipo.messages="";
     this.form.codigo.value="";
+    this.form.codigo.messages="";
     new Scroll("0");
 
   }
