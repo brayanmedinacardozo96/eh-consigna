@@ -9,6 +9,8 @@ import { Auth } from './../../../shared/auth';
 import { User } from './../../../shared/models/user';
 import { ConsignaNewMessageComponent } from './../consigna-new-message/consigna-new-message.component';
 import {MatDialog} from '@angular/material/dialog';
+import {ActivatedRoute} from '@angular/router';
+import { SessionService } from './../../../shared/services/session.service';
 
 @Component({
   selector: 'app-consigna-new',
@@ -17,6 +19,8 @@ import {MatDialog} from '@angular/material/dialog';
 })
 export class ConsignaNewComponent implements OnInit {
   
+  action = 'Guardar';
+  consignacionId = null;
   data = [];
   argNumConsigna = ['','','',''];
   dataElementos = [];
@@ -290,14 +294,69 @@ export class ConsignaNewComponent implements OnInit {
               private dateValidation: DateValidationervice,
               private fileValidation: FileValidationService,
               private snackBar: SnackBarService,
-              public dialog: MatDialog
+              public dialog: MatDialog,
+              private activeRoute: ActivatedRoute,
+              private session: SessionService
               ) { 
                 window.scrollTo(0,0);
                 this.form.solicitante.value = `${this.user.document_number} - ${this.user.first_name} ${this.user.second_name} ${this.user.first_lastname} ${this.user.second_lastname}`;
+                
+                this.activeRoute.params.subscribe(params => {
+
+                  if (params.id !== undefined && params.id !== null) {
+                    this.consignacionId = params.id;
+                    this.action = 'Editar';
+                    this.search(this.consignacionId).then();
+                  }
+            
+                });
               }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.getDataSelectConsigna();
+  }
+
+  async search(id){
+    const response = await this.api.get(`${environment.apiBackend}/consigna/get/${id}`);
+    if(response.success){
+      let dataResponse = response.data[0];
+
+      this.form.tipoZona.value = parseInt(dataResponse.zona_id);
+      this.form.tipoSolicitud.value = parseInt(dataResponse.tipo_solicitud_id);
+      this.form.fechaSolicitud.value = new Date(dataResponse.fecha_solicitud);
+      this.form.tipoConsignacion.value = parseInt(dataResponse.tipo_consignacion_id);
+      this.form.numeroConsigna.value = dataResponse.codigo;
+      this.form.consecutivoSnc.value = dataResponse.codigo_snc;
+      this.form.estadoConsigna.value = parseInt(dataResponse.estado_consignacion_id);
+      this.form.estadoEquipo.value = parseInt(dataResponse.estado_equipo_id);
+      this.form.subestacion.value = parseInt(dataResponse.lista_elemento[0].subestacion_id);
+      this.form.tipoMantenimiento.value = parseInt(dataResponse.tipo_mantenimiento_id);
+      this.form.trabajoEfectuar.value = dataResponse.trabajo_efectuar;
+      this.form.justificacion.value = dataResponse.justificacion;
+      this.form.observacionOpeyman.value = dataResponse.observacion_opeyman;
+      this.form.consignaOperativa.value = dataResponse.consigna_operativa;
+      this.form.medidasSeguiridad.value = dataResponse.medida_seguridad;
+      this.form.jefeTrabajo.value = dataResponse.jefe_trabajo;
+      this.form.telefonoJefeTrabajo.value = dataResponse.telefono_jefe_trabajo;
+      this.form.jefeTrabajoContratista.value = dataResponse.jefe_contratista;
+      this.form.telJefeTrabajoContratista.value = dataResponse.telefono_jefe_contratista;
+      this.form.moviles.value = dataResponse.movil;
+
+      this.dataElementos = [];
+      for(let value of dataResponse.lista_elemento){
+        const elemento = {
+          id:           {value: value.id},
+          tipoElemento: {name: value.elemento.tipo_elemento.nombre,                                     value: value.elemento.tipo_elemento.id},
+          elemento:     {name: value.elemento.nombre,                                                   value: value.elemento.id},
+          ramal:        {name: value.ramal == '1' ? 'Si' : 'No',                                        value: value.ramal},
+          fechaInicio:  {name: this.dateValidation.getYearMounthDay(new Date(value.fech_inicio_prog)),  value: value.fech_inicio_prog },
+          horaInicio:   {name: value.hora_inicio_prog,                                                  value: value.hora_inicio_prog },
+          fechaFinal:   {name: this.dateValidation.getYearMounthDay(new Date(value.fech_final_prog)),   value: value.fech_final_prog},
+          horaFinal:    {name: value.hora_final_prog,                                                   value: value.hora_final_prog},
+        }
+        this.dataElementos.push(elemento);
+      }      
+    }
   }
 
   setData(name, event, obj: any = undefined) {
@@ -339,6 +398,7 @@ export class ConsignaNewComponent implements OnInit {
     var horaFinal = this.formElementos.horaFinal.value;
     
     const elemento = {
+      id:           {value: null},
       tipoElemento: {name: textTipoElemento,  value: this.formElementos.tipoElemento.value},
       elemento:     {name: textElemento,      value: this.formElementos.elemento.value},
       ramal:        {name: textRamal,         value: this.formElementos.ramal.value},
@@ -446,7 +506,7 @@ export class ConsignaNewComponent implements OnInit {
 
   //Llena los selects del formulario
   async getDataSelectConsigna(){
-    const response = await this.api.post(`${environment.apiBackend}/consigna/get-data-select`, null);
+    /* const response = await this.api.post(`${environment.apiBackend}/consigna/get-data-select`, null);
     let success = response.success;
     let data = response.data;
 
@@ -461,7 +521,27 @@ export class ConsignaNewComponent implements OnInit {
       this.dataControls.tipoElemento = data.tipoElemento
       this.dataControls.elemento = data.elemento
     }
-    let message = response.message;
+    let message = response.message; */
+    if(this.session.getItem('tipoZona') == null){
+      const response = await this.session.getDataSelect();
+      if(response.success){
+        this.setSelect();
+      }
+    }else{
+      this.setSelect();1
+    }
+  }
+
+  setSelect(){
+    this.dataControls.tipoZona = this.session.getItem('tipoZona');
+    this.dataControls.tipoSolicitud = this.session.getItem('tipoSolicitud');
+    this.dataControls.tipoConsignacion = this.session.getItem('tipoConsignacion');
+    this.dataControls.estadoConsigna = this.session.getItem('estadoConsigna');
+    this.dataControls.estadoEquipo = this.session.getItem('estadoEquipo');
+    this.dataControls.tipoMantenimiento = this.session.getItem('tipoMantenimiento');
+    this.dataControls.subestacion = this.session.getItem('subestacion');
+    this.dataControls.tipoElemento = this.session.getItem('tipoElemento');
+    this.dataControls.elemento = this.session.getItem('elemento');
   }
 
   cleanAllFields(){

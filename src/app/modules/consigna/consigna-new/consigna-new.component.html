@@ -1,6 +1,6 @@
 <mat-card class="container">
     <mat-card-content>
-        <h1>Nueva Consigna</h1>
+        <h1>{{action}} Consigna</h1>
         <br>
         <mat-grid-list class="row" cols="4" rowHeight="80px">
             
@@ -471,7 +471,7 @@
 
         </mat-grid-list>
     <button (click)="guardarConsigna()" mat-raised-button color="primary" style="margin-left: 20px; margin-top: 10px;">
-        <span style="color: #FFF">Guardar</span>
+        <span style="color: #FFF">{{action}}</span>
     </button>
   
     </mat-card-content>

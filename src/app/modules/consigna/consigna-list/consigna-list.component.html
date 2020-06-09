@@ -53,7 +53,7 @@
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Trabajos Oportunidad</th>
           <td mat-cell *matCellDef="let row">
             <mat-icon *ngIf="row?.trabajo_oportunidad == 'true'" 
-            (click)="showTrabajoOportunidad(row?.trabajosOportunidad)" style="cursor: pointer;"
+            (click)="showTrabajoOportunidad(row?.consignacion_id)" style="cursor: pointer;"
             matTooltip="Ver Trabajos de Oportunidad" matTooltipClass="custom-tooltip"
             color="accent">dvr
             </mat-icon>
@@ -65,7 +65,7 @@
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Maniobras</th>
           <td mat-cell *matCellDef="let row">
             <mat-icon *ngIf="row?.registro_maniobra == 'true'" 
-            (click)="showManiobra(row?.maniobras)" style="cursor: pointer;"
+            (click)="showManiobra(row?.consignacion_id)" style="cursor: pointer;"
             matTooltip="Ver Registros de maniobras" matTooltipClass="custom-tooltip"
             color="primary">content_paste
             </mat-icon>
@@ -77,11 +77,11 @@
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Acciones</th>
           <td mat-cell *matCellDef="let row">
             <ul style="text-align: left;">
-                <mat-icon (click)="showElementoConsignado(row?.elementosConsignados)" style="cursor: pointer;"
+                <mat-icon (click)="editarElemento(row?.consignacion_id)" style="cursor: pointer;"
                 matTooltip="Editar" matTooltipClass="custom-tooltip"
                 color="accent">edit
                 </mat-icon>
-                <mat-icon (click)="imprimir(row?.elementosConsignados)" style="cursor: pointer;"
+                <mat-icon (click)="imprimir(row?.url_diagrama)" style="cursor: pointer;"
                 matTooltip="Imprimir" matTooltipClass="custom-tooltip"
                 color="basic">print
                 </mat-icon>

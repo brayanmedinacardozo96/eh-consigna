@@ -3,6 +3,7 @@ import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatDialog, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import {environment} from '../../../../environments/environment';
 export interface DialogData {};
 
 
@@ -26,9 +27,13 @@ export class ConsignaManiobraListComponent implements OnInit {
   }
 
   init(data) {
-    this.dataSource = new MatTableDataSource(data.data);
+    this.dataSource = new MatTableDataSource(data.response.data);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+  }
+  
+  showUrl(url){
+    window.open(`${environment.urlFiles}/public/${url}`);
   }
 
 }

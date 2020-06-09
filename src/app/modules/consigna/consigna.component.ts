@@ -4,6 +4,7 @@ import {ApiService} from '../../shared/services/api.service';
 import {ValidationService} from './../../shared/services/validations.service';
 import {DateValidationervice} from './../../shared/services/date-validations.service';
 import { SnackBarService } from './../../shared/services/snack-bar.service';
+import { SessionService } from './../../shared/services/session.service';
 
 @Component({
   selector: 'app-consigna',
@@ -94,7 +95,8 @@ export class ConsignaComponent implements OnInit {
   constructor(private api: ApiService,
               private validations: ValidationService,
               private dateValidation: DateValidationervice,
-              private snackBar: SnackBarService,) { }
+              private snackBar: SnackBarService,
+              private session: SessionService) { }
 
   ngOnInit(): void {
     this.getDataSelectConsigna();
@@ -109,8 +111,6 @@ export class ConsignaComponent implements OnInit {
         this.data = response.data;
         if(this.data.length < 1){
           this.snackBar.alert('No se encontraron registros con los parámetros consultados.',5000);
-        }else{
-          this.validations.cleanFields(this.form);
         }
       }
 
@@ -123,18 +123,22 @@ export class ConsignaComponent implements OnInit {
 
   //Llena los selects del formulario
   async getDataSelectConsigna(){
-    const response = await this.api.post(`${environment.apiBackend}/consigna/get-data-select`, null);
-    let success = response.success;
-    let data = response.data;
-
-    if(success){
-      this.dataControls.tipoZona = data.tipoZona;
-      this.dataControls.tipoSolicitud = data.tipoSolicitud;
-      this.dataControls.tipoConsignacion = data.tipoConsignacion;
-      this.dataControls.estadoConsigna = data.estadoConsigna;
-      this.dataControls.estadoEquipo = data.estadoEquipo;
+    if(this.session.getItem('tipoZona') == null){
+      const response = await this.session.getDataSelect();
+      if(response.success){
+        this.setSelect();
+      }
+    }else{
+      this.setSelect();1
     }
-    let message = response.message;
+  }
+
+  setSelect(){
+    this.dataControls.tipoZona = this.session.getItem('tipoZona');
+    this.dataControls.tipoSolicitud = this.session.getItem('tipoSolicitud');
+    this.dataControls.tipoConsignacion = this.session.getItem('tipoConsignacion');
+    this.dataControls.estadoConsigna = this.session.getItem('estadoConsigna');
+    this.dataControls.estadoEquipo = this.session.getItem('estadoEquipo');
   }
 
   cleanFields(){
