@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation} from '@angular/core';
 import { FileValidationService } from './../../../shared/services/file-validation.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-input-file',
@@ -9,7 +10,8 @@ import { FileValidationService } from './../../../shared/services/file-validatio
 })
 export class InputFileComponent implements OnInit {
 
-  fileName='';
+  @Input() fileName = '';
+  @Input() fileUrl = '';
   @Input() typeExtension;
   @Input() maxSize;
   @Input() placeholder;
@@ -21,21 +23,28 @@ export class InputFileComponent implements OnInit {
   }
 
   onFileSelected(event){
+    let urlTemp = this.fileName;
     this.messages = ''
     var files = event.target.files
     this.fileName = files [0].name
     const validationFile = this.fileValidation.validateDocument(event,this.maxSize,this.typeExtension)
     
     if(!validationFile.success){
-      this.fileName = ''
+      this.fileName = this.fileUrl != '' ? urlTemp : '';
       this.messages = validationFile.message
       event = undefined;
+    }else{
+      this.fileUrl = '';
     }
     this.valueChange.emit(event)
   }
 
   setMessage(message){
 
+  }
+
+  openDocument(){
+    window.open(`${environment.urlFiles}/public/${this.fileUrl}`, '_blank');
   }
 
 }

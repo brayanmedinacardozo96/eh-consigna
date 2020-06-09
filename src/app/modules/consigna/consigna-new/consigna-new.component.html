@@ -313,6 +313,8 @@
             [typeExtension]="['pdf','png']" [maxSize]="'5'"
             (valueChange)="setInput($event)"
             [messages] = "fileUpload.message"
+            [fileName] = "fileName"
+            [fileUrl] = "fileUrl"
         >                    
         </app-input-file>
 

@@ -280,6 +280,8 @@ export class ConsignaNewComponent implements OnInit {
   };
 
   inputFile: any;
+  fileName = '';
+  fileUrl = '';
   fileUpload = {
     success: null,
     message: null,
@@ -320,6 +322,8 @@ export class ConsignaNewComponent implements OnInit {
     const response = await this.api.get(`${environment.apiBackend}/consigna/get/${id}`);
     if(response.success){
       let dataResponse = response.data[0];
+      this.fileUrl = dataResponse.url_diagrama;
+      let urlDocument = this.fileUrl.split('/');
 
       this.form.tipoZona.value = parseInt(dataResponse.zona_id);
       this.form.tipoSolicitud.value = parseInt(dataResponse.tipo_solicitud_id);
@@ -341,6 +345,7 @@ export class ConsignaNewComponent implements OnInit {
       this.form.jefeTrabajoContratista.value = dataResponse.jefe_contratista;
       this.form.telJefeTrabajoContratista.value = dataResponse.telefono_jefe_contratista;
       this.form.moviles.value = dataResponse.movil;
+      this.fileName = urlDocument[urlDocument.length-1];
 
       this.dataElementos = [];
       for(let value of dataResponse.lista_elemento){
