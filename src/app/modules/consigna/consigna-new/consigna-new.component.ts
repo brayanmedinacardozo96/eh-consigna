@@ -506,24 +506,8 @@ export class ConsignaNewComponent implements OnInit {
 
   //Llena los selects del formulario
   async getDataSelectConsigna(){
-    /* const response = await this.api.post(`${environment.apiBackend}/consigna/get-data-select`, null);
-    let success = response.success;
-    let data = response.data;
-
-    if(success){
-      this.dataControls.tipoZona = data.tipoZona;
-      this.dataControls.tipoSolicitud = data.tipoSolicitud;
-      this.dataControls.tipoConsignacion = data.tipoConsignacion;
-      this.dataControls.estadoConsigna = data.estadoConsigna;
-      this.dataControls.estadoEquipo = data.estadoEquipo;
-      this.dataControls.tipoMantenimiento = data.tipoMantenimiento;
-      this.dataControls.subestacion = data.subestacion
-      this.dataControls.tipoElemento = data.tipoElemento
-      this.dataControls.elemento = data.elemento
-    }
-    let message = response.message; */
     if(this.session.getItem('tipoZona') == null){
-      const response = await this.session.getDataSelect();
+      const response = await this.session.getDataSelectConsigna();
       if(response.success){
         this.setSelect();
       }

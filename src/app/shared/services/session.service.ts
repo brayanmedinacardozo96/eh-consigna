@@ -17,7 +17,7 @@ export class SessionService {
     return JSON.parse(window.sessionStorage.getItem(name));
   }
 
-  async getDataSelect(){
+  async getDataSelectConsigna(){
     const response = await this.api.post(`${environment.apiBackend}/consigna/get-data-select`, null);
     let success = response.success;
     if(success){

@@ -100,6 +100,10 @@ export class ConsignaComponent implements OnInit {
 
   ngOnInit(): void {
     this.getDataSelectConsigna();
+    let dataConsigna = this.session.getItem('dataConsigna');
+    if(dataConsigna != null){
+      this.data = dataConsigna;
+    }
   }
 
   async search() {
@@ -109,6 +113,7 @@ export class ConsignaComponent implements OnInit {
       const response = await this.api.post(`${environment.apiBackend}/consigna/get-list`, this.form);
       if(response.success){
         this.data = response.data;
+        this.session.setItem('dataConsigna',this.data);//agregar en la variable de session
         if(this.data.length < 1){
           this.snackBar.alert('No se encontraron registros con los parámetros consultados.',5000);
         }
@@ -124,12 +129,12 @@ export class ConsignaComponent implements OnInit {
   //Llena los selects del formulario
   async getDataSelectConsigna(){
     if(this.session.getItem('tipoZona') == null){
-      const response = await this.session.getDataSelect();
+      const response = await this.session.getDataSelectConsigna();
       if(response.success){
         this.setSelect();
       }
     }else{
-      this.setSelect();1
+      this.setSelect();
     }
   }
 
@@ -143,6 +148,8 @@ export class ConsignaComponent implements OnInit {
 
   cleanFields(){
     this.validations.cleanFields(this.form);
+    this.data = [];
+    this.session.setItem('dataConsigna',null);
   }
 
 }
