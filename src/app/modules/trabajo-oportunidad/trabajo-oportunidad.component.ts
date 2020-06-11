@@ -35,14 +35,6 @@ export class TrabajoOportunidadComponent implements OnInit {
     id: {
       value: null,
     },
-    /* numeroConsigna:{
-      label: 'Consignación No.',
-      name: 'numeroConsigna',
-      value: null,
-      messages: null,
-      required: false,
-      url:"https://jsonplaceholder.typicode.com/users"
-    },*/
     trabajo: {
       label: 'Trabajos',
       name: 'trabajo',
@@ -82,8 +74,7 @@ export class TrabajoOportunidadComponent implements OnInit {
   };
 
   dataControls = {
-    elemento: [{ nombre: 'xxxxxx', lista_elemento_id: '1' }],
-    options: ['123', '456', '789'],
+    elemento: [{ nombre: '', lista_elemento_id: '' }],
   };
 
   dataTrabajo = [
