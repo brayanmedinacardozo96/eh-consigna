@@ -30,9 +30,9 @@
 
       </mat-grid-tile>
 
-    
+
     </mat-grid-list>
-  
+
 
     <app-input-file  [placeholder]="'Adjuntar documento'" [typeExtension]="['pdf','png']"
       [maxSize]="'5'">
@@ -41,6 +41,12 @@
     <button  mat-raised-button color="primary" style="margin-left: 20px; margin-top: 10px;">
       <span style="color: #FFF">Guardar</span>
     </button>
+
+
+
+    <div style="padding: 10px;">
+      <app-table-maniobra (valueChange)="setDataTable(dataManiobra, $event)" [data]="dataManiobra"></app-table-maniobra>
+    </div>
 
   </mat-card-content>
 </mat-card>

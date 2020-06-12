@@ -1,16 +1,14 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { MDialogComponent } from '../../ui/forms/m-dialog/m-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Mensaje } from '../../ui/forms/m-dialog/dialog';
-import { TableTrabajoOportunidadComponent } from './table-trabajo-oportunidad/table-trabajo-oportunidad.component';
 import { ApiService } from '../../shared/services/api.service';
 import { ValidationService } from '../../shared/services/validations.service';
 import { Scroll } from '../../ui/forms/scroll/scroll';
 import { SnackBarClass } from '../../ui/snack-bar/snack-bar';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {ModalConfirmComponent} from "../../ui/forms/modal-confirm/modal-confirm.component";
-import { Key } from 'protractor';
+
 
 @Component({
   selector: 'app-trabajo-oportunidad',
@@ -18,7 +16,7 @@ import { Key } from 'protractor';
   styleUrls: ['./trabajo-oportunidad.component.scss'],
 })
 export class TrabajoOportunidadComponent implements OnInit {
-  @ViewChild(TableTrabajoOportunidadComponent) child;
+
 
   constructor(
     private dialogo: MatDialog,
