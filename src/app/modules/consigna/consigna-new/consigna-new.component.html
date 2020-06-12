@@ -106,7 +106,7 @@
                     <mat-label>{{form.subestacion.required ? form.subestacion.label+' *' : form.subestacion.label}}</mat-label>
                     <mat-select [(ngModel)]="form.subestacion.value" style="padding-top: 5px;padding-bottom: 5px;">
                         <mat-option *ngFor="let value of dataControls?.subestacion;" [value]="value.id">
-                            {{ value.nombre }}
+                            {{ value.codigo }}
                         </mat-option>
                     </mat-select>
                     <mat-hint style="color: red" *ngIf="form.subestacion.messages">{{form.subestacion.messages}}</mat-hint>
@@ -472,9 +472,9 @@
             </mat-grid-tile>
 
         </mat-grid-list>
-    <button (click)="guardarConsigna()" mat-raised-button color="primary" style="margin-left: 20px; margin-top: 10px;">
+    <!-- <button id="the-button" (click)="guardarConsigna()" mat-raised-button color="primary" style="margin-left: 20px; margin-top: 10px;">
         <span style="color: #FFF">{{action}}</span>
-    </button>
+    </button> -->
   
     </mat-card-content>
   </mat-card>

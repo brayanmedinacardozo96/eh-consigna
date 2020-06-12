@@ -18,7 +18,6 @@ export class ConsignaNewMessageComponent implements OnInit {
   }
 
   init(data) {
-    console.log(data);
     this.message = data.response.message;
   }
 
