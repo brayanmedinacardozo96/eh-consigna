@@ -19,7 +19,7 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Documento</th>
         <td style="text-align:center" mat-cell *matCellDef="let row">
 
-          <mat-icon (click)="seleccionar(documento)" style="cursor: pointer;" title="Documento" matTooltipClass="custom-tooltip"
+          <mat-icon (click)="seleccionar(row.documento)" style="cursor: pointer;" title="Documento" matTooltipClass="custom-tooltip"
             color="accent">
             description
           </mat-icon>
