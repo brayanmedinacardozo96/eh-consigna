@@ -3,22 +3,6 @@
     <h1>Maniobras</h1>
     <mat-grid-list class="row" cols="2" rowHeight="103px">
 
-      <mat-grid-tile [colspan]="2">
-
-        <app-input-autocomplete style="width: 96%;" [label]="form.numeroConsigna.label"
-          [value]="form.numeroConsigna.value" [name]="form.numeroConsigna.name"
-          [messages]="form.numeroConsigna.messages" (valueChange)="setData(form.numeroConsigna.name, $event)"
-          [urlApi]="form.numeroConsigna.url">
-        </app-input-autocomplete>
-        <div style="padding-bottom:20px">
-          <button mat-mini-fab color="accent" (click)="dialogConsigna()" matTooltip="Consultar"
-            matTooltipClass="custom-tooltip">
-            <mat-icon style="color: #FFFFFF">search</mat-icon>
-          </button>
-        </div>
-
-      </mat-grid-tile>
-
 
       <mat-grid-tile [colspan]="2">
 
@@ -30,9 +14,9 @@
 
       </mat-grid-tile>
 
-    
+
     </mat-grid-list>
-  
+
 
     <app-input-file  [placeholder]="'Adjuntar documento'" [typeExtension]="['pdf','png']"
       [maxSize]="'5'">
@@ -41,6 +25,12 @@
     <button  mat-raised-button color="primary" style="margin-left: 20px; margin-top: 10px;">
       <span style="color: #FFF">Guardar</span>
     </button>
+
+
+
+    <div style="padding: 10px;">
+      <app-table-maniobra (valueChange)="setDataTable(dataManiobra, $event)" [data]="dataManiobra"></app-table-maniobra>
+    </div>
 
   </mat-card-content>
 </mat-card>

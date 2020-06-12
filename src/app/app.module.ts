@@ -23,6 +23,7 @@ import {ManiobraModule} from './modules/maniobra/maniobra.module';
 import {AutorizarModule} from './modules/autorizar/autorizar.module';
 import {ParametrosModule} from './modules/parametros/parametros.module';
 
+
 @NgModule({
   declarations: [
     AppComponent,

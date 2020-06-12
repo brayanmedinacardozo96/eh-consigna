@@ -11,6 +11,8 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatTableModule} from '@angular/material/table';
 //import {InputFileComponent}  from '../../ui/forms/input-file/input-file.component';
 
 
@@ -29,6 +31,8 @@ import {MatIconModule} from '@angular/material/icon';
     MatButtonToggleModule,
     MatButtonModule,
     MatIconModule,
+    MatPaginatorModule,
+    MatTableModule,
     //InputFileComponent,
   ]
 })
