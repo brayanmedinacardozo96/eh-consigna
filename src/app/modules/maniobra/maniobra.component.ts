@@ -10,6 +10,7 @@ import { Scroll } from '../../ui/forms/scroll/scroll';
 import { SnackBarClass } from '../../ui/snack-bar/snack-bar';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FileValidationService } from '../../shared/services/file-validation.service';
+import {ModalConfirmComponent} from "../../ui/forms/modal-confirm/modal-confirm.component";
 
 @Component({
   selector: 'app-maniobra',
@@ -24,9 +25,9 @@ export class ManiobraComponent implements OnInit {
     private apiService: ApiService,
     private snackBar: MatSnackBar,
     private fileValidation: FileValidationService,
+    private dialogo: MatDialog,
     ) { }
 
-  consignacion_id = 8;
 
   form = {
     id: {
@@ -41,6 +42,13 @@ export class ManiobraComponent implements OnInit {
     },
     url_documento:{
       value: null,
+    },
+    consigna:{
+      label: 'Consigna',
+      name: 'consigna',
+      value: null,
+      messages: null,
+      required: false,
     }
   }
   inputFile: any;
@@ -51,8 +59,8 @@ export class ManiobraComponent implements OnInit {
   };
   dataManiobra = [
     {
-      descripcion: 'ok',
-      documento: 'ok',
+      descripcion: '',
+      documento: '',
 
     },
   ];
@@ -63,15 +71,51 @@ export class ManiobraComponent implements OnInit {
   };
 
 
+
   ngOnInit(): void {
+
+    this.form.consigna.value=8;
+    this.select();
   }
 
   setDataTable(data, event){
+
+    if (event[0] == 'select') {
+
+    }
+
+    if (event[0] == 'delete') {
+
+      this.dialogo
+      .open(ModalConfirmComponent, {
+        data: new Mensaje("Eliminar:","Este registro.")
+      })
+      .afterClosed()
+      .subscribe((confirmado: Boolean) => {
+        if (confirmado) {
+          this.eliminar(event[1]);
+        }
+      });
+
+    }
 
   }
 
   setData(name, event) {
     this.form[name].value = event;
+  }
+
+  async select() {
+
+    const response = await this.apiService.get(
+      `${environment.apiBackend}/maniobra/getManiobra/${this.form.consigna.value}`
+    );
+
+    if (response.message == null) {
+
+      this.dataManiobra = response.data;
+
+    }
   }
 
   async guardar() {
@@ -80,36 +124,47 @@ export class ManiobraComponent implements OnInit {
 
     if (this.validateEmptyFields() &&  this.fileUpload.success) {
 
+
       let formData: FormData = new FormData();
       formData= this.fileUpload.files;
 
-      var obj = {
-        id:this.form.id.value,
-        consignacion_id: this.consignacion_id,
-        descripcion: this.form.descripcion.value,
-        url_documento: formData,
-
-      };
+      formData = this.fileUpload.files;
+      formData.append('form',JSON.stringify(this.form));
+      formData.append('descripcion',JSON.stringify(this.form.descripcion.value));
+      formData.append('consigna_id', JSON.stringify(this.form.consigna.value) );
 
       var response;
       var mensaje = [];
 
       if (this.boton.value == 'Guardar') {
         response = await this.apiService.post(
-          `${environment.apiBackend}/trabajos-oportunidad/postTrabajoOportunidad`,
-          obj
+          `${environment.apiBackend}/maniobra/postManiobra`,
+          formData
         );
         mensaje = ['Guardado con éxito', 'btn-primary'];
       } else {
         response = await this.apiService.post(
-          `${environment.apiBackend}/trabajos-oportunidad/putTrabajoOportunidad`,
-          obj
+          `${environment.apiBackend}/maniobra/putManiobra`,
+          formData
         );
         mensaje = ['Registro actualizado', 'btn-success'];
       }
 
       this.evaluar(response, mensaje);
     }
+  }
+
+  async eliminar(key) {
+    var mensaje = [];
+    var response = await this.apiService.post(`${environment.apiBackend}/maniobra/deleteManiobra`, {
+      id: key.id,
+      consignacion_id:key.consignacion_id
+    });
+
+    mensaje = ["Registro eliminado", "btn-default"];
+
+    this.evaluar(response, mensaje);
+
   }
 
   validateEmptyFields() {
@@ -141,6 +196,10 @@ export class ManiobraComponent implements OnInit {
       color: "btn-primary"
     }
     new Scroll('0');
+  }
+
+  setInput(event){
+    this.inputFile = event;
   }
 
 }
