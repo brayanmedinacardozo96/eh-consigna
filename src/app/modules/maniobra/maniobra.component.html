@@ -17,14 +17,22 @@
 
     </mat-grid-list>
 
+    <app-input-file [placeholder]="'Adjuntar documento *'"
+    [typeExtension]="['pdf','xlsx']" [maxSize]="'5'"
+    (valueChange)="setInput($event)"
+    [messages] = "fileUpload.message"
 
-    <app-input-file  [placeholder]="'Adjuntar documento'" [typeExtension]="['pdf','png']"
-      [maxSize]="'5'">
-    </app-input-file>
 
-    <button  mat-raised-button color="primary" style="margin-left: 20px; margin-top: 10px;">
-      <span style="color: #FFF">Guardar</span>
+    >
+
+</app-input-file>
+
+    <button mat-raised-button class="{{boton.color}}" (click)="guardar()" style="margin-left: 20px; margin-top: 10px;">
+      <span style="color: #FFF">{{boton.value}}</span>
     </button>
+
+    <button mat-flat-button class="btn-default" (click)="limpiar()"
+      style="margin-left: 20px; margin-top: 10px;">Limpiar</button>
 
 
 
