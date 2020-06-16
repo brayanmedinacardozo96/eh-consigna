@@ -9,6 +9,7 @@ import { ConsignaTrabajoListComponent } from './../consigna-trabajo-list/consign
 import { ConsignaManiobraListComponent } from './../consigna-maniobra-list/consigna-maniobra-list.component';
 import { ApiService } from 'src/app/shared/services/api.service';
 import {Router} from "@angular/router";
+import { SnackBarService } from './../../../shared/services/snack-bar.service';
 
 @Component({
   selector: 'app-consigna-list',
@@ -28,7 +29,9 @@ export class ConsignaListComponent implements OnInit {
 
   constructor(private api: ApiService,
               public dialog: MatDialog,
-              private router: Router) { }
+              private router: Router,
+              private snackBar: SnackBarService
+              ) { }
 
   ngOnInit() {
     // this.init([]);
@@ -80,8 +83,15 @@ export class ConsignaListComponent implements OnInit {
     });
   }
 
-  imprimir(url){
-    window.open(`${environment.urlFiles}/public/${url}`);
+  async generatePdf(html){
+    const response = await this.api.post(`${environment.apiBackend}/file/generate-pdf`, {html: html} );
+      let success = response.success;
+      let message = response.message;
+      if(success){
+        window.open(`${environment.urlFiles}/${response.path}`);
+      }else{
+        this.snackBar.alert('Ocurrió un error, por favor vuelva a intentarlo o contáctese con el administrador.',10000)
+      }
   }
 
   editarElemento(id){

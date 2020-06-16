@@ -81,7 +81,7 @@
                 matTooltip="Editar" matTooltipClass="custom-tooltip"
                 color="accent">edit
                 </mat-icon>
-                <mat-icon (click)="imprimir(row?.url_diagrama)" style="cursor: pointer;"
+                <mat-icon *ngIf="row?.html_documento" (click)="generatePdf(row?.html_documento)" style="cursor: pointer;"
                 matTooltip="Imprimir" matTooltipClass="custom-tooltip"
                 color="basic">print
                 </mat-icon>

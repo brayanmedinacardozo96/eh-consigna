@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { environment } from './../../../../environments/environment';
 import { ApiService } from './../../../shared/services/api.service';
+import { SnackBarService } from './../../../shared/services/snack-bar.service';
 export interface DialogData {};
 
 @Component({
@@ -14,7 +15,8 @@ export class ConsignaNewMessageComponent implements OnInit {
   message = '';
   html = '';
   constructor(private api: ApiService,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData) { 
+    @Inject(MAT_DIALOG_DATA) public data: DialogData,
+    private snackBar: SnackBarService) { 
     this.init(data)
   }
 
@@ -33,7 +35,7 @@ export class ConsignaNewMessageComponent implements OnInit {
       if(success){
         window.open(`${environment.urlFiles}/${response.path}`);
       }else{
-
+        this.snackBar.alert('Ocurrió un error, por favor vuelva a intentarlo o contáctese con el administrador.',10000)
       }
   }
 
