@@ -10,6 +10,7 @@ export const environment = {
   keyTransverseSecurity: '$2y$10$OjsZGz0JqaUiFvvLHBt1I.sv5oW3bcZTOTavMOqwfAT2TxYhZa1HS',
   apiBackend: 'http://localhost/back-consigna/public/api',
   urlFiles: 'http://localhost/back-consigna/',
+  urlFrontendST: 'http://192.9.200.44/transverse-security/#',
 };
 
 /*

@@ -6,4 +6,5 @@ export const environment = {
   keyTransverseSecurity: '$2y$10$OjsZGz0JqaUiFvvLHBt1I.sv5oW3bcZTOTavMOqwfAT2TxYhZa1HS',
   apiBackend: 'http://192.9.200.44/back-consignas/public/api',
   urlFiles: 'http://192.9.200.44/back-consignas/',
+  urlFrontendST: 'https://enlinea.electrohuila.com.co/transverse-security/#',
 };

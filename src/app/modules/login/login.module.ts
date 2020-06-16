@@ -8,19 +8,21 @@ import {MatGridListModule} from '@angular/material/grid-list';
 import {CustomFormsModule} from '../../ui/forms/custom-forms.module';
 import {BoxAlertsModule} from '../../ui/box-alerts/box-alerts.module';
 import {UiModule} from '../../ui/ui.module';
+import {RouterModule} from "@angular/router";
 
 @NgModule({
   declarations: [LoginComponent],
-  imports: [
-    CommonModule,
-    MatIconModule,
-    MatButtonModule,
-    MatCardModule,
-    MatGridListModule,
-    CustomFormsModule,
-    BoxAlertsModule,
-    UiModule,
-  ],
+    imports: [
+        CommonModule,
+        MatIconModule,
+        MatButtonModule,
+        MatCardModule,
+        MatGridListModule,
+        CustomFormsModule,
+        BoxAlertsModule,
+        UiModule,
+        RouterModule,
+    ],
   exports: [
     LoginComponent
   ],

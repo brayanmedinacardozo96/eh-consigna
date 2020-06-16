@@ -42,7 +42,7 @@ export class TableManiobraComponent implements OnInit {
   }
 
   imprimir(data){
-    console.log(data)
+    console.log(data.url_documento);
   }
 
   seleccionar(row)
