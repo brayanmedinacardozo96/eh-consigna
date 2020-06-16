@@ -14,9 +14,9 @@
 
       <div *ngIf="auth.getLogin()" class="container-right">
         <span class="name-user">{{auth.getNameUser()}}</span>
-        <span (click)="logout()" class="material-icons btn-logout"
+        <span (click)="changePassword()" matTooltip="Cambiar contraseña" class="material-icons btn-right btn-change-password">vpn_key</span>
+        <span (click)="logout()" class="material-icons btn-right"
           matTooltip="Salir"
-          matTooltipClass="custom-tooltip"
         >exit_to_app</span>
       </div>
 

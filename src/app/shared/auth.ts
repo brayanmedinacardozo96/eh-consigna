@@ -25,6 +25,11 @@ export class Auth {
     return token.data_app;
   }
 
+  public static getActions() {
+    const token = this.getLogin();
+    return token.actions;
+  }
+
   public static logout() {
     localStorage.removeItem('token');
     localStorage.clear();
