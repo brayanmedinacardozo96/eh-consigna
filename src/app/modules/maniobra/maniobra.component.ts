@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {MDialogComponent} from '../../ui/forms/m-dialog/m-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
 import {Mensaje} from '../../ui/forms/m-dialog/dialog';
-import {TableManiobraComponent} from './table-maniobra/table-maniobra.component';
 import { ValidationService } from '../../shared/services/validations.service';
 import { environment } from 'src/environments/environment';
 import { ApiService } from '../../shared/services/api.service';
@@ -38,7 +36,7 @@ export class ManiobraComponent implements OnInit {
       name: 'descripcion',
       value: null,
       messages: null,
-      required: false,
+      required: true,
     },
     url_documento:{
       value: null,
@@ -52,6 +50,7 @@ export class ManiobraComponent implements OnInit {
     }
   }
   inputFile: any;
+  isDivVisible=true;
   fileUpload = {
     success: null,
     message: null,
@@ -59,6 +58,7 @@ export class ManiobraComponent implements OnInit {
   };
   dataManiobra = [
     {
+      id:null,
       descripcion: '',
       documento: '',
 
@@ -82,6 +82,12 @@ export class ManiobraComponent implements OnInit {
 
     if (event[0] == 'select') {
 
+       this.form.descripcion.value=event[1].descripcion;
+       this.form.id.value=event[1].id;
+       this.isDivVisible=false;
+       this.boton.color = "btn-success";
+       this.boton.value = "Actualizar";
+       new Scroll('0');
     }
 
     if (event[0] == 'delete') {
@@ -120,45 +126,68 @@ export class ManiobraComponent implements OnInit {
 
   async guardar() {
 
-    this.fileUpload = this.fileValidation.fileUp(this.inputFile);
+    var response;
+    var mensaje = [];
 
-    if (this.validateEmptyFields() &&  this.fileUpload.success) {
+    if( this.validateEmptyFields() )
+    {
+      if(this.boton.value == "Actualizar")
+      {
+
+          response = await this.apiService.post(
+            `${environment.apiBackend}/maniobra/putManiobra`,
+            {
+              id:this.form.id.value,
+              descripcion:this.form.descripcion.value,
+              consignacion_id:this.form.consigna.value
+            }
+          );
+
+          mensaje = ['Registro actualizado', 'btn-success'];
+
+          this.evaluar(response, mensaje);
+
+      }else{
+
+        this.fileUpload = this.fileValidation.fileUp(this.inputFile);
+
+        if (this.fileUpload.success) {
 
 
-      let formData: FormData = new FormData();
-      formData= this.fileUpload.files;
+          let formData: FormData = new FormData();
+          formData= this.fileUpload.files;
 
-      formData = this.fileUpload.files;
-      formData.append('form',JSON.stringify(this.form));
-      formData.append('descripcion',JSON.stringify(this.form.descripcion.value));
-      formData.append('consigna_id', JSON.stringify(this.form.consigna.value) );
+          formData = this.fileUpload.files;
+          formData.append('form',JSON.stringify(this.form));
+          formData.append('descripcion',JSON.stringify(this.form.descripcion.value));
+          formData.append('consigna_id', JSON.stringify(this.form.consigna.value) );
 
-      var response;
-      var mensaje = [];
+            response = await this.apiService.post(
+              `${environment.apiBackend}/maniobra/postManiobra`,
+              formData
+            );
 
-      if (this.boton.value == 'Guardar') {
-        response = await this.apiService.post(
-          `${environment.apiBackend}/maniobra/postManiobra`,
-          formData
-        );
-        mensaje = ['Guardado con éxito', 'btn-primary'];
-      } else {
-        response = await this.apiService.post(
-          `${environment.apiBackend}/maniobra/putManiobra`,
-          formData
-        );
-        mensaje = ['Registro actualizado', 'btn-success'];
+            mensaje = ['Guardado con éxito', 'btn-primary'];
+
+            this.evaluar(response, mensaje);
+
+        }
+
       }
 
-      this.evaluar(response, mensaje);
+
     }
+
+
+
   }
 
   async eliminar(key) {
     var mensaje = [];
     var response = await this.apiService.post(`${environment.apiBackend}/maniobra/deleteManiobra`, {
       id: key.id,
-      consignacion_id:key.consignacion_id
+      consignacion_id:key.consignacion_id,
+      url_documento:key.url_documento
     });
 
     mensaje = ["Registro eliminado", "btn-default"];
@@ -195,6 +224,7 @@ export class ManiobraComponent implements OnInit {
       value: "Guardar",
       color: "btn-primary"
     }
+    this.isDivVisible=true;
     new Scroll('0');
   }
 
