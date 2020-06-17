@@ -12,9 +12,14 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatTableModule} from '@angular/material/table';
+import { TrabajoOportunidadComponent } from './trabajo-oportunidad.component';
+import { TableTrabajoOportunidadComponent } from './table-trabajo-oportunidad/table-trabajo-oportunidad.component';
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    TrabajoOportunidadComponent,
+    TableTrabajoOportunidadComponent
+  ],
   imports: [
     CommonModule,
     MatCardModule,
@@ -29,6 +34,10 @@ import {MatTableModule} from '@angular/material/table';
     MatIconModule,
     MatPaginatorModule,
     MatTableModule
+  ],
+  exports: [
+    TrabajoOportunidadComponent,
+    TableTrabajoOportunidadComponent
   ]
 })
 export class TrabajoOportunidadModule { }

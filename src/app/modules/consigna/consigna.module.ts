@@ -30,13 +30,22 @@ import { ConsignaTrabajoListComponent } from './consigna-trabajo-list/consigna-t
 import { ConsignaManiobraListComponent } from './consigna-maniobra-list/consigna-maniobra-list.component';
 import { ConsignaTabsComponent } from './consigna-tabs/consigna-tabs.component';
 import { ConsignaUserComponent } from './consigna-user/consigna-user.component';
-import {TrabajoOportunidadComponent} from '../trabajo-oportunidad/trabajo-oportunidad.component';
-import {TableTrabajoOportunidadComponent} from '../trabajo-oportunidad/table-trabajo-oportunidad/table-trabajo-oportunidad.component';
-import {ManiobraComponent} from '../maniobra/maniobra.component';
 import { ConsignaNewMessageComponent } from './consigna-new-message/consigna-new-message.component';
-import {TableManiobraComponent} from '../maniobra/table-maniobra/table-maniobra.component';
+import { TrabajoOportunidadModule } from './../trabajo-oportunidad/trabajo-oportunidad.module';
+import { ManiobraModule } from './../maniobra/maniobra.module';
+
 @NgModule({
-  declarations: [ConsignaComponent, ConsignaNewComponent, ConsignaListComponent, ConsignaElementoListComponent, ConsignaTrabajoListComponent, ConsignaManiobraListComponent, ConsignaTabsComponent, ConsignaUserComponent,TrabajoOportunidadComponent,TableTrabajoOportunidadComponent,ManiobraComponent, ConsignaNewMessageComponent,TableManiobraComponent],
+  declarations: [
+    ConsignaComponent, 
+    ConsignaNewComponent, 
+    ConsignaListComponent, 
+    ConsignaElementoListComponent, 
+    ConsignaTrabajoListComponent, 
+    ConsignaManiobraListComponent, 
+    ConsignaTabsComponent, 
+    ConsignaUserComponent,
+    ConsignaNewMessageComponent,
+  ],
   imports: [
     CommonModule,
     MatCardModule,
@@ -60,7 +69,9 @@ import {TableManiobraComponent} from '../maniobra/table-maniobra/table-maniobra.
     MatProgressBarModule,
     MatDialogModule,
     MatTabsModule,
-    MatListModule
+    MatListModule,
+    TrabajoOportunidadModule,
+    ManiobraModule
   ]
 })
 export class ConsignaModule { }

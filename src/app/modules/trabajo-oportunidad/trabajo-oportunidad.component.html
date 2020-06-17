@@ -26,9 +26,9 @@
 
         <mat-form-field class="input" style="width: 95%;">
           <mat-label>{{form.elemento.required ? form.elemento.label +' *' : form.elemento.label}} </mat-label>
-          <mat-select (valueChange)="setData(form.elemento.name, $event)" [(ngModel)]="form.elemento.lista_elemento_id">
-            <mat-option *ngFor="let value of dataControls?.elemento;" [value]="value.lista_elemento_id">
-              {{value.nombre}}
+          <mat-select id="form_trabajo-elemento" (valueChange)="setData(form.elemento.name, $event)" [(ngModel)]="form.elemento.lista_elemento_id">
+            <mat-option *ngFor="let value of elementos;" [value]="value.value">
+              {{value.name}}
             </mat-option>
           </mat-select>
           <mat-hint style="color: red" *ngIf="form.elemento.messages">{{form.elemento.messages}}</mat-hint>
@@ -87,7 +87,7 @@
     </button>
 
     <div style="padding: 10px;">
-      <app-table-trabajo-oportunidad  (valueChange)="setDataTable(dataTrabajo, $event)" [data]="dataTrabajo"></app-table-trabajo-oportunidad>
+      <app-table-trabajo-oportunidad  (valueChange)="setDataTable(dataTrabajo, $event)" [data]="trabajosOportunidad"></app-table-trabajo-oportunidad>
     </div>
 
   </mat-card-content>

@@ -11,12 +11,14 @@ import { ManiobraComponent } from './../../maniobra/maniobra.component';
 })
 export class ConsignaTabsComponent implements OnInit {
 
+  elementos = [];
+  trabajosOportunidad = [];
   action = 'Guardar';
   nameTab = 'Nueva';
   consignacionId = null;
 
   @ViewChild(ConsignaNewComponent) consigna: ConsignaNewComponent;
-  @ViewChild(TrabajoOportunidadComponent) trabajoOportunidad: TrabajoOportunidadComponent;
+  // @ViewChild(TrabajoOportunidadComponent) trabajoOportunidad: TrabajoOportunidadComponent;
   @ViewChild(ManiobraComponent) maniobra: ManiobraComponent;
 
 
@@ -37,6 +39,14 @@ export class ConsignaTabsComponent implements OnInit {
 
   saveConsigna(){
     this.consigna.guardarConsigna();
+  }
+
+  setElemento(data){
+    this.elementos.push(data);
+  }
+
+  setTrabajoOportunidad(data){
+    this.trabajosOportunidad = data;
   }
 
 }

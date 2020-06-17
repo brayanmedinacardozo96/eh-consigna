@@ -1,9 +1,12 @@
 <mat-tab-group mat-align-tabs="center" animationDuration="500ms">
     <mat-tab label="{{nameTab}} Consigna">
-        <app-consigna-new></app-consigna-new>
+        <app-consigna-new (setElemento)="setElemento($event)"></app-consigna-new>
     </mat-tab>
     <mat-tab label="Trabajos de Oportunidad">
-          <app-trabajo-oportunidad></app-trabajo-oportunidad>
+          <app-trabajo-oportunidad  
+          [elementos]="elementos"
+          (setTrabajoOportunidad)="setTrabajoOportunidad($event)"
+          ></app-trabajo-oportunidad>
     </mat-tab>
     <mat-tab label="Registro de Maniobras">
         <app-maniobra></app-maniobra>

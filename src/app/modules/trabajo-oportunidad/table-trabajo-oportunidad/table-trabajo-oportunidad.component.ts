@@ -43,14 +43,12 @@ export class TableTrabajoOportunidadComponent implements OnInit {
   }
 
   imprimir(data){
-    console.log(data)
+    // console.log(data)
   }
 
   seleccionar(row)
   {
-
     this.valueChange.emit(["select",row]);
-
   }
 
   eliminar(row)

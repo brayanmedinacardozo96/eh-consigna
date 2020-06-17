@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, Output, EventEmitter } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { MatDialog } from '@angular/material/dialog';
 import { Mensaje } from '../../ui/forms/m-dialog/dialog';
@@ -8,7 +8,7 @@ import { Scroll } from '../../ui/forms/scroll/scroll';
 import { SnackBarClass } from '../../ui/snack-bar/snack-bar';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {ModalConfirmComponent} from "../../ui/forms/modal-confirm/modal-confirm.component";
-
+import { TableTrabajoOportunidadComponent } from './table-trabajo-oportunidad/table-trabajo-oportunidad.component';
 
 @Component({
   selector: 'app-trabajo-oportunidad',
@@ -16,6 +16,11 @@ import {ModalConfirmComponent} from "../../ui/forms/modal-confirm/modal-confirm.
   styleUrls: ['./trabajo-oportunidad.component.scss'],
 })
 export class TrabajoOportunidadComponent implements OnInit {
+
+  @Input() elementos = [];
+  @Input() trabajosOportunidad  = [];
+  @Output() setTrabajoOportunidad = new EventEmitter();
+  @ViewChild(TableTrabajoOportunidadComponent) tableTrabajoOportunidad: TableTrabajoOportunidadComponent;
 
 
   constructor(
@@ -72,11 +77,11 @@ export class TrabajoOportunidadComponent implements OnInit {
   };
 
   dataControls = {
-    elemento: [{ nombre: '', lista_elemento_id: '' }],
+    elemento: [],
   };
 
   dataTrabajo = [
-    {
+    /* {
       elemento: '',
       trabajo: '',
       medida_seguridad: '',
@@ -85,7 +90,7 @@ export class TrabajoOportunidadComponent implements OnInit {
       lista_elemento_id:null,
       id:null,
       consignacion_id:null,
-    },
+    }, */
   ];
 
   boton = {
@@ -96,8 +101,8 @@ export class TrabajoOportunidadComponent implements OnInit {
   consignacion_id = 8;
 
   ngOnInit(): void {
-    this.getElemento();
-    this.select();
+    // this.getElemento();
+    // this.select();
   }
 
   setData(name, event) {
@@ -159,17 +164,26 @@ export class TrabajoOportunidadComponent implements OnInit {
 
   async guardar() {
     if (this.validateEmptyFields()) {
+
+      var elemento = ((document.getElementById("form_trabajo-elemento")) as HTMLSelectElement).textContent;
+
       var obj = {
         id:this.form.id.value,
         consignacion_id: this.consignacion_id,
         trabajo: this.form.trabajo.value,
-        medidaSeguridad: this.form.medidaSeguridad.value,
-        jefeTrabajo: this.form.jefeTrabajo.value,
+        medida_seguridad: this.form.medidaSeguridad.value,
+        jefe_trabajo: this.form.jefeTrabajo.value,
         telefono: this.form.telefono.value,
         lista_elemento_id: this.form.elemento.lista_elemento_id,
+        elemento: elemento
       };
 
-      var response;
+      this.trabajosOportunidad.push(obj);
+      this.setTrabajoOportunidad.emit(this.trabajosOportunidad);
+
+      this.tableTrabajoOportunidad.init(this.trabajosOportunidad);
+
+      /* var response;
       var mensaje = [];
 
       if (this.boton.value == 'Guardar') {
@@ -186,7 +200,7 @@ export class TrabajoOportunidadComponent implements OnInit {
         mensaje = ['Registro actualizado', 'btn-success'];
       }
 
-      this.evaluar(response, mensaje);
+      this.evaluar(response, mensaje); */
     }
   }
 
@@ -222,7 +236,10 @@ export class TrabajoOportunidadComponent implements OnInit {
   }
 
   async eliminar(key) {
-    var mensaje = [];
+    this.trabajosOportunidad.splice(key,1);
+    this.tableTrabajoOportunidad.init(this.trabajosOportunidad);
+    console.log(this.trabajosOportunidad);
+    /* var mensaje = [];
     var response = await this.apiService.post(`${environment.apiBackend}/trabajos-oportunidad/deleteTrabajoOportunidad`, {
       id: key.id,
       consignacion_id:key.consignacion_id
@@ -230,7 +247,8 @@ export class TrabajoOportunidadComponent implements OnInit {
 
     mensaje = ["Registro eliminado", "btn-default"];
 
-    this.evaluar(response, mensaje);
+    this.evaluar(response, mensaje); */
 
   }
+
 }

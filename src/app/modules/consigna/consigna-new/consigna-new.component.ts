@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, Output, EventEmitter } from '@angular/core';
 import {ApiService} from '../../../shared/services/api.service';
 import {ValidationService} from '../../../shared/services/validations.service';
 import {DateValidationervice} from '../../../shared/services/date-validations.service';
@@ -11,6 +11,7 @@ import { ConsignaNewMessageComponent } from './../consigna-new-message/consigna-
 import {MatDialog} from '@angular/material/dialog';
 import {Router,ActivatedRoute} from '@angular/router';
 import { SessionService } from './../../../shared/services/session.service';
+import { TrabajoOportunidadComponent } from './../../trabajo-oportunidad/trabajo-oportunidad.component';
 
 @Component({
   selector: 'app-consigna-new',
@@ -18,6 +19,10 @@ import { SessionService } from './../../../shared/services/session.service';
   styleUrls: ['./consigna-new.component.scss']
 })
 export class ConsignaNewComponent implements OnInit {
+
+  @ViewChild(TrabajoOportunidadComponent) trabajoOportunidad: TrabajoOportunidadComponent;
+
+  @Output() setElemento = new EventEmitter();
   
   action = 'Guardar';
   consignacionId = null;
@@ -415,6 +420,8 @@ export class ConsignaNewComponent implements OnInit {
       horaFinal:    {name: horaFinal,         value: horaFinal},
     }
     this.dataElementos.push(elemento);
+    this.setElemento.emit(elemento.elemento);
+
     this.formElementos.tipoElemento.value = null;
     this.formElementos.elemento.value = null;
     this.formElementos.ramal.value = null;
