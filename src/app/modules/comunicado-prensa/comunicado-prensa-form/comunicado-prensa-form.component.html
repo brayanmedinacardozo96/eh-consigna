@@ -1,0 +1,31 @@
+<div style="min-height: 520px;">
+  <mat-card class="container">
+    <mat-card-content>
+      <h1>Crear comunicado de prensa</h1>
+
+      <fieldset>
+        <legend style="text-align: left;">Consigna</legend>
+
+        <app-input-text
+          class="input"
+          (keyup.enter)="searchConsigna()"
+          [name]="form.numeroConsigna.name"
+          [value]="form.numeroConsigna.value"
+          [label]="form.numeroConsigna.label"
+          [messages]="form.numeroConsigna.messages"
+          (valueChange)="setData(form.numeroConsigna.name, $event)"
+          [style]="'width: 300px'"
+        ></app-input-text>
+
+        <button (click)="searchConsigna()" mat-raised-button color="primary" style="margin-left: 20px;"
+                matTooltip="Buscar consigna a partir del código">
+          <mat-icon style="color: #FFFFFF">search</mat-icon>
+        </button>
+
+        <pre>{{data | json}}</pre>
+
+      </fieldset>
+
+    </mat-card-content>
+  </mat-card>
+</div>
