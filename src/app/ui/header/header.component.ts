@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewEncapsulation } from '@angular/core';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {environment} from '../../../environments/environment';
 import {Auth} from '../../shared/auth';
 import {Router} from '@angular/router';
@@ -19,6 +19,12 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  changePassword() {
+    const userEncripted = btoa(this.auth.getUser());
+    const url = environment.urlFrontendST + `/change-password/${userEncripted}`;
+    window.open(url);
   }
 
   logout() {

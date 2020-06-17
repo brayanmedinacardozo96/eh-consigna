@@ -29,7 +29,7 @@ const routes: Routes = [
   , {path: 'maniobra', component: ManiobraComponent, canActivate: [AuthGuard]}
   , {path: 'autorizar', component: AutorizarComponent, canActivate: [AuthGuard]}
   , {path: 'parametros', component: ParametrosComponent, canActivate: [AuthGuard]}
-  
+
   , {path: '404', component: NotFoundComponent}
   , {path: '**', redirectTo: '/404'}
 ];

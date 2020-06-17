@@ -9,7 +9,7 @@ import { Auth } from './../../../shared/auth';
 import { User } from './../../../shared/models/user';
 import { ConsignaNewMessageComponent } from './../consigna-new-message/consigna-new-message.component';
 import {MatDialog} from '@angular/material/dialog';
-import {ActivatedRoute} from '@angular/router';
+import {Router,ActivatedRoute} from '@angular/router';
 import { SessionService } from './../../../shared/services/session.service';
 
 @Component({
@@ -298,6 +298,7 @@ export class ConsignaNewComponent implements OnInit {
               private snackBar: SnackBarService,
               public dialog: MatDialog,
               private activeRoute: ActivatedRoute,
+              private router: Router,
               private session: SessionService
               ) { 
                 window.scrollTo(0,0);
@@ -324,6 +325,7 @@ export class ConsignaNewComponent implements OnInit {
       let dataResponse = response.data[0];
       this.fileUrl = dataResponse.url_diagrama;
       let urlDocument = this.fileUrl.split('/');
+      this.form.solicitante.label='Usuario';
 
       this.form.tipoZona.value = parseInt(dataResponse.zona_id);
       this.form.tipoSolicitud.value = parseInt(dataResponse.tipo_solicitud_id);
@@ -429,11 +431,22 @@ export class ConsignaNewComponent implements OnInit {
 
   async guardarConsigna(){
     let formData: FormData = new FormData();
-    // valida si se a adjuntado un documento
-    this.fileUpload = this.fileValidation.fileUp(this.inputFile);
 
+    if(this.consignacionId != null){
+      if(this.inputFile == undefined){
+        this.fileUpload.success = true;
+      }else{
+        this.fileUpload = this.fileValidation.fileUp(this.inputFile);
+        this.fileUrl = '';
+      }      
+    }else{
+      // valida si se a adjuntado un documento
+      this.fileUpload = this.fileValidation.fileUp(this.inputFile);
+    }
     if( this.validateEmptyFields() && this.fileUpload.success){
       formData = this.fileUpload.files;
+      formData.append('consignacionId', this.consignacionId);
+      formData.append('fileUrl', this.fileUrl);
       formData.append('form',JSON.stringify(this.form));
       formData.append('dataElementos',JSON.stringify(this.dataElementos));
       formData.append('interrupcionesTrabajo',JSON.stringify(this.interrupcionesTrabajo));
@@ -451,6 +464,11 @@ export class ConsignaNewComponent implements OnInit {
           hasBackdrop: false,
           data: {response}
         });
+        //si es editar vuelve a redireccionar al inicio
+        if(this.consignacionId != null){
+          this.router.navigate(['consigna']);
+          this.session.setItem('dataConsigna',null);
+        }
       }else{
         this.snackBar.alert('Ocurrió un error, por favor vuelva a intentarlo o contáctese con el administrador.',10000)
       }
@@ -534,7 +552,6 @@ export class ConsignaNewComponent implements OnInit {
   }
 
   cleanAllFields(){
-    console.log('entra men');
     this.validations.cleanFields(this.form);
     this.validations.cleanFields(this.formElementos);
     this.validations.cleanFields(this.interrupcionesTrabajo);

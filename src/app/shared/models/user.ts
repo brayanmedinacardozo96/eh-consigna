@@ -1,4 +1,5 @@
 export class User {
+    id: string;
     address: string;
     cellphone: string;
     document_number: string;

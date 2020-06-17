@@ -18,6 +18,8 @@ import { TableTipoParametroComponent } from './table-tipo-parametro/table-tipo-p
 import { TableParametroComponent } from './table-parametro/table-parametro.component'
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatTableModule} from '@angular/material/table';
+import {MatTooltipModule} from "@angular/material/tooltip";
+import {DirectivesModule} from "../../shared/directives/directives.module";
 
 @NgModule({
   declarations: [ParametrosComponent, ParametrosRegistroComponent, TipoParametrosComponent, TableTipoParametroComponent, TableParametroComponent],
@@ -37,6 +39,8 @@ import {MatTableModule} from '@angular/material/table';
     MatIconModule,
     MatPaginatorModule,
     MatTableModule,
+    MatTooltipModule,
+    DirectivesModule,
   ]
 })
 export class ParametrosModule { }
