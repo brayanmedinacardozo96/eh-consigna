@@ -15,6 +15,7 @@ import {MatSortModule} from '@angular/material/sort';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatSelectModule} from '@angular/material/select';
 import {RouterModule} from '@angular/router';
+import {MatBadgeModule} from '@angular/material/badge';
 
 @NgModule({
   declarations: [HeaderComponent, FooterComponent, LoadingComponent, NotFoundComponent],
@@ -30,7 +31,8 @@ import {RouterModule} from '@angular/router';
     MatSortModule,
     MatTooltipModule,
     MatSelectModule,
-    RouterModule
+    RouterModule,
+    MatBadgeModule
   ],
   exports: [HeaderComponent, FooterComponent, LoadingComponent],
 })
