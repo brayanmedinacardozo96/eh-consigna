@@ -38,14 +38,14 @@ export class TrabajoOportunidadComponent implements OnInit {
       name: 'trabajo',
       value: null,
       messages: null,
-      required: false,
+      required: true,
     },
     medidaSeguridad: {
       label: 'Medidas de seguridad',
       name: 'medidaSeguridad',
       value: null,
       messages: null,
-      required: false,
+      required: true,
     },
     jefeTrabajo: {
       label: 'Jefe de trabajos',
@@ -59,7 +59,7 @@ export class TrabajoOportunidadComponent implements OnInit {
       name: 'telefono',
       value: null,
       messages: null,
-      required: false,
+      required: true,
     },
     elemento: {
       lista_elemento_id: null,
@@ -67,7 +67,7 @@ export class TrabajoOportunidadComponent implements OnInit {
       name: 'elemento',
       value: null,
       messages: null,
-      required: false,
+      required: true,
     },
   };
 

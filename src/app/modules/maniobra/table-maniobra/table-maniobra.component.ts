@@ -2,6 +2,7 @@ import { Component, OnInit,ViewChild,Output,Input,EventEmitter } from '@angular/
 import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-table-maniobra',
@@ -42,7 +43,9 @@ export class TableManiobraComponent implements OnInit {
   }
 
   imprimir(data){
-    console.log(data.url_documento);
+
+    window.open(`${environment.urlFiles}/public/${data.url_documento}`, '_blank');
+
   }
 
   seleccionar(row)
