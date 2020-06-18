@@ -4,7 +4,7 @@ import { ApiService } from './../../../shared/services/api.service';
 import { User } from './../../../shared/models/user';
 import { Auth } from './../../../shared/auth';
 import { SnackBarService } from './../../../shared/services/snack-bar.service';
-
+import {Aprobar} from '../../autorizar/aprobar';
 @Component({
   selector: 'app-consigna-user',
   templateUrl: './consigna-user.component.html',
@@ -32,7 +32,8 @@ export class ConsignaUserComponent implements OnInit {
   isVisible=false;
 
   constructor(private api: ApiService,
-              private snackBar: SnackBarService) {
+              private snackBar: SnackBarService,
+              private aprobar:Aprobar) {
     this.viewList = false;
    }
 
@@ -73,10 +74,8 @@ export class ConsignaUserComponent implements OnInit {
 
   async consignaAprobar()
   {
-    var datoUsuario = JSON.parse(localStorage.getItem('token'));
-    var result = datoUsuario.data_app[0].forms.filter(b => {
-      return (b.code == "aprobar")
-    });
+
+    var result=this.aprobar.validarPermiso();
 
     if(result.length>0)
     {

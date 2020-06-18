@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-autorizar',
@@ -7,7 +8,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AutorizarComponent implements OnInit {
 
-  constructor() { }
+
+  constructor(private activeRoute: ActivatedRoute) {
+    this.activeRoute.params.subscribe(params => {
+
+      if (params.id !== undefined && params.id !== null) {
+
+      }
+
+    });
+   }
+
   form = {
     numeroConsigna: {
       label: 'Consignación No.',

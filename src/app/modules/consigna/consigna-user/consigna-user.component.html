@@ -32,9 +32,9 @@
   <mat-card-content>
     <mat-grid-list class="row" style="align-content: center;"  cols="3" rowHeight="80px">
 
-      <mat-grid-tile  class="item" (click)="buscarConsignaAprobar()" matTooltip="Ver Pendientes de autorizar" matTooltipClass="custom-tooltip">
+      <mat-grid-tile  class="item" (click)="buscarConsignaAprobar()" matTooltip="Ver Pendientes por aprobar" matTooltipClass="custom-tooltip">
         <mat-icon style="transform: scale(2); color: #289c0481;">fact_check</mat-icon>
-        <div style="margin-left: 10px;">Por autorizar
+        <div style="margin-left: 10px;">Por aprobar
             <br>
             {{ total.totalAprobar }}
         </div>
@@ -43,8 +43,6 @@
     </mat-grid-list>
   </mat-card-content>
 </mat-card>
-
-
 
 
 <!-- <button id="the-button" (click)="testFile()" mat-raised-button color="primary" style="margin-left: 20px; margin-top: 10px;">
