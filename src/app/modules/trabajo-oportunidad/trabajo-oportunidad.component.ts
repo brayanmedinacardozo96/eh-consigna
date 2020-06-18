@@ -238,7 +238,6 @@ export class TrabajoOportunidadComponent implements OnInit {
   async eliminar(key) {
     this.trabajosOportunidad.splice(key,1);
     this.tableTrabajoOportunidad.init(this.trabajosOportunidad);
-    console.log(this.trabajosOportunidad);
     /* var mensaje = [];
     var response = await this.apiService.post(`${environment.apiBackend}/trabajos-oportunidad/deleteTrabajoOportunidad`, {
       id: key.id,
@@ -253,6 +252,11 @@ export class TrabajoOportunidadComponent implements OnInit {
 
   getTrabajosOportunidad(){
     return this.trabajosOportunidad;
+  }
+
+  setDataTrabajosOportunidad(data){
+    this.trabajosOportunidad = data;
+    this.tableTrabajoOportunidad.init(this.trabajosOportunidad);
   }
 
 }

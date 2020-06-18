@@ -314,7 +314,7 @@ export class ConsignaNewComponent implements OnInit {
                   if (params.id !== undefined && params.id !== null) {
                     this.consignacionId = params.id;
                     this.action = 'Editar';
-                    this.search(this.consignacionId).then();
+                    // this.search(this.consignacionId).then();
                   }
             
                 });

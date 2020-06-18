@@ -10,6 +10,8 @@ import { ConsignaManiobraListComponent } from './../consigna-maniobra-list/consi
 import { ApiService } from 'src/app/shared/services/api.service';
 import {Router} from "@angular/router";
 import { SnackBarService } from './../../../shared/services/snack-bar.service';
+import { ModalConfirmComponent } from './../../../ui/forms/modal-confirm/modal-confirm.component';
+import { Mensaje } from './../../../ui/forms/m-dialog/dialog';
 
 @Component({
   selector: 'app-consigna-list',
@@ -83,7 +85,25 @@ export class ConsignaListComponent implements OnInit {
     });
   }
 
-  async generatePdf(html){
+  generatePdf(html){
+     this.dialog
+      .open(ModalConfirmComponent, {
+        data: new Mensaje("Imprimir:","Desea imprimir la consigna ")
+      })
+      .afterClosed()
+      .subscribe((confirmado: Boolean) => {
+        if (confirmado) {
+            this.showPdf(html);        
+        }
+      });
+    
+  }
+
+  editarElemento(id){
+    this.router.navigateByUrl('consigna/editar/'+id);
+  }
+
+  async showPdf(html){
     const response = await this.api.post(`${environment.apiBackend}/file/generate-pdf`, {html: html} );
       let success = response.success;
       let message = response.message;
@@ -94,7 +114,5 @@ export class ConsignaListComponent implements OnInit {
       }
   }
 
-  editarElemento(id){
-    this.router.navigateByUrl('consigna/editar/'+id);
-  }
+  
 }
