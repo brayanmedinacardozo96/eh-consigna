@@ -12,6 +12,7 @@ import { SnackBarService } from './../../../shared/services/snack-bar.service';
 })
 export class ConsignaUserComponent implements OnInit {
 
+
   user: User = Auth.getUserDataPerson();
   request = {
     solicitante: {value: this.user.id},
@@ -22,11 +23,13 @@ export class ConsignaUserComponent implements OnInit {
   total = {
     totalPendientes: 0,
     totalAprobEjecu: 0,
-    totalCancelRepro: 0
+    totalCancelRepro: 0,
+    totalAprobar:0,
   };
   data = [];
 
   viewList = false;
+  isVisible=false;
 
   constructor(private api: ApiService,
               private snackBar: SnackBarService) {
@@ -35,6 +38,7 @@ export class ConsignaUserComponent implements OnInit {
 
   ngOnInit(): void {
     this.search();
+    this.consignaAprobar();
   }
 
   async buscarConsigna(codigoEstado){
@@ -65,5 +69,41 @@ export class ConsignaUserComponent implements OnInit {
 
   async testFile(){
     const response = await this.api.post(`${environment.apiBackend}/test-file`, this.request);
+  }
+
+  async consignaAprobar()
+  {
+    var datoUsuario = JSON.parse(localStorage.getItem('token'));
+    var result = datoUsuario.data_app[0].forms.filter(b => {
+      return (b.code == "aprobar")
+    });
+
+    if(result.length>0)
+    {
+      this.isVisible=true;
+      const response = await this.api.get(`${environment.apiBackend}/consigna/getEstadoConsigna/S`);
+      if(response.message==null){
+        let data = response.data;
+        this.total.totalAprobar =data[0].numero;
+
+      }
+
+    }
+
+  }
+
+  async buscarConsignaAprobar()
+  {
+    this.viewList = true;
+    let params = {
+      codigoEstadoConsigna:{value:'S'}
+    }
+    const response = await this.api.post(`${environment.apiBackend}/consigna/get-list`, params);
+    if(response.success){
+      this.data = response.data;
+      if(this.data.length < 1){
+        this.snackBar.alert('No se encontraron registros con los parámetros consultados.',5000);
+      }
+    }
   }
 }
