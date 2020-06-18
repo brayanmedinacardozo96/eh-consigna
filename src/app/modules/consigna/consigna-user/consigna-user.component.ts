@@ -64,6 +64,7 @@ export class ConsignaUserComponent implements OnInit {
   }
 
   async testFile(){
-    const response = await this.api.get(`${environment.apiBackend}/test-file/8`);
+    // const response = await this.api.get(`${environment.apiBackend}/test-file/8`);
+    const response = await this.api.post(`${environment.apiBackend}/subestacion/update-spard`,null);
   }
 }

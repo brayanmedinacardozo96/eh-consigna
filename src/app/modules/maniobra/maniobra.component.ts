@@ -75,7 +75,7 @@ export class ManiobraComponent implements OnInit {
   ngOnInit(): void {
 
     this.form.consigna.value=8;
-    this.select();
+    // this.select();
   }
 
   setDataTable(data, event){

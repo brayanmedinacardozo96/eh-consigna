@@ -67,7 +67,7 @@ export class TrabajoOportunidadComponent implements OnInit {
       required: true,
     },
     elemento: {
-      lista_elemento_id: null,
+      elemento_id: null,
       label: 'Elemento',
       name: 'elemento',
       value: null,
@@ -98,7 +98,7 @@ export class TrabajoOportunidadComponent implements OnInit {
     color: 'btn-primary',
   };
 
-  consignacion_id = 8;
+  consignacion_id = null;
 
   ngOnInit(): void {
     // this.getElemento();
@@ -117,7 +117,7 @@ export class TrabajoOportunidadComponent implements OnInit {
       this.form.medidaSeguridad.value =event[1].medida_seguridad;
       this.form.telefono.value = event[1].telefono;
       this.form.jefeTrabajo.value = event[1].jefe_trabajo;
-      this.form.elemento.lista_elemento_id = event[1].lista_elemento_id;
+      this.form.elemento.elemento_id = event[1].elemento_id;
       this.boton.color = "btn-success";
       this.boton.value = "Actualizar";
       new Scroll('0');
@@ -174,7 +174,7 @@ export class TrabajoOportunidadComponent implements OnInit {
         medida_seguridad: this.form.medidaSeguridad.value,
         jefe_trabajo: this.form.jefeTrabajo.value,
         telefono: this.form.telefono.value,
-        lista_elemento_id: this.form.elemento.lista_elemento_id,
+        elemento_id: this.form.elemento.elemento_id,
         elemento: elemento
       };
 
@@ -249,6 +249,10 @@ export class TrabajoOportunidadComponent implements OnInit {
 
     this.evaluar(response, mensaje); */
 
+  }
+
+  getTrabajosOportunidad(){
+    return this.trabajosOportunidad;
   }
 
 }

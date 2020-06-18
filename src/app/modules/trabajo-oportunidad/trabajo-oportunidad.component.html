@@ -26,7 +26,7 @@
 
         <mat-form-field class="input" style="width: 95%;">
           <mat-label>{{form.elemento.required ? form.elemento.label +' *' : form.elemento.label}} </mat-label>
-          <mat-select id="form_trabajo-elemento" (valueChange)="setData(form.elemento.name, $event)" [(ngModel)]="form.elemento.lista_elemento_id">
+          <mat-select id="form_trabajo-elemento" (valueChange)="setData(form.elemento.name, $event)" [(ngModel)]="form.elemento.elemento_id">
             <mat-option *ngFor="let value of elementos;" [value]="value.value">
               {{value.name}}
             </mat-option>

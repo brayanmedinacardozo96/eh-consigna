@@ -435,9 +435,20 @@ export class ConsignaNewComponent implements OnInit {
   removeListElement(id){
     this.dataElementos.splice(id,1);
   }
+  response = {
+    formData: new FormData(),
+    success: false,
+    message: null
+  }
+  
+  guardarConsigna(){
+    let response = {
+      formData: new FormData(),
+      success: false,
+      message: null
+    }
 
-  async guardarConsigna(){
-    let formData: FormData = new FormData();
+    // let formData: FormData = new FormData();
 
     if(this.consignacionId != null){
       if(this.inputFile == undefined){
@@ -451,17 +462,19 @@ export class ConsignaNewComponent implements OnInit {
       this.fileUpload = this.fileValidation.fileUp(this.inputFile);
     }
     if( this.validateEmptyFields() && this.fileUpload.success){
-      formData = this.fileUpload.files;
-      formData.append('consignacionId', this.consignacionId);
-      formData.append('fileUrl', this.fileUrl);
-      formData.append('form',JSON.stringify(this.form));
-      formData.append('dataElementos',JSON.stringify(this.dataElementos));
-      formData.append('interrupcionesTrabajo',JSON.stringify(this.interrupcionesTrabajo));
-      formData.append('interrupcionesCortoTiempo',JSON.stringify(this.interrupcionesCortoTiempo));
-      formData.append('argNumConsigna',JSON.stringify(this.argNumConsigna));
-      formData.append('user',JSON.stringify(this.user));
+      response.formData = this.fileUpload.files;
+      response.formData.append('consignacionId', this.consignacionId);
+      response.formData.append('fileUrl', this.fileUrl);
+      response.formData.append('form',JSON.stringify(this.form));
+      response.formData.append('dataElementos',JSON.stringify(this.dataElementos));
+      response.formData.append('interrupcionesTrabajo',JSON.stringify(this.interrupcionesTrabajo));
+      response.formData.append('interrupcionesCortoTiempo',JSON.stringify(this.interrupcionesCortoTiempo));
+      response.formData.append('argNumConsigna',JSON.stringify(this.argNumConsigna));
+      response.formData.append('user',JSON.stringify(this.user));
 
-      const response = await this.api.post(`${environment.apiBackend}/consigna/save-consigna`, formData);
+      response.success = true;
+
+      /* const response = await this.api.post(`${environment.apiBackend}/consigna/save-consigna`, formData);
       let success = response.success;
       let message = response.message;
       if(success){
@@ -478,11 +491,14 @@ export class ConsignaNewComponent implements OnInit {
         }
       }else{
         this.snackBar.alert('Ocurrió un error, por favor vuelva a intentarlo o contáctese con el administrador.',10000)
-      }
+      } */
 
     }else{
+      response.success = false;
       this.snackBar.alert('Faltan campos a diligenciar',5000)
     }
+
+    return response;
 
   }
 
