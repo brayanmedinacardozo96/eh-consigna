@@ -1,7 +1,8 @@
 <mat-card class="container">
     <mat-card-content>
       <h1>Mis Consignas</h1>
-      <mat-grid-list class="row" cols="3" rowHeight="80px">
+      <mat-grid-list class="row" style="align-content: center;"  cols="3" rowHeight="80px">
+
         <mat-grid-tile class="item" (click)="buscarConsigna(request.codigoSolicitada)" matTooltip="Ver Pendientes" matTooltipClass="custom-tooltip">
             <mat-icon style="transform: scale(2); color: #e1a900f0;">preview</mat-icon>
             <div style="margin-left: 10px;">Pendientes
@@ -27,6 +28,23 @@
     </mat-card-content>
 </mat-card>
 
+<mat-card [style.display]="isVisible ? 'visible' : 'none'" class="container">
+  <mat-card-content>
+    <mat-grid-list class="row" style="align-content: center;"  cols="3" rowHeight="80px">
+
+      <mat-grid-tile  class="item" (click)="buscarConsignaAprobar()" matTooltip="Ver Pendientes por aprobar" matTooltipClass="custom-tooltip">
+        <mat-icon style="transform: scale(2); color: #289c0481;">fact_check</mat-icon>
+        <div style="margin-left: 10px;">Por aprobar
+            <br>
+            {{ total.totalAprobar }}
+        </div>
+      </mat-grid-tile>
+
+    </mat-grid-list>
+  </mat-card-content>
+</mat-card>
+
+
 <!-- <button id="the-button" (click)="testFile()" mat-raised-button color="primary" style="margin-left: 20px; margin-top: 10px;">
     <span style="color: #FFF">TestFile</span>
 </button> -->
@@ -34,4 +52,3 @@
 <div style="padding: 10px;"  *ngIf="viewList">
     <app-consigna-list [data]="data"></app-consigna-list>
 </div>
-              
