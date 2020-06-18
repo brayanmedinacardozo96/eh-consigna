@@ -35,6 +35,7 @@ import {TableTrabajoOportunidadComponent} from '../trabajo-oportunidad/table-tra
 import {ManiobraComponent} from '../maniobra/maniobra.component';
 import { ConsignaNewMessageComponent } from './consigna-new-message/consigna-new-message.component';
 import {TableManiobraComponent} from '../maniobra/table-maniobra/table-maniobra.component';
+
 @NgModule({
   declarations: [ConsignaComponent, ConsignaNewComponent, ConsignaListComponent, ConsignaElementoListComponent, ConsignaTrabajoListComponent, ConsignaManiobraListComponent, ConsignaTabsComponent, ConsignaUserComponent,TrabajoOportunidadComponent,TableTrabajoOportunidadComponent,ManiobraComponent, ConsignaNewMessageComponent,TableManiobraComponent],
   imports: [

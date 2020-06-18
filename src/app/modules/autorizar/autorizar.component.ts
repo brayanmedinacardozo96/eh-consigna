@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { SessionService } from '../../shared/services/session.service';
+import { ApiService } from '../../shared/services/api.service';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-autorizar',
@@ -9,11 +12,14 @@ import { ActivatedRoute } from '@angular/router';
 export class AutorizarComponent implements OnInit {
 
 
-  constructor(private activeRoute: ActivatedRoute) {
+  constructor(private activeRoute: ActivatedRoute,
+    private session: SessionService,
+    private api: ApiService) {
     this.activeRoute.params.subscribe(params => {
 
       if (params.id !== undefined && params.id !== null) {
-
+         console.log(params.id );
+         this.buscarConsigna(params.id );
       }
 
     });
@@ -43,14 +49,28 @@ export class AutorizarComponent implements OnInit {
       messages: null,
       required: false,
       disable:true,
+    },
+    estadoConsigna: {
+      label: 'Estado consigna',
+      name: 'estadoConsigna',
+      value: null,
+      messages: null,
+      required: true,
     }
+  }
+
+  dataControls={
+    estadoConsigna:[]
   }
 
   dataElementoCalidad=[
     {elemento:"xxx", sDesconexion:"100", desMax:"10", feMax:"10", deHora:"10",feHora:"10"}
   ]
+  viewList = false;
+  data = [];
 
   ngOnInit(): void {
+    this.getDataSelectConsigna();
   }
 
   limpiar()
@@ -60,6 +80,38 @@ export class AutorizarComponent implements OnInit {
 
   setData(name, event) {
     this.form[name].value = event;
+  }
+
+  setSelect()
+  {
+    this.dataControls.estadoConsigna = this.session.getItem('estadoConsigna');
+  }
+
+  async getDataSelectConsigna(){
+    if(this.session.getItem('estadoConsigna') == null){
+      const response = await this.session.getDataSelectConsigna();
+      if(response.success){
+        this.setSelect();
+      }
+    }else{
+      this.setSelect();
+    }
+  }
+
+  async buscarConsigna(id){
+
+    let params = {
+      consignacion_id:{value:id}
+    }
+    const response = await this.api.post(`${environment.apiBackend}/consigna/get-list`, params);
+    if(response.success){
+      this.viewList = true;
+      this.data = response.data;
+      console.log(this.data);
+      if(this.data.length < 1){
+       // this.snackBar.alert('No se encontraron registros con los parámetros consultados.',5000);
+      }
+    }
   }
 
 }
