@@ -18,7 +18,7 @@ import { SessionService } from './../../../shared/services/session.service';
   styleUrls: ['./consigna-new.component.scss']
 })
 export class ConsignaNewComponent implements OnInit {
-  
+
   action = 'Guardar';
   consignacionId = null;
   data = [];
@@ -62,7 +62,7 @@ export class ConsignaNewComponent implements OnInit {
       name: 'tipoZona',
       value: null,
       messages: null,
-      required: true,      
+      required: true,
     },
     tipoSolicitud: {
       label: 'Tipo de solicitud',
@@ -300,10 +300,10 @@ export class ConsignaNewComponent implements OnInit {
               private activeRoute: ActivatedRoute,
               private router: Router,
               private session: SessionService
-              ) { 
+              ) {
                 window.scrollTo(0,0);
                 this.form.solicitante.value = `${this.user.document_number} - ${this.user.first_name} ${this.user.second_name} ${this.user.first_lastname} ${this.user.second_lastname}`;
-                
+
                 this.activeRoute.params.subscribe(params => {
 
                   if (params.id !== undefined && params.id !== null) {
@@ -311,7 +311,7 @@ export class ConsignaNewComponent implements OnInit {
                     this.action = 'Editar';
                     this.search(this.consignacionId).then();
                   }
-            
+
                 });
               }
 
@@ -362,7 +362,7 @@ export class ConsignaNewComponent implements OnInit {
           horaFinal:    {name: value.hora_final_prog,                                                   value: value.hora_final_prog},
         }
         this.dataElementos.push(elemento);
-      }      
+      }
     }
   }
 
@@ -389,7 +389,7 @@ export class ConsignaNewComponent implements OnInit {
     }
 
   }
-  
+
   addListElements(){
     const responseValidate = this.validations.validateEmptyFields(this.formElementos);
 
@@ -403,7 +403,7 @@ export class ConsignaNewComponent implements OnInit {
     var horaInicio = this.formElementos.horaInicio.value;
     var fechaFinal = this.dateValidation.getYearMounthDay(this.formElementos.fechaFinal.value);
     var horaFinal = this.formElementos.horaFinal.value;
-    
+
     const elemento = {
       id:           {value: null},
       tipoElemento: {name: textTipoElemento,  value: this.formElementos.tipoElemento.value},
@@ -438,7 +438,7 @@ export class ConsignaNewComponent implements OnInit {
       }else{
         this.fileUpload = this.fileValidation.fileUp(this.inputFile);
         this.fileUrl = '';
-      }      
+      }
     }else{
       // valida si se a adjuntado un documento
       this.fileUpload = this.fileValidation.fileUp(this.inputFile);
