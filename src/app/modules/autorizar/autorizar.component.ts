@@ -20,6 +20,7 @@ import {MatDialog} from "@angular/material/dialog";
 export class AutorizarComponent implements OnInit {
 
   user: User = Auth.getUserDataPerson();
+
   constructor(private activeRoute: ActivatedRoute,
     private session: SessionService,
     private api: ApiService,
@@ -31,12 +32,14 @@ export class AutorizarComponent implements OnInit {
 
       if (params.id !== undefined && params.id !== null) {
 
-         this.buscarConsigna(params.id );
+         this.buscarConsigna(  { consignacion_id:{value: params.id}} );
 
       }
 
     });
    }
+
+  urlAutoComletar=`${environment.apiBackend}/consigna/getAutoCompletarConsigna/S/null`;
 
   form = {
     id:{
@@ -51,7 +54,7 @@ export class AutorizarComponent implements OnInit {
       value: null,
       messages: null,
       required: true,
-      url: "https://jsonplaceholder.typicode.com/users"
+      url: this.urlAutoComletar
     },
     usuario: {
       id:null,
@@ -127,18 +130,18 @@ export class AutorizarComponent implements OnInit {
     }
   }
 
-  async buscarConsigna(id){
+  async buscarConsigna(params){
 
-    let params = {
-      consignacion_id:{value:id}
-    }
+
+
+
     const response = await this.api.post(`${environment.apiBackend}/consigna/get-list`, params);
     if(response.success){
 
       this.viewList = true;
       this.data = response.data;
       this.form.numeroConsigna.value=this.data[0].codigo;
-      this.form.id.value=id;
+      this.form.id.value=this.data[0].consignacion_id;
       this.form.estado_actual.value= this.data[0].estado_id;
 
       if(this.data.length < 1){
@@ -198,6 +201,12 @@ export class AutorizarComponent implements OnInit {
     }
 
     new SnackBarClass(this.snackBar, mensaje[0], mensaje[1]).openSnackBar();
+  }
+
+  async buscar()
+  {
+    this.buscarConsigna(  { numeroConsigna:{value: this.form.numeroConsigna.value }} );
+
   }
 
 }
