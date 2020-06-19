@@ -102,6 +102,10 @@ export class AutorizarComponent implements OnInit {
 
   limpiar()
   {
+    this.data=null;
+    this.form.numeroConsigna.value=null;
+    this.form.observacion.value=null;
+    this.form.estadoConsigna.value=null;
 
   }
 
@@ -132,9 +136,6 @@ export class AutorizarComponent implements OnInit {
 
   async buscarConsigna(params){
 
-
-
-
     const response = await this.api.post(`${environment.apiBackend}/consigna/get-list`, params);
     if(response.success){
 
@@ -157,9 +158,11 @@ export class AutorizarComponent implements OnInit {
 
     if (this.validateEmptyFields()) {
 
+      var textEstado = ((document.getElementById("ddlEstadoConsigna")) as HTMLSelectElement).textContent;
+
       this.dialogo
         .open(ModalConfirmComponent, {
-          data: new Mensaje("Cambiar a estado a ",this.form.estadoConsigna.value )
+          data: new Mensaje("Consigna #"+ this.form.numeroConsigna.value,"Cambiar a: "+ textEstado )
         })
         .afterClosed()
         .subscribe((confirmado: Boolean) => {
@@ -198,6 +201,7 @@ export class AutorizarComponent implements OnInit {
     if(response.message==null)
     {
       mensaje = ["Se realizo el cambio de estado de forma exitosa.", "btn-success"];
+      this.limpiar();
     }
 
     new SnackBarClass(this.snackBar, mensaje[0], mensaje[1]).openSnackBar();

@@ -27,7 +27,7 @@
       <mat-grid-tile [colspan]="2">
         <mat-form-field class="input" style="width: 95%;">
             <mat-label>{{form.estadoConsigna.required ? form.estadoConsigna.label+' *':form.estadoConsigna.label}}</mat-label>
-            <mat-select (valueChange)="setData(form.estadoConsigna.name, $event)" [(ngModel)]="form.estadoConsigna.value" style="padding-top: 5px;padding-bottom: 5px;">
+            <mat-select id="ddlEstadoConsigna" (valueChange)="setData(form.estadoConsigna.name, $event)" [(ngModel)]="form.estadoConsigna.value" style="padding-top: 5px;padding-bottom: 5px;">
                 <mat-option *ngFor="let value of dataControls?.estadoConsigna;" [value]="value.id">
                     {{value.nombre}}
                 </mat-option>
