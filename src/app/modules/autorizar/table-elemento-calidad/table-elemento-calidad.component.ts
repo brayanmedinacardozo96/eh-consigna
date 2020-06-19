@@ -11,7 +11,7 @@ import {MatSort} from '@angular/material/sort';
 export class TableElementoCalidadComponent implements OnInit {
 
   constructor() { }
-  
+
   displayedColumns: string[] = ['elemento', 'sDesconexion', 'desMax', 'feMax', 'deHora','feHora'];
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
@@ -24,7 +24,7 @@ export class TableElementoCalidadComponent implements OnInit {
   }
 
   init(data) {
-    console.log(data);
+   // console.log(data);
     this.dataSource = new MatTableDataSource(data);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
