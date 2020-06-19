@@ -69,14 +69,26 @@ export class ComunicadoPrensaFormComponent implements OnInit {
     }
   }
 
-  generar() {
+  async generar() {
+
+    if (!this.consignaID) {
+      this.notifier.notify('error', '¡Debe seleccionar una consigna!');
+      return false;
+    }
+
     const responseValidate = Validations.validateEmptyFields(this.formPlantilla);
     if (!responseValidate.success) {
       return false;
     }
 
-    this.contenidoComunicadoPrensa = this.plantillaSelected.contenido;
-
+    const params = {
+      consignacion_id: this.consignaID,
+      plantilla: this.plantillaSelected.contenido
+    };
+    const response = await this.api.post(`${environment.apiBackend}/comunicado-prensa/generate`, params);
+    if (response.success) {
+      this.contenidoComunicadoPrensa = response.data;
+    }
   }
 
   setPlantillaSelected(id) {
