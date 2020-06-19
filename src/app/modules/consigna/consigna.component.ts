@@ -23,8 +23,7 @@ export class ConsignaComponent implements OnInit {
     estadoConsigna:[],
     estadoEquipo:[],
     solicitante:[
-      {nombre:'Brayan Herney Medina Cardozo',identificacion:'1075412102',id:1},
-      {nombre:'Jhonatan Parra Almario',identificacion:'1080934291',id:2}
+      {nombre:'',identificacion:'',id:1},
     ]
   };
   form = {
@@ -144,6 +143,7 @@ export class ConsignaComponent implements OnInit {
     this.dataControls.tipoConsignacion = this.session.getItem('tipoConsignacion');
     this.dataControls.estadoConsigna = this.session.getItem('estadoConsigna');
     this.dataControls.estadoEquipo = this.session.getItem('estadoEquipo');
+    this.dataControls.solicitante= this.session.getPersona();
   }
 
   cleanFields(){

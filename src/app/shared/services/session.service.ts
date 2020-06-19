@@ -31,8 +31,36 @@ export class SessionService {
       window.sessionStorage.setItem('subestacion',JSON.stringify(data.subestacion));
       window.sessionStorage.setItem('tipoElemento',JSON.stringify(data.tipoElemento));
       window.sessionStorage.setItem('elemento',JSON.stringify(data.elemento));
+      await this.getUsuario();
     }
     return response;
   }
+
+  async getUsuario()
+  {
+    const response = await this.api.get(`${environment.apiTransverseSecurity}/user/get-by-aplication?key=${environment.keyTransverseSecurity}`);
+    if(response.success)
+    {
+       window.sessionStorage.setItem('usuario',JSON.stringify(response.data));
+    }
+
+  }
+
+   getPersona() {
+     var persona = [];
+
+     this.getItem('usuario').forEach(async (key) => {
+
+       persona.push({
+         nombre: key.person.first_name + " " + key.person.second_name + " " + key.person.first_lastname + " " + key.person.second_lastname,
+         identificacion: key.person.document_number,
+         id: key.id
+
+       });
+     });
+
+     return persona;
+   }
+
 
 }
