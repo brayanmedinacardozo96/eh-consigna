@@ -6,6 +6,10 @@ import {CustomFormsModule} from "../../ui/forms/custom-forms.module";
 import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
 import {MatTooltipModule} from "@angular/material/tooltip";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatSelectModule} from "@angular/material/select";
+import {FormsModule} from "@angular/forms";
+import {CKEditorModule} from "ng2-ckeditor";
 
 
 
@@ -17,7 +21,11 @@ import {MatTooltipModule} from "@angular/material/tooltip";
     CustomFormsModule,
     MatIconModule,
     MatButtonModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    FormsModule,
+    CKEditorModule
   ]
 })
 export class ComunicadoPrensaModule { }

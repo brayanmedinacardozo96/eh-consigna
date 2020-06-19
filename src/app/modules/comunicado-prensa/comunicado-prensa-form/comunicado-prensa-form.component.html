@@ -22,9 +22,72 @@
           <mat-icon style="color: #FFFFFF">search</mat-icon>
         </button>
 
-        <pre>{{data | json}}</pre>
+        <table class="custom-table">
+          <tbody>
+          <tr>
+            <th style="width: 15%;">Consigna No.</th>
+            <td style="width: 15%;">{{data?.codigo}}</td>
+            <th style="width: 15%;">Zona</th>
+            <td style="width: 15%;">{{data?.zona?.nombre}}</td>
+            <th style="width: 15%;">Tipo Solicitud</th>
+            <td style="width: 15%;">{{data?.tipo_solicitud?.nombre}}</td>
+          </tr>
+          <tr>
+            <th>Fecha solicitud</th>
+            <td>{{data?.fecha_solicitud}}
+            <th>Tipo Consignación</th>
+            <td>{{data?.tipo_consignacion?.nombre}}</td>
+            <th>Estado consignación</th>
+            <td>{{data?.estado_consignacion?.nombre}}</td>
+          </tr>
+          <tr>
+            <th>Trabajo a efectuar</th>
+            <td colspan="5">{{data?.trabajo_efectuar}}</td>
+          </tr>
+          <tr>
+            <th>Justificación</th>
+            <td colspan="5">{{data?.justificacion}}</td>
+          </tr>
+          </tbody>
+        </table>
 
       </fieldset>
+
+      <fieldset style="margin-top: 1%;">
+
+        <legend style="text-align: left;">Comunicado de prensa</legend>
+        <mat-icon *ngIf="formPlantilla.plantilla.value" style="padding: 10px; cursor: pointer"
+                  (click)="openVistaPreviaPlantilla()">visibility
+        </mat-icon>
+        <mat-form-field style="width: 300px; margin-right: 10px;" appearance="outline">
+          <mat-label>{{formPlantilla.plantilla.label}}
+            <ng-container *ngIf="formPlantilla.plantilla.required">*</ng-container>
+          </mat-label>
+          <mat-select [(ngModel)]="formPlantilla.plantilla.value" (ngModelChange)="setPlantillaSelected($event)">
+            <mat-option *ngFor="let value of plantillas;" [value]="value?.id">{{value?.nombre}}</mat-option>
+          </mat-select>
+          <mat-hint style="color: red"
+                    *ngIf="formPlantilla.plantilla.messages">{{formPlantilla.plantilla.messages}}</mat-hint>
+        </mat-form-field>
+
+        <button (click)="generar()" mat-raised-button color="accent" class="button"
+                style="color: #FFFFFF; margin: 5px;">
+          Generar
+        </button>
+
+        <ckeditor [(ngModel)]="contenidoComunicadoPrensa"
+                  name="editorHtmlContenido"
+                  required
+                  debounce="500">
+        </ckeditor>
+
+        <button (click)="guardarComunicadoPrensa()" mat-raised-button color="accent" class="button"
+                style="color: #FFFFFF; margin: 5px;">
+          Guardar
+        </button>
+
+      </fieldset>
+
 
     </mat-card-content>
   </mat-card>
