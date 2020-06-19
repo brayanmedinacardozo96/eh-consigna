@@ -29,22 +29,22 @@ export class InputAutocompleteComponent implements OnInit {
   myControl = new FormControl();
   options = [];
   filteredOptions: Observable<any[]>;
-  
+
   constructor(private http: HttpClient) { }
 
   ngOnInit() {
-   
+
   }
 
   filter(val: string): Observable<any[]> {
-    
     return this.getData(this.url)
      .pipe(
-       map(response => response.filter(option => { 
-         return option.name.toLowerCase().indexOf(val.toLowerCase()) === 0
+       map(response => response.filter(option => {
+         return option.name.toLowerCase().indexOf(val.toLowerCase()) > -1
        }))
      )
-   }  
+
+   }
 
    autoComplete(){
 
@@ -54,7 +54,7 @@ export class InputAutocompleteComponent implements OnInit {
          debounceTime(400),
          distinctUntilChanged(),
          switchMap(val => {
-           return this.filter(val || '')
+            return this.filter(val || '')
          })
        )
      }
@@ -66,19 +66,18 @@ export class InputAutocompleteComponent implements OnInit {
 
       this.url=link;
       this.autoComplete();
-      
+
     }
 
     opt = [];
 
   getData(urlApi) {
-
-
+//urlApi
     return this.opt.length ?
       of(this.opt) :
       this.http.get<any>(urlApi).pipe(tap(data => this.opt = data));
      // return this.apiService.get("https://jsonplaceholder.typicode.com/users");
-    
+
   }
 
 }
