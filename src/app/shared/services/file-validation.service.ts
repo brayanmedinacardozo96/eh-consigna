@@ -80,4 +80,8 @@ export class FileValidationService {
 
     return response;
   }
+
+  cleanFile(event){
+    event.value= '';
+  }
 }

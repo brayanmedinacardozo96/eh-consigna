@@ -9,7 +9,10 @@
           ></app-trabajo-oportunidad>
     </mat-tab>
     <mat-tab label="Registro de Maniobras">
-        <app-maniobra></app-maniobra>
+        <app-maniobra
+        [registroManiobra]="registroManiobra"
+        (setRegistroManiobra)="setRegistroManiobra($event)"
+        ></app-maniobra>
     </mat-tab>
 </mat-tab-group>
 

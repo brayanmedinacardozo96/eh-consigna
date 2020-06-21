@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, Output, EventEmitter} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {Mensaje} from '../../ui/forms/m-dialog/dialog';
 import { ValidationService } from '../../shared/services/validations.service';
@@ -9,6 +9,8 @@ import { SnackBarClass } from '../../ui/snack-bar/snack-bar';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FileValidationService } from '../../shared/services/file-validation.service';
 import {ModalConfirmComponent} from "../../ui/forms/modal-confirm/modal-confirm.component";
+import { TableManiobraComponent } from './table-maniobra/table-maniobra.component';
+import { InputFileComponent } from './../../ui/forms/input-file/input-file.component';
 
 @Component({
   selector: 'app-maniobra',
@@ -16,6 +18,11 @@ import {ModalConfirmComponent} from "../../ui/forms/modal-confirm/modal-confirm.
   styleUrls: ['./maniobra.component.scss']
 })
 export class ManiobraComponent implements OnInit {
+
+  @Output() setRegistroManiobra = new EventEmitter();
+  @Input() registroManiobra = [];
+  @ViewChild(TableManiobraComponent) tableTrabajoManiobra: TableManiobraComponent;
+  @ViewChild(InputFileComponent) inputFileComponent: InputFileComponent;
 
   constructor(
     public dialog: MatDialog,
@@ -49,6 +56,7 @@ export class ManiobraComponent implements OnInit {
       required: false,
     }
   }
+  fileName= '';
   inputFile: any;
   isDivVisible=true;
   fileUpload = {
@@ -57,16 +65,16 @@ export class ManiobraComponent implements OnInit {
     files: new FormData()
   };
   dataManiobra = [
-    {
+    /* {
       id:null,
       descripcion: '',
       documento: '',
 
-    },
+    }, */
   ];
 
   boton = {
-    value: 'Guardar',
+    value: 'Adicionar',
     color: 'btn-primary',
   };
 
@@ -79,8 +87,20 @@ export class ManiobraComponent implements OnInit {
   }
 
   setDataTable(data, event){
+    this.dialogo
+      .open(ModalConfirmComponent, {
+      data: new Mensaje("Eliminar:","¿Está seguro de eliminar el registro?")
+    })
+    .afterClosed()
+    .subscribe((confirmado: Boolean) => {
+      if (confirmado) {
+        this.eliminar(event[1]);
+      }
+    });
 
-    if (event[0] == 'select') {
+    
+
+    /* if (event[0] == 'select') {
 
        this.form.descripcion.value=event[1].descripcion;
        this.form.id.value=event[1].id;
@@ -103,7 +123,7 @@ export class ManiobraComponent implements OnInit {
         }
       });
 
-    }
+    } */
 
   }
 
@@ -112,7 +132,6 @@ export class ManiobraComponent implements OnInit {
   }
 
   async select() {
-
     const response = await this.apiService.get(
       `${environment.apiBackend}/maniobra/getManiobra/${this.form.consigna.value}`
     );
@@ -124,14 +143,45 @@ export class ManiobraComponent implements OnInit {
     }
   }
 
-  async guardar() {
-
+  guardar() {
     var response;
     var mensaje = [];
+    let success = false;
 
-    if( this.validateEmptyFields() )
-    {
-      if(this.boton.value == "Actualizar")
+    this.fileUpload = this.fileValidation.fileUp(this.inputFile);
+
+    if (this.validateEmptyFields() && this.fileUpload.success) {
+      success = true;
+
+      let file = this.inputFile.target.files[0];
+
+      let formData: FormData = new FormData();
+      formData= this.fileUpload.files;
+
+      formData = this.fileUpload.files;
+      formData.append('form',JSON.stringify(this.form));
+      formData.append('descripcion',JSON.stringify(this.form.descripcion.value));
+      formData.append('consigna_id', JSON.stringify(this.form.consigna.value) );
+      
+
+      let obj = {
+        id: null,
+        consignacion_id: null,
+        descripcion: this.form.descripcion.value,
+        nombre_documento: this.inputFile.target.files[0].name,
+        url_documento: null,
+        file: this.fileUpload.files
+      }
+
+      this.registroManiobra.push(obj);    
+      this.tableTrabajoManiobra.init(this.registroManiobra);
+
+      this.setRegistroManiobra.emit(this.registroManiobra);
+
+      this.limpiar();
+    }
+
+      /* if(this.boton.value == "Actualizar")
       {
 
           response = await this.apiService.post(
@@ -173,16 +223,14 @@ export class ManiobraComponent implements OnInit {
 
         }
 
-      }
+      } */
 
-
+    if(!success){
+      new SnackBarClass(this.snackBar, 'Faltan campos a diligenciar','snackbar-alert').openSnackBar();
     }
-
-
-
   }
 
-  async eliminar(key) {
+  /* async eliminar(key) {
     var mensaje = [];
     var response = await this.apiService.post(`${environment.apiBackend}/maniobra/deleteManiobra`, {
       id: key.id,
@@ -194,7 +242,7 @@ export class ManiobraComponent implements OnInit {
 
     this.evaluar(response, mensaje);
 
-  }
+  } */
 
   validateEmptyFields() {
     let success = true;
@@ -218,18 +266,30 @@ export class ManiobraComponent implements OnInit {
   }
 
   limpiar() {
-    this.form.descripcion.value = '';
-    this.form.url_documento.value = '';
     this.boton = {
       value: "Guardar",
       color: "btn-primary"
     }
     this.isDivVisible=true;
     new Scroll('0');
+    this.validations.cleanFields(this.form);
+    // this.fileValidation.fileUp(this.inputFile);
+    this.inputFile = undefined;
+    this.inputFileComponent.setFileName('');
   }
 
   setInput(event){
     this.inputFile = event;
+  }
+
+  eliminar(key){
+    this.registroManiobra.splice(key,1);
+    this.tableTrabajoManiobra.init(this.registroManiobra);
+  }
+
+  setDataRegistroManibra(data){
+    this.registroManiobra = data;
+    this.tableTrabajoManiobra.init(this.registroManiobra);
   }
 
 }

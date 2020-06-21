@@ -17,7 +17,7 @@ export class TableManiobraComponent implements OnInit {
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   @Output() valueChange = new EventEmitter();
   @Input() set data(data: []) {
-    this.init(data);
+    // this.init(data);
   }
 
   constructor() { }
@@ -43,16 +43,12 @@ export class TableManiobraComponent implements OnInit {
   }
 
   imprimir(data){
-
     window.open(`${environment.urlFiles}/public/${data.url_documento}`, '_blank');
-
   }
 
   seleccionar(row)
   {
-
     this.valueChange.emit(["select",row]);
-
   }
 
   eliminar(row)

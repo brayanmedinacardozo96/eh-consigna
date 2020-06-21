@@ -47,4 +47,10 @@ export class InputFileComponent implements OnInit {
     window.open(`${environment.urlFiles}/public/${this.fileUrl}`, '_blank');
   }
 
+  setFileName(data){
+    //form-file
+    let file = ((document.getElementById("form-file")) as HTMLSelectElement);
+    this.fileName = '';
+  }
+
 }

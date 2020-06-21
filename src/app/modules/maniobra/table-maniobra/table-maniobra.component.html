@@ -19,7 +19,11 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Documento</th>
         <td style="text-align:center" mat-cell *matCellDef="let row">
 
-          <mat-icon (click)="imprimir(row)" style="cursor: pointer;" title="Documento" matTooltipClass="custom-tooltip"
+          <span *ngIf="row?.url_documento == null && row?.nombre_documento">
+            {{row?.nombre_documento}}
+          </span>
+
+          <mat-icon *ngIf="row?.url_documento != null" (click)="imprimir(row)" style="cursor: pointer;" title="Documento" matTooltipClass="custom-tooltip"
             color="accent">
             description
           </mat-icon>
@@ -33,9 +37,9 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Acciones</th>
         <td mat-cell *matCellDef="let row">
           <!--(click)="seleccionar(row)" -->
-              <mat-icon  (click)="seleccionar(row)" style="cursor: pointer;" title="Editar" matTooltipClass="custom-tooltip" color="accent">
+              <!-- <mat-icon  (click)="seleccionar(row)" style="cursor: pointer;" title="Editar" matTooltipClass="custom-tooltip" color="accent">
                 edit
-              </mat-icon>
+              </mat-icon> -->
 
               <mat-icon (click)="eliminar(row)" style="cursor: pointer;" title="Eliminar" matTooltipClass="custom-tooltip" color="warn">
                 delete

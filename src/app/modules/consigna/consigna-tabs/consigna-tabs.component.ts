@@ -10,6 +10,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConsignaNewMessageComponent } from './../consigna-new-message/consigna-new-message.component';
 import { SnackBarService } from './../../../shared/services/snack-bar.service';
 import { SessionService } from './../../../shared/services/session.service';
+import { ValueConverter } from '@angular/compiler/src/render3/view/template';
 
 
 @Component({
@@ -21,6 +22,7 @@ export class ConsignaTabsComponent implements OnInit {
 
   elementos = [];
   trabajosOportunidad = [];
+  registroManiobra = [];
   action = 'Guardar';
   nameTab = 'Nueva';
   consignacionId = null;
@@ -119,6 +121,23 @@ export class ConsignaTabsComponent implements OnInit {
       }
 
       this.trabajoOportunidad.setDataTrabajosOportunidad(this.trabajosOportunidad);
+
+      this.registroManiobra = [];
+      for(let value of dataResponse.registro_maniobra){
+        let urlManiobra = value.url_documento.split('/');
+        let maniobra = {
+          id: value.id,
+          consignacion_id: value.consignacion_id,
+          descripcion: value.descripcion,
+          nombre_documento: urlManiobra[urlManiobra.length-1],
+          url_documento: value.url_documento,
+          file: null
+        }
+        this.registroManiobra.push(maniobra);
+      }
+
+      this.maniobra.setDataRegistroManibra(this.registroManiobra);
+
     }
   }
 
@@ -147,17 +166,34 @@ export class ConsignaTabsComponent implements OnInit {
     let success = response.success;
     let message = response.message;
     if(success){
-      this.consigna.cleanAllFields();
-      this.dialog.open(ConsignaNewMessageComponent,{
-        backdropClass: 'cdk-overlay-transparent-backdrop',
-        hasBackdrop: false,
-        data: {response}
-      });
-      //si es editar vuelve a redireccionar al inicio
-      if(this.consignacionId != null){
-        this.router.navigate(['consigna']);
-        this.session.setItem('dataConsigna',null);
+
+      if(this.registroManiobra.length > 0){
+        formData = new FormData();
+        let obj = {
+          id: this.registroManiobra[0].id,
+          consignacion_id: response.consignacion_id,
+          consigna_codigo: response.consecutivo,
+          descripcion: this.registroManiobra[0].descripcion,
+          nombre_documento: this.registroManiobra[0].nombre_documento,
+          url_documento: this.registroManiobra[0].url_documento,
+        }
+        formData = this.registroManiobra[0].file;
+        formData.append('form',JSON.stringify(obj))
+        
+        const responseManiobra = await this.api.post(
+          `${environment.apiBackend}/maniobra/postManiobra`,
+          formData
+        );
+
+        if(!responseManiobra.success){
+          this.snackBar.alert('Ocurrió un error guardando el registro de maniobra');
+        }
+        this.showDialog(response);
+      }else{
+        this.showDialog(response);
       }
+
+      
     }else{
       this.snackBar.alert('Ocurrió un error, por favor vuelva a intentarlo o contáctese con el administrador.',10000)
     }
@@ -170,6 +206,24 @@ export class ConsignaTabsComponent implements OnInit {
 
   setTrabajoOportunidad(data){
     this.trabajosOportunidad = data;
+  }
+
+  setRegistroManiobra(data){
+    this.registroManiobra = data;
+  }
+
+  showDialog(response){
+    this.consigna.cleanAllFields();
+    this.dialog.open(ConsignaNewMessageComponent,{
+      backdropClass: 'cdk-overlay-transparent-backdrop',
+      hasBackdrop: false,
+      data: {response}
+    });
+    //si es editar vuelve a redireccionar al inicio
+    if(this.consignacionId != null){
+      this.router.navigate(['consigna']);
+      this.session.setItem('dataConsigna',null);
+    }
   }
 
 }
