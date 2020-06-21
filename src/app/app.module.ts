@@ -22,6 +22,8 @@ import {TrabajoOportunidadModule} from './modules/trabajo-oportunidad/trabajo-op
 import {ManiobraModule} from './modules/maniobra/maniobra.module';
 import {AutorizarModule} from './modules/autorizar/autorizar.module';
 import {ParametrosModule} from './modules/parametros/parametros.module';
+import {ComunicadoPrensaModule} from "./modules/comunicado-prensa/comunicado-prensa.module";
+import {NotifierModule} from "angular-notifier";
 
 
 @NgModule({
@@ -45,6 +47,20 @@ import {ParametrosModule} from './modules/parametros/parametros.module';
     ManiobraModule,
     AutorizarModule,
     ParametrosModule,
+    ComunicadoPrensaModule,
+    NotifierModule.withConfig({
+      position: {
+        horizontal: {
+          position: 'right',
+          distance: 12,
+        },
+        vertical: {
+          position: 'top',
+          distance: 100,
+          gap: 10,
+        }
+      }
+    }),
   ],
   providers: [
     {provide: LocationStrategy, useClass: HashLocationStrategy},

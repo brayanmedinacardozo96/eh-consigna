@@ -1,9 +1,9 @@
 <mat-card class="container">
   <mat-card-content>
-    <h1>Autorizar</h1>
+    <h1>Consigna</h1>
 
-    <div style="text-align: left;width: 98%;">
-      <strong>Autorizador: </strong><label>Brayan Herney Medina</label>
+    <div style="padding-left:20px;text-align: left;width: 98%;">
+      <strong>Autorizador: </strong><label>{{form.usuario.value}}</label>
     </div>
     <mat-grid-list class="row" cols="2" rowHeight="104px">
 
@@ -17,12 +17,24 @@
         </app-input-autocomplete>
 
         <div style="padding-bottom:20px">
-          <button mat-mini-fab color="accent" matTooltip="Consultar" matTooltipClass="custom-tooltip">
+          <button mat-mini-fab color="accent" (click)="buscar()" matTooltip="Consultar" matTooltipClass="custom-tooltip">
             <mat-icon style="color: #FFFFFF">search</mat-icon>
           </button>
         </div>
 
       </mat-grid-tile>
+
+      <mat-grid-tile [colspan]="2">
+        <mat-form-field class="input" style="width: 95%;">
+            <mat-label>{{form.estadoConsigna.required ? form.estadoConsigna.label+' *':form.estadoConsigna.label}}</mat-label>
+            <mat-select id="ddlEstadoConsigna" (valueChange)="setData(form.estadoConsigna.name, $event)" [(ngModel)]="form.estadoConsigna.value" style="padding-top: 5px;padding-bottom: 5px;">
+                <mat-option *ngFor="let value of dataControls?.estadoConsigna;" [value]="value.id">
+                    {{value.nombre}}
+                </mat-option>
+            </mat-select>
+            <mat-hint style="color: red" *ngIf="form.estadoConsigna.messages">{{form.estadoConsigna.messages}}</mat-hint>
+        </mat-form-field>
+     </mat-grid-tile>
 
       <mat-grid-tile [colspan]="2">
 
@@ -35,53 +47,17 @@
       </mat-grid-tile>
 
 
-      <!--
-  
-        
-  
-  
-        </mat-grid-tile>
-  
-  
-        
-  
-        <mat-grid-tile [colspan]="2">
-  
-          <app-input-text-area style="width: 98%;" class="input" [label]="form.medidaSeguridad.label"
-            [value]="form.medidaSeguridad.value" [name]="form.medidaSeguridad.name"
-            [messages]="form.medidaSeguridad.messages" (valueChange)="setData(form.medidaSeguridad.name, $event)">
-          </app-input-text-area>
-  
-  
-        </mat-grid-tile>
-  
-        <mat-grid-tile>
-  
-          <app-input-text style="width: 96%;" class="input" [label]="form.jefeTrabajo.label"
-            [value]="form.jefeTrabajo.value" [name]="form.jefeTrabajo.name" [messages]="form.jefeTrabajo.messages"
-            (valueChange)="setData(form.jefeTrabajo.name, $event)">
-          </app-input-text>
-  
-  
-        </mat-grid-tile>
-  
-        <mat-grid-tile>
-  
-          <app-input-text style="width: 96%;" class="input" [label]="form.telefono.label" [value]="form.telefono.value"
-            [name]="form.telefono.name" [messages]="form.telefono.messages"
-            (valueChange)="setData(form.telefono.name, $event)">
-          </app-input-text>
-  
-  
-        </mat-grid-tile>
-    -->
     </mat-grid-list>
+
+    <div style="padding: 10px;"  *ngIf="viewList" >
+      <table-aprobar-consigna [data]="data"></table-aprobar-consigna>
+    </div>
 
     <div style="padding: 10px;">
       <app-table-elemento-calidad [data]="dataElementoCalidad"></app-table-elemento-calidad>
     </div>
 
-    <button mat-raised-button color="primary" style="margin-left: 20px; margin-top: 10px;">
+    <button mat-raised-button color="primary" (click)="guardar()" style="margin-left: 20px; margin-top: 10px;">
       <span style="color: #FFF">Guardar</span>
     </button>
 

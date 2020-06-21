@@ -13,6 +13,7 @@ import {AutorizarComponent}  from './modules/autorizar/autorizar.component'
 import { ConsignaTabsComponent } from './modules/consigna/consigna-tabs/consigna-tabs.component';
 import { ConsignaUserComponent } from './modules/consigna/consigna-user/consigna-user.component';
 import {ParametrosComponent} from './modules/parametros/parametros.component';
+import {ComunicadoPrensaFormComponent} from "./modules/comunicado-prensa/comunicado-prensa-form/comunicado-prensa-form.component";
 const routes: Routes = [
   {path: '', component: LoginComponent}
   , {path: 'login', component: LoginComponent}
@@ -27,8 +28,10 @@ const routes: Routes = [
   , {path: 'consigna/editar/:id', component: ConsignaTabsComponent, canActivate: [AuthGuard]}
   , {path: 'trabajo-oportunidad', component: TrabajoOportunidadComponent, canActivate: [AuthGuard]}
   , {path: 'maniobra', component: ManiobraComponent, canActivate: [AuthGuard]}
+  , {path: 'autorizar/:id', component: AutorizarComponent, canActivate: [AuthGuard]}
   , {path: 'autorizar', component: AutorizarComponent, canActivate: [AuthGuard]}
   , {path: 'parametros', component: ParametrosComponent, canActivate: [AuthGuard]}
+  , {path: 'comunicado-prensa/new', component: ComunicadoPrensaFormComponent, canActivate: [AuthGuard]}
 
   , {path: '404', component: NotFoundComponent}
   , {path: '**', redirectTo: '/404'}
