@@ -94,7 +94,7 @@ export class TrabajoOportunidadComponent implements OnInit {
   ];
 
   boton = {
-    value: 'Guardar',
+    value: 'Adicionar',
     color: 'btn-primary',
   };
 
@@ -146,7 +146,7 @@ export class TrabajoOportunidadComponent implements OnInit {
     this.form.jefeTrabajo.value = '';
     this.form.elemento.value = '';
     this.boton = {
-      value: "Guardar",
+      value: "Adicionar",
       color: "btn-primary"
     }
     new Scroll('0');
@@ -182,6 +182,7 @@ export class TrabajoOportunidadComponent implements OnInit {
       this.setTrabajoOportunidad.emit(this.trabajosOportunidad);
 
       this.tableTrabajoOportunidad.init(this.trabajosOportunidad);
+      this.limpiar();
 
       /* var response;
       var mensaje = [];

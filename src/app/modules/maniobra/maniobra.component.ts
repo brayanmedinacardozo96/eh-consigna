@@ -145,88 +145,94 @@ export class ManiobraComponent implements OnInit {
 
   guardar() {
     var response;
-    var mensaje = [];
+    var message = '';
     let success = false;
-
-    this.fileUpload = this.fileValidation.fileUp(this.inputFile);
-
-    if (this.validateEmptyFields() && this.fileUpload.success) {
-      success = true;
-
-      let file = this.inputFile.target.files[0];
-
-      let formData: FormData = new FormData();
-      formData= this.fileUpload.files;
-
-      formData = this.fileUpload.files;
-      formData.append('form',JSON.stringify(this.form));
-      formData.append('descripcion',JSON.stringify(this.form.descripcion.value));
-      formData.append('consigna_id', JSON.stringify(this.form.consigna.value) );
-      
-
-      let obj = {
-        id: null,
-        consignacion_id: null,
-        descripcion: this.form.descripcion.value,
-        nombre_documento: this.inputFile.target.files[0].name,
-        url_documento: null,
-        file: this.fileUpload.files
+    
+    if(this.registroManiobra.length < 1){
+      var message = 'Faltan campos a diligenciar.';
+      this.fileUpload = this.fileValidation.fileUp(this.inputFile);
+  
+      if (this.validateEmptyFields() && this.fileUpload.success) {
+        success = true;
+  
+        let file = this.inputFile.target.files[0];
+  
+        let formData: FormData = new FormData();
+        formData= this.fileUpload.files;
+  
+        formData = this.fileUpload.files;
+        formData.append('form',JSON.stringify(this.form));
+        formData.append('descripcion',JSON.stringify(this.form.descripcion.value));
+        formData.append('consigna_id', JSON.stringify(this.form.consigna.value) );
+        
+  
+        let obj = {
+          id: null,
+          consignacion_id: null,
+          descripcion: this.form.descripcion.value,
+          nombre_documento: this.inputFile.target.files[0].name,
+          url_documento: null,
+          file: this.fileUpload.files
+        }
+  
+        this.registroManiobra.push(obj);    
+        this.tableTrabajoManiobra.init(this.registroManiobra);
+  
+        this.setRegistroManiobra.emit(this.registroManiobra);
+  
+        this.limpiar();
       }
-
-      this.registroManiobra.push(obj);    
-      this.tableTrabajoManiobra.init(this.registroManiobra);
-
-      this.setRegistroManiobra.emit(this.registroManiobra);
-
-      this.limpiar();
+  
+        /* if(this.boton.value == "Actualizar")
+        {
+  
+            response = await this.apiService.post(
+              `${environment.apiBackend}/maniobra/putManiobra`,
+              {
+                id:this.form.id.value,
+                descripcion:this.form.descripcion.value,
+                consignacion_id:this.form.consigna.value
+              }
+            );
+  
+            mensaje = ['Registro actualizado', 'btn-success'];
+  
+            this.evaluar(response, mensaje);
+  
+        }else{
+  
+          this.fileUpload = this.fileValidation.fileUp(this.inputFile);
+  
+          if (this.fileUpload.success) {
+  
+  
+            let formData: FormData = new FormData();
+            formData= this.fileUpload.files;
+  
+            formData = this.fileUpload.files;
+            formData.append('form',JSON.stringify(this.form));
+            formData.append('descripcion',JSON.stringify(this.form.descripcion.value));
+            formData.append('consigna_id', JSON.stringify(this.form.consigna.value) );
+  
+              response = await this.apiService.post(
+                `${environment.apiBackend}/maniobra/postManiobra`,
+                formData
+              );
+  
+              mensaje = ['Guardado con éxito', 'btn-primary'];
+  
+              this.evaluar(response, mensaje);
+  
+          }
+  
+        } */
+      
+    }else{
+      message = 'Solo se puede agregar un registro de maniobra por cada consigna';
     }
 
-      /* if(this.boton.value == "Actualizar")
-      {
-
-          response = await this.apiService.post(
-            `${environment.apiBackend}/maniobra/putManiobra`,
-            {
-              id:this.form.id.value,
-              descripcion:this.form.descripcion.value,
-              consignacion_id:this.form.consigna.value
-            }
-          );
-
-          mensaje = ['Registro actualizado', 'btn-success'];
-
-          this.evaluar(response, mensaje);
-
-      }else{
-
-        this.fileUpload = this.fileValidation.fileUp(this.inputFile);
-
-        if (this.fileUpload.success) {
-
-
-          let formData: FormData = new FormData();
-          formData= this.fileUpload.files;
-
-          formData = this.fileUpload.files;
-          formData.append('form',JSON.stringify(this.form));
-          formData.append('descripcion',JSON.stringify(this.form.descripcion.value));
-          formData.append('consigna_id', JSON.stringify(this.form.consigna.value) );
-
-            response = await this.apiService.post(
-              `${environment.apiBackend}/maniobra/postManiobra`,
-              formData
-            );
-
-            mensaje = ['Guardado con éxito', 'btn-primary'];
-
-            this.evaluar(response, mensaje);
-
-        }
-
-      } */
-
     if(!success){
-      new SnackBarClass(this.snackBar, 'Faltan campos a diligenciar','snackbar-alert').openSnackBar();
+      new SnackBarClass(this.snackBar,message,'snackbar-alert').openSnackBar();
     }
   }
 
@@ -267,7 +273,7 @@ export class ManiobraComponent implements OnInit {
 
   limpiar() {
     this.boton = {
-      value: "Guardar",
+      value: "Adicionar",
       color: "btn-primary"
     }
     this.isDivVisible=true;
@@ -285,6 +291,7 @@ export class ManiobraComponent implements OnInit {
   eliminar(key){
     this.registroManiobra.splice(key,1);
     this.tableTrabajoManiobra.init(this.registroManiobra);
+    console.log(this.registroManiobra);
   }
 
   setDataRegistroManibra(data){
