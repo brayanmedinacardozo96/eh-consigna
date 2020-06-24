@@ -12,7 +12,7 @@ import {MatDialog} from '@angular/material/dialog';
 import {Router,ActivatedRoute} from '@angular/router';
 import { SessionService } from './../../../shared/services/session.service';
 import { TrabajoOportunidadComponent } from './../../trabajo-oportunidad/trabajo-oportunidad.component';
-
+import {IframeMapComponent} from '../iframe-map/iframe-map.component';
 @Component({
   selector: 'app-consigna-new',
   templateUrl: './consigna-new.component.html',
@@ -580,6 +580,13 @@ export class ConsignaNewComponent implements OnInit {
     this.validations.cleanFields(this.interrupcionesCortoTiempo);
     this.fileValidation.fileUp(this.inputFile)
     this.dataElementos = [];
+  }
+
+  openMap()
+  {
+    
+    var n=new IframeMapComponent(this.dialog);
+    n.openDialog();
   }
 
 }
