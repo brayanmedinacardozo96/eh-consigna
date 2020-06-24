@@ -1,0 +1,40 @@
+<div style="min-height: 520px;">
+  <mat-card class="container">
+    <mat-card-content>
+      <h1>Comunicados de prensa</h1>
+
+      <fieldset>
+        <legend style="text-align: left;">Parámetros de búsqueda</legend>
+
+        <app-input-text
+          class="input"
+          (keyup.enter)="search()"
+          [name]="form.numeroConsigna.name"
+          [value]="form.numeroConsigna.value"
+          [label]="form.numeroConsigna.label"
+          [messages]="form.numeroConsigna.messages"
+          (valueChange)="setData(form.numeroConsigna.name, $event)"
+          [style]="'width: 200px'"
+        ></app-input-text>
+
+        <button (click)="search()" mat-mini-fab color="accent" style="margin-left: 20px;">
+          <mat-icon style="color: #FFFFFF">search</mat-icon>
+        </button>
+
+      </fieldset>
+
+    </mat-card-content>
+  </mat-card>
+
+  <div style="padding: 10px;">
+    <app-comunicado-prensa-list [data]="data" (refresh)="search()"></app-comunicado-prensa-list>
+  </div>
+
+  <button mat-fab color="accent"
+          [routerLink]="['/comunicado-prensa/new']"
+          matTooltip="Nuevo comunicado de prensa"
+          class="custom-float-button">
+    <mat-icon style="color: #FFFFFF;">add</mat-icon>
+  </button>
+
+</div>
