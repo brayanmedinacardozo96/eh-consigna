@@ -104,3 +104,10 @@ body {
   background-color:#f44336;
   color: #fff;
 }
+
+.custom-float-button {
+  position: fixed !important;
+  bottom: 40px !important;
+  right: 40px !important;
+  z-index: 999 !important;
+}

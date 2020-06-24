@@ -1,7 +1,12 @@
 <div style="min-height: 520px;">
   <mat-card class="container">
     <mat-card-content>
-      <h1>Crear comunicado de prensa</h1>
+
+      <h1>
+        <ng-container *ngIf="!id">Crear</ng-container>
+        <ng-container *ngIf="id">Editar</ng-container>
+        comunicado de prensa
+      </h1>
 
       <fieldset>
         <legend style="text-align: left;">Consigna</legend>
@@ -81,12 +86,30 @@
                   debounce="500">
         </ckeditor>
 
-        <button (click)="guardarComunicadoPrensa()" mat-raised-button color="accent" class="button"
-                style="color: #FFFFFF; margin: 5px;">
-          Guardar
-        </button>
+        <br>
+        <mat-form-field style="width: 300px; margin-right: 10px;" appearance="outline">
+          <mat-label>Publicar comunicado de prensa *</mat-label>
+          <mat-select [(ngModel)]="publicado">
+            <mat-option [value]="1">SI</mat-option>
+            <mat-option [value]="0">NO</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <br>
+
+        <span style="font-style: italic;">Si selecciona <b>SI</b>: Se notificarán los clientes afectados y no puede volver a editar el comunicado.<br>
+          Si selecciona <b>NO</b>: Podrá publicarlo más adelante y puede editar el comunicado de prensa.</span>
 
       </fieldset>
+
+      <div style="text-align: center;">
+        <button (click)="guardarComunicadoPrensa()" mat-raised-button color="accent" class="button"
+                style="color: #FFFFFF; margin: 5px;">
+          GUARDAR
+        </button>
+        <button (click)="cancel()" mat-raised-button color="accent" class="button" style="color: #FFFFFF; margin: 5px;">
+          CANCELAR
+        </button>
+      </div>
 
 
     </mat-card-content>

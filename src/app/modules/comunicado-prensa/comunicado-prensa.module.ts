@@ -10,22 +10,28 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatSelectModule} from "@angular/material/select";
 import {FormsModule} from "@angular/forms";
 import {CKEditorModule} from "ng2-ckeditor";
+import { ComunicadoPrensaComponent } from './comunicado-prensa.component';
+import { ComunicadoPrensaListComponent } from './comunicado-prensa-list/comunicado-prensa-list.component';
+import {RouterModule} from "@angular/router";
+import {MatExpansionModule} from "@angular/material/expansion";
 
 
 
 @NgModule({
-  declarations: [ComunicadoPrensaFormComponent],
-  imports: [
-    CommonModule,
-    MatCardModule,
-    CustomFormsModule,
-    MatIconModule,
-    MatButtonModule,
-    MatTooltipModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    FormsModule,
-    CKEditorModule
-  ]
+  declarations: [ComunicadoPrensaFormComponent, ComunicadoPrensaComponent, ComunicadoPrensaListComponent],
+    imports: [
+        CommonModule,
+        MatCardModule,
+        CustomFormsModule,
+        MatIconModule,
+        MatButtonModule,
+        MatTooltipModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        FormsModule,
+        CKEditorModule,
+        RouterModule,
+        MatExpansionModule
+    ]
 })
 export class ComunicadoPrensaModule { }

@@ -5,6 +5,8 @@ import {Validations} from "../../../shared/validations";
 import {NotifierService} from "angular-notifier";
 import {Helpers} from "../../../shared/helpers";
 import {Auth} from "../../../shared/auth";
+import {Location} from '@angular/common';
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-comunicado-prensa-form',
@@ -13,11 +15,13 @@ import {Auth} from "../../../shared/auth";
 })
 export class ComunicadoPrensaFormComponent implements OnInit {
 
+  id = null;
   data = null;
   consignaID = null;
   plantillas = [];
   plantillaSelected = null;
   contenidoComunicadoPrensa: string;
+  publicado = null;
 
   form = {
     numeroConsigna: {
@@ -40,12 +44,41 @@ export class ComunicadoPrensaFormComponent implements OnInit {
   };
 
   constructor(private api: ApiService,
-              private notifier: NotifierService,) {
+              private notifier: NotifierService,
+              private location: Location,
+              private activeRoute: ActivatedRoute,) {
+
+    this.activeRoute.params.subscribe(params => {
+
+      if (params.id !== undefined && params.id !== null) {
+        this.id = params.id;
+        this.load().then();
+      } else {
+        this.loadPlantillas().then();
+      }
+
+    });
 
   }
 
   ngOnInit(): void {
-    this.loadPlantillas().then();
+
+  }
+
+  async load() {
+    this.loadPlantillas().then(async () => {
+      const response = await this.api.get(`${environment.apiBackend}/comunicado-prensa/show/${this.id}`);
+      this.loadDataForm(response.data);
+    });
+  }
+
+  loadDataForm(data) {
+    this.consignaID = data.consignacion_id;
+    this.contenidoComunicadoPrensa = data.contenido;
+    this.publicado = Number(data.publicado);
+    this.form.numeroConsigna.value = data.consigna.codigo;
+    this.formPlantilla.plantilla.value = Number(data.plantilla_id);
+    this.data = data.consigna;
   }
 
   async loadPlantillas() {
@@ -101,20 +134,35 @@ export class ComunicadoPrensaFormComponent implements OnInit {
     ventana.document.body.innerHTML = this.plantillaSelected.contenido;
   }
 
+  paramsSave() {
+    const user = Auth.getLogin();
+    return {
+      id: this.id,
+      consignacion_id: this.consignaID,
+      contenido: this.contenidoComunicadoPrensa,
+      usuario_id: user.user_data.id,
+      publicado: this.publicado,
+      plantilla_id: this.formPlantilla.plantilla.value
+    };
+  }
+
   async guardarComunicadoPrensa() {
+
     if (!this.validate()) {
       return false;
     }
 
-    const user = Auth.getLogin();
-    const params = {
-      consignacion_id: this.consignaID,
-      contenido: this.contenidoComunicadoPrensa,
-      usuario_id: user.user_data.id,
-    };
-    const response = await this.api.post(`${environment.apiBackend}/comunicado-prensa/save`, params);
+    const params = this.paramsSave();
+    let response: any;
+    if (!this.id) {
+      response = await this.api.post(`${environment.apiBackend}/comunicado-prensa/save`, params);
+    } else {
+      response = await this.api.post(`${environment.apiBackend}/comunicado-prensa/edit`, params);
+    }
+
     if (response.success) {
       this.notifier.notify('success', response.message);
+      this.cancel();
     } else {
       this.notifier.notify('error', response.message);
     }
@@ -133,11 +181,21 @@ export class ComunicadoPrensaFormComponent implements OnInit {
       this.notifier.notify('error', '¡Debe ingresar el comunicado de prensa!');
       return false;
     }
+
+    if (this.publicado === null) {
+      this.notifier.notify('error', '¡Debe seleccionar si desea publicar el comunicado de prensa!');
+      return false;
+    }
+
     return true;
   }
 
   setData(name, event) {
     this.form[name].value = event;
+  }
+
+  cancel() {
+    this.location.back();
   }
 
 }

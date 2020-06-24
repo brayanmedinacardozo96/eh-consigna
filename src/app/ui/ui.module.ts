@@ -16,9 +16,12 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatSelectModule} from '@angular/material/select';
 import {RouterModule} from '@angular/router';
 import {MatBadgeModule} from '@angular/material/badge';
+import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
+import {MatDialogModule} from "@angular/material/dialog";
+import {MatButtonModule} from "@angular/material/button";
 
 @NgModule({
-  declarations: [HeaderComponent, FooterComponent, LoadingComponent, NotFoundComponent],
+  declarations: [HeaderComponent, FooterComponent, LoadingComponent, NotFoundComponent, ConfirmDialogComponent],
   imports: [
     CommonModule,
     MatToolbarModule,
@@ -32,7 +35,9 @@ import {MatBadgeModule} from '@angular/material/badge';
     MatTooltipModule,
     MatSelectModule,
     RouterModule,
-    MatBadgeModule
+    MatBadgeModule,
+    MatDialogModule,
+    MatButtonModule
   ],
   exports: [HeaderComponent, FooterComponent, LoadingComponent],
 })
