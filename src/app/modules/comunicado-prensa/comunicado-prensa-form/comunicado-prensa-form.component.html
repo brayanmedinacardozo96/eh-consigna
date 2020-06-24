@@ -11,21 +11,25 @@
       <fieldset>
         <legend style="text-align: left;">Consigna</legend>
 
-        <app-input-text
-          class="input"
-          (keyup.enter)="searchConsigna()"
-          [name]="form.numeroConsigna.name"
-          [value]="form.numeroConsigna.value"
-          [label]="form.numeroConsigna.label"
-          [messages]="form.numeroConsigna.messages"
-          (valueChange)="setData(form.numeroConsigna.name, $event)"
-          [style]="'width: 300px'"
-        ></app-input-text>
+        <ng-container *ngIf="!id">
 
-        <button (click)="searchConsigna()" mat-raised-button color="primary" style="margin-left: 20px;"
-                matTooltip="Buscar consigna a partir del código">
-          <mat-icon style="color: #FFFFFF">search</mat-icon>
-        </button>
+          <app-input-text
+            class="input"
+            (keyup.enter)="searchConsigna()"
+            [name]="form.numeroConsigna.name"
+            [value]="form.numeroConsigna.value"
+            [label]="form.numeroConsigna.label"
+            [messages]="form.numeroConsigna.messages"
+            (valueChange)="setData(form.numeroConsigna.name, $event)"
+            [style]="'width: 300px'"
+          ></app-input-text>
+
+          <button (click)="searchConsigna()" mat-raised-button color="primary" style="margin-left: 20px;"
+                  matTooltip="Buscar consigna a partir del código">
+            <mat-icon style="color: #FFFFFF">search</mat-icon>
+          </button>
+
+        </ng-container>
 
         <table class="custom-table">
           <tbody>
@@ -39,7 +43,7 @@
           </tr>
           <tr>
             <th>Fecha solicitud</th>
-            <td>{{data?.fecha_solicitud}}
+            <td>{{data?.fecha_solicitud | date}}
             <th>Tipo Consignación</th>
             <td>{{data?.tipo_consignacion?.nombre}}</td>
             <th>Estado consignación</th>
@@ -60,25 +64,29 @@
 
       <fieldset style="margin-top: 1%;">
 
-        <legend style="text-align: left;">Comunicado de prensa</legend>
-        <mat-icon *ngIf="formPlantilla.plantilla.value" style="padding: 10px; cursor: pointer"
-                  (click)="openVistaPreviaPlantilla()">visibility
-        </mat-icon>
-        <mat-form-field style="width: 300px; margin-right: 10px;" appearance="outline">
-          <mat-label>{{formPlantilla.plantilla.label}}
-            <ng-container *ngIf="formPlantilla.plantilla.required">*</ng-container>
-          </mat-label>
-          <mat-select [(ngModel)]="formPlantilla.plantilla.value" (ngModelChange)="setPlantillaSelected($event)">
-            <mat-option *ngFor="let value of plantillas;" [value]="value?.id">{{value?.nombre}}</mat-option>
-          </mat-select>
-          <mat-hint style="color: red"
-                    *ngIf="formPlantilla.plantilla.messages">{{formPlantilla.plantilla.messages}}</mat-hint>
-        </mat-form-field>
+        <ng-container *ngIf="!id">
 
-        <button (click)="generar()" mat-raised-button color="accent" class="button"
-                style="color: #FFFFFF; margin: 5px;">
-          Generar
-        </button>
+          <legend style="text-align: left;">Comunicado de prensa</legend>
+          <mat-icon *ngIf="formPlantilla.plantilla.value" style="padding: 10px; cursor: pointer"
+                    (click)="openVistaPreviaPlantilla()">visibility
+          </mat-icon>
+          <mat-form-field style="width: 300px; margin-right: 10px;" appearance="outline">
+            <mat-label>{{formPlantilla.plantilla.label}}
+              <ng-container *ngIf="formPlantilla.plantilla.required">*</ng-container>
+            </mat-label>
+            <mat-select [(ngModel)]="formPlantilla.plantilla.value" (ngModelChange)="setPlantillaSelected($event)">
+              <mat-option *ngFor="let value of plantillas;" [value]="value?.id">{{value?.nombre}}</mat-option>
+            </mat-select>
+            <mat-hint style="color: red"
+                      *ngIf="formPlantilla.plantilla.messages">{{formPlantilla.plantilla.messages}}</mat-hint>
+          </mat-form-field>
+
+          <button (click)="generar()" mat-raised-button color="accent" class="button"
+                  style="color: #FFFFFF; margin: 5px;">
+            Generar
+          </button>
+
+        </ng-container>
 
         <ckeditor [(ngModel)]="contenidoComunicadoPrensa"
                   name="editorHtmlContenido"

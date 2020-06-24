@@ -95,11 +95,18 @@ export class ComunicadoPrensaFormComponent implements OnInit {
 
     const numeroConsigna = this.form.numeroConsigna.value;
     const response = await this.api.get(`${environment.apiBackend}/comunicado-prensa/get-consigna-by-code/${numeroConsigna}`);
-    this.data = response.data;
-    this.consignaID = this.data.id;
-    if (!this.data) {
-      this.notifier.notify('info', response.message);
+
+    if (!response.success) {
+      this.notifier.notify('error', response.message);
+      this.data = null;
+      return false;
     }
+
+    if (response.data) {
+      this.data = response.data;
+      this.consignaID = this.data.id;
+    }
+
   }
 
   async generar() {
