@@ -291,7 +291,7 @@ export class ConsignaNewComponent implements OnInit {
     message: null,
     files: new FormData()
   };
-
+  areaAFectada=[];
   messageListaElementos = '';
   user: User = Auth.getUserDataPerson();
 
@@ -394,7 +394,9 @@ export class ConsignaNewComponent implements OnInit {
 
   }
 
-  addListElements(){
+  async addListElements(){
+
+ 
     const responseValidate = this.validations.validateEmptyFields(this.formElementos);
 
     if (!responseValidate.success) {
@@ -407,7 +409,8 @@ export class ConsignaNewComponent implements OnInit {
     var horaInicio = this.formElementos.horaInicio.value;
     var fechaFinal = this.dateValidation.getYearMounthDay(this.formElementos.fechaFinal.value);
     var horaFinal = this.formElementos.horaFinal.value;
-
+    await this.getAreaAFectada("NOFP");
+    
     const elemento = {
       id:           {value: null},
       tipoElemento: {name: textTipoElemento,  value: this.formElementos.tipoElemento.value},
@@ -417,6 +420,7 @@ export class ConsignaNewComponent implements OnInit {
       horaInicio:   {name: horaInicio,        value: horaInicio },
       fechaFinal:   {name: fechaFinal,        value: fechaFinal},
       horaFinal:    {name: horaFinal,         value: horaFinal},
+      jsonAreaAfectada: {name:'jsonAreaAfectada', value: JSON.stringify( this.areaAFectada[0].municipio )  },
     }
     this.dataElementos.push(elemento);
     this.setElemento.emit(elemento.elemento);
@@ -429,6 +433,9 @@ export class ConsignaNewComponent implements OnInit {
     this.formElementos.horaInicio.value = null;
     this.formElementos.fechaFinal.value = null;
     this.formElementos.horaFinal.value = null;
+
+    
+
   }
 
   removeListElement(id){
@@ -588,5 +595,78 @@ export class ConsignaNewComponent implements OnInit {
     var n=new IframeMapComponent(this.dialog);
     n.openDialog();
   }
+
+  async getAreaAFectada(elemento) 
+  {
+    const response = await this.api.get(
+      `${environment.apiBackend}/consigna/getAreaAfectada/${elemento}`
+    );
+    
+    let obj=[];
+    let objCliente=[];
+    this.areaAFectada=[];
+
+  
+    if (response.message == null) {
+      
+      let municipio="inicio";
+      var barrio="";
+
+      response.data.barrioAfectado.forEach(element => {
+         
+         if (municipio == "inicio") {
+           municipio = element.nombre_muni;
+           obj.push(this.crearJsonBarrio(municipio, response.data.barrioAfectado));
+         }
+
+         if (municipio != element.nombre_muni) {
+           municipio = element.nombre_muni;
+           obj.push(this.crearJsonBarrio(municipio, response.data.barrioAfectado));
+         }
+
+        barrio += element.barrio + "\r";
+
+      });
+      
+      var cliente="";
+      response.data.clieteAfectado.forEach(element => {
+        cliente+=element.nombre_completo+"\r";
+        objCliente.push({nombre:element.nombre_completo,emails:this.splitCorreo(element.correos)});
+      });
+ 
+    }
+
+    this.interrupcionesTrabajo.barrios.value=barrio;
+
+    this.interrupcionesTrabajo.clientesNoRegulados.value=cliente;
+
+    this.areaAFectada.push({municipio:obj,persona:objCliente});
+
+  }
+
+  crearJsonBarrio(municipio,element){
+     var barrario=[];
+     element.filter(b => {
+      return (b.nombre_muni == municipio)
+     }).forEach(elemen => {
+       barrario.push(elemen.barrio);
+     });
+
+     return {municipio:municipio,barrio:barrario};
+  }
+
+  splitCorreo(correo) {
+    if (correo == undefined || correo == null) {
+      return null;
+    }
+    var array = [];
+    correo.split('|').forEach(element => {
+      if (element != "") {
+        array.push(element);
+      }
+    });
+    return array;
+  }
+
 
 }
