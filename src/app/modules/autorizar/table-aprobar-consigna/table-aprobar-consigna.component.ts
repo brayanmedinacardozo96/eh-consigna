@@ -18,7 +18,7 @@ import { ApiService } from 'src/app/shared/services/api.service';
 })
 export class TableAprobarConsignaComponent implements OnInit {
 
-  displayedColumns: string[] = ['numeroConsigna', 'consecutivoSnc', 'tipoZona', 'estadoConsigna','estadoEquipo', 'elementosConsignados', 'trabajosOportunidad', 'maniobras'];
+  displayedColumns: string[] = ['numeroConsigna', 'consecutivoSnc', 'tipoZona', 'estadoConsigna','estadoEquipo', 'elementosConsignados', 'trabajosOportunidad', 'maniobras','archivo'];
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
@@ -69,6 +69,11 @@ export class TableAprobarConsignaComponent implements OnInit {
       width:'100%',
       data: {response}
     });
+  }
+
+  showUrl(url)
+  {
+    window.open(`${environment.urlFiles}/public/${url}`);
   }
 
 

@@ -33,6 +33,7 @@ import { ConsignaUserComponent } from './consigna-user/consigna-user.component';
 import { ConsignaNewMessageComponent } from './consigna-new-message/consigna-new-message.component';
 import { TrabajoOportunidadModule } from './../trabajo-oportunidad/trabajo-oportunidad.module';
 import { ManiobraModule } from './../maniobra/maniobra.module';
+import { IframeMapComponent } from './iframe-map/iframe-map.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { ManiobraModule } from './../maniobra/maniobra.module';
     ConsignaTabsComponent, 
     ConsignaUserComponent,
     ConsignaNewMessageComponent,
+    IframeMapComponent,
   ],
   imports: [
     CommonModule,
