@@ -61,6 +61,7 @@ export class ConsignaTabsComponent implements OnInit {
       this.consigna.fileUrl = dataResponse.url_diagrama;
       let urlDocument = this.consigna.fileUrl.split('/');
       this.consigna.form.solicitante.label='Usuario';
+      console.log(response);
 
       this.consigna.form.tipoZona.value = parseInt(dataResponse.zona_id);
       this.consigna.form.tipoSolicitud.value = parseInt(dataResponse.tipo_solicitud_id);
@@ -89,14 +90,15 @@ export class ConsignaTabsComponent implements OnInit {
 
       for(let value of dataResponse.lista_elemento){
         const elemento = {
-          id:           {value: value.id},
-          tipoElemento: {name: value.elemento.tipo_elemento.nombre,                                     value: value.elemento.tipo_elemento.id},
-          elemento:     {name: value.elemento.nombre,                                                   value: value.elemento.id},
-          ramal:        {name: value.ramal == '1' ? 'Si' : 'No',                                        value: value.ramal},
-          fechaInicio:  {name: this.dateValidation.getYearMounthDay(new Date(value.fech_inicio_prog)),  value: value.fech_inicio_prog },
-          horaInicio:   {name: value.hora_inicio_prog,                                                  value: value.hora_inicio_prog },
-          fechaFinal:   {name: this.dateValidation.getYearMounthDay(new Date(value.fech_final_prog)),   value: value.fech_final_prog},
-          horaFinal:    {name: value.hora_final_prog,                                                   value: value.hora_final_prog},
+          id:               {value: value.id},
+          tipoElemento:     {name: value.elemento.tipo_elemento.nombre,                                     value: value.elemento.tipo_elemento.id},
+          elemento:         {name: value.elemento.nombre,                                                   value: value.elemento.id},
+          ramal:            {name: value.ramal == '1' ? 'Si' : 'No',                                        value: value.ramal},
+          fechaInicio:      {name: this.dateValidation.getYearMounthDay(new Date(value.fech_inicio_prog)),  value: value.fech_inicio_prog },
+          horaInicio:       {name: value.hora_inicio_prog,                                                  value: value.hora_inicio_prog },
+          fechaFinal:       {name: this.dateValidation.getYearMounthDay(new Date(value.fech_final_prog)),   value: value.fech_final_prog},
+          horaFinal:        {name: value.hora_final_prog,                                                   value: value.hora_final_prog},
+          // jsonAreaAfectada: {name:'jsonAreaAfectada',                                                       value: value.json_area  },
         }
         this.consigna.dataElementos.push(elemento);
         this.setElemento(elemento.elemento)
