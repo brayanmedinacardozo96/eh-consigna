@@ -554,12 +554,16 @@ export class ConsignaNewComponent implements OnInit {
     this.argNumConsigna[position] = value;
 
     this.form.numeroConsigna.value = this.argNumConsigna.join('');
+
+    if(position == 2){
+      this.getSubestaciones(id);
+    }
   }
 
   //Llena los selects del formulario
   async getDataSelectConsigna(){
-    if(this.session.getItem('tipoZona') == null || this.session.getItem('subestacion') == null
-        || this.session.getItem('tipoElemento') == null
+    if(this.session.getItem('tipoZona') == null || this.session.getItem('tipoSolicitud') == null
+        || this.session.getItem('tipoConsignacion') == null
     ){
       const response = await this.session.getDataSelectConsigna();
       if(response.success){
@@ -577,7 +581,7 @@ export class ConsignaNewComponent implements OnInit {
     this.dataControls.estadoConsigna = this.session.getItem('estadoConsigna');
     this.dataControls.estadoEquipo = this.session.getItem('estadoEquipo');
     this.dataControls.tipoMantenimiento = this.session.getItem('tipoMantenimiento');
-    this.dataControls.subestacion = this.session.getItem('subestacion');
+    // this.dataControls.subestacion = this.session.getItem('subestacion');
     this.dataControls.tipoElemento = this.session.getItem('tipoElemento');
     // this.dataControls.elemento = this.session.getItem('elemento');
   }
@@ -592,18 +596,17 @@ export class ConsignaNewComponent implements OnInit {
   }
 
   async getSubestaciones(event){
-    this.dataControls.tipoElemento = [];
-    this.dataControls.tipoElemento = this.session.getItem('tipoElemento');    
     let request = {
-      subestacion_id: event
+      zona_id: event
     };
 
-    const response = await this.api.post(`${environment.apiBackend}/tipo-elemento/get-tipo-elemento`, request);
+    const response = await this.api.post(`${environment.apiBackend}/subestacion/get-subestacion`, request);
     let success = response.success;
     let message = response.message;
     if(success){
+      this.dataControls.subestacion = [];
       for(let value of response.data){
-        this.dataControls.tipoElemento.push(value);        
+        this.dataControls.subestacion.push(value);        
       }
     }else{
       this.snackBar.alert('Ocurrió un error, por favor vuelva a intentarlo o contáctese con el administrador.',10000)

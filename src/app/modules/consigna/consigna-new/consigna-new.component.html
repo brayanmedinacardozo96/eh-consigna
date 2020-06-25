@@ -104,7 +104,7 @@
             <mat-grid-tile>
                 <mat-form-field>
                     <mat-label>{{form.subestacion.required ? form.subestacion.label+' *' : form.subestacion.label}}</mat-label>
-                    <mat-select [(ngModel)]="form.subestacion.value" (ngModelChange)="getTipoElementos($event)"
+                    <mat-select [disabled]="dataControls?.subestacion.length > 0 ? false: true" [(ngModel)]="form.subestacion.value" (ngModelChange)="getTipoElementos($event)"
                     style="padding-top: 5px;padding-bottom: 5px;">
                         <mat-option *ngFor="let value of dataControls?.subestacion;" [value]="value.id">
                             {{ value.codigo }}
