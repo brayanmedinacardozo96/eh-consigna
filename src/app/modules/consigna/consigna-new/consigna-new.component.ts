@@ -551,7 +551,9 @@ export class ConsignaNewComponent implements OnInit {
 
   //Llena los selects del formulario
   async getDataSelectConsigna(){
-    if(this.session.getItem('tipoZona') == null){
+    if(this.session.getItem('tipoZona') == null || this.session.getItem('subestacion') == null
+        || this.session.getItem('tipoElemento') == null
+    ){
       const response = await this.session.getDataSelectConsigna();
       if(response.success){
         this.setSelect();
@@ -570,7 +572,7 @@ export class ConsignaNewComponent implements OnInit {
     this.dataControls.tipoMantenimiento = this.session.getItem('tipoMantenimiento');
     this.dataControls.subestacion = this.session.getItem('subestacion');
     this.dataControls.tipoElemento = this.session.getItem('tipoElemento');
-    this.dataControls.elemento = this.session.getItem('elemento');
+    // this.dataControls.elemento = this.session.getItem('elemento');
   }
 
   cleanAllFields(){
@@ -580,6 +582,59 @@ export class ConsignaNewComponent implements OnInit {
     this.validations.cleanFields(this.interrupcionesCortoTiempo);
     this.fileValidation.fileUp(this.inputFile)
     this.dataElementos = [];
+  }
+
+  async getSubestaciones(event){
+    this.dataControls.tipoElemento = [];
+    this.dataControls.tipoElemento = this.session.getItem('tipoElemento');    
+    let request = {
+      subestacion_id: event
+    };
+
+    const response = await this.api.post(`${environment.apiBackend}/tipo-elemento/get-tipo-elemento`, request);
+    let success = response.success;
+    let message = response.message;
+    if(success){
+      for(let value of response.data){
+        this.dataControls.tipoElemento.push(value);        
+      }
+    }else{
+      this.snackBar.alert('Ocurrió un error, por favor vuelva a intentarlo o contáctese con el administrador.',10000)
+    } 
+  }
+  async getTipoElementos(event){
+    this.dataControls.tipoElemento = [];
+    this.dataControls.tipoElemento = this.session.getItem('tipoElemento');    
+    let request = {
+      subestacion_id: event
+    };
+
+    const response = await this.api.post(`${environment.apiBackend}/tipo-elemento/get-tipo-elemento`, request);
+    let success = response.success;
+    let message = response.message;
+    if(success){
+      for(let value of response.data){
+        this.dataControls.tipoElemento.push(value);        
+      }
+    }else{
+      this.snackBar.alert('Ocurrió un error, por favor vuelva a intentarlo o contáctese con el administrador.',10000)
+    } 
+  }
+
+  async getElementos(event){
+    this.dataControls.elemento = [];
+    let request = {
+      tipo_elemento_id: event
+    };
+
+    const response = await this.api.post(`${environment.apiBackend}/elemento/get-elemento`, request);
+    let success = response.success;
+    let message = response.message;
+    if(success){
+      this.dataControls.elemento = response.data;
+    }else{
+      this.snackBar.alert('Ocurrió un error, por favor vuelva a intentarlo o contáctese con el administrador.',10000)
+    } 
   }
 
 }

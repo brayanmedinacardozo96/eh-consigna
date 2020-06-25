@@ -30,7 +30,7 @@ export class SessionService {
       window.sessionStorage.setItem('tipoMantenimiento',JSON.stringify(data.tipoMantenimiento));
       window.sessionStorage.setItem('subestacion',JSON.stringify(data.subestacion));
       window.sessionStorage.setItem('tipoElemento',JSON.stringify(data.tipoElemento));
-      window.sessionStorage.setItem('elemento',JSON.stringify(data.elemento));
+      // window.sessionStorage.setItem('elemento',JSON.stringify(data.elemento));
       await this.getUsuario();
     }
     return response;
