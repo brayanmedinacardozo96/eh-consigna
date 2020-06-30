@@ -13,6 +13,7 @@ import {Router,ActivatedRoute} from '@angular/router';
 import { SessionService } from './../../../shared/services/session.service';
 import { TrabajoOportunidadComponent } from './../../trabajo-oportunidad/trabajo-oportunidad.component';
 import {IframeMapComponent} from '../iframe-map/iframe-map.component';
+
 @Component({
   selector: 'app-consigna-new',
   templateUrl: './consigna-new.component.html',
@@ -292,6 +293,7 @@ export class ConsignaNewComponent implements OnInit {
     files: new FormData()
   };
   areaAFectada=[];
+  logAreaAFectada=[];
   messageListaElementos = '';
   user: User = Auth.getUserDataPerson();
 
@@ -409,7 +411,7 @@ export class ConsignaNewComponent implements OnInit {
     var horaInicio = this.formElementos.horaInicio.value;
     var fechaFinal = this.dateValidation.getYearMounthDay(this.formElementos.fechaFinal.value);
     var horaFinal = this.formElementos.horaFinal.value;
-    await this.getAreaAFectada("NOFP");
+    await this.getAreaAFectada(  this.getFeederElemento(this.formElementos.elemento.value) );
     
     const elemento = {
       id:           {value: null},
@@ -656,6 +658,17 @@ export class ConsignaNewComponent implements OnInit {
 
   async getAreaAFectada(elemento) 
   {
+
+    var data=this.logAreaAFectada.filter(b=>{
+      return (b.feeder==elemento)
+    });
+    console.log(data);
+    if(data.length>0){
+      return;
+    }
+    console.log("ENTRO");
+    this.logAreaAFectada.push({feeder:elemento});
+
     const response = await this.api.get(
       `${environment.apiBackend}/consigna/getAreaAfectada/${elemento}`
     );
@@ -688,14 +701,19 @@ export class ConsignaNewComponent implements OnInit {
       
       var cliente="";
       response.data.clieteAfectado.forEach(element => {
-        cliente+=element.nombre_completo+"\r";
-        objCliente.push({nombre:element.nombre_completo,emails:this.splitCorreo(element.correos)});
+
+        if (element.tipo_cliente == "No regulado") {
+           cliente += element.nombre_completo + "\r";
+        }
+        objCliente.push({
+          nombre: element.nombre_completo,
+          emails: this.splitCorreo(element.correos)
+        });
       });
  
     }
 
     this.interrupcionesTrabajo.barrios.value=barrio;
-
     this.interrupcionesTrabajo.clientesNoRegulados.value=cliente;
 
     this.areaAFectada.push({municipio:obj,persona:objCliente});
@@ -724,6 +742,13 @@ export class ConsignaNewComponent implements OnInit {
       }
     });
     return array;
+  }
+
+  getFeederElemento(id) {
+    var data = this.session.getItem('elemento').filter(b => {
+      return (b.id == id)
+    })
+    return data[0].nemonico;
   }
 
 
