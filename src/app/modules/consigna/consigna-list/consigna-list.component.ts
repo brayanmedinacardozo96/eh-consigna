@@ -20,6 +20,7 @@ import {Aprobar} from '../../autorizar/aprobar';
   styleUrls: ['./consigna-list.component.scss']
 })
 export class ConsignaListComponent implements OnInit {
+  number = Number;
 
   displayedColumns: string[] = ['numeroConsigna', 'consecutivoSnc', 'tipoZona', 'estadoConsigna','estadoEquipo', 'elementosConsignados', 'trabajosOportunidad', 'maniobras', 'acciones'];
   dataSource: MatTableDataSource<any>;
@@ -98,10 +99,10 @@ export class ConsignaListComponent implements OnInit {
       .afterClosed()
       .subscribe((confirmado: Boolean) => {
         if (confirmado) {
-            this.showPdf(html);        
+            this.showPdf(html);
         }
       });
-    
+
   }
 
   editarElemento(id){
@@ -119,7 +120,7 @@ export class ConsignaListComponent implements OnInit {
       }
   }
 
-  
+
   aprobarConsigna(id){
     this.router.navigateByUrl('autorizar/'+id);
   }

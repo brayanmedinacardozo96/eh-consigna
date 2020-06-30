@@ -34,46 +34,48 @@ import { ConsignaNewMessageComponent } from './consigna-new-message/consigna-new
 import { TrabajoOportunidadModule } from './../trabajo-oportunidad/trabajo-oportunidad.module';
 import { ManiobraModule } from './../maniobra/maniobra.module';
 import { IframeMapComponent } from './iframe-map/iframe-map.component';
+import {DirectivesModule} from "../../shared/directives/directives.module";
 
 @NgModule({
   declarations: [
-    ConsignaComponent, 
-    ConsignaNewComponent, 
-    ConsignaListComponent, 
-    ConsignaElementoListComponent, 
-    ConsignaTrabajoListComponent, 
-    ConsignaManiobraListComponent, 
-    ConsignaTabsComponent, 
+    ConsignaComponent,
+    ConsignaNewComponent,
+    ConsignaListComponent,
+    ConsignaElementoListComponent,
+    ConsignaTrabajoListComponent,
+    ConsignaManiobraListComponent,
+    ConsignaTabsComponent,
     ConsignaUserComponent,
     ConsignaNewMessageComponent,
     IframeMapComponent,
   ],
-  imports: [
-    CommonModule,
-    MatCardModule,
-    RouterModule,
-    MatIconModule,
-    MatButtonModule,
-    CustomFormsModule,
-    MatCheckboxModule,
-    FormsModule,
-    UiModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatTableModule,
-    MatSortModule,
-    MatPaginatorModule,
-    MatGridListModule,
-    MatSelectModule,
-    MatDatepickerModule,
-    MatTooltipModule,
-    MatSnackBarModule,
-    MatProgressBarModule,
-    MatDialogModule,
-    MatTabsModule,
-    MatListModule,
-    TrabajoOportunidadModule,
-    ManiobraModule
-  ]
+    imports: [
+        CommonModule,
+        MatCardModule,
+        RouterModule,
+        MatIconModule,
+        MatButtonModule,
+        CustomFormsModule,
+        MatCheckboxModule,
+        FormsModule,
+        UiModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatTableModule,
+        MatSortModule,
+        MatPaginatorModule,
+        MatGridListModule,
+        MatSelectModule,
+        MatDatepickerModule,
+        MatTooltipModule,
+        MatSnackBarModule,
+        MatProgressBarModule,
+        MatDialogModule,
+        MatTabsModule,
+        MatListModule,
+        TrabajoOportunidadModule,
+        ManiobraModule,
+        DirectivesModule
+    ]
 })
 export class ConsignaModule { }
