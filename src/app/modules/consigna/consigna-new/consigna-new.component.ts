@@ -13,7 +13,7 @@ import {Router,ActivatedRoute} from '@angular/router';
 import { SessionService } from './../../../shared/services/session.service';
 import { TrabajoOportunidadComponent } from './../../trabajo-oportunidad/trabajo-oportunidad.component';
 import {IframeMapComponent} from '../iframe-map/iframe-map.component';
-import { ConsoleReporter } from 'jasmine';
+
 @Component({
   selector: 'app-consigna-new',
   templateUrl: './consigna-new.component.html',
