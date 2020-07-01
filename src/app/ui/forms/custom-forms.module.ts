@@ -64,7 +64,8 @@ import { InputFileDynamicComponent } from './input-file-dynamic/input-file-dynam
     InputAutocompleteComponent,
     DatepickerComponent,
     DateTimePickerComponent,
-    ModalConfirmComponent
+    ModalConfirmComponent,
+    InputFileDynamicComponent
   ]
 })
 export class CustomFormsModule {

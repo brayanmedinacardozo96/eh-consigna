@@ -7,12 +7,7 @@ import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } fro
 })
 export class InputFileDynamicComponent implements OnInit {
 
-  @Input() fileName = '';
-  @Input() fileUrl = '';
-  @Input() typeExtension;
-  @Input() maxSize;
-  @Input() placeholder;
-  @Input() messages = '';
+  @Input() dataInputFile = [];
   @Output() valueChange = new EventEmitter();
   constructor() { }
 

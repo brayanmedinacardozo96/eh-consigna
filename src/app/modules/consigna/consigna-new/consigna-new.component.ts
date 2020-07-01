@@ -313,6 +313,25 @@ export class ConsignaNewComponent implements OnInit {
   messageListaElementos = '';
   user: User = Auth.getUserDataPerson();
 
+  dataInputFile = [
+    { 
+      placeholder: 'Ingrese el documento a adjuntar la topología de inicio', 
+      required: true,
+      typeExtension: ['png','jpg','jpeg'],
+      maxSize: '5',
+      fileName: '',
+      fileUrl: ''
+    },
+    { 
+      placeholder: 'Ingrese el documento a adjuntar la topología de fin', 
+      required: false,
+      typeExtension: ['png','jpg','jpeg'],
+      maxSize: '5',
+      fileName: '',
+      fileUrl: ''
+    }
+  ];
+
   constructor(private api: ApiService,
               private validations: ValidationService,
               private dateValidation: DateValidationervice,

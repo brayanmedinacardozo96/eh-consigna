@@ -344,14 +344,20 @@
         </mat-grid-list>
 
         <!-- adjuntar archivo -->
-        <app-input-file [placeholder]="'Ingrese el documento a adjuntar la topología de inicio *'"
+        <!-- <app-input-file [placeholder]="'Ingrese el documento a adjuntar la topología de inicio *'"
             [typeExtension]="['pdf','png']" [maxSize]="'5'"
             (valueChange)="setInput($event)"
             [messages] = "fileUpload.message"
             [fileName] = "fileName"
             [fileUrl] = "fileUrl"
         >                    
-        </app-input-file>
+        </app-input-file> -->
+        <app-input-file-dynamic
+            [dataInputFile]="dataInputFile"
+        >
+
+        </app-input-file-dynamic>
+
 
         <!-- areas afectadas -->
         <fieldset>
