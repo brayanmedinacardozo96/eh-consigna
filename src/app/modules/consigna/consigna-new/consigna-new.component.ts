@@ -660,6 +660,8 @@ export class ConsignaNewComponent implements OnInit {
     // this.dataControls.subestacion = this.session.getItem('subestacion');
     this.dataControls.tipoElemento = this.session.getItem('tipoElemento');
     // this.dataControls.elemento = this.session.getItem('elemento');
+    this.form.medidasSeguiridad.value=this.session.getItem('medidaSeguridad')[0]['descripcion'];
+    
   }
 
   cleanAllFields(){
