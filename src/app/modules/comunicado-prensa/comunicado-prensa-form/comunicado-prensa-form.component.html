@@ -8,8 +8,14 @@
         comunicado de prensa
       </h1>
 
-      <fieldset>
-        <legend style="text-align: left;">Consigna</legend>
+      <mat-radio-group label="Tipo de comunicado" *ngIf="!id" [(ngModel)]="tipoId"
+                       (change)="selectTipoComunicado($event)">
+        <mat-radio-button style="padding: 10px;" *ngFor="let value of dataControls?.tipos;"
+                          [value]="value?.id" [id]="value?.codigo">{{value?.nombre}}</mat-radio-button>
+      </mat-radio-group>
+
+      <fieldset *ngIf="tipoComunicadoSelected == 'PC'">
+        <legend style="text-align: left;">Buscar consignación por número</legend>
 
         <ng-container *ngIf="!id">
 
@@ -62,6 +68,71 @@
 
       </fieldset>
 
+      <fieldset *ngIf="tipoComunicadoSelected == 'PRF'">
+        <legend style="text-align: left;">Buscar consignaciones por rango de fechas</legend>
+
+        <ng-container *ngIf="!id">
+
+          <app-datepicker
+            [style]="'padding: 5px;'"
+            [label]="formRangoFecha.fechaInicio.label"
+            [value]="formRangoFecha.fechaInicio.value"
+            [name]="formRangoFecha.fechaInicio.name"
+            [messages]="formRangoFecha.fechaInicio.messages"
+            [id]="formRangoFecha.fechaInicio.name"
+            (valueChange)="setDataFormRangoFechas(formRangoFecha.fechaInicio.name, $event)"
+          ></app-datepicker>
+
+          <app-datepicker
+            [style]="'padding: 5px;'"
+            [label]="formRangoFecha.fechaFin.label"
+            [value]="formRangoFecha.fechaFin.value"
+            [name]="formRangoFecha.fechaFin.name"
+            [messages]="formRangoFecha.fechaFin.messages"
+            [id]="formRangoFecha.fechaFin.name"
+            (valueChange)="setDataFormRangoFechas(formRangoFecha.fechaFin.name, $event)"
+          ></app-datepicker>
+
+          <button (click)="searchConsignaByDates()" mat-raised-button color="primary" style="margin-left: 20px;"
+                  matTooltip="Buscar consignas a partir del rango de fechas">
+            <mat-icon style="color: #FFFFFF">search</mat-icon>
+          </button>
+
+        </ng-container>
+
+        <table class="custom-table">
+          <thead>
+          <tr>
+            <th>Número consigna</th>
+            <th>Zona</th>
+            <th>Fecha de solicitud</th>
+            <th>Tipo de consignación</th>
+            <th>Estado de consignación</th>
+            <th>Trabajo a efectuar</th>
+            <th>Justificación</th>
+          </tr>
+          </thead>
+          <tbody *ngIf="dataPorFechas.length === 0">
+          <tr>
+            <td colspan="7">Sin registros...</td>
+          </tr>
+          </tbody>
+          <tbody *ngIf="dataPorFechas.length > 0">
+          <tr *ngFor="let data of dataPorFechas;">
+            <td>{{data?.codigo}}</td>
+            <td>{{data?.zona?.nombre}}</td>
+            <td>{{data?.fecha_solicitud | date}}</td>
+            <td>{{data?.tipo_consignacion?.nombre}}</td>
+            <td>{{data?.estado_consignacion?.nombre}}</td>
+            <td>{{data?.trabajo_efectuar}}</td>
+            <td>{{data?.justificacion}}</td>
+          </tr>
+          </tbody>
+        </table>
+
+
+      </fieldset>
+
       <fieldset style="margin-top: 1%;">
 
         <ng-container *ngIf="!id">
@@ -75,7 +146,8 @@
               <ng-container *ngIf="formPlantilla.plantilla.required">*</ng-container>
             </mat-label>
             <mat-select [(ngModel)]="formPlantilla.plantilla.value" (ngModelChange)="setPlantillaSelected($event)">
-              <mat-option *ngFor="let value of plantillas;" [value]="value?.id">{{value?.nombre}}</mat-option>
+              <mat-option *ngFor="let value of dataControls?.plantillas;"
+                          [value]="value?.id">{{value?.nombre}}</mat-option>
             </mat-select>
             <mat-hint style="color: red"
                       *ngIf="formPlantilla.plantilla.messages">{{formPlantilla.plantilla.messages}}</mat-hint>

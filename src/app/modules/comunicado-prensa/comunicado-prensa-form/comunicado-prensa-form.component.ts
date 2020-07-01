@@ -15,18 +15,40 @@ import {ActivatedRoute} from "@angular/router";
 })
 export class ComunicadoPrensaFormComponent implements OnInit {
 
+  tipoId;
+  tipoComunicadoSelected = null;
   id = null;
+  consignacionesID = [];
   data = null;
+  dataPorFechas = [];
   consignaID = null;
-  plantillas = [];
+  dataControls: any;
   plantillaSelected = null;
   contenidoComunicadoPrensa: string;
   publicado = null;
+  helpers = new Helpers();
 
   form = {
     numeroConsigna: {
       label: 'Consignación No.',
       name: 'numeroConsigna',
+      value: null,
+      messages: null,
+      required: true,
+    },
+  };
+
+  formRangoFecha = {
+    fechaInicio: {
+      label: 'Fecha Inicio',
+      name: 'fechaInicio',
+      value: null,
+      messages: null,
+      required: true,
+    },
+    fechaFin: {
+      label: 'Fecha Fin',
+      name: 'fechaFin',
       value: null,
       messages: null,
       required: true,
@@ -54,7 +76,7 @@ export class ComunicadoPrensaFormComponent implements OnInit {
         this.id = params.id;
         this.load().then();
       } else {
-        this.loadPlantillas().then();
+        this.loadControlsForm().then();
       }
 
     });
@@ -66,7 +88,7 @@ export class ComunicadoPrensaFormComponent implements OnInit {
   }
 
   async load() {
-    this.loadPlantillas().then(async () => {
+    this.loadControlsForm().then(async () => {
       const response = await this.api.get(`${environment.apiBackend}/comunicado-prensa/show/${this.id}`);
       this.loadDataForm(response.data);
     });
@@ -76,14 +98,23 @@ export class ComunicadoPrensaFormComponent implements OnInit {
     this.consignaID = data.consignacion_id;
     this.contenidoComunicadoPrensa = data.contenido;
     this.publicado = Number(data.publicado);
-    this.form.numeroConsigna.value = data.consigna.codigo;
+
+    if (data.consigna) {
+      this.data = data.consigna;
+      this.form.numeroConsigna.value = data.consigna.codigo;
+    }
+
     this.formPlantilla.plantilla.value = Number(data.plantilla_id);
-    this.data = data.consigna;
+    this.tipoId = Number(data.tipo_id);
+    this.tipoComunicadoSelected = data.tipo.codigo;
+    this.dataPorFechas = data.consignaciones;
   }
 
-  async loadPlantillas() {
-    const response = await this.api.get(`${environment.apiBackend}/plantilla/get-active`);
-    this.plantillas = response.data;
+  async loadControlsForm() {
+    const response = await this.api.get(`${environment.apiBackend}/comunicado-prensa/load-controls`);
+    this.dataControls = response.data;
+    this.tipoId = this.dataControls.tipo_default.id;
+    this.tipoComunicadoSelected = this.dataControls.tipo_default.codigo;
   }
 
   async searchConsigna() {
@@ -109,10 +140,28 @@ export class ComunicadoPrensaFormComponent implements OnInit {
 
   }
 
+  async searchConsignaByDates() {
+    const responseValidate = Validations.validateEmptyFields(this.formRangoFecha);
+    if (!responseValidate.success) {
+      return false;
+    }
+
+    const fechaInicio = this.helpers.formatDate(this.formRangoFecha.fechaInicio.value);
+    const fechaFin = this.helpers.formatDate(this.formRangoFecha.fechaFin.value);
+
+    const params = `fecha_inicio=${fechaInicio}&fecha_fin=${fechaFin}`;
+    const response = await this.api.get(`${environment.apiBackend}/comunicado-prensa/get-consigna-by-dates?${params}`);
+    this.dataPorFechas = response.data;
+
+    if (response.data.length === 0) {
+      this.notifier.notify('info', '¡No se encontraron consignaciones aprobadas en ese rango de fechas!');
+    }
+
+  }
+
   async generar() {
 
-    if (!this.consignaID) {
-      this.notifier.notify('error', '¡Debe seleccionar una consigna!');
+    if (!this.validateConsignaSelected()) {
       return false;
     }
 
@@ -121,8 +170,17 @@ export class ComunicadoPrensaFormComponent implements OnInit {
       return false;
     }
 
+    this.consignacionesID = [];
+    if (this.tipoComunicadoSelected === 'PC') {
+      this.consignacionesID.push(this.consignaID);
+    } else {
+      for (const obj of this.dataPorFechas) {
+        this.consignacionesID.push(obj.id);
+      }
+    }
+
     const params = {
-      consignacion_id: this.consignaID,
+      consignaciones_id: this.consignacionesID,
       plantilla: this.plantillaSelected.contenido
     };
     const response = await this.api.post(`${environment.apiBackend}/comunicado-prensa/generate`, params);
@@ -132,7 +190,7 @@ export class ComunicadoPrensaFormComponent implements OnInit {
   }
 
   setPlantillaSelected(id) {
-    this.plantillaSelected = this.plantillas.find(plantilla => plantilla.id === id);
+    this.plantillaSelected = this.dataControls.plantillas.find(plantilla => plantilla.id === id);
   }
 
   openVistaPreviaPlantilla() {
@@ -149,8 +207,17 @@ export class ComunicadoPrensaFormComponent implements OnInit {
       contenido: this.contenidoComunicadoPrensa,
       usuario_id: user.user_data.id,
       publicado: this.publicado,
-      plantilla_id: this.formPlantilla.plantilla.value
+      plantilla_id: this.formPlantilla.plantilla.value,
+      tipo_id: this.tipoId,
+      consignaciones_id: this.consignacionesID,
     };
+  }
+
+  selectTipoComunicado(event) {
+    this.tipoComunicadoSelected = event.source.id;
+    this.consignaID = null;
+    this.data = [];
+    this.dataPorFechas = [];
   }
 
   async guardarComunicadoPrensa() {
@@ -176,10 +243,11 @@ export class ComunicadoPrensaFormComponent implements OnInit {
   }
 
   validate() {
-    if (!this.consignaID) {
-      this.notifier.notify('error', '¡Debe seleccionar una consigna!');
+
+    if (!this.validateConsignaSelected()) {
       return false;
     }
+
     if (!this.formPlantilla.plantilla.value) {
       this.notifier.notify('error', '¡Debe seleccionar una plantilla!');
       return false;
@@ -197,8 +265,28 @@ export class ComunicadoPrensaFormComponent implements OnInit {
     return true;
   }
 
+  validateConsignaSelected() {
+    if (!this.tipoId) {
+      this.notifier.notify('error', '¡Debe seleccionar el tipo de comunicado de prensa!');
+      return false;
+    }
+    if (this.tipoComunicadoSelected === 'PC' && !this.consignaID) {
+      this.notifier.notify('error', '¡Debe seleccionar una consigna!');
+      return false;
+    }
+    if (this.tipoComunicadoSelected === 'PRF' && this.dataPorFechas.length === 0) {
+      this.notifier.notify('error', '¡Debe realizar la búsqueda de las consignas por rango de fechas!');
+      return false;
+    }
+    return true;
+  }
+
   setData(name, event) {
     this.form[name].value = event;
+  }
+
+  setDataFormRangoFechas(name, event) {
+    this.formRangoFecha[name].value = event;
   }
 
   cancel() {
