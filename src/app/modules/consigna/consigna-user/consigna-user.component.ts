@@ -16,15 +16,22 @@ export class ConsignaUserComponent implements OnInit {
   user: User = Auth.getUserDataPerson();
   request = {
     solicitante: {value: this.user.id},
-    codigoSolicitada: ['S'],
-    codigoAprobEjecu: ['A','E'],
-    codigoCancelRepro: ['C','R']
+    codigos: {
+      solicitadas: ['S'],
+      aprobadas: ['A'],
+      ejecutadas: ['E'],
+      canceladas: ['C'],
+      reprogramadas: ['R']
+    }
   };
   total = {
-    totalPendientes: 0,
-    totalAprobEjecu: 0,
-    totalCancelRepro: 0,
+    totalSolicitadas: 0,
+    totalAprobadas: 0,
+    totalEjecutadas: 0,
+    totalCanceladas: 0,
+    totalReprogramadas: 0,
     totalAprobar:0,
+
   };
   data = [];
 
@@ -62,9 +69,11 @@ export class ConsignaUserComponent implements OnInit {
     const response = await this.api.post(`${environment.apiBackend}/consigna/get-my-consigna`, this.request);
     if(response.success){
       let data = response.data;
-      this.total.totalPendientes = data.totalPendientes;
-      this.total.totalAprobEjecu = data.totalAprobEjecu;
-      this.total.totalCancelRepro = data.totalCancelRepro;
+      for(let obj in data){
+        if(data.hasOwnProperty(obj)){
+          this.total[obj] = data[obj];
+        } 
+      }
     }
   }
 

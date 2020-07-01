@@ -6,6 +6,18 @@
             
             <mat-grid-tile>
                 <mat-form-field>
+                    <mat-label>{{ form.divisionArea.required ? form.divisionArea.label+' *' : form.divisionArea.label}}</mat-label>
+                    <mat-select [(ngModel)]="form.divisionArea.value" style="padding-top: 5px;padding-bottom: 5px;">
+                        <mat-option *ngFor="let value of dataControls?.divisionArea;" [value]="value.id">
+                            {{value.nombre}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-hint style="color: red" *ngIf="form.divisionArea.messages">{{form.divisionArea.messages}}</mat-hint>
+                </mat-form-field>
+            </mat-grid-tile>
+
+            <mat-grid-tile>
+                <mat-form-field>
                     <mat-label>{{ form.tipoZona.required ? form.tipoZona.label+' *' : form.tipoZona.label}}</mat-label>
                     <mat-select [(ngModel)]="form.tipoZona.value" (ngModelChange)="setConsecutivo(2,dataControls?.tipoZona,form.tipoZona.value)" style="padding-top: 5px;padding-bottom: 5px;">
                         <mat-option *ngFor="let value of dataControls?.tipoZona;" [value]="value.id">
@@ -181,6 +193,18 @@
                         <mat-hint style="color: red" *ngIf="formElementos.ramal.messages">{{formElementos.ramal.messages}}</mat-hint>
                     </mat-form-field>
                 </mat-grid-tile>
+                
+                <mat-grid-tile>
+                    <mat-form-field>
+                        <mat-label>{{formElementos.afectaUsuarios.required ? formElementos.afectaUsuarios.label+' *' : formElementos.afectaUsuarios.label}}</mat-label>
+                        <mat-select id="form_consigna-afecta-usuarios" [(ngModel)]="formElementos.afectaUsuarios.value" style="padding-top: 5px;padding-bottom: 5px;">
+                            <mat-option *ngFor="let value of dataControls?.ramal;" [value]="value.value">
+                                {{ value.nombre }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-hint style="color: red" *ngIf="formElementos.afectaUsuarios.messages">{{formElementos.afectaUsuarios.messages}}</mat-hint>
+                    </mat-form-field>
+                </mat-grid-tile>
             </mat-grid-list>
 
             <mat-grid-list class="row" cols="4" rowHeight="80px">
@@ -192,7 +216,7 @@
                         [messages]="formElementos.fechaInicio.messages"
                         [required]="formElementos.fechaInicio.required"
                         [id]="'mat-prueba'"
-                        (valueChange)="setData(formElementos.fechaInicio.name, $event,this.formElementos)"
+                        (valueChange)="setListElementoFecha(formElementos.fechaInicio.name, $event,this.formElementos)"
                     >                        
                     </app-datepicker>
                     
@@ -205,7 +229,7 @@
                         [name]="formElementos.horaInicio.name"
                         [messages]="formElementos.horaInicio.messages"
                         [required]="formElementos.horaInicio.required"
-                        (valueChange)="setData(formElementos.horaInicio.name, $event,this.formElementos)">
+                        (valueChange)="setData(formElementos.horaInicio.name, $event,this.formElementos); validateHours()">
                     </app-date-time-picker>
                 </mat-grid-tile>
                 
@@ -217,7 +241,7 @@
                         [messages]="formElementos.fechaFinal.messages"
                         [required]="formElementos.fechaFinal.required"
                         [id]="'mat-prueba'"
-                        (valueChange)="setData(formElementos.fechaFinal.name, $event,this.formElementos)"
+                        (valueChange)="setListElementoFecha(formElementos.fechaFinal.name, $event,this.formElementos)"
                     >                        
                     </app-datepicker>
                 </mat-grid-tile>
@@ -229,7 +253,7 @@
                         [name]="formElementos.horaFinal.name"
                         [messages]="formElementos.horaFinal.messages"
                         [required]="formElementos.horaFinal.required"
-                        (valueChange)="setData(formElementos.horaFinal.name, $event,this.formElementos)">
+                        (valueChange)="setData(formElementos.horaFinal.name, $event,this.formElementos); validateHours()">
                     </app-date-time-picker>
                 </mat-grid-tile>
             </mat-grid-list>
@@ -254,6 +278,7 @@
                   <th>Tipo elemento</th>
                   <th>Elemento</th>
                   <th>Ramal</th>
+                  <th>Afecta Usuarios</th>
                   <th>Fecha y hora inicio</th>
                   <th>Fecha y hora final</th>
                   <th>Acciones</th>
@@ -264,6 +289,7 @@
                     <td>{{ value.tipoElemento.name }}</td>
                     <td>{{ value.elemento.name }}</td>
                     <td>{{ value.ramal.name }}</td>
+                    <td>{{ value.afectaUsuarios.name }}</td>
                     <td>{{ value.fechaInicio.name }} - {{ value.horaInicio.name }}</td>
                     <td>{{ value.fechaFinal.name }} - {{ value.horaFinal.name }}</td>
                     <td>
@@ -318,7 +344,7 @@
         </mat-grid-list>
 
         <!-- adjuntar archivo -->
-        <app-input-file [placeholder]="'Ingrese el documento a adjuntar en la consigna *'"
+        <app-input-file [placeholder]="'Ingrese el documento a adjuntar la topología de inicio *'"
             [typeExtension]="['pdf','png']" [maxSize]="'5'"
             (valueChange)="setInput($event)"
             [messages] = "fileUpload.message"
@@ -330,7 +356,7 @@
         <!-- areas afectadas -->
         <fieldset>
             <legend style="text-align: left;">Areas Afectadas</legend>
-            <h3 style="text-align: left;">Interrupciones Mietras Dura el Trabajo</h3>
+            <h3 style="text-align: left;">Interrupciones Mientras Dura el Trabajo</h3>
             <mat-grid-list class="row" cols="2" rowHeight="110px">
 
                 <mat-grid-tile>

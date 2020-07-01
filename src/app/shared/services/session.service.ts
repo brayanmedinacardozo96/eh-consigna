@@ -22,15 +22,11 @@ export class SessionService {
     let success = response.success;
     if(success){
       let data = response.data;
-      window.sessionStorage.setItem('tipoZona',JSON.stringify(data.tipoZona));
-      window.sessionStorage.setItem('tipoSolicitud',JSON.stringify(data.tipoSolicitud));
-      window.sessionStorage.setItem('tipoConsignacion',JSON.stringify(data.tipoConsignacion));
-      window.sessionStorage.setItem('estadoConsigna',JSON.stringify(data.estadoConsigna));
-      window.sessionStorage.setItem('estadoEquipo',JSON.stringify(data.estadoEquipo));
-      window.sessionStorage.setItem('tipoMantenimiento',JSON.stringify(data.tipoMantenimiento));
-      window.sessionStorage.setItem('subestacion',JSON.stringify(data.subestacion));
-      window.sessionStorage.setItem('tipoElemento',JSON.stringify(data.tipoElemento));
-      // window.sessionStorage.setItem('elemento',JSON.stringify(data.elemento));
+      for(let obj in data){
+        if(data.hasOwnProperty(obj)){
+          window.sessionStorage.setItem(obj,JSON.stringify(data[obj]));
+        }        
+      }
       await this.getUsuario();
     }
     return response;

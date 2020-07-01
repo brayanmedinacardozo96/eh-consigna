@@ -13,6 +13,8 @@ import {Router,ActivatedRoute} from '@angular/router';
 import { SessionService } from './../../../shared/services/session.service';
 import { TrabajoOportunidadComponent } from './../../trabajo-oportunidad/trabajo-oportunidad.component';
 import {IframeMapComponent} from '../iframe-map/iframe-map.component';
+import * as moment from 'moment';
+
 @Component({
   selector: 'app-consigna-new',
   templateUrl: './consigna-new.component.html',
@@ -29,6 +31,7 @@ export class ConsignaNewComponent implements OnInit {
   argNumConsigna = ['','','',''];
   dataElementos = [];
   dataControls = {
+    divisionArea:[],
     tipoZona:[],
     tipoSolicitud:[],
     tipoConsignacion:[],
@@ -46,6 +49,13 @@ export class ConsignaNewComponent implements OnInit {
   };
 
   form = {
+    divisionArea:{
+      label: 'División Area',
+      name: 'divisionArea',
+      value: null,
+      messages: null,
+      required: true,
+    },
     numeroConsigna:{
       label: 'Consignación No.',
       name: 'numeroConsigna',
@@ -253,6 +263,13 @@ export class ConsignaNewComponent implements OnInit {
       messages: null,
       required: true,
     },
+    afectaUsuarios: {
+      label: 'Afecta a usuarios',
+      name: 'afectaUsuarios',
+      value: null,
+      messages: null,
+      required: true,
+    },
     fechaInicio: {
       label: 'Fecha inicio',
       name: 'fechaInicio',
@@ -377,6 +394,35 @@ export class ConsignaNewComponent implements OnInit {
       obj[name].value = event;
     }
   }
+  
+  setListElementoFecha(name, event, obj: any = undefined) {
+    this.setData(name, event, obj);
+    if(name == 'fechaInicio'){
+      this.setData('fechaFinal',event,obj);
+    }else{
+      this.setData('fechaInicio',event,obj);
+    }
+  }
+
+  validateHours(){
+    let response = {
+      success: true
+    }
+
+    if(this.formElementos.horaInicio.value != undefined && this.formElementos.horaInicio.value != null && this.formElementos.horaInicio.value != ''
+      && this.formElementos.horaFinal.value != undefined && this.formElementos.horaFinal.value != null && this.formElementos.horaFinal.value != ''
+    ){
+        let horaInicio = moment(this.formElementos.horaInicio.value, 'h:mm a');
+        let horaFinal = moment(this.formElementos.horaFinal.value, 'h:mm a');
+
+        if(horaInicio > horaFinal){
+          response.success = false;
+          this.snackBar.alert('La hora de inicio es mayor a la hora final!',5000);
+        }
+    }
+    return response;
+
+  }
 
   setDataDatePicker(name, event, obj: any = undefined){
     let day: string = event.getDate().toString();
@@ -402,9 +448,17 @@ export class ConsignaNewComponent implements OnInit {
     if (!responseValidate.success) {
       return false;
     }
+
+    const respValidateHours = this.validateHours();
+    
+    if (!respValidateHours.success) {
+      return false;
+    }
+
     var textTipoElemento = ((document.getElementById("form_consigna-tipo_elemento")) as HTMLSelectElement).textContent;
     var textElemento = ((document.getElementById("form_consigna-elemento")) as HTMLSelectElement).textContent;
     var textRamal = ((document.getElementById("form_consigna-ramal")) as HTMLSelectElement).textContent;
+    var textAfectaUsuarios = ((document.getElementById("form_consigna-afecta-usuarios")) as HTMLSelectElement).textContent;
     var fechaInicio = this.dateValidation.getYearMounthDay(this.formElementos.fechaInicio.value);
     var horaInicio = this.formElementos.horaInicio.value;
     var fechaFinal = this.dateValidation.getYearMounthDay(this.formElementos.fechaFinal.value);
@@ -412,14 +466,15 @@ export class ConsignaNewComponent implements OnInit {
     await this.getAreaAFectada("NOFP");
     
     const elemento = {
-      id:           {value: null},
-      tipoElemento: {name: textTipoElemento,  value: this.formElementos.tipoElemento.value},
-      elemento:     {name: textElemento,      value: this.formElementos.elemento.value},
-      ramal:        {name: textRamal,         value: this.formElementos.ramal.value},
-      fechaInicio:  {name: fechaInicio,       value: fechaInicio },
-      horaInicio:   {name: horaInicio,        value: horaInicio },
-      fechaFinal:   {name: fechaFinal,        value: fechaFinal},
-      horaFinal:    {name: horaFinal,         value: horaFinal},
+      id:             {value: null},
+      tipoElemento:   {name: textTipoElemento,  value: this.formElementos.tipoElemento.value},
+      elemento:       {name: textElemento,      value: this.formElementos.elemento.value},
+      ramal:          {name: textRamal,         value: this.formElementos.ramal.value},
+      afectaUsuarios: {name: textAfectaUsuarios,value: this.formElementos.afectaUsuarios.value},
+      fechaInicio:    {name: fechaInicio,       value: fechaInicio },
+      horaInicio:     {name: horaInicio,        value: horaInicio },
+      fechaFinal:     {name: fechaFinal,        value: fechaFinal},
+      horaFinal:      {name: horaFinal,         value: horaFinal},
       jsonAreaAfectada: {name:'jsonAreaAfectada', value: JSON.stringify( this.areaAFectada[0].municipio )  },
     }
     this.dataElementos.push(elemento);
@@ -428,7 +483,7 @@ export class ConsignaNewComponent implements OnInit {
     this.formElementos.tipoElemento.value = null;
     this.formElementos.elemento.value = null;
     this.formElementos.ramal.value = null;
-    this.formElementos.ramal.value = null;
+    this.formElementos.afectaUsuarios.value = null;
     this.formElementos.fechaInicio.value = null;
     this.formElementos.horaInicio.value = null;
     this.formElementos.fechaFinal.value = null;
@@ -562,7 +617,7 @@ export class ConsignaNewComponent implements OnInit {
 
   //Llena los selects del formulario
   async getDataSelectConsigna(){
-    if(this.session.getItem('tipoZona') == null || this.session.getItem('tipoSolicitud') == null
+    if(this.session.getItem('divisionArea') == null  || this.session.getItem('tipoZona') == null || this.session.getItem('tipoSolicitud') == null
         || this.session.getItem('tipoConsignacion') == null
     ){
       const response = await this.session.getDataSelectConsigna();
@@ -575,6 +630,7 @@ export class ConsignaNewComponent implements OnInit {
   }
 
   setSelect(){
+    this.dataControls.divisionArea = this.session.getItem('divisionArea');
     this.dataControls.tipoZona = this.session.getItem('tipoZona');
     this.dataControls.tipoSolicitud = this.session.getItem('tipoSolicitud');
     this.dataControls.tipoConsignacion = this.session.getItem('tipoConsignacion');

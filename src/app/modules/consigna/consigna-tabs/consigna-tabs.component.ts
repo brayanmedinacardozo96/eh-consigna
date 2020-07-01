@@ -58,7 +58,7 @@ export class ConsignaTabsComponent implements OnInit {
     const response = await this.api.get(`${environment.apiBackend}/consigna/get/${id}`);
     if(response.success){
       let dataResponse = response.data[0];
-      this.consigna.fileUrl = dataResponse.url_diagrama;
+      this.consigna.fileUrl = dataResponse.url_topologia_inicio;
       let urlDocument = this.consigna.fileUrl.split('/');
       this.consigna.form.solicitante.label='Usuario';
       console.log(response);

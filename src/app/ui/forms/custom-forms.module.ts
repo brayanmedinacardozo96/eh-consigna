@@ -21,7 +21,8 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MDialogComponent } from './m-dialog/m-dialog.component';
 import { DateTimePickerComponent } from './date-time-picker/date-time-picker.component';
 import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
-import {ModalConfirmComponent} from './modal-confirm/modal-confirm.component'
+import {ModalConfirmComponent} from './modal-confirm/modal-confirm.component';
+import { InputFileDynamicComponent } from './input-file-dynamic/input-file-dynamic.component'
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import {ModalConfirmComponent} from './modal-confirm/modal-confirm.component'
     DatepickerComponent,
     MDialogComponent,
     DateTimePickerComponent,
-    ModalConfirmComponent
+    ModalConfirmComponent,
+    InputFileDynamicComponent
   ],
   imports: [
     CommonModule,
