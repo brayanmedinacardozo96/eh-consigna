@@ -1,7 +1,7 @@
 <table class="custom-table" style="text-align: center;">
   <thead>
   <tr>
-    <th>Consigna No.</th>
+    <th>Consignaciones</th>
     <th style="width: 65% !important;">Contenido</th>
     <th>Publicado</th>
     <th>Fecha publicación</th>
@@ -16,7 +16,11 @@
   </tbody>
   <tbody *ngIf="data.length > 0">
   <tr *ngFor="let value of data;">
-    <td>{{value?.consigna?.codigo}}</td>
+    <td>
+      <ng-container *ngFor="let consigna of value?.consignaciones">
+        <span>{{consigna?.codigo}}</span><br>
+      </ng-container>
+    </td>
     <td>
       <mat-accordion class="example-headers-align">
         <mat-expansion-panel>

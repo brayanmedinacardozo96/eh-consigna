@@ -14,6 +14,7 @@ import { ComunicadoPrensaComponent } from './comunicado-prensa.component';
 import { ComunicadoPrensaListComponent } from './comunicado-prensa-list/comunicado-prensa-list.component';
 import {RouterModule} from "@angular/router";
 import {MatExpansionModule} from "@angular/material/expansion";
+import {MatRadioModule} from "@angular/material/radio";
 
 
 
@@ -31,7 +32,8 @@ import {MatExpansionModule} from "@angular/material/expansion";
         FormsModule,
         CKEditorModule,
         RouterModule,
-        MatExpansionModule
+        MatExpansionModule,
+        MatRadioModule
     ]
 })
 export class ComunicadoPrensaModule { }

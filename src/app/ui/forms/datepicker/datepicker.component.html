@@ -1,4 +1,4 @@
-<mat-form-field [style]="style">
+<mat-form-field appearance="outline" [style]="style">
     <mat-label>{{ required ? label+' *' : label }}</mat-label>
     <input [(ngModel)]="value" matInput (ngModelChange)="valueChange.emit($event)" [matDatepicker]="picker" disabled>
     <mat-datepicker-toggle matSuffix [for]="picker" ></mat-datepicker-toggle>
