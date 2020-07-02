@@ -56,13 +56,31 @@ export class ConsignaTabsComponent implements OnInit {
 
   async search(id){
     const response = await this.api.get(`${environment.apiBackend}/consigna/get/${id}`);
+    this.consigna.dataControls.estadoConsigna = this.session.getItem('estadoConsigna');//obtener los estados de la consigna
     if(response.success){
       let dataResponse = response.data[0];
-      this.consigna.fileUrl = dataResponse.url_topologia_inicio;
-      let urlDocument = this.consigna.fileUrl.split('/');
-      this.consigna.form.solicitante.label='Usuario';
-      console.log(response);
+      //topologia inicio
+      this.consigna.dataInputFile[0].fileUrl = 
+        (dataResponse.url_topologia_inicio != null && dataResponse.url_topologia_inicio != undefined
+          && dataResponse.url_topologia_inicio != '')
+        ?dataResponse.url_topologia_inicio : '';
+      let urlDocumento = this.consigna.dataInputFile[0].fileUrl.split('/');
+      this.consigna.dataInputFile[0].fileName = 
+        (urlDocumento[urlDocumento.length-1] != null && urlDocumento[urlDocumento.length-1] != undefined)
+        ? urlDocumento[urlDocumento.length-1] : '';
+      //topologia fin
+      this.consigna.dataInputFile[1].fileUrl = 
+      (dataResponse.url_topologia_fin != null && dataResponse.url_topologia_fin != undefined
+        && dataResponse.url_topologia_fin != '')
+      ?dataResponse.url_topologia_fin : '';;
+      urlDocumento = this.consigna.dataInputFile[1].fileUrl.split('/');
+      this.consigna.dataInputFile[1].fileName = 
+        (urlDocumento[urlDocumento.length-1] != null && urlDocumento[urlDocumento.length-1] != undefined)
+        ? urlDocumento[urlDocumento.length-1] : '';
 
+      this.consigna.form.solicitante.label='Usuario';
+
+      this.consigna.form.divisionArea.value = parseInt(dataResponse.division_area_id);
       this.consigna.form.tipoZona.value = parseInt(dataResponse.zona_id);
       this.consigna.form.tipoSolicitud.value = parseInt(dataResponse.tipo_solicitud_id);
       this.consigna.form.fechaSolicitud.value = new Date(dataResponse.fecha_solicitud);
@@ -83,7 +101,6 @@ export class ConsignaTabsComponent implements OnInit {
       this.consigna.form.jefeTrabajoContratista.value = dataResponse.jefe_contratista;
       this.consigna.form.telJefeTrabajoContratista.value = dataResponse.telefono_jefe_contratista;
       this.consigna.form.moviles.value = dataResponse.movil;
-      this.consigna.fileName = urlDocument[urlDocument.length-1];
 
       this.consigna.dataElementos = [];
       this.trabajosOportunidad = [];
@@ -94,6 +111,7 @@ export class ConsignaTabsComponent implements OnInit {
           tipoElemento:     {name: value.elemento.tipo_elemento.nombre,                                     value: value.elemento.tipo_elemento.id},
           elemento:         {name: value.elemento.nombre,                                                   value: value.elemento.id},
           ramal:            {name: value.ramal == '1' ? 'Si' : 'No',                                        value: value.ramal},
+          afectaUsuarios:   {name: value.afecta_usuarios == '1' ? 'Si' : 'No',                              value: value.afecta_usuarios},
           fechaInicio:      {name: this.dateValidation.getYearMounthDay(new Date(value.fech_inicio_prog)),  value: value.fech_inicio_prog },
           horaInicio:       {name: value.hora_inicio_prog,                                                  value: value.hora_inicio_prog },
           fechaFinal:       {name: this.dateValidation.getYearMounthDay(new Date(value.fech_final_prog)),   value: value.fech_final_prog},
@@ -139,8 +157,8 @@ export class ConsignaTabsComponent implements OnInit {
       }
 
       this.maniobra.setDataRegistroManibra(this.registroManiobra);
-
     }
+    
   }
 
   async saveConsigna(){

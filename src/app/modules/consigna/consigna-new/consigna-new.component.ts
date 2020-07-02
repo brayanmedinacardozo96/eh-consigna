@@ -656,14 +656,17 @@ export class ConsignaNewComponent implements OnInit {
     this.dataControls.tipoZona = this.session.getItem('tipoZona');
     this.dataControls.tipoSolicitud = this.session.getItem('tipoSolicitud');
     this.dataControls.tipoConsignacion = this.session.getItem('tipoConsignacion');
-    this.dataControls.estadoConsigna = this.session.getItem('estadoConsigna');
     this.dataControls.estadoEquipo = this.session.getItem('estadoEquipo');
     this.dataControls.tipoMantenimiento = this.session.getItem('tipoMantenimiento');
     // this.dataControls.subestacion = this.session.getItem('subestacion');
     this.dataControls.tipoElemento = this.session.getItem('tipoElemento');
     // this.dataControls.elemento = this.session.getItem('elemento');
     this.form.medidasSeguiridad.value=this.session.getItem('medidaSeguridad')[0]['descripcion'];
-    
+
+    //cuando es nueva agregar solo la solicitada
+    this.dataControls.estadoConsigna = this.session.getItem('estadoConsigna').filter(b => {
+      return (b.codigo == 'S')
+    })
   }
 
   cleanAllFields(){
