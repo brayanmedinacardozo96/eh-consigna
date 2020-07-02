@@ -519,23 +519,7 @@ export class ConsignaNewComponent implements OnInit {
   removeListElement(id){
     this.dataElementos.splice(id,1);
   }
-  response = {
-    formData: new FormData(),
-    success: false,
-    message: null
-  }
-  testGuardarConsigna(){
-    let response = {
-      files: new FormData(),
-      success: false,
-      message: null
-    }
-    response = this.inptFileDynamic.fileUp();
-    if(response.success){
-      console.log(response);
-    }
 
-  }
   guardarConsigna(){
     let response = {
       formData: new FormData(),

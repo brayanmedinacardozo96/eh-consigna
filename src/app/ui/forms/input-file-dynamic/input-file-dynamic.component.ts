@@ -30,20 +30,6 @@ export class InputFileDynamicComponent implements OnInit {
     }else{
       this.dataInputFile[position].fileName = '';
     }
-    // let urlTemp = this.fileName;
-    // this.messages = ''
-    // var files = event.target.files
-    // this.fileName = files [0].name
-    // const validationFile = this.fileValidation.validateDocument(event,this.maxSize,this.typeExtension)
-    
-    // if(!validationFile.success){
-    //   this.fileName = this.fileUrl != '' ? urlTemp : '';
-    //   this.messages = validationFile.message
-    //   event = undefined;
-    // }else{
-    //   this.fileUrl = '';
-    // }
-    // this.valueChange.emit(event)
   }
 
   fileUp(){
