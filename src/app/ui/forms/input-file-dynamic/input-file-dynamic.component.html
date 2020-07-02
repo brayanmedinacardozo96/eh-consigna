@@ -1,8 +1,8 @@
 <mat-grid-list class="row" cols="1" rowHeight="110px">
-    <mat-grid-tile *ngFor="let value of dataInputFile">
+    <mat-grid-tile id="documents" *ngFor="let value of dataInputFile; let i=index">
         <mat-form-field appearance="outline" style="width: 40%;">
-            <input matInput [id]="'form-file'" (click)="fileInput.click()" [(ngModel)]="value.fileName" [placeholder]="value.placeholder ? value.placeholder : 'Ingrese el documento'">
-            <input hidden (change)="onFileSelected($event)" #fileInput type="file" id="file">
+            <input matInput (click)="fileInput.click()" [(ngModel)]="value.fileName" [placeholder]="value.placeholder ? value.placeholder : 'Ingrese el documento'">
+            <input hidden [name]="value.nameDocument+'-'+value.required" (change)="onFileSelected($event,'file-'+i,i, value.maxSize, value.typeExtension)" #fileInput type="file" [id]="'file-'+i">
             <mat-hint style="color: red" *ngIf="value.messages">{{value.messages}}</mat-hint>
         </mat-form-field>
           <button  matTooltip="Agregar Documento" matTooltipClass="custom-tooltip" type="button" color="primary"

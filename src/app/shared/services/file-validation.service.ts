@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {SnackBarService} from './snack-bar.service';
+declare var $: any;
 
 @Injectable()
 export class FileValidationService {
@@ -47,6 +48,46 @@ export class FileValidationService {
 
       return response;
   }
+
+  validateDocumentFile(event, idFile, maxSize = 1, typeExtension = null) {
+    let response = {success: true, message: null, data: null};
+    let file = event.target.files[0];
+    let extDoc = file.name;
+    extDoc = extDoc.slice((extDoc.lastIndexOf('.') - 1 >>> 0) + 2).toLowerCase();
+
+    //extensión
+    if(typeExtension != null ){
+      var stateExtension = false;
+      var nameExtension = '';
+
+      if(typeof(typeExtension) === 'object'){
+        for(let value of typeExtension){
+          nameExtension = nameExtension+value+' ';
+          if(value === extDoc){
+            stateExtension = true;
+          }
+        }
+      }else{
+        nameExtension = typeExtension;
+        if (typeExtension === extDoc) {
+          stateExtension = true;  
+        }
+      }
+      response.message = !stateExtension ? 'El archivo debe ser de tipo ' + nameExtension: null;
+    }
+    //tamaño maximo (MB)
+    if (file.size >= maxSize * 1024 * 1024) {
+      response.message = 'El archivo a adjuntar supera ' + maxSize + ' MB de tamaño permitido';
+    }
+
+    if (response.message != null) {
+      this.snackBarService.alert(response.message,5000);
+      response.success = false;
+      $('#'+idFile).val('');
+    }
+
+    return response;
+}
 
   fileUp(eventFile, snackbar = false){
     let response = {
