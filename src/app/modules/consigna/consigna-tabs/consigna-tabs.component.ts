@@ -80,7 +80,7 @@ export class ConsignaTabsComponent implements OnInit {
 
       this.consigna.form.solicitante.label='Usuario';
 
-      this.consigna.form.divisionArea.value = parseInt(dataResponse.division_area_id);
+      this.consigna.form.divisionArea.value = dataResponse.division_area_id != null ? parseInt(dataResponse.division_area_id): null;
       this.consigna.form.tipoZona.value = parseInt(dataResponse.zona_id);
       this.consigna.form.tipoSolicitud.value = parseInt(dataResponse.tipo_solicitud_id);
       this.consigna.form.fechaSolicitud.value = new Date(dataResponse.fecha_solicitud);

@@ -514,6 +514,21 @@
             </mat-grid-tile>
 
         </mat-grid-list>
+
+        <fieldset>
+            <legend style="text-align: left;">Anexos</legend>
+            <app-input-file-multiple [placeholder]="'Ingrese los anexos '"
+                [typeExtension]="['pdf','png','jpg','jpeg','xls','xlsx','doc','docx','txt','ppt','pptx']" 
+                [maxSize]="'5'"
+                [messages] = "fileUpload.message"
+                [fileName] = "fileName"
+                [fileUrl] = "fileUrl"
+                [required] = "false"
+                [package]="'anexos'"
+            >                    
+            </app-input-file-multiple>
+        </fieldset>
+
     <!-- <button id="the-button" (click)="testGuardarConsigna()" mat-raised-button color="primary" style="margin-left: 20px; margin-top: 10px;">
         <span style="color: #FFF">{{action}}</span>
     </button> -->

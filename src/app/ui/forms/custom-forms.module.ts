@@ -22,7 +22,8 @@ import { MDialogComponent } from './m-dialog/m-dialog.component';
 import { DateTimePickerComponent } from './date-time-picker/date-time-picker.component';
 import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
 import {ModalConfirmComponent} from './modal-confirm/modal-confirm.component';
-import { InputFileDynamicComponent } from './input-file-dynamic/input-file-dynamic.component'
+import { InputFileDynamicComponent } from './input-file-dynamic/input-file-dynamic.component';
+import { InputFileMultipleComponent } from './input-file-multiple/input-file-multiple.component'
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { InputFileDynamicComponent } from './input-file-dynamic/input-file-dynam
     MDialogComponent,
     DateTimePickerComponent,
     ModalConfirmComponent,
-    InputFileDynamicComponent
+    InputFileDynamicComponent,
+    InputFileMultipleComponent
   ],
   imports: [
     CommonModule,
@@ -65,7 +67,8 @@ import { InputFileDynamicComponent } from './input-file-dynamic/input-file-dynam
     DatepickerComponent,
     DateTimePickerComponent,
     ModalConfirmComponent,
-    InputFileDynamicComponent
+    InputFileDynamicComponent,
+    InputFileMultipleComponent
   ]
 })
 export class CustomFormsModule {

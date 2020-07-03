@@ -13,6 +13,7 @@ import { SessionService } from './../../../shared/services/session.service';
 import { TrabajoOportunidadComponent } from './../../trabajo-oportunidad/trabajo-oportunidad.component';
 import {IframeMapComponent} from '../iframe-map/iframe-map.component';
 import { InputFileDynamicComponent } from './../../../ui/forms/input-file-dynamic/input-file-dynamic.component';
+import { InputFileMultipleComponent } from './../../../ui/forms/input-file-multiple/input-file-multiple.component';
 import * as moment from 'moment';
 
 @Component({
@@ -23,7 +24,8 @@ import * as moment from 'moment';
 export class ConsignaNewComponent implements OnInit {
 
   @ViewChild(TrabajoOportunidadComponent) trabajoOportunidad: TrabajoOportunidadComponent;
-  @ViewChild(InputFileDynamicComponent) inptFileDynamic: InputFileDynamicComponent;
+  @ViewChild(InputFileDynamicComponent) inputFileDynamic: InputFileDynamicComponent;
+  @ViewChild(InputFileMultipleComponent) inputFileMultiple: InputFileMultipleComponent;
   @Output() setElemento = new EventEmitter();
   
   action = 'Guardar';
@@ -527,8 +529,8 @@ export class ConsignaNewComponent implements OnInit {
       message: null
     }
 
-    let inputFile = this.inptFileDynamic.fileUp();//subir los documentos
-
+    let inputFile = this.inputFileDynamic.fileUp();//subir los documentos Topología 
+    let inputFileMultiple = this.inputFileMultiple.fileUp();//subir los documentos anexos 
     // let formData: FormData = new FormData();
 
     // if(this.consignacionId != null){
@@ -543,9 +545,16 @@ export class ConsignaNewComponent implements OnInit {
     //   this.fileUpload = this.fileValidation.fileUp(this.inputFile);
     // }
     // if( this.validateEmptyFields() && this.fileUpload.success){
-    if( this.validateEmptyFields() && inputFile.success){
+    if( this.validateEmptyFields() && inputFile.success && inputFileMultiple.success){
 
       response.formData = inputFile.files;
+      //adjuntar los documentos
+      let fileMultiple = this.inputFileMultiple.getIdFile();
+      for(let i = 0;i< fileMultiple.length; i++){
+        let fileUpload = fileMultiple[i];
+        response.formData.append("anexos[]", fileUpload);
+      }
+
       response.formData.append('consignacionId', this.consignacionId);
       response.formData.append('fileUrl', this.fileUrl);
       response.formData.append('form',JSON.stringify(this.form));
