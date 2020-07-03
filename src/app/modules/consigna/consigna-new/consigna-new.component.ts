@@ -7,12 +7,12 @@ import {environment} from '../../../../environments/environment';
 import { SnackBarService } from './../../../shared/services/snack-bar.service';
 import { Auth } from './../../../shared/auth';
 import { User } from './../../../shared/models/user';
-import { ConsignaNewMessageComponent } from './../consigna-new-message/consigna-new-message.component';
 import {MatDialog} from '@angular/material/dialog';
 import {Router,ActivatedRoute} from '@angular/router';
 import { SessionService } from './../../../shared/services/session.service';
 import { TrabajoOportunidadComponent } from './../../trabajo-oportunidad/trabajo-oportunidad.component';
 import {IframeMapComponent} from '../iframe-map/iframe-map.component';
+import { InputFileDynamicComponent } from './../../../ui/forms/input-file-dynamic/input-file-dynamic.component';
 import * as moment from 'moment';
 
 @Component({
@@ -23,6 +23,7 @@ import * as moment from 'moment';
 export class ConsignaNewComponent implements OnInit {
 
   @ViewChild(TrabajoOportunidadComponent) trabajoOportunidad: TrabajoOportunidadComponent;
+  @ViewChild(InputFileDynamicComponent) inptFileDynamic: InputFileDynamicComponent;
   @Output() setElemento = new EventEmitter();
   
   action = 'Guardar';
@@ -315,20 +316,22 @@ export class ConsignaNewComponent implements OnInit {
 
   dataInputFile = [
     { 
-      placeholder: 'Ingrese el documento a adjuntar la topología de inicio', 
+      placeholder: 'Ingrese la topología de inicio (obligatorio)', 
       required: true,
       typeExtension: ['png','jpg','jpeg'],
       maxSize: '5',
       fileName: '',
-      fileUrl: ''
+      fileUrl: '',
+      nameDocument: 'topologia inicio'
     },
     { 
-      placeholder: 'Ingrese el documento a adjuntar la topología de fin', 
+      placeholder: 'Ingrese la topología de fin (opcional)', 
       required: false,
       typeExtension: ['png','jpg','jpeg'],
       maxSize: '5',
       fileName: '',
-      fileUrl: ''
+      fileUrl: '',
+      nameDocument: 'topologia fin'
     }
   ];
 
@@ -516,12 +519,7 @@ export class ConsignaNewComponent implements OnInit {
   removeListElement(id){
     this.dataElementos.splice(id,1);
   }
-  response = {
-    formData: new FormData(),
-    success: false,
-    message: null
-  }
-  
+
   guardarConsigna(){
     let response = {
       formData: new FormData(),
@@ -529,21 +527,25 @@ export class ConsignaNewComponent implements OnInit {
       message: null
     }
 
+    let inputFile = this.inptFileDynamic.fileUp();//subir los documentos
+
     // let formData: FormData = new FormData();
 
-    if(this.consignacionId != null){
-      if(this.inputFile == undefined){
-        this.fileUpload.success = true;
-      }else{
-        this.fileUpload = this.fileValidation.fileUp(this.inputFile);
-        this.fileUrl = '';
-      }
-    }else{
-      // valida si se a adjuntado un documento
-      this.fileUpload = this.fileValidation.fileUp(this.inputFile);
-    }
-    if( this.validateEmptyFields() && this.fileUpload.success){
-      response.formData = this.fileUpload.files;
+    // if(this.consignacionId != null){
+    //   if(this.inputFile == undefined){
+    //     this.fileUpload.success = true;
+    //   }else{
+    //     this.fileUpload = this.fileValidation.fileUp(this.inputFile);
+    //     this.fileUrl = '';
+    //   }
+    // }else{
+    //   // valida si se a adjuntado un documento
+    //   this.fileUpload = this.fileValidation.fileUp(this.inputFile);
+    // }
+    // if( this.validateEmptyFields() && this.fileUpload.success){
+    if( this.validateEmptyFields() && inputFile.success){
+
+      response.formData = inputFile.files;
       response.formData.append('consignacionId', this.consignacionId);
       response.formData.append('fileUrl', this.fileUrl);
       response.formData.append('form',JSON.stringify(this.form));
@@ -655,14 +657,17 @@ export class ConsignaNewComponent implements OnInit {
     this.dataControls.tipoZona = this.session.getItem('tipoZona');
     this.dataControls.tipoSolicitud = this.session.getItem('tipoSolicitud');
     this.dataControls.tipoConsignacion = this.session.getItem('tipoConsignacion');
-    this.dataControls.estadoConsigna = this.session.getItem('estadoConsigna');
     this.dataControls.estadoEquipo = this.session.getItem('estadoEquipo');
     this.dataControls.tipoMantenimiento = this.session.getItem('tipoMantenimiento');
     // this.dataControls.subestacion = this.session.getItem('subestacion');
     this.dataControls.tipoElemento = this.session.getItem('tipoElemento');
     // this.dataControls.elemento = this.session.getItem('elemento');
     this.form.medidasSeguiridad.value=this.session.getItem('medidaSeguridad')[0]['descripcion'];
-    
+
+    //cuando es nueva agregar solo la solicitada
+    this.dataControls.estadoConsigna = this.session.getItem('estadoConsigna').filter(b => {
+      return (b.codigo == 'S')
+    })
   }
 
   cleanAllFields(){

@@ -108,6 +108,9 @@ export class ComunicadoPrensaFormComponent implements OnInit {
     this.tipoId = Number(data.tipo_id);
     this.tipoComunicadoSelected = data.tipo.codigo;
     this.dataPorFechas = data.consignaciones;
+
+    this.setConsignacionesID();
+
   }
 
   async loadControlsForm() {
@@ -170,14 +173,7 @@ export class ComunicadoPrensaFormComponent implements OnInit {
       return false;
     }
 
-    this.consignacionesID = [];
-    if (this.tipoComunicadoSelected === 'PC') {
-      this.consignacionesID.push(this.consignaID);
-    } else {
-      for (const obj of this.dataPorFechas) {
-        this.consignacionesID.push(obj.id);
-      }
-    }
+    this.setConsignacionesID();
 
     const params = {
       consignaciones_id: this.consignacionesID,
@@ -189,6 +185,17 @@ export class ComunicadoPrensaFormComponent implements OnInit {
     }
   }
 
+  setConsignacionesID() {
+    this.consignacionesID = [];
+    if (this.tipoComunicadoSelected === 'PC') {
+      this.consignacionesID.push(this.consignaID);
+    } else {
+      for (const obj of this.dataPorFechas) {
+        this.consignacionesID.push(obj.id);
+      }
+    }
+  }
+
   setPlantillaSelected(id) {
     this.plantillaSelected = this.dataControls.plantillas.find(plantilla => plantilla.id === id);
   }
@@ -197,6 +204,13 @@ export class ComunicadoPrensaFormComponent implements OnInit {
     const helpers = new Helpers();
     const ventana = helpers.popupCenter({url: '', title: 'Vista previa', w: 900, h: 500});
     ventana.document.body.innerHTML = this.plantillaSelected.contenido;
+  }
+
+  selectTipoComunicado(event) {
+    this.tipoComunicadoSelected = event.source.id;
+    this.consignaID = null;
+    this.data = [];
+    this.dataPorFechas = [];
   }
 
   paramsSave() {
@@ -211,13 +225,6 @@ export class ComunicadoPrensaFormComponent implements OnInit {
       tipo_id: this.tipoId,
       consignaciones_id: this.consignacionesID,
     };
-  }
-
-  selectTipoComunicado(event) {
-    this.tipoComunicadoSelected = event.source.id;
-    this.consignaID = null;
-    this.data = [];
-    this.dataPorFechas = [];
   }
 
   async guardarComunicadoPrensa() {
