@@ -79,7 +79,6 @@ export class ConsignaTabsComponent implements OnInit {
         ? urlDocumento[urlDocumento.length-1] : '';
 
       this.consigna.form.solicitante.label='Usuario';
-
       this.consigna.form.divisionArea.value = dataResponse.division_area_id != null ? parseInt(dataResponse.division_area_id): null;
       this.consigna.form.tipoZona.value = parseInt(dataResponse.zona_id);
       this.consigna.form.tipoSolicitud.value = parseInt(dataResponse.tipo_solicitud_id);
@@ -101,6 +100,14 @@ export class ConsignaTabsComponent implements OnInit {
       this.consigna.form.jefeTrabajoContratista.value = dataResponse.jefe_contratista;
       this.consigna.form.telJefeTrabajoContratista.value = dataResponse.telefono_jefe_contratista;
       this.consigna.form.moviles.value = dataResponse.movil;
+      //file Anexos
+      if(dataResponse.url_anexos != null && dataResponse.url_anexos != undefined){
+        this.consigna.fileAnexos.fileUrl = 
+        (dataResponse.url_anexos != null && dataResponse.url_anexos != undefined) ? JSON.parse(dataResponse.url_anexos): null;
+        if(this.consigna.fileAnexos.fileUrl.length > 0){
+          this.consigna.fileAnexos.fileName = this.consigna.fileAnexos.fileUrl.length+' Documento(s) adjunto(s)';
+        }
+      }
 
       this.consigna.dataElementos = [];
       this.trabajosOportunidad = [];

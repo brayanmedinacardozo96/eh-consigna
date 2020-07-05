@@ -517,14 +517,15 @@
 
         <fieldset>
             <legend style="text-align: left;">Anexos</legend>
-            <app-input-file-multiple [placeholder]="'Ingrese los anexos '"
-                [typeExtension]="['pdf','png','jpg','jpeg','xls','xlsx','doc','docx','txt','ppt','pptx']" 
-                [maxSize]="'5'"
-                [messages] = "fileUpload.message"
-                [fileName] = "fileName"
-                [fileUrl] = "fileUrl"
-                [required] = "false"
-                [package]="'anexos'"
+            <app-input-file-multiple 
+                [placeholder]   = "fileAnexos.placeholder"
+                [typeExtension] = "fileAnexos.typeExtension" 
+                [maxSize]       = "fileAnexos.maxSize"
+                [messages]      = "fileAnexos.messages"
+                [fileName]      = "fileAnexos.fileName"
+                [fileUrl]       = "fileAnexos.fileUrl"
+                [required]      = "fileAnexos.required"
+                [package]       = "fileAnexos.package"
             >                    
             </app-input-file-multiple>
         </fieldset>

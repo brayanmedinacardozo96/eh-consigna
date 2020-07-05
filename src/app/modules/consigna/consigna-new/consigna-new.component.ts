@@ -315,6 +315,16 @@ export class ConsignaNewComponent implements OnInit {
   logAreaAFectada=[];
   messageListaElementos = '';
   user: User = Auth.getUserDataPerson();
+  fileAnexos = {
+    placeholder: 'Ingrese los anexos',
+    typeExtension: ['pdf','png','jpg','jpeg','xls','xlsx','doc','docx','txt','ppt','pptx'],
+    maxSize: '5',
+    messages: '',
+    fileName: '',
+    fileUrl:  '',
+    required:  false,
+    package: 'anexos'
+  };
 
   dataInputFile = [
     { 

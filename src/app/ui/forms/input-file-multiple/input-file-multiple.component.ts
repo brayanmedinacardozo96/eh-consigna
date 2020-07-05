@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { FileValidationService } from './../../../shared/services/file-validation.service';
-import { environment } from 'src/environments/environment';
+import { TableInputFileMultipleComponent } from './table-input-file-multiple/table-input-file-multiple.component';
+import { MatDialog } from '@angular/material/dialog';
 declare var $: any;
 
 @Component({
@@ -20,7 +21,9 @@ export class InputFileMultipleComponent implements OnInit {
   @Input() required: boolean = false;
   @Output() valueChange = new EventEmitter();
 
-  constructor(private fileValidation: FileValidationService) { }
+  constructor(
+    private fileValidation: FileValidationService,
+    public dialog: MatDialog) { }
 
   ngOnInit(): void {
   }
@@ -37,7 +40,20 @@ export class InputFileMultipleComponent implements OnInit {
   }
 
   openDocument(){
-    window.open(`${environment.urlFiles}/public/${this.fileUrl}`, '_blank');
+    let responseData = [];
+    for(let i = 0; i < this.fileUrl.length; i++){
+      let urlFile = this.fileUrl[i].split('/');
+      let data = {
+        index: i+1,
+        nameFile: urlFile[urlFile.length-1],
+        url: this.fileUrl[i]
+      }
+      responseData.push(data);
+    }
+    const dialogRef = this.dialog.open(TableInputFileMultipleComponent,{
+      width:'100%',
+      data: responseData
+    });
   }
 
   setFileName(data){
@@ -55,9 +71,8 @@ export class InputFileMultipleComponent implements OnInit {
     };
 
     const namePackage = this.package != '' ? this.package: 'files';
-    let files = $('#document-file-multiple input[type=file]')[0].files;
-    console.log(files);
-    for(let i = 0;i< files.length; i++){
+    let files = this.getIdFile();
+    for(let i = 0; i< files.length; i++){
       let fileUpload = files[i];
       attachedFile.files.append(this.package+"[]", fileUpload);
     }
