@@ -156,6 +156,7 @@ export class ConsignaTabsComponent implements OnInit {
           id: value.id,
           consignacion_id: value.consignacion_id,
           descripcion: value.descripcion,
+          relacion: null,
           nombre_documento: urlManiobra[urlManiobra.length-1],
           url_documento: value.url_documento,
           file: null
@@ -196,16 +197,14 @@ export class ConsignaTabsComponent implements OnInit {
 
       if(this.registroManiobra.length > 0){
         formData = new FormData();
+        let dataManiobra = this.maniobra.guardar();
+        formData = dataManiobra.formData;
+
         let obj = {
-          id: this.registroManiobra[0].id,
           consignacion_id: response.consignacion_id,
           consigna_codigo: response.consecutivo,
-          descripcion: this.registroManiobra[0].descripcion,
-          nombre_documento: this.registroManiobra[0].nombre_documento,
-          url_documento: this.registroManiobra[0].url_documento,
         }
-        formData = this.registroManiobra[0].file;
-        formData.append('form',JSON.stringify(obj))
+        formData.append('consigna',JSON.stringify(obj))
         
         const responseManiobra = await this.api.post(
           `${environment.apiBackend}/maniobra/postManiobra`,
