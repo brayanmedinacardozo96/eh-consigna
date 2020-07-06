@@ -733,9 +733,10 @@ export class ConsignaNewComponent implements OnInit {
 
   openMap()
   {
-    
-    var n=new IframeMapComponent(this.dialog);
-    n.openDialog();
+    var feeders=this.getFeederElemento(this.formElementos.elemento.value);
+     window.open(environment.urlEhmap+'&data={"feeders":[{"code":"'+feeders+'"}]}', "MsgWindow", "width=1200,height=600");
+    /*var n=new IframeMapComponent(this.dialog);
+    n.openDialog();*/
   }
 
   async getAreaAFectada(elemento) 
