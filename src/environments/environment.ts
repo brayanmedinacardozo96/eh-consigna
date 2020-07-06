@@ -11,6 +11,7 @@ export const environment = {
   apiBackend: 'http://localhost/back-consigna/public/api',
   urlFiles: 'http://localhost/back-consigna/',
   urlFrontendST: 'http://192.9.200.44/transverse-security/#',
+  urlEhmap:'http://localhost/ehmaps/mapa.php?mapa=2&h=1',
 };
 
 /*
