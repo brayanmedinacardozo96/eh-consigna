@@ -1,20 +1,20 @@
-import { Component, Inject, OnInit, ViewChild} from '@angular/core';
+import { Component, OnInit, Input, Inject, ViewChild } from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
-import {MatSort} from '@angular/material/sort';
 import {MatDialog, MAT_DIALOG_DATA} from '@angular/material/dialog';
-import {environment} from '../../../../environments/environment';
+import { environment } from './../../../../environments/environment';
+import {MatSort} from '@angular/material/sort';
 export interface DialogData {};
 
 
 @Component({
-  selector: 'app-consigna-maniobra-list',
-  templateUrl: './consigna-maniobra-list.component.html',
-  styleUrls: ['./consigna-maniobra-list.component.scss']
+  selector: 'app-consigna-list-documents',
+  templateUrl: './consigna-list-documents.component.html',
+  styleUrls: ['./consigna-list-documents.component.scss']
 })
-export class ConsignaManiobraListComponent implements OnInit {
-  
-  displayedColumns: string[] = ['tipo', 'nombreDocumento', 'url'];
+export class ConsignaListDocumentsComponent implements OnInit {
+
+  displayedColumns: string[] = ['consecutivo', 'descripcion', 'url'];
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
@@ -27,7 +27,7 @@ export class ConsignaManiobraListComponent implements OnInit {
   }
 
   init(data) {
-    this.dataSource = new MatTableDataSource(data.response.data);
+    this.dataSource = new MatTableDataSource(data.dataListUrl);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }

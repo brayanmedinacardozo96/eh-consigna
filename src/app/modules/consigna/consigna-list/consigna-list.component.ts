@@ -7,6 +7,7 @@ import {environment} from '../../../../environments/environment';
 import { ConsignaElementoListComponent } from './../consigna-elemento-list/consigna-elemento-list.component';
 import { ConsignaTrabajoListComponent } from './../consigna-trabajo-list/consigna-trabajo-list.component';
 import { ConsignaManiobraListComponent } from './../consigna-maniobra-list/consigna-maniobra-list.component';
+import { ConsignaListDocumentsComponent } from './../consigna-list-documents/consigna-list-documents.component';
 import { ApiService } from 'src/app/shared/services/api.service';
 import {Router} from "@angular/router";
 import { SnackBarService } from './../../../shared/services/snack-bar.service';
@@ -135,6 +136,74 @@ export class ConsignaListComponent implements OnInit {
       this.isVisible=true;
     }
 
+  }
+
+  async verDocumentos(id){
+    const response = await this.api.get(`${environment.apiBackend}/consigna/get/${id}`);
+    let success = response.success;
+    let message = response.message;
+    let dataListUrl = [];
+
+    if(response.success){
+      let dataResponse = response.data[0];
+      let dataUrl = null;
+      console.log(dataResponse);
+
+      for(let value in dataResponse){
+        if(value.includes('url')){
+          if(dataResponse[value] !=  null && dataResponse[value] != undefined){
+            if(dataResponse[value].includes('[') && dataResponse[value].includes('[')){
+              dataUrl = JSON.parse(dataResponse[value]);        
+              for(let url of dataUrl){
+                dataListUrl.push(this.getListUrl(url,value));
+              }
+            }else{
+              dataUrl = dataResponse[value];
+              dataListUrl.push(this.getListUrl(dataUrl,value));
+            }
+
+          }
+        }
+      }
+
+      for(let maniobra of dataResponse.registro_maniobra){
+        for(let value in maniobra){
+          if(value.includes('url')){
+            if(maniobra[value] !=  null && maniobra[value] != undefined){
+              dataUrl = maniobra[value];
+              dataListUrl.push(this.getListUrl(dataUrl,'registro_maniobras'));
+            }
+          }
+        }
+      }
+    }
+
+    const dialogRef = this.dialog.open(ConsignaListDocumentsComponent, {
+      width:'100%',
+      data: {dataListUrl}
+    });
+
+    console.log(dataListUrl);
+  }
+
+  recorrerUrl(){
+    
+  }
+
+  getListUrl(data, type){
+    type = type.replace(/^url_/, "");
+    type = type.replace("_", " ");
+    let response = {
+      type: type.toUpperCase(),
+      nameFile:'',
+      url:''
+    }
+    
+    let listUrl = data.split('/');
+    response.nameFile = listUrl[listUrl.length-1];
+    response.url = data;
+
+    return response;
   }
 
 }
