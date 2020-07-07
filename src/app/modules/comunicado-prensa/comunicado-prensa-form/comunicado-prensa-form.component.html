@@ -153,6 +153,11 @@
                       *ngIf="formPlantilla.plantilla.messages">{{formPlantilla.plantilla.messages}}</mat-hint>
           </mat-form-field>
 
+          <mat-radio-group label="Agrupar por" *ngIf="!id" [(ngModel)]="agruparPor">
+            <mat-radio-button style="padding: 10px;" *ngFor="let value of dataControls?.agrupaciones;"
+                              [value]="value?.codigo">{{value?.nombre}}</mat-radio-button>
+          </mat-radio-group>
+
           <button (click)="generar()" mat-raised-button color="accent" class="button"
                   style="color: #FFFFFF; margin: 5px;">
             Generar

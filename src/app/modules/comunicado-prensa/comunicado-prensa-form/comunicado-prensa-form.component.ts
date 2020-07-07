@@ -16,6 +16,7 @@ import {ActivatedRoute} from "@angular/router";
 export class ComunicadoPrensaFormComponent implements OnInit {
 
   tipoId;
+  agruparPor;
   tipoComunicadoSelected = null;
   id = null;
   consignacionesID = [];
@@ -118,6 +119,7 @@ export class ComunicadoPrensaFormComponent implements OnInit {
     this.dataControls = response.data;
     this.tipoId = this.dataControls.tipo_default.id;
     this.tipoComunicadoSelected = this.dataControls.tipo_default.codigo;
+    this.agruparPor = this.dataControls.agrupacion_default.codigo;
   }
 
   async searchConsigna() {
@@ -177,7 +179,8 @@ export class ComunicadoPrensaFormComponent implements OnInit {
 
     const params = {
       consignaciones_id: this.consignacionesID,
-      plantilla: this.plantillaSelected.contenido
+      plantilla: this.plantillaSelected.contenido,
+      agrupar_por: this.agruparPor,
     };
     const response = await this.api.post(`${environment.apiBackend}/comunicado-prensa/generate`, params);
     if (response.success) {
