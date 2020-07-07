@@ -13,8 +13,8 @@ import { SessionService } from './../../../shared/services/session.service';
 import { TrabajoOportunidadComponent } from './../../trabajo-oportunidad/trabajo-oportunidad.component';
 import {IframeMapComponent} from '../iframe-map/iframe-map.component';
 import { InputFileDynamicComponent } from './../../../ui/forms/input-file-dynamic/input-file-dynamic.component';
+import { InputFileMultipleComponent } from './../../../ui/forms/input-file-multiple/input-file-multiple.component';
 import * as moment from 'moment';
-import { element } from 'protractor';
 
 @Component({
   selector: 'app-consigna-new',
@@ -24,7 +24,8 @@ import { element } from 'protractor';
 export class ConsignaNewComponent implements OnInit {
 
   @ViewChild(TrabajoOportunidadComponent) trabajoOportunidad: TrabajoOportunidadComponent;
-  @ViewChild(InputFileDynamicComponent) inptFileDynamic: InputFileDynamicComponent;
+  @ViewChild(InputFileDynamicComponent) inputFileDynamic: InputFileDynamicComponent;
+  @ViewChild(InputFileMultipleComponent) inputFileMultiple: InputFileMultipleComponent;
   @Output() setElemento = new EventEmitter();
   
   action = 'Guardar';
@@ -309,11 +310,21 @@ export class ConsignaNewComponent implements OnInit {
     success: null,
     message: null,
     files: new FormData()
-  }; 
+  };
   areaAFectada=[];
   logAreaAFectada=[];
   messageListaElementos = '';
   user: User = Auth.getUserDataPerson();
+  fileAnexos = {
+    placeholder: 'Ingrese los anexos',
+    typeExtension: ['pdf','png','jpg','jpeg','xls','xlsx','doc','docx','txt','ppt','pptx'],
+    maxSize: '5',
+    messages: '',
+    fileName: '',
+    fileUrl:  '',
+    required:  false,
+    package: 'anexos'
+  };
 
   dataInputFile = [
     { 
@@ -499,8 +510,7 @@ export class ConsignaNewComponent implements OnInit {
       horaInicio:     {name: horaInicio,        value: horaInicio },
       fechaFinal:     {name: fechaFinal,        value: fechaFinal},
       horaFinal:      {name: horaFinal,         value: horaFinal},
-      jsonAreaAfectada: {name:'jsonAreaAfectada', value: JSON.stringify( this.areaAFectada[0].area )  },
-      jsonPeronsona:{name:'jsonPeronsona',value:JSON.stringify( this.areaAFectada[0].persona )},
+      jsonAreaAfectada: {name:'jsonAreaAfectada', value: JSON.stringify( this.areaAFectada[0].municipio )  },
     }
     this.dataElementos.push(elemento);
     this.setElemento.emit(elemento.elemento);
@@ -514,13 +524,12 @@ export class ConsignaNewComponent implements OnInit {
     this.formElementos.fechaFinal.value = null;
     this.formElementos.horaFinal.value = null;
 
-    this.escribrirAreaAfectada()
+    
 
   }
 
   removeListElement(id){
     this.dataElementos.splice(id,1);
-    this.escribrirAreaAfectada();
   }
 
   guardarConsigna(){
@@ -530,8 +539,8 @@ export class ConsignaNewComponent implements OnInit {
       message: null
     }
 
-    let inputFile = this.inptFileDynamic.fileUp();//subir los documentos
-
+    let inputFile = this.inputFileDynamic.fileUp();//subir los documentos Topología 
+    let inputFileMultiple = this.inputFileMultiple.fileUp();//subir los documentos anexos 
     // let formData: FormData = new FormData();
 
     // if(this.consignacionId != null){
@@ -546,9 +555,16 @@ export class ConsignaNewComponent implements OnInit {
     //   this.fileUpload = this.fileValidation.fileUp(this.inputFile);
     // }
     // if( this.validateEmptyFields() && this.fileUpload.success){
-    if( this.validateEmptyFields() && inputFile.success){
+    if( this.validateEmptyFields() && inputFile.success && inputFileMultiple.success){
 
       response.formData = inputFile.files;
+      //adjuntar los documentos
+      let fileMultiple = this.inputFileMultiple.getIdFile();
+      for(let i = 0;i< fileMultiple.length; i++){
+        let fileUpload = fileMultiple[i];
+        response.formData.append("anexos[]", fileUpload);
+      }
+
       response.formData.append('consignacionId', this.consignacionId);
       response.formData.append('fileUrl', this.fileUrl);
       response.formData.append('form',JSON.stringify(this.form));
@@ -557,6 +573,8 @@ export class ConsignaNewComponent implements OnInit {
       response.formData.append('interrupcionesCortoTiempo',JSON.stringify(this.interrupcionesCortoTiempo));
       response.formData.append('argNumConsigna',JSON.stringify(this.argNumConsigna));
       response.formData.append('user',JSON.stringify(this.user));
+      //response.formData.append('personaAfectada',JSON.stringify(this.areaAFectada[0].persona));
+
       response.success = true;
 
       /* const response = await this.api.post(`${environment.apiBackend}/consigna/save-consigna`, formData);
@@ -664,6 +682,7 @@ export class ConsignaNewComponent implements OnInit {
     this.dataControls.tipoElemento = this.session.getItem('tipoElemento');
     // this.dataControls.elemento = this.session.getItem('elemento');
     this.form.medidasSeguiridad.value=this.session.getItem('medidaSeguridad')[0]['descripcion'];
+
     //cuando es nueva agregar solo la solicitada
     this.dataControls.estadoConsigna = this.session.getItem('estadoConsigna').filter(b => {
       return (b.codigo == 'S')
@@ -735,7 +754,8 @@ export class ConsignaNewComponent implements OnInit {
   {
     var feeders=this.getFeederElemento(this.formElementos.elemento.value);
      window.open(environment.urlEhmap+'&data={"feeders":[{"code":"'+feeders+'"}]}', "MsgWindow", "width=1200,height=600");
-    
+    /*var n=new IframeMapComponent(this.dialog);
+    n.openDialog();*/
   }
 
   async getAreaAFectada(elemento) 
@@ -747,8 +767,7 @@ export class ConsignaNewComponent implements OnInit {
     });
     console.log(data);
     if(data.length>0 || this.formElementos.afectaUsuarios.value==0 ){
-     // console.log(this.areaAFectada[0].persona);
-     // console.log(this.areaAFectada[0]);
+      console.log(this.areaAFectada[0].persona);
       return;
     }
 
@@ -756,91 +775,66 @@ export class ConsignaNewComponent implements OnInit {
     console.log(this.formElementos.afectaUsuarios.value);
     this.logAreaAFectada.push({feeder:elemento});
 
-    var response = await this.api.get(
+    const response = await this.api.get(
       `${environment.apiBackend}/consigna/getAreaAfectada/${elemento}`
     );
     
-    var obj=[];
-    var objSector=[];
-    var objCliente=[];
+    let obj=[];
+    let objCliente=[];
     this.areaAFectada=[];
 
   
     if (response.message == null) {
       
-      var municipio="inicio";
-      //var barrio="";
+      let municipio="inicio";
+      var barrio="";
 
       response.data.barrioAfectado.forEach(element => {
          
          if (municipio == "inicio") {
-            municipio = element.nombre_muni;
-            obj.push(this.crearJsonBarrio(municipio, response.data.barrioAfectado));
-            objSector.push(this.crearJsonSector(municipio, response.data.barrioAfectado));
+           municipio = element.nombre_muni;
+           obj.push(this.crearJsonBarrio(municipio, response.data.barrioAfectado));
          }
 
          if (municipio != element.nombre_muni) {
-            municipio = element.nombre_muni;
-            obj.push(this.crearJsonBarrio(municipio, response.data.barrioAfectado));
-            objSector.push(this.crearJsonSector(municipio, response.data.barrioAfectado));
+           municipio = element.nombre_muni;
+           obj.push(this.crearJsonBarrio(municipio, response.data.barrioAfectado));
          }
 
-        //barrio += element.barrio + "\r";
+        barrio += element.barrio + "\r";
 
       });
       
-      //var cliente="";
+      var cliente="";
       response.data.clieteAfectado.forEach(element => {
 
-        /*if (element.tipo_cliente == "No regulado") {
+        if (element.tipo_cliente == "No regulado") {
            cliente += element.nombre_completo + "\r";
-        }*/
+        }
         objCliente.push({
           nombre: element.nombre_completo,
-          cuenta:element.code,
-          emails: this.splitCorreo(element.correos),
-          tipo:element.tipo_usuario
+          emails: this.splitCorreo(element.correos)
         });
       });
  
     }
 
-   // this.interrupcionesTrabajo.barrios.value=barrio;
-   // this.interrupcionesTrabajo.clientesNoRegulados.value=cliente;
+    this.interrupcionesTrabajo.barrios.value=barrio;
+    this.interrupcionesTrabajo.clientesNoRegulados.value=cliente;
 
-    this.areaAFectada.push({area:[obj,objSector],persona:objCliente});
-    console.log(this.areaAFectada);
+    this.areaAFectada.push({municipio:obj,persona:objCliente});
 
   }
 
-  crearJsonBarrio(municipio, element) {
-    var barrario = [];
-    var name = "";
-    element.filter(b => {
+  crearJsonBarrio(municipio,element){
+     var barrario=[];
+     element.filter(b => {
       return (b.nombre_muni == municipio)
-    }).forEach(elemen => {
-      if (name != elemen.barrio) {
-        barrario.push(elemen.barrio);
-        name = elemen.barrio;
-      }
-    });
+     }).forEach(elemen => {
+       barrario.push(elemen.barrio);
+     });
 
-    return {municipio: municipio,barrio: barrario};
-  }
-
-  crearJsonSector(municipio, element) {
-    var sector = [];
-    var name = "";
-    element.filter(b => {
-      return (b.nombre_muni == municipio)
-    }).forEach(elemen => {
-      if (name != elemen.nombre_sector) {
-        sector.push(elemen.nombre_sector);
-        name = elemen.nombre_sector;
-      }
-    });
-
-    return { municipio: municipio,sector: sector};
+     return {municipio:municipio,barrio:barrario};
   }
 
   splitCorreo(correo) {
@@ -863,30 +857,5 @@ export class ConsignaNewComponent implements OnInit {
     return data[0].nemonico;
   }
 
-  escribrirAreaAfectada()
-  {
-    var barrio="";
-    var cliente="";
-   this.dataElementos.forEach(element => {
-     var data=JSON.parse(element.jsonAreaAfectada.value)[0];
-     if (data.length > 0) {
-      data[0].barrio.forEach(elemen => {
-         barrio += elemen + "\r";
-       });
-     }
 
-     data=JSON.parse(element.jsonPeronsona.value);
-     data.forEach(element => {
-       if (element.tipo == "No regulado") {//
-         cliente += element.nombre + "\r";
-       }
-     });
-   });
-
-
-    this.interrupcionesTrabajo.barrios.value=barrio;
-    this.interrupcionesTrabajo.clientesNoRegulados.value=cliente;
-  }
-
-  
 }
