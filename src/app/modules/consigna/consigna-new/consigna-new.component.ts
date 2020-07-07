@@ -510,7 +510,8 @@ export class ConsignaNewComponent implements OnInit {
       horaInicio:     {name: horaInicio,        value: horaInicio },
       fechaFinal:     {name: fechaFinal,        value: fechaFinal},
       horaFinal:      {name: horaFinal,         value: horaFinal},
-      jsonAreaAfectada: {name:'jsonAreaAfectada', value: JSON.stringify( this.areaAFectada[0].municipio )  },
+      jsonAreaAfectada: {name:'jsonAreaAfectada', value: JSON.stringify( this.areaAFectada[0].area )  },
+      jsonPeronsona:{name:'jsonPeronsona',value:JSON.stringify( this.areaAFectada[0].persona )},
     }
     this.dataElementos.push(elemento);
     this.setElemento.emit(elemento.elemento);
@@ -523,13 +524,14 @@ export class ConsignaNewComponent implements OnInit {
     this.formElementos.horaInicio.value = null;
     this.formElementos.fechaFinal.value = null;
     this.formElementos.horaFinal.value = null;
-
+    this.escribrirAreaAfectada();
     
 
   }
 
   removeListElement(id){
     this.dataElementos.splice(id,1);
+    this.escribrirAreaAfectada();
   }
 
   guardarConsigna(){
@@ -767,7 +769,8 @@ export class ConsignaNewComponent implements OnInit {
     });
     console.log(data);
     if(data.length>0 || this.formElementos.afectaUsuarios.value==0 ){
-      console.log(this.areaAFectada[0].persona);
+     // console.log(this.areaAFectada[0].persona);
+     // console.log(this.areaAFectada[0]);
       return;
     }
 
@@ -775,54 +778,60 @@ export class ConsignaNewComponent implements OnInit {
     console.log(this.formElementos.afectaUsuarios.value);
     this.logAreaAFectada.push({feeder:elemento});
 
-    const response = await this.api.get(
+    var response = await this.api.get(
       `${environment.apiBackend}/consigna/getAreaAfectada/${elemento}`
     );
     
-    let obj=[];
-    let objCliente=[];
+    var obj=[];
+    var objSector=[];
+    var objCliente=[];
     this.areaAFectada=[];
 
   
     if (response.message == null) {
       
-      let municipio="inicio";
-      var barrio="";
+      var municipio="inicio";
+      //var barrio="";
 
       response.data.barrioAfectado.forEach(element => {
          
          if (municipio == "inicio") {
-           municipio = element.nombre_muni;
-           obj.push(this.crearJsonBarrio(municipio, response.data.barrioAfectado));
+            municipio = element.nombre_muni;
+            obj.push(this.crearJsonBarrio(municipio, response.data.barrioAfectado));
+            objSector.push(this.crearJsonSector(municipio, response.data.barrioAfectado));
          }
 
          if (municipio != element.nombre_muni) {
-           municipio = element.nombre_muni;
-           obj.push(this.crearJsonBarrio(municipio, response.data.barrioAfectado));
+            municipio = element.nombre_muni;
+            obj.push(this.crearJsonBarrio(municipio, response.data.barrioAfectado));
+            objSector.push(this.crearJsonSector(municipio, response.data.barrioAfectado));
          }
 
-        barrio += element.barrio + "\r";
+        //barrio += element.barrio + "\r";
 
       });
       
-      var cliente="";
+      //var cliente="";
       response.data.clieteAfectado.forEach(element => {
 
-        if (element.tipo_cliente == "No regulado") {
+        /*if (element.tipo_cliente == "No regulado") {
            cliente += element.nombre_completo + "\r";
-        }
+        }*/
         objCliente.push({
           nombre: element.nombre_completo,
-          emails: this.splitCorreo(element.correos)
+          cuenta:element.code,
+          emails: this.splitCorreo(element.correos),
+          tipo:element.tipo_usuario
         });
       });
  
     }
 
-    this.interrupcionesTrabajo.barrios.value=barrio;
-    this.interrupcionesTrabajo.clientesNoRegulados.value=cliente;
+   // this.interrupcionesTrabajo.barrios.value=barrio;
+   // this.interrupcionesTrabajo.clientesNoRegulados.value=cliente;
 
-    this.areaAFectada.push({municipio:obj,persona:objCliente});
+    this.areaAFectada.push({area:[obj,objSector],persona:objCliente});
+    console.log(this.areaAFectada);
 
   }
 
@@ -850,6 +859,21 @@ export class ConsignaNewComponent implements OnInit {
     return array;
   }
 
+  crearJsonSector(municipio, element) {
+    var sector = [];
+    var name = "";
+    element.filter(b => {
+      return (b.nombre_muni == municipio)
+    }).forEach(elemen => {
+      if (name != elemen.nombre_sector) {
+        sector.push(elemen.nombre_sector);
+        name = elemen.nombre_sector;
+      }
+    });
+
+    return { municipio: municipio,sector: sector};
+  }
+
   getFeederElemento(id) {
     var data = this.session.getItem('elemento').filter(b => {
       return (b.id == id)
@@ -857,5 +881,38 @@ export class ConsignaNewComponent implements OnInit {
     return data[0].nemonico;
   }
 
+  escribrirAreaAfectada() {
+      var barrio = "";
+      var cliente = "";
 
+      this.dataElementos.forEach(element => {
+
+        console.log(element.jsonAreaAfectada);
+        if (element.jsonAreaAfectada.value[0].length > 0) {
+          var data = JSON.parse(element.jsonAreaAfectada.value)[0];
+          if (data.length > 0) {
+            data[0].barrio.forEach(elemen => {
+              barrio += elemen + "\r";
+            });
+          }
+        }
+
+        if (element.jsonPeronsona.value.length > 0) {
+          data = JSON.parse(element.jsonPeronsona.value);
+
+          data.forEach(element => {
+            if (element.tipo == "No regulado") { //
+              cliente += element.nombre + "\r";
+            }
+          });
+        }
+
+      });
+
+
+    this.interrupcionesTrabajo.barrios.value=barrio;
+    this.interrupcionesTrabajo.clientesNoRegulados.value=cliente;
+  }
+
+  
 }
