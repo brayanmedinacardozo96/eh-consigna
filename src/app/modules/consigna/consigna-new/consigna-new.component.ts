@@ -502,11 +502,11 @@ export class ConsignaNewComponent implements OnInit {
     await this.getAreaAFectada(  this.getFeederElemento(this.formElementos.elemento.value) );
     
     var jsonAreaAfectada="[[],[]]";
-    var jsonPeronsona="[]";
+    var jsonPersona="[]";
     if(this.formElementos.afectaUsuarios.value==1 && this.areaAFectada.length>0)
     {
       jsonAreaAfectada=JSON.stringify( this.areaAFectada[0].area );
-      jsonPeronsona= JSON.stringify( this.areaAFectada[0].persona )
+      jsonPersona= JSON.stringify( this.areaAFectada[0].persona )
 
     }
     const elemento = {
@@ -520,7 +520,7 @@ export class ConsignaNewComponent implements OnInit {
       fechaFinal:     {name: fechaFinal,        value: fechaFinal},
       horaFinal:      {name: horaFinal,         value: horaFinal},
       jsonAreaAfectada: {name:'jsonAreaAfectada', value: jsonAreaAfectada   },
-      jsonPeronsona:{name:'jsonPeronsona',value: jsonPeronsona},
+      jsonPersona:{name:'jsonPersona',value: jsonPersona},
     }
     this.dataElementos.push(elemento);
     this.setElemento.emit(elemento.elemento);
@@ -912,8 +912,8 @@ export class ConsignaNewComponent implements OnInit {
           }}
         }
 
-        if (element.jsonPeronsona.value !="") {
-          data = JSON.parse(element.jsonPeronsona.value);
+        if (element.jsonPersona.value !="") {
+          data = JSON.parse(element.jsonPersona.value);
           if(data!=undefined){
           data.forEach(element => {
             if (element.tipo == "No regulado") { //
