@@ -23,7 +23,7 @@ export class ManiobraComponent implements OnInit {
   @Input() registroManiobra = [];
   @ViewChild(TableManiobraComponent) tableTrabajoManiobra: TableManiobraComponent;
   @ViewChild(InputFileComponent) inputFileComponent: InputFileComponent;
-
+  
   constructor(
     public dialog: MatDialog,
     private validations: ValidationService,
@@ -31,6 +31,7 @@ export class ManiobraComponent implements OnInit {
     private snackBar: MatSnackBar,
     private fileValidation: FileValidationService,
     private dialogo: MatDialog,
+    private api: ApiService
     ) { }
 
 
@@ -143,16 +144,14 @@ export class ManiobraComponent implements OnInit {
     }
   }
 
-  guardar() {
+  adicionar() {
     var response;
-    var message = '';
+    var message = 'Faltan campos a diligenciar.';
     let success = false;
+    this.fileUpload = this.fileValidation.fileUp(this.inputFile);
     
-    if(this.registroManiobra.length < 1){
-      var message = 'Faltan campos a diligenciar.';
-      this.fileUpload = this.fileValidation.fileUp(this.inputFile);
+    if (this.validateEmptyFields() && this.fileUpload.success) {
   
-      if (this.validateEmptyFields() && this.fileUpload.success) {
         success = true;
   
         let file = this.inputFile.target.files[0];
@@ -165,15 +164,19 @@ export class ManiobraComponent implements OnInit {
         formData.append('descripcion',JSON.stringify(this.form.descripcion.value));
         formData.append('consigna_id', JSON.stringify(this.form.consigna.value) );
         
+        let document = this.inputFile.target.files[0].name.replace(/ /g,"-").toLowerCase().split('.');
   
         let obj = {
           id: null,
           consignacion_id: null,
           descripcion: this.form.descripcion.value,
+          relacion: document[0],
           nombre_documento: this.inputFile.target.files[0].name,
           url_documento: null,
-          file: this.fileUpload.files
+          file: this.inputFile.target.files[0]
         }
+
+        console.log(this.registroManiobra);
   
         this.registroManiobra.push(obj);    
         this.tableTrabajoManiobra.init(this.registroManiobra);
@@ -226,14 +229,37 @@ export class ManiobraComponent implements OnInit {
           }
   
         } */
-      
-    }else{
-      message = 'Solo se puede agregar un registro de maniobra por cada consigna';
-    }
 
     if(!success){
       new SnackBarClass(this.snackBar,message,'snackbar-alert').openSnackBar();
     }
+  }
+
+  async testManiobra(){
+    let formData: FormData = new FormData();
+    let response = this.guardar();
+
+    formData = response.formData;
+
+    const responseManiobra = await this.api.post(
+      `${environment.apiBackend}/maniobra/postManiobra`,
+      formData
+    );
+  }
+
+  guardar(){
+    let response = {
+      formData: new FormData(),
+      success: true,
+      message: null
+    }
+
+    for(let value of this.registroManiobra){
+      response.formData.append("file-"+value.relacion,value.file);
+    }
+
+    response.formData.append('form',JSON.stringify(this.registroManiobra));
+    return response;
   }
 
   /* async eliminar(key) {

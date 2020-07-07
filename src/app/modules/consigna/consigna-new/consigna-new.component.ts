@@ -573,6 +573,7 @@ export class ConsignaNewComponent implements OnInit {
       response.formData.append('interrupcionesCortoTiempo',JSON.stringify(this.interrupcionesCortoTiempo));
       response.formData.append('argNumConsigna',JSON.stringify(this.argNumConsigna));
       response.formData.append('user',JSON.stringify(this.user));
+      //response.formData.append('personaAfectada',JSON.stringify(this.areaAFectada[0].persona));
 
       response.success = true;
 
@@ -751,22 +752,27 @@ export class ConsignaNewComponent implements OnInit {
 
   openMap()
   {
-    
-    var n=new IframeMapComponent(this.dialog);
-    n.openDialog();
+    var feeders=this.getFeederElemento(this.formElementos.elemento.value);
+     window.open(environment.urlEhmap+'&data={"feeders":[{"code":"'+feeders+'"}]}', "MsgWindow", "width=1200,height=600");
+    /*var n=new IframeMapComponent(this.dialog);
+    n.openDialog();*/
   }
 
   async getAreaAFectada(elemento) 
   {
-
+    
+    //VALIDAR EL FEEDER PARA NO REPETIR
     var data=this.logAreaAFectada.filter(b=>{
       return (b.feeder==elemento)
     });
     console.log(data);
-    if(data.length>0){
+    if(data.length>0 || this.formElementos.afectaUsuarios.value==0 ){
+      console.log(this.areaAFectada[0].persona);
       return;
     }
+
     console.log("ENTRO");
+    console.log(this.formElementos.afectaUsuarios.value);
     this.logAreaAFectada.push({feeder:elemento});
 
     const response = await this.api.get(

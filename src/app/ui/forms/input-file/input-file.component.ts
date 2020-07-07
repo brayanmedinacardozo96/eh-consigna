@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation} from '@angular/core';
 import { FileValidationService } from './../../../shared/services/file-validation.service';
 import { environment } from 'src/environments/environment';
+declare var $: any;
 
 @Component({
   selector: 'app-input-file',
@@ -51,6 +52,10 @@ export class InputFileComponent implements OnInit {
     //form-file
     let file = ((document.getElementById("form-file")) as HTMLSelectElement);
     this.fileName = '';
+  }
+
+  getIdFile(){
+    return $('#document-file input[type=file]')[0].files;
   }
 
 }

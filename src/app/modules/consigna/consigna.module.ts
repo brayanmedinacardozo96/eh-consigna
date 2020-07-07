@@ -35,6 +35,7 @@ import { TrabajoOportunidadModule } from './../trabajo-oportunidad/trabajo-oport
 import { ManiobraModule } from './../maniobra/maniobra.module';
 import { IframeMapComponent } from './iframe-map/iframe-map.component';
 import {DirectivesModule} from "../../shared/directives/directives.module";
+import { ConsignaListDocumentsComponent } from './consigna-list-documents/consigna-list-documents.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import {DirectivesModule} from "../../shared/directives/directives.module";
     ConsignaUserComponent,
     ConsignaNewMessageComponent,
     IframeMapComponent,
+    ConsignaListDocumentsComponent,
   ],
     imports: [
         CommonModule,

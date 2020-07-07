@@ -7,4 +7,5 @@ export const environment = {
   apiBackend: 'http://192.9.200.44/back-consignas/public/api',
   urlFiles: 'http://192.9.200.44/back-consignas/',
   urlFrontendST: 'https://enlinea.electrohuila.com.co/transverse-security/#',
+  urlEhmap:'http://localhost/ehmaps/mapa.php?mapa=2&h=1',
 };
