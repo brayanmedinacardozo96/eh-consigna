@@ -15,6 +15,7 @@ import {IframeMapComponent} from '../iframe-map/iframe-map.component';
 import { InputFileDynamicComponent } from './../../../ui/forms/input-file-dynamic/input-file-dynamic.component';
 import { InputFileMultipleComponent } from './../../../ui/forms/input-file-multiple/input-file-multiple.component';
 import * as moment from 'moment';
+import { isArray } from 'util';
 
 @Component({
   selector: 'app-consigna-new',
@@ -500,6 +501,14 @@ export class ConsignaNewComponent implements OnInit {
     var horaFinal = this.formElementos.horaFinal.value;
     await this.getAreaAFectada(  this.getFeederElemento(this.formElementos.elemento.value) );
     
+    var jsonAreaAfectada="[[],[]]";
+    var jsonPeronsona="[]";
+    if(this.formElementos.afectaUsuarios.value==1 && this.areaAFectada.length>0)
+    {
+      jsonAreaAfectada=JSON.stringify( this.areaAFectada[0].area );
+      jsonPeronsona= JSON.stringify( this.areaAFectada[0].persona )
+
+    }
     const elemento = {
       id:             {value: null},
       tipoElemento:   {name: textTipoElemento,  value: this.formElementos.tipoElemento.value},
@@ -510,11 +519,12 @@ export class ConsignaNewComponent implements OnInit {
       horaInicio:     {name: horaInicio,        value: horaInicio },
       fechaFinal:     {name: fechaFinal,        value: fechaFinal},
       horaFinal:      {name: horaFinal,         value: horaFinal},
-      jsonAreaAfectada: {name:'jsonAreaAfectada', value: JSON.stringify( this.areaAFectada[0].area )  },
-      jsonPeronsona:{name:'jsonPeronsona',value:JSON.stringify( this.areaAFectada[0].persona )},
+      jsonAreaAfectada: {name:'jsonAreaAfectada', value: jsonAreaAfectada   },
+      jsonPeronsona:{name:'jsonPeronsona',value: jsonPeronsona},
     }
     this.dataElementos.push(elemento);
     this.setElemento.emit(elemento.elemento);
+    this.escribrirAreaAfectada();
 
     this.formElementos.tipoElemento.value = null;
     this.formElementos.elemento.value = null;
@@ -524,7 +534,7 @@ export class ConsignaNewComponent implements OnInit {
     this.formElementos.horaInicio.value = null;
     this.formElementos.fechaFinal.value = null;
     this.formElementos.horaFinal.value = null;
-    this.escribrirAreaAfectada();
+    
     
 
   }
@@ -763,11 +773,13 @@ export class ConsignaNewComponent implements OnInit {
   async getAreaAFectada(elemento) 
   {
     
+    this.areaAFectada=[];
     //VALIDAR EL FEEDER PARA NO REPETIR
+    
     var data=this.logAreaAFectada.filter(b=>{
       return (b.feeder==elemento)
     });
-    
+    console.log(data);
     if(data.length>0 || this.formElementos.afectaUsuarios.value==0 ){
      // console.log(this.areaAFectada[0].persona);
      // console.log(this.areaAFectada[0]);
@@ -783,9 +795,7 @@ export class ConsignaNewComponent implements OnInit {
     var obj=[];
     var objSector=[];
     var objCliente=[];
-    this.areaAFectada=[];
-
-  
+    
     if (response.message == null) {
       
       var municipio="inicio";
@@ -880,31 +890,37 @@ export class ConsignaNewComponent implements OnInit {
   }
 
   escribrirAreaAfectada() {
+
+     console.log(this.areaAFectada.length);
+     if (this.formElementos.afectaUsuarios.value == 0 ) {//|| this.areaAFectada.length==0
+       return;
+     }
+
       var barrio = "";
       var cliente = "";
 
       this.dataElementos.forEach(element => {
 
         
-        if (element.jsonAreaAfectada.value[0].length > 0) {
+        if (element.jsonAreaAfectada.value !="") {
           var data = JSON.parse(element.jsonAreaAfectada.value)[0];
+          if(data!=undefined){
           if (data.length > 0) {
             data[0].barrio.forEach(elemen => {
               barrio += elemen + "\r";
             });
-          }
+          }}
         }
 
-        if (element.jsonPeronsona.value.length > 0) {
+        if (element.jsonPeronsona.value !="") {
           data = JSON.parse(element.jsonPeronsona.value);
-
+          if(data!=undefined){
           data.forEach(element => {
             if (element.tipo == "No regulado") { //
               cliente += element.nombre + "\r";
             }
-          });
+          })};
         }
-
       });
 
 

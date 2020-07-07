@@ -197,7 +197,7 @@
                 <mat-grid-tile>
                     <mat-form-field>
                         <mat-label>{{formElementos.afectaUsuarios.required ? formElementos.afectaUsuarios.label+' *' : formElementos.afectaUsuarios.label}}</mat-label>
-                        <mat-select id="form_consigna-afecta-usuarios" [(ngModel)]="formElementos.afectaUsuarios.value" style="padding-top: 5px;padding-bottom: 5px;">
+                        <mat-select id="form_consigna-afecta-usuarios" [(ngModel)]="formElementos.afectaUsuarios.value"  style="padding-top: 5px;padding-bottom: 5px;">
                             <mat-option *ngFor="let value of dataControls?.ramal;" [value]="value.value">
                                 {{ value.nombre }}
                             </mat-option>
