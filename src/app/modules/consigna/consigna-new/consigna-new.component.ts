@@ -309,7 +309,7 @@ export class ConsignaNewComponent implements OnInit {
     success: null,
     message: null,
     files: new FormData()
-  };
+  }; 
   areaAFectada=[];
   logAreaAFectada=[];
   messageListaElementos = '';
