@@ -123,10 +123,13 @@ export class ConsignaTabsComponent implements OnInit {
           horaInicio:       {name: value.hora_inicio_prog,                                                  value: value.hora_inicio_prog },
           fechaFinal:       {name: this.dateValidation.getYearMounthDay(new Date(value.fech_final_prog)),   value: value.fech_final_prog},
           horaFinal:        {name: value.hora_final_prog,                                                   value: value.hora_final_prog},
-          // jsonAreaAfectada: {name:'jsonAreaAfectada',                                                       value: value.json_area  },
+          jsonAreaAfectada: {name:'jsonAreaAfectada',                                                       value: value.json_area  },
+          jsonPersona:      {name:'jsonPersona',                                                            value: dataResponse.json_persona}
         }
+        
         this.consigna.dataElementos.push(elemento);
         this.setElemento(elemento.elemento)
+        console.log(this.consigna.dataElementos);
 
         if(value.trabajo_oportunidad.length > 0){
           for(let valueTrabajo of value.trabajo_oportunidad){

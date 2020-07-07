@@ -147,7 +147,6 @@ export class ConsignaListComponent implements OnInit {
     if(response.success){
       let dataResponse = response.data[0];
       let dataUrl = null;
-      console.log(dataResponse);
 
       for(let value in dataResponse){
         if(value.includes('url')){
@@ -182,8 +181,6 @@ export class ConsignaListComponent implements OnInit {
       width:'100%',
       data: {dataListUrl}
     });
-
-    console.log(dataListUrl);
   }
 
   recorrerUrl(){
