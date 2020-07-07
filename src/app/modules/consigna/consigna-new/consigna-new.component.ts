@@ -767,15 +767,13 @@ export class ConsignaNewComponent implements OnInit {
     var data=this.logAreaAFectada.filter(b=>{
       return (b.feeder==elemento)
     });
-    console.log(data);
+    
     if(data.length>0 || this.formElementos.afectaUsuarios.value==0 ){
      // console.log(this.areaAFectada[0].persona);
      // console.log(this.areaAFectada[0]);
       return;
     }
 
-    console.log("ENTRO");
-    console.log(this.formElementos.afectaUsuarios.value);
     this.logAreaAFectada.push({feeder:elemento});
 
     var response = await this.api.get(
@@ -831,7 +829,7 @@ export class ConsignaNewComponent implements OnInit {
    // this.interrupcionesTrabajo.clientesNoRegulados.value=cliente;
 
     this.areaAFectada.push({area:[obj,objSector],persona:objCliente});
-    console.log(this.areaAFectada);
+    
 
   }
 
@@ -887,7 +885,7 @@ export class ConsignaNewComponent implements OnInit {
 
       this.dataElementos.forEach(element => {
 
-        console.log(element.jsonAreaAfectada);
+        
         if (element.jsonAreaAfectada.value[0].length > 0) {
           var data = JSON.parse(element.jsonAreaAfectada.value)[0];
           if (data.length > 0) {
