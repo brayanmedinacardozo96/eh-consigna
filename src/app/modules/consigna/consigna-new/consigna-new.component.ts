@@ -208,7 +208,13 @@ export class ConsignaNewComponent implements OnInit {
       messages: null,
       required: true,
     },
-
+    urlMapa: {
+      label: 'urlMapa',
+      name: 'urlMapa',
+      value: [],
+      messages: null,
+      required: false,
+    }
   };
 
   interrupcionesTrabajo = {
@@ -348,6 +354,63 @@ export class ConsignaNewComponent implements OnInit {
     }
   ];
 
+  urlMapa = [];  
+  pruebaMapas = {
+    cod:"1",
+    msg:"",
+    FEEDERS:
+    [
+      {
+        CODE:"ORCA",
+        DESCRIPTIO:"ORIENTE-CANAIMA",
+        SOURCEBUS:"SBN3-1000008",
+        LATITUD:"2,93612471",
+        LONGITUD:"-75,25471153"
+      },
+      {
+        CODE:"ORPD",
+        DESCRIPTIO:"ORIENTE - DIESEL ALIMENTADOR ENLACE",
+        SOURCEBUS:"SBN3-1000008",
+        LATITUD:"2,93601621",
+        LONGITUD:"-75,25471052"
+      },
+      {
+        CODE:"ORSU",
+        DESCRIPTIO:"ORIENTE - SUR",
+        SOURCEBUS:"SBN3-1000008",
+        LATITUD:"2,93607046",
+        LONGITUD:"-75,25471058"
+      },
+      {
+        CODE:"ORVE",
+        DESCRIPTIO:"ORIENTE - VEGALARGA",
+        SOURCEBUS:"SBN3-1000008",
+        LATITUD:"2,93596196",
+        LONGITUD:"-75,25471046"
+      }
+    ],
+    SRCBUSES:
+    [
+      {
+        CODE:"SBN3-1000008",
+        DESCRIPTIO:"ORIENTE - BARRAJE 34.5 kV",
+        SUBSTATION:"1000008_Oriente",
+        LATITUD:"2,9359077103",
+        LONGITUD:"-75,2547113066"
+      }
+    ],
+    SUBSTATI:
+    [
+      {
+        CODE:"1000008_Oriente",
+        DESCRIPTIO:"ORIENTE",
+        ADDRESS:"CR 46 14 55 (NEIVA)",
+        LATITUD:"2,93602084",
+        LONGITUD:"-75,2546116"
+      }
+    ]
+  };
+
   constructor(private api: ApiService,
               private validations: ValidationService,
               private dateValidation: DateValidationervice,
@@ -360,7 +423,7 @@ export class ConsignaNewComponent implements OnInit {
               ) {
                 window.scrollTo(0,0);
                 this.form.solicitante.value = `${this.user.document_number} - ${this.user.first_name} ${this.user.second_name} ${this.user.first_lastname} ${this.user.second_lastname}`;
-
+                console.log(this.user);
                 this.activeRoute.params.subscribe(params => {
 
                   if (params.id !== undefined && params.id !== null) {
@@ -521,7 +584,9 @@ export class ConsignaNewComponent implements OnInit {
       horaFinal:      {name: horaFinal,         value: horaFinal},
       jsonAreaAfectada: {name:'jsonAreaAfectada', value: jsonAreaAfectada   },
       jsonPersona:{name:'jsonPersona',value: jsonPersona},
+      jsonElementoMapa:{name:'jsonElementoMapa', value: this.pruebaMapas}
     }
+    this.getElementoMapa();
     this.dataElementos.push(elemento);
     this.setElemento.emit(elemento.elemento);
     this.escribrirAreaAfectada();
@@ -534,9 +599,12 @@ export class ConsignaNewComponent implements OnInit {
     this.formElementos.horaInicio.value = null;
     this.formElementos.fechaFinal.value = null;
     this.formElementos.horaFinal.value = null;
-    
-    
+  }
 
+  getElementoMapa(){
+    for(let value of this.dataElementos){
+      this.form.urlMapa.value.push(value.jsonElementoMapa);
+    }
   }
 
   removeListElement(id){
