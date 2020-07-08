@@ -26,6 +26,7 @@ export class ConsignaTabsComponent implements OnInit {
   action = 'Guardar';
   nameTab = 'Nueva';
   consignacionId = null;
+  showBotonGuardar = true; 
 
   @ViewChild(ConsignaNewComponent) consigna: ConsignaNewComponent;
   @ViewChild(TrabajoOportunidadComponent) trabajoOportunidad : TrabajoOportunidadComponent;
@@ -52,6 +53,14 @@ export class ConsignaTabsComponent implements OnInit {
    }
 
   ngOnInit(): void {
+  }
+
+  selectedIndexChange(event){
+    if(event != 0){
+      this.showBotonGuardar = false;
+    }else{
+      this.showBotonGuardar = true;
+    }
   }
 
   async search(id){
@@ -129,7 +138,6 @@ export class ConsignaTabsComponent implements OnInit {
         
         this.consigna.dataElementos.push(elemento);
         this.setElemento(elemento.elemento)
-        console.log(this.consigna.dataElementos);
 
         if(value.trabajo_oportunidad.length > 0){
           for(let valueTrabajo of value.trabajo_oportunidad){

@@ -20,7 +20,7 @@ export class InputFileMultipleComponent implements OnInit {
   @Input() package = '';
   @Input() required: boolean = false;
   @Output() valueChange = new EventEmitter();
-
+  files = undefined;
   constructor(
     private fileValidation: FileValidationService,
     public dialog: MatDialog) { }
@@ -33,6 +33,7 @@ export class InputFileMultipleComponent implements OnInit {
     const validationFile = this.fileValidation.validateDocumentFile(event,idFile,this.maxSize,this.typeExtension);
     if(validationFile.success){
       this.fileName = validationFile.numberFiles+' Documento(s) adjunto(s).';
+      this.files = event.target.files;
     }else{
       this.fileName = '';
       this.messages = validationFile.message;
@@ -71,13 +72,15 @@ export class InputFileMultipleComponent implements OnInit {
     };
 
     const namePackage = this.package != '' ? this.package: 'files';
-    let files = this.getIdFile();
-    for(let i = 0; i< files.length; i++){
-      let fileUpload = files[i];
-      attachedFile.files.append(this.package+"[]", fileUpload);
+    // let files = this.getIdFile();
+    if(this.files != undefined){
+      for(let i = 0; i< this.files.length; i++){
+        let fileUpload = this.files[i];
+        attachedFile.files.append(this.package+"[]", fileUpload);
+      }
     }
 
-    if(this.required && files.length < 1){
+    if(this.required && this.files.length < 1){
       attachedFile.files = new FormData();
       attachedFile.success = false;
       this.messages = 'Debe ingresar al menos un archvio.'
@@ -89,6 +92,10 @@ export class InputFileMultipleComponent implements OnInit {
 
   getIdFile(){
     return $('#document-file-multiple input[type=file]')[0].files;
+  }
+
+  getFiles(){
+    return this.files;
   }
 
 }
