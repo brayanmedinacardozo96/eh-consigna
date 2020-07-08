@@ -149,7 +149,7 @@ export class ConsignaListComponent implements OnInit {
       let dataUrl = null;
 
       for(let value in dataResponse){
-        if(value.includes('url')){
+        if(value.includes('url') && value.toLowerCase() != 'url_mapa'){
           if(dataResponse[value] !=  null && dataResponse[value] != undefined){
             if(dataResponse[value].includes('[') && dataResponse[value].includes('[')){
               dataUrl = JSON.parse(dataResponse[value]);        

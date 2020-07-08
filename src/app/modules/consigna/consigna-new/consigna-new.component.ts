@@ -570,11 +570,13 @@ export class ConsignaNewComponent implements OnInit {
     if( this.validateEmptyFields() && inputFile.success && inputFileMultiple.success){
 
       response.formData = inputFile.files;
-      //adjuntar los documentos
-      let fileMultiple = this.inputFileMultiple.getIdFile();
-      for(let i = 0;i< fileMultiple.length; i++){
-        let fileUpload = fileMultiple[i];
-        response.formData.append("anexos[]", fileUpload);
+      //adjuntar los documentos(anexos)
+      let fileMultiple = this.inputFileMultiple.getFiles();
+      if(fileMultiple != undefined){
+        for(let i = 0;i< fileMultiple.length; i++){
+          let fileUpload = fileMultiple[i];
+          response.formData.append("anexos[]", fileUpload);
+        }
       }
 
       response.formData.append('consignacionId', this.consignacionId);
