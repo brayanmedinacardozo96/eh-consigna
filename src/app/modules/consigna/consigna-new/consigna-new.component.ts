@@ -423,7 +423,6 @@ export class ConsignaNewComponent implements OnInit {
               ) {
                 window.scrollTo(0,0);
                 this.form.solicitante.value = `${this.user.document_number} - ${this.user.first_name} ${this.user.second_name} ${this.user.first_lastname} ${this.user.second_lastname}`;
-                console.log(this.user);
                 this.activeRoute.params.subscribe(params => {
 
                   if (params.id !== undefined && params.id !== null) {
@@ -584,7 +583,7 @@ export class ConsignaNewComponent implements OnInit {
       horaFinal:      {name: horaFinal,         value: horaFinal},
       jsonAreaAfectada: {name:'jsonAreaAfectada', value: jsonAreaAfectada   },
       jsonPersona:{name:'jsonPersona',value: jsonPersona},
-      jsonElementoMapa:{name:'jsonElementoMapa', value: this.pruebaMapas}
+      jsonElementoMapa:{name:'jsonElementoMapa', value: JSON.stringify(this.pruebaMapas)}
     }
     this.getElementoMapa();
     this.dataElementos.push(elemento);
@@ -602,9 +601,12 @@ export class ConsignaNewComponent implements OnInit {
   }
 
   getElementoMapa(){
+    this.form.urlMapa.value = [];
     for(let value of this.dataElementos){
       this.form.urlMapa.value.push(value.jsonElementoMapa);
     }
+
+    console.log(this.form.urlMapa.value);
   }
 
   removeListElement(id){
@@ -832,17 +834,32 @@ export class ConsignaNewComponent implements OnInit {
     } 
   }
 
-  openMap()
+  openMap(data = null)
   {
-    if(this.formElementos.elemento.value!=null)
-    {
-      var feeders=this.getFeederElemento(this.formElementos.elemento.value);
-     // '{"parametro":{"ruta":"feeder","data":"'+feeders+'","tipo":"data"}}'
-      window.open(environment.urlEhmap+'&data={"feeders":[{"code":"'+feeders+'"}]}', "MsgWindow", "width=1200,height=600");
+    if(data == null){
+      if(this.formElementos.elemento.value!=null)
+      {
+        var feeders=this.getFeederElemento(this.formElementos.elemento.value);
+        // '{"parametro":{"ruta":"feeder","data":"'+feeders+'","tipo":"data"}}'
+        data = 'data={"feeders":[{"code":"'+feeders+'"}]}';
+        // window.open(environment.urlEhmap+'&data={"feeders":[{"code":"'+feeders+'"}]}', "MsgWindow", "width=1200,height=600");
+      }else{
+        this.formElementos.elemento.messages="Este campo es requerido.";
+      }
     }else{
-      this.formElementos.elemento.messages="Este campo es requerido.";
+      if(typeof data === 'object'){
+        data = 'data='+JSON.stringify(data)+'&user='+JSON.stringify(this.user);
+      }else{
+        data = 'data='+data+'&user='+JSON.stringify(this.user);
+      }
     }
+
+    if(data != null){
+      window.open(environment.urlEhmap+'&'+data, "MsgWindow", "width=1200,height=600");
+    }   
+    
   }
+
 
   async getAreaAFectada(elemento) 
   {

@@ -133,7 +133,8 @@ export class ConsignaTabsComponent implements OnInit {
           fechaFinal:       {name: this.dateValidation.getYearMounthDay(new Date(value.fech_final_prog)),   value: value.fech_final_prog},
           horaFinal:        {name: value.hora_final_prog,                                                   value: value.hora_final_prog},
           jsonAreaAfectada: {name:'jsonAreaAfectada',                                                       value: value.json_area  },
-          jsonPersona:      {name:'jsonPersona',                                                            value: dataResponse.json_persona}
+          jsonPersona:      {name:'jsonPersona',                                                            value: dataResponse.json_persona},
+          jsonElementoMapa: {name:'jsonElementoMapa',                                                       value: value.json_elemento_mapa}
         }
         
         this.consigna.dataElementos.push(elemento);

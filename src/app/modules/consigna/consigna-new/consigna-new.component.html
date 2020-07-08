@@ -281,6 +281,7 @@
                   <th>Afecta Usuarios</th>
                   <th>Fecha y hora inicio</th>
                   <th>Fecha y hora final</th>
+                  <th>Mapa</th>
                   <th>Acciones</th>
                 </tr>
                 </thead>
@@ -292,6 +293,11 @@
                     <td>{{ value.afectaUsuarios.name }}</td>
                     <td>{{ value.fechaInicio.name }} - {{ value.horaInicio.name }}</td>
                     <td>{{ value.fechaFinal.name }} - {{ value.horaFinal.name }}</td>
+                    <td><button *ngIf="value.jsonElementoMapa.value != undefined" 
+                        color="primary"
+                        (click)="openMap(value.jsonElementoMapa.value)" mat-icon-button matTooltip="Ver en mapa" matTooltipClass="custom-tooltip">
+                        <mat-icon>map</mat-icon>
+                    </button></td>
                     <td>
                         <button (click)="removeListElement(i)" mat-icon-button matTooltip="Eliminar" matTooltipClass="custom-tooltip">
                             <mat-icon>delete_forever</mat-icon>
