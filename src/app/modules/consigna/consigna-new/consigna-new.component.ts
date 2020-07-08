@@ -764,10 +764,14 @@ export class ConsignaNewComponent implements OnInit {
 
   openMap()
   {
-    var feeders=this.getFeederElemento(this.formElementos.elemento.value);
-     window.open(environment.urlEhmap+'&data={"feeders":[{"code":"'+feeders+'"}]}', "MsgWindow", "width=1200,height=600");
-    /*var n=new IframeMapComponent(this.dialog);
-    n.openDialog();*/
+    if(this.formElementos.elemento.value!=null)
+    {
+      var feeders=this.getFeederElemento(this.formElementos.elemento.value);
+     // '{"parametro":{"ruta":"feeder","data":"'+feeders+'","tipo":"data"}}'
+      window.open(environment.urlEhmap+'&data={"feeders":[{"code":"'+feeders+'"}]}', "MsgWindow", "width=1200,height=600");
+    }else{
+      this.formElementos.elemento.messages="Este campo es requerido.";
+    }
   }
 
   async getAreaAFectada(elemento) 
