@@ -14,6 +14,8 @@ import { TrabajoOportunidadComponent } from './../../trabajo-oportunidad/trabajo
 import {IframeMapComponent} from '../iframe-map/iframe-map.component';
 import { InputFileDynamicComponent } from './../../../ui/forms/input-file-dynamic/input-file-dynamic.component';
 import { InputFileMultipleComponent } from './../../../ui/forms/input-file-multiple/input-file-multiple.component';
+import { ModalConfirmComponent } from './../../../ui/forms/modal-confirm/modal-confirm.component';
+import { Mensaje } from './../../../ui/forms/m-dialog/dialog';
 import * as moment from 'moment';
 import { isArray } from 'util';
 import { async } from '@angular/core/testing';
@@ -356,62 +358,8 @@ export class ConsignaNewComponent implements OnInit {
     }
   ];
 
-  urlMapa = [];  
-  pruebaMapas = {
-    cod:"1",
-    msg:"",
-    FEEDERS:
-    [
-      {
-        CODE:"ORCA",
-        DESCRIPTIO:"ORIENTE-CANAIMA",
-        SOURCEBUS:"SBN3-1000008",
-        LATITUD:"2,93612471",
-        LONGITUD:"-75,25471153"
-      },
-      {
-        CODE:"ORPD",
-        DESCRIPTIO:"ORIENTE - DIESEL ALIMENTADOR ENLACE",
-        SOURCEBUS:"SBN3-1000008",
-        LATITUD:"2,93601621",
-        LONGITUD:"-75,25471052"
-      },
-      {
-        CODE:"ORSU",
-        DESCRIPTIO:"ORIENTE - SUR",
-        SOURCEBUS:"SBN3-1000008",
-        LATITUD:"2,93607046",
-        LONGITUD:"-75,25471058"
-      },
-      {
-        CODE:"ORVE",
-        DESCRIPTIO:"ORIENTE - VEGALARGA",
-        SOURCEBUS:"SBN3-1000008",
-        LATITUD:"2,93596196",
-        LONGITUD:"-75,25471046"
-      }
-    ],
-    SRCBUSES:
-    [
-      {
-        CODE:"SBN3-1000008",
-        DESCRIPTIO:"ORIENTE - BARRAJE 34.5 kV",
-        SUBSTATION:"1000008_Oriente",
-        LATITUD:"2,9359077103",
-        LONGITUD:"-75,2547113066"
-      }
-    ],
-    SUBSTATI:
-    [
-      {
-        CODE:"1000008_Oriente",
-        DESCRIPTIO:"ORIENTE",
-        ADDRESS:"CR 46 14 55 (NEIVA)",
-        LATITUD:"2,93602084",
-        LONGITUD:"-75,2546116"
-      }
-    ]
-  };
+  urlMapa = []; 
+  jsonMapa = ''; 
 
   constructor(private api: ApiService,
               private validations: ValidationService,
@@ -421,7 +369,8 @@ export class ConsignaNewComponent implements OnInit {
               public dialog: MatDialog,
               private activeRoute: ActivatedRoute,
               private router: Router,
-              private session: SessionService
+              private session: SessionService,
+              private dialogo: MatDialog,
               ) {
                 window.scrollTo(0,0);
                 this.form.solicitante.value = `${this.user.document_number} - ${this.user.first_name} ${this.user.second_name} ${this.user.first_lastname} ${this.user.second_lastname}`;
@@ -585,10 +534,12 @@ export class ConsignaNewComponent implements OnInit {
       horaFinal:      {name: horaFinal,         value: horaFinal},
       jsonAreaAfectada: {name:'jsonAreaAfectada', value: jsonAreaAfectada   },
       jsonPersona:{name:'jsonPersona',value: jsonPersona},
-      jsonElementoMapa:{name:'jsonElementoMapa', value: JSON.stringify(this.pruebaMapas)}
+      jsonElementoMapa:{name:'jsonElementoMapa', value: this.jsonMapa}
     }
-    this.getElementoMapa();
+    this.jsonMapa = '';
     this.dataElementos.push(elemento);
+    this.getElementoMapa();
+
     this.setElemento.emit(elemento.elemento);
     this.escribrirAreaAfectada();
 
@@ -607,13 +558,21 @@ export class ConsignaNewComponent implements OnInit {
     for(let value of this.dataElementos){
       this.form.urlMapa.value.push(value.jsonElementoMapa);
     }
-
-    console.log(this.form.urlMapa.value);
   }
 
   removeListElement(id){
-    this.dataElementos.splice(id,1);
-    this.escribrirAreaAfectada();
+    this.dialogo
+      .open(ModalConfirmComponent, {
+      data: new Mensaje("Eliminar:","¿Está seguro de eliminar el registro?")
+    })
+    .afterClosed()
+    .subscribe((confirmado: Boolean) => {
+      if(confirmado) {
+        this.dataElementos.splice(id,1);
+        this.escribrirAreaAfectada();
+        this.getElementoMapa();
+      }
+    });    
   }
 
   guardarConsigna(){
@@ -834,6 +793,42 @@ export class ConsignaNewComponent implements OnInit {
     }else{
       this.snackBar.alert('Ocurrió un error, por favor vuelva a intentarlo o contáctese con el administrador.',10000)
     } 
+  }
+
+ getJsonMapa(){
+    this.jsonMapa = '';
+    var child;
+    var date = new Date();
+    var key = date.getHours() + '' + date.getMinutes() + '' + date.getSeconds();
+
+    // definimos la anchura y altura de la ventana
+    const height = 600;
+    const width = 1000;
+
+    // calculamos la posicion x, y para centrar la ventana
+    const y = Number((window.innerHeight / 2) - (height / 2));
+    const x = Number((window.innerWidth / 2) - (width / 2));
+    
+    if(this.formElementos.elemento.value!=null){
+      var feeders=this.getFeederElemento(this.formElementos.elemento.value);
+      child = window.open(environment.urlEhmap+'&key='+key+'&data={"feeders":[{"code":"'+feeders+'"}]}', "MsgWindow", 'width=' + width + ',height=' + height + ',top=' + y + ',left=' + x + ',toolbar=no,resizable=no');
+      // child = window.open('http://192.9.200.44/hijo.html?key='+key+'&data={"feeders":[{"code":"'+feeders+'"}]}', 'Mapa', 'width=' + width + ',height=' + height + ',top=' + y + ',left=' + x + ',toolbar=no,resizable=no');
+      var apiLocal = this.api;
+
+      var timer = setInterval(async function () {
+        if (child.closed) {
+          // Se realiza el llamado del api que obtiene la data del mapa a partir del key
+          const response = await apiLocal.get(`${environment.apiBackend}/integracion-mapa/get/${key}`);
+          if(response.success){
+            this.jsonMapa = response.data.data != undefined ? response.data.data : '';
+          }
+          clearInterval(timer);
+        }
+      }, 500);
+    }else{
+      this.formElementos.elemento.messages="Este campo es requerido.";
+    }
+    
   }
 
   openMap(data = null)
