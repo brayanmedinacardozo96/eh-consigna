@@ -18,7 +18,7 @@
     </mat-grid-list>
 
     <app-input-file [style.visibility]="isDivVisible ? 'visible' : 'hidden'" [placeholder]="'Adjuntar documento *'"
-    [typeExtension]="['pdf','xlsx']" [maxSize]="'5'"
+    [typeExtension]="['pdf','xlsx','xls']" [maxSize]="'5'"
     (valueChange)="setInput($event)"
     [fileName]="fileName"
     [messages] = "fileUpload.message"
