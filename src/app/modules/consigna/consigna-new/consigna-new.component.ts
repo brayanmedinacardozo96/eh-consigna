@@ -17,8 +17,6 @@ import { InputFileMultipleComponent } from './../../../ui/forms/input-file-multi
 import { ModalConfirmComponent } from './../../../ui/forms/modal-confirm/modal-confirm.component';
 import { Mensaje } from './../../../ui/forms/m-dialog/dialog';
 import * as moment from 'moment';
-import { isArray } from 'util';
-import { async } from '@angular/core/testing';
 
 @Component({
   selector: 'app-consigna-new',
