@@ -358,7 +358,6 @@ export class ConsignaNewComponent implements OnInit {
     }
   ];
 
-  urlMapa = []; 
   jsonMapa = ''; 
 
   constructor(private api: ApiService,
@@ -542,6 +541,8 @@ export class ConsignaNewComponent implements OnInit {
 
     this.setElemento.emit(elemento.elemento);
     this.escribrirAreaAfectada();
+
+    console.log(JSON.stringify(this.form.urlMapa.value));
 
     this.formElementos.tipoElemento.value = null;
     this.formElementos.elemento.value = null;

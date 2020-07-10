@@ -176,8 +176,6 @@ export class ManiobraComponent implements OnInit {
           file: this.inputFile.target.files[0]
         }
 
-        console.log(this.registroManiobra);
-  
         this.registroManiobra.push(obj);    
         this.tableTrabajoManiobra.init(this.registroManiobra);
   
@@ -315,9 +313,13 @@ export class ManiobraComponent implements OnInit {
   }
 
   eliminar(key){
-    this.registroManiobra.splice(key,1);
-    this.tableTrabajoManiobra.init(this.registroManiobra);
-    console.log(this.registroManiobra);
+    for(let i in this.registroManiobra){
+      if(this.registroManiobra[i].url_documento == key.url_documento && this.registroManiobra[i].consignacion_id == key.consignacion_id){
+        this.registroManiobra.splice(parseInt(i,10),1);
+        this.tableTrabajoManiobra.init(this.registroManiobra);
+        return;
+      }
+    }    
   }
 
   setDataRegistroManibra(data){
