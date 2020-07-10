@@ -488,7 +488,7 @@ export class ConsignaNewComponent implements OnInit {
 
   async addListElements(){
 
- 
+    this.jsonMapa = document.getElementById("jsonDataMapa").innerText;
     const responseValidate = this.validations.validateEmptyFields(this.formElementos);
 
     if (!responseValidate.success) {
@@ -533,14 +533,14 @@ export class ConsignaNewComponent implements OnInit {
       jsonPersona:{name:'jsonPersona',value: jsonPersona},
       jsonElementoMapa:{name:'jsonElementoMapa', value: this.jsonMapa}
     }
-    this.jsonMapa = '';
     this.dataElementos.push(elemento);
     this.getElementoMapa();
 
     this.setElemento.emit(elemento.elemento);
     this.escribrirAreaAfectada();
 
-    console.log(JSON.stringify(this.form.urlMapa.value));
+    console.log(this.dataElementos);
+    this.jsonMapa = '';
 
     this.formElementos.tipoElemento.value = null;
     this.formElementos.elemento.value = null;
@@ -555,7 +555,9 @@ export class ConsignaNewComponent implements OnInit {
   getElementoMapa(){
     this.form.urlMapa.value = [];
     for(let value of this.dataElementos){
-      this.form.urlMapa.value.push(value.jsonElementoMapa);
+      if(value.jsonElementoMapa != '' && value.jsonElementoMapa != undefined && value.jsonElementoMapa != null){
+        this.form.urlMapa.value.push(value.jsonElementoMapa);
+      }
     }
   }
 
@@ -814,64 +816,37 @@ export class ConsignaNewComponent implements OnInit {
       child = window.open(environment.urlEhmap+ '&' + data + '&key=' + key, "MsgWindow", 'width=' + width + ',height=' + height + ',top=' + y + ',left=' + x + ',toolbar=no,resizable=no');
       // child = window.open('http://192.9.200.44/hijo.html?key='+key+'&data={"feeders":[{"code":"'+feeders+'"}]}', 'Mapa', 'width=' + width + ',height=' + height + ',top=' + y + ',left=' + x + ',toolbar=no,resizable=no');
       var apiLocal = this.api;
-
+      var jsonLocal = '';
       var timer = setInterval(async function () {
         if (child.closed) {
           // Se realiza el llamado del api que obtiene la data del mapa a partir del key
           const response = await apiLocal.get(`${environment.apiBackend}/integracion-mapa/get/${key}`);
           if(response.success){
-            this.jsonMapa = response.data.data != undefined ? response.data.data : '';
+            jsonLocal = JSON.stringify(response.data);
+            document.getElementById("jsonDataMapa").textContent = jsonLocal;
           }
           clearInterval(timer);
         }
       }, 500);
+
     }else{
       this.formElementos.elemento.messages="Este campo es requerido.";
     }
     
   }
 
-  openMap(data = null)
-  {
-    if(data == null){
-      if(this.formElementos.elemento.value!=null)
-      {
-        var feeders=this.getFeederElemento(this.formElementos.elemento.value);
-        data = "data="+this.utf8_to_b64('{"feeders":[{"code":"'+feeders+'"}],"tipo":"feeders"}')+'&user='+this.utf8_to_b64(this.login);
-      }else{
-        this.formElementos.elemento.messages="Este campo es requerido.";
+  openMap(data = null){
+    if(data != '' && data != null && data != undefined){
+      if(typeof data == 'string'){
+        data = JSON.parse(data);
       }
+      if(typeof data == 'string'){
+        data = JSON.parse(data);
+      }
+      var child = window.open(data.url,"MsgWindow", "width=1200,height=600");
     }else{
-      if(typeof data === 'object'){
-        data = 'data='+JSON.stringify(data)+'&user='+JSON.stringify(this.user);
-      }else{
-        data = 'data='+data+'&user='+JSON.stringify(this.user);
-      }
-    }
-
-    if (data != null) {
-
-      
-      var date = new Date();
-      var key = date.getHours().toString() +  date.getMinutes().toString() +  date.getSeconds().toString();
-
-      var child = window.open(environment.urlEhmap + '&' + data + '&key=' + key, "MsgWindow", "width=1200,height=600");
-
-     var apiLocal=this.api;
-     var timer = setInterval(async function () {
-      if (child.closed) {
-          
-          var response = await  apiLocal.get(
-            `${environment.apiBackend}/integracion-mapa/get/${key}`
-          );
-          console.log(key);
-          console.log(response);
-          clearInterval(timer);
-      }
-  }, 500);
-
-    }
-    
+      this.snackBar.alert('No se encontró mapa',5000);
+    }    
   }
 
   
