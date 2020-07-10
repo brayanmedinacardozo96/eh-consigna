@@ -17,6 +17,8 @@ import { InputFileMultipleComponent } from './../../../ui/forms/input-file-multi
 import { ModalConfirmComponent } from './../../../ui/forms/modal-confirm/modal-confirm.component';
 import { Mensaje } from './../../../ui/forms/m-dialog/dialog';
 import * as moment from 'moment';
+import { isArray } from 'util';
+import { async } from '@angular/core/testing';
 
 @Component({
   selector: 'app-consigna-new',
@@ -323,6 +325,7 @@ export class ConsignaNewComponent implements OnInit {
   logAreaAFectada=[];
   messageListaElementos = '';
   user: User = Auth.getUserDataPerson();
+  login:User=Auth.getLogin();
   fileAnexos = {
     placeholder: 'Ingrese los anexos',
     typeExtension: ['pdf','png','jpg','jpeg','xls','xlsx','doc','docx','txt','ppt','pptx'],
@@ -835,9 +838,7 @@ export class ConsignaNewComponent implements OnInit {
       if(this.formElementos.elemento.value!=null)
       {
         var feeders=this.getFeederElemento(this.formElementos.elemento.value);
-        // '{"parametro":{"ruta":"feeder","data":"'+feeders+'","tipo":"data"}}'
-        data = 'data={"feeders":[{"code":"'+feeders+'"}]}';
-        // window.open(environment.urlEhmap+'&data={"feeders":[{"code":"'+feeders+'"}]}', "MsgWindow", "width=1200,height=600");
+        data = "data="+this.utf8_to_b64('{"feeders":[{"code":"'+feeders+'"}],"tipo":"feeders"}')+'&user='+this.utf8_to_b64(this.login);
       }else{
         this.formElementos.elemento.messages="Este campo es requerido.";
       }
@@ -849,13 +850,32 @@ export class ConsignaNewComponent implements OnInit {
       }
     }
 
-    if(data != null){
-      window.open(environment.urlEhmap+'&'+data, "MsgWindow", "width=1200,height=600");
-    }   
+    if (data != null) {
+
+      
+      var date = new Date();
+      var key = date.getHours().toString() +  date.getMinutes().toString() +  date.getSeconds().toString();
+
+      var child = window.open(environment.urlEhmap + '&' + data + '&key=' + key, "MsgWindow", "width=1200,height=600");
+
+     var apiLocal=this.api;
+     var timer = setInterval(async function () {
+      if (child.closed) {
+          
+          var response = await  apiLocal.get(
+            `${environment.apiBackend}/integracion-mapa/get/${key}`
+          );
+          console.log(key);
+          console.log(response);
+          clearInterval(timer);
+      }
+  }, 500);
+
+    }
     
   }
 
-
+  
   async getAreaAFectada(elemento) 
   {
     
@@ -1012,6 +1032,10 @@ export class ConsignaNewComponent implements OnInit {
 
     this.interrupcionesTrabajo.barrios.value=barrio;
     this.interrupcionesTrabajo.clientesNoRegulados.value=cliente;
+  }
+
+   utf8_to_b64( str ) {
+    return window.btoa(unescape(encodeURIComponent( str )));
   }
 
   
