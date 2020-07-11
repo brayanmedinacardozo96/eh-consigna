@@ -258,7 +258,7 @@
                 </mat-grid-tile>
             </mat-grid-list>
 
-            <button (click)="addListElements()" mat-mini-fab color="success" 
+            <button (click)="validateListElements()" mat-mini-fab color="success" 
                 style="margin-left: 20px; margin-bottom:20px;"
                 matTooltip="Adicionar Elemento" matTooltipClass="custom-tooltip"
             >
@@ -271,6 +271,18 @@
             >
                 <mat-icon style="color: #FFF;">public</mat-icon>
             </button>
+
+            <span>
+                <button  id="botonVerMapaSelec"
+                    (click)="verMapaGuardado()" mat-mini-fab
+                    style="visibility: hidden; margin-left: 20px; margin-bottom:20px; background-color: rgb(227, 114, 34);"
+                    matTooltip="Ver mapa guardado" matTooltipClass="custom-tooltip"
+                >
+                    <mat-icon style="color: #FFF;">where_to_vote</mat-icon>
+                </button>
+                <!-- para ver obtener de manera temporar la data del mapa -->
+                <span style="display: none;" id="jsonDataMapa"></span>
+            </span>
 
             <table class="custom-table">
                 <thead>
@@ -293,7 +305,7 @@
                     <td>{{ value.afectaUsuarios.name }}</td>
                     <td>{{ value.fechaInicio.name }} - {{ value.horaInicio.name }}</td>
                     <td>{{ value.fechaFinal.name }} - {{ value.horaFinal.name }}</td>
-                    <td><button *ngIf="value.jsonElementoMapa.value != undefined" 
+                    <td><button *ngIf="value.jsonElementoMapa.value != undefined && value.jsonElementoMapa.value != '' && value.jsonElementoMapa.value != null " 
                         color="primary"
                         (click)="openMap(value.jsonElementoMapa.value)" mat-icon-button matTooltip="Ver en mapa" matTooltipClass="custom-tooltip">
                         <mat-icon>map</mat-icon>
@@ -539,8 +551,7 @@
         
         <!-- <button id="the-button" (click)="testGuardarConsigna()" mat-raised-button color="primary" style="margin-left: 20px; margin-top: 10px;">
             <span style="color: #FFF">{{action}}</span>
-        </button> -->
+        </button> -->        
         
-        <span style="display: none;" id="jsonDataMapa"></span>
     </mat-card-content>
   </mat-card>

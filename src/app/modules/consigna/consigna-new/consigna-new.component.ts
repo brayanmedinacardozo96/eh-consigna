@@ -486,8 +486,7 @@ export class ConsignaNewComponent implements OnInit {
 
   }
 
-  async addListElements(){
-
+  validateListElements(){
     this.jsonMapa = document.getElementById("jsonDataMapa").innerText;
     const responseValidate = this.validations.validateEmptyFields(this.formElementos);
 
@@ -501,6 +500,24 @@ export class ConsignaNewComponent implements OnInit {
       return false;
     }
 
+    if(this.jsonMapa != null && this.jsonMapa != '' && this.jsonMapa != undefined){
+      this.addListElements();
+    }else{
+      this.dialogo
+        .open(ModalConfirmComponent, {
+        data: new Mensaje("Eliminar:","No ha guardado mapa para el elemento seleccionado. ¿Está seguro de guardar el registro?")
+      })
+      .afterClosed()
+      .subscribe((confirmado: Boolean) => {
+        if(confirmado) {
+          this.addListElements();
+        }
+      });    
+    }
+    
+  }
+
+  async addListElements(){
     var textTipoElemento = ((document.getElementById("form_consigna-tipo_elemento")) as HTMLSelectElement).textContent;
     var textElemento = ((document.getElementById("form_consigna-elemento")) as HTMLSelectElement).textContent;
     var textRamal = ((document.getElementById("form_consigna-ramal")) as HTMLSelectElement).textContent;
@@ -539,8 +556,11 @@ export class ConsignaNewComponent implements OnInit {
     this.setElemento.emit(elemento.elemento);
     this.escribrirAreaAfectada();
 
-    console.log(this.dataElementos);
+    //oculta el boton de ver mapa seleccionado
+    var botonVerMapaSelec = document.getElementById("botonVerMapaSelec");
+    botonVerMapaSelec.style.visibility = "hidden";
     this.jsonMapa = '';
+    document.getElementById("jsonDataMapa").textContent = '';
 
     this.formElementos.tipoElemento.value = null;
     this.formElementos.elemento.value = null;
@@ -797,7 +817,11 @@ export class ConsignaNewComponent implements OnInit {
   }
 
  getJsonMapa(){
-    this.jsonMapa = '';
+  //  para ocultar el boton de ver el mapa
+   var botonVerMapaSelec = document.getElementById("botonVerMapaSelec");
+   botonVerMapaSelec.style.visibility = "hidden";
+   this.jsonMapa = '';
+
     var child;
     var date = new Date();
     var key = date.getHours() + '' + date.getMinutes() + '' + date.getSeconds();
@@ -824,6 +848,7 @@ export class ConsignaNewComponent implements OnInit {
           if(response.success){
             jsonLocal = JSON.stringify(response.data);
             document.getElementById("jsonDataMapa").textContent = jsonLocal;
+            botonVerMapaSelec.style.visibility = "visible";
           }
           clearInterval(timer);
         }
@@ -833,6 +858,11 @@ export class ConsignaNewComponent implements OnInit {
       this.formElementos.elemento.messages="Este campo es requerido.";
     }
     
+  }
+
+  verMapaGuardado(){
+    this.jsonMapa = document.getElementById("jsonDataMapa").innerText;
+    this.openMap(this.jsonMapa);
   }
 
   openMap(data = null){
