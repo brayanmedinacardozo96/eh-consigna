@@ -370,7 +370,7 @@ export class ConsignaNewComponent implements OnInit {
               private dialogo: MatDialog,
               ) {
                 window.scrollTo(0,0);
-                this.form.solicitante.value = `${this.user.document_number} - ${this.user.first_name} ${this.user.second_name} ${this.user.first_lastname} ${this.user.second_lastname}`;
+                this.getDataSolicitante();
                 this.activeRoute.params.subscribe(params => {
 
                   if (params.id !== undefined && params.id !== null) {
@@ -384,6 +384,10 @@ export class ConsignaNewComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.getDataSelectConsigna();
+  }
+
+  getDataSolicitante(){
+    this.form.solicitante.value = `${this.user.document_number} - ${this.user.first_name} ${this.user.second_name} ${this.user.first_lastname} ${this.user.second_lastname}`;
   }
 
   async search(id){
@@ -760,8 +764,9 @@ export class ConsignaNewComponent implements OnInit {
     this.validations.cleanFields(this.formElementos);
     this.validations.cleanFields(this.interrupcionesTrabajo);
     this.validations.cleanFields(this.interrupcionesCortoTiempo);
-    this.fileValidation.fileUp(this.inputFile)
+    this.fileValidation.fileUp(this.inputFile);
     this.dataElementos = [];
+    this.getDataSolicitante();
   }
 
   async getSubestaciones(event){
