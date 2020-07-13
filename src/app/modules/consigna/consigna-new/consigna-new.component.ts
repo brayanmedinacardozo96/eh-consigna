@@ -749,7 +749,7 @@ export class ConsignaNewComponent implements OnInit {
     this.dataControls.estadoEquipo = this.session.getItem('estadoEquipo');
     this.dataControls.tipoMantenimiento = this.session.getItem('tipoMantenimiento');
     // this.dataControls.subestacion = this.session.getItem('subestacion');
-    this.dataControls.tipoElemento = this.session.getItem('tipoElemento');
+    this.dataControls.tipoElemento = this.session.getItem('tempTipoElemento');
     // this.dataControls.elemento = this.session.getItem('elemento');
     this.form.medidasSeguiridad.value=this.session.getItem('medidaSeguridad')[0]['descripcion'];
 
@@ -774,35 +774,48 @@ export class ConsignaNewComponent implements OnInit {
       zona_id: event
     };
 
-    const response = await this.api.post(`${environment.apiBackend}/subestacion/get-subestacion`, request);
-    let success = response.success;
-    let message = response.message;
-    if(success){
-      this.dataControls.subestacion = [];
-      for(let value of response.data){
-        this.dataControls.subestacion.push(value);        
-      }
+    let dataSubestacion = this.session.getDataInfo('subestacion','zona_id',event);
+    if(dataSubestacion.success && dataSubestacion.data.length >0){
+      this.dataControls.subestacion = dataSubestacion.data;
     }else{
-      this.snackBar.alert('Ocurrió un error, por favor vuelva a intentarlo o contáctese con el administrador.',10000)
-    } 
+      const response = await this.api.post(`${environment.apiBackend}/subestacion/get-subestacion`, request);
+      let success = response.success;
+      let message = response.message;
+      if(success){
+        this.dataControls.subestacion = [];
+        for(let value of response.data){
+          this.dataControls.subestacion.push(value);        
+        }
+      }else{
+        this.snackBar.alert('Ocurrió un error, por favor vuelva a intentarlo o contáctese con el administrador.',10000)
+      }
+    }
   }
   async getTipoElementos(event){
     this.dataControls.tipoElemento = [];
-    this.dataControls.tipoElemento = this.session.getItem('tipoElemento');    
+    this.dataControls.tipoElemento = this.session.getItem('tempTipoElemento');
     let request = {
       subestacion_id: event
     };
 
-    const response = await this.api.post(`${environment.apiBackend}/tipo-elemento/get-tipo-elemento`, request);
-    let success = response.success;
-    let message = response.message;
-    if(success){
-      for(let value of response.data){
-        this.dataControls.tipoElemento.push(value);        
+    let dataSession = this.session.getDataInfo('tipoElemento','subestacion_id',event);
+    if(dataSession.success && dataSession.data.length >0){
+      for(let value of dataSession.data){
+        this.dataControls.tipoElemento.push(value);
       }
     }else{
-      this.snackBar.alert('Ocurrió un error, por favor vuelva a intentarlo o contáctese con el administrador.',10000)
-    } 
+      const response = await this.api.post(`${environment.apiBackend}/tipo-elemento/get-tipo-elemento`, request);
+      let success = response.success;
+      let message = response.message;
+      if(success){
+        for(let value of response.data){
+          this.dataControls.tipoElemento.push(value);        
+        }
+      }else{
+        this.snackBar.alert('Ocurrió un error, por favor vuelva a intentarlo o contáctese con el administrador.',10000)
+      } 
+    }
+
   }
 
   async getElementos(event){
@@ -811,14 +824,19 @@ export class ConsignaNewComponent implements OnInit {
       tipo_elemento_id: event
     };
 
-    const response = await this.api.post(`${environment.apiBackend}/elemento/get-elemento`, request);
-    let success = response.success;
-    let message = response.message;
-    if(success){
-      this.dataControls.elemento = response.data;
+    let dataSession = this.session.getDataInfo('elemento','tipo_elemento_id',event);
+    if(dataSession.success && dataSession.data.length >0){
+      this.dataControls.elemento = dataSession.data;
     }else{
-      this.snackBar.alert('Ocurrió un error, por favor vuelva a intentarlo o contáctese con el administrador.',10000)
-    } 
+      const response = await this.api.post(`${environment.apiBackend}/elemento/get-elemento`, request);
+      let success = response.success;
+      let message = response.message;
+      if(success){
+        this.dataControls.elemento = response.data;
+      }else{
+        this.snackBar.alert('Ocurrió un error, por favor vuelva a intentarlo o contáctese con el administrador.',10000)
+      } 
+    }    
   }
 
  getJsonMapa(){

@@ -90,6 +90,7 @@ export class ConsignaTabsComponent implements OnInit {
       this.consigna.form.solicitante.label='Usuario';
       this.consigna.form.divisionArea.value = dataResponse.division_area_id != null ? parseInt(dataResponse.division_area_id): null;
       this.consigna.form.tipoZona.value = parseInt(dataResponse.zona_id);
+      this.consigna.getSubestaciones(this.consigna.form.tipoZona.value);
       this.consigna.form.tipoSolicitud.value = parseInt(dataResponse.tipo_solicitud_id);
       this.consigna.form.fechaSolicitud.value = new Date(dataResponse.fecha_solicitud);
       this.consigna.form.tipoConsignacion.value = parseInt(dataResponse.tipo_consignacion_id);
@@ -98,6 +99,7 @@ export class ConsignaTabsComponent implements OnInit {
       this.consigna.form.estadoConsigna.value = parseInt(dataResponse.estado_consignacion_id);
       this.consigna.form.estadoEquipo.value = parseInt(dataResponse.estado_equipo_id);
       this.consigna.form.subestacion.value = parseInt(dataResponse.lista_elemento[0].subestacion_id);
+      this.consigna.getTipoElementos(this.consigna.form.subestacion.value);
       this.consigna.form.tipoMantenimiento.value = parseInt(dataResponse.tipo_mantenimiento_id);
       this.consigna.form.trabajoEfectuar.value = dataResponse.trabajo_efectuar;
       this.consigna.form.justificacion.value = dataResponse.justificacion;

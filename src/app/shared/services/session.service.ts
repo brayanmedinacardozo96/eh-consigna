@@ -58,5 +58,19 @@ export class SessionService {
      return persona;
    }
 
+  getDataInfo(nameSession, field, id){
+    const response = {success: true, data: []};
+    let data = this.getItem(nameSession) != undefined ? this.getItem(nameSession) : null;
+    if(data != null){
+      for(let value of data){
+        if(value[field] == id){
+          response.data.push(value);
+        }
+      }
+    }
+
+    return response;
+  }
+
 
 }
