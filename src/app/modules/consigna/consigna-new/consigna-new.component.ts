@@ -856,6 +856,7 @@ export class ConsignaNewComponent implements OnInit {
     // calculamos la posicion x, y para centrar la ventana
     const y = Number((window.innerHeight / 2) - (height / 2));
     const x = Number((window.innerWidth / 2) - (width / 2));
+    var snackBar = this.snackBar;
     
     if(this.formElementos.elemento.value!=null){
       var feeders=this.getFeederElemento(this.formElementos.elemento.value);
@@ -872,6 +873,8 @@ export class ConsignaNewComponent implements OnInit {
             jsonLocal = JSON.stringify(response.data);
             document.getElementById("jsonDataMapa").textContent = jsonLocal;
             botonVerMapaSelec.style.visibility = "visible";
+          }else{
+            snackBar.alert('No se encontró registro de mapa para guardar!',5000);
           }
           clearInterval(timer);
         }
