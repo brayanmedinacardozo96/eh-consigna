@@ -79,7 +79,14 @@ export class AutorizarComponent implements OnInit {
       value: null,
       messages: null,
       required: true,
-    }
+    },
+    fechaSolicitud: {
+      label: 'Fecha de solicitud',
+      name: 'fechaSolicitud',
+      value: null,
+      messages: null,
+      required: false,
+    },
   }
 
   dataControls={
@@ -89,6 +96,7 @@ export class AutorizarComponent implements OnInit {
   dataElementoCalidad=[
     {elemento:"xxx", sDesconexion:"100", desMax:"10", feMax:"10", deHora:"10",feHora:"10"}
   ]
+  
   viewList = false;
   data = [];
 
@@ -144,6 +152,7 @@ export class AutorizarComponent implements OnInit {
       this.form.numeroConsigna.value=this.data[0].codigo;
       this.form.id.value=this.data[0].consignacion_id;
       this.form.estado_actual.value= this.data[0].estado_id;
+      this.form.estadoConsigna.value=parseInt( this.data[0].estado_id );
 
       if(this.data.length < 1){
        // this.snackBar.alert('No se encontraron registros con los parámetros consultados.',5000);
@@ -155,11 +164,16 @@ export class AutorizarComponent implements OnInit {
 
    guardar()
   {
+    var textEstado = ((document.getElementById("ddlEstadoConsigna")) as HTMLSelectElement).textContent;
+
+    if(textEstado=="Reprogramada")
+    {
+      this.form.fechaSolicitud.required=true;
+    }
 
     if (this.validateEmptyFields()) {
 
-      var textEstado = ((document.getElementById("ddlEstadoConsigna")) as HTMLSelectElement).textContent;
-
+      
       this.dialogo
         .open(ModalConfirmComponent, {
           data: new Mensaje("Consigna #"+ this.form.numeroConsigna.value,"Cambiar a: "+ textEstado )
@@ -194,6 +208,7 @@ export class AutorizarComponent implements OnInit {
       estado_consignacion_id:this.form.estadoConsigna.value,
       id:this.form.id.value,
       usuario_id:this.form.usuario.id,
+      usurioNombre:this.form.usuario.value,
       observacion:this.form.observacion.value,
       estado_actual:this.form.estado_actual.value
     }

@@ -1,0 +1,38 @@
+<div style="width: 100%">
+    <mat-form-field style="width: 35%;padding-right:100%;">
+      <mat-label>Buscar en el listado</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="">
+    </mat-form-field>
+  
+    <div style="text-align: center !important; width: 100%; overflow-x: auto; ">
+      <table mat-table [dataSource]="dataSource" matSort class="custom-table">
+  
+        <ng-container matColumnDef="fecha">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha</th>
+          <td mat-cell style="text-align:left" *matCellDef="let row"> {{row?.created_at |  date:'yyyy/MM/dd h:mm:ss a' }} </td>
+        </ng-container>
+  
+        
+        <ng-container matColumnDef="usuario">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Usuario</th>
+          <td mat-cell style="text-align:left" *matCellDef="let row">{{row?.usuario}}</td>
+        </ng-container>
+  
+        
+        <ng-container matColumnDef="observacion">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Observacion</th>
+          <td mat-cell style="text-align:left" *matCellDef="let row">{{row?.observacion}}</td>
+        </ng-container>
+
+  
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+        </tr>
+      </table>
+  
+      <mat-paginator [pageSizeOptions]="[10, 50, 100]"></mat-paginator>
+    </div>
+  
+  </div>
+
+
