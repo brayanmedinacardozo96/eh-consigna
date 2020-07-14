@@ -36,6 +36,8 @@ import { ManiobraModule } from './../maniobra/maniobra.module';
 import { IframeMapComponent } from './iframe-map/iframe-map.component';
 import {DirectivesModule} from "../../shared/directives/directives.module";
 import { ConsignaListDocumentsComponent } from './consigna-list-documents/consigna-list-documents.component';
+import { SeguimientoConsignaComponent } from './seguimiento-consigna/seguimiento-consigna.component';
+import { TableSeguimientoConsignaComponent } from './seguimiento-consigna/table-seguimiento-consigna/table-seguimiento-consigna.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +52,8 @@ import { ConsignaListDocumentsComponent } from './consigna-list-documents/consig
     ConsignaNewMessageComponent,
     IframeMapComponent,
     ConsignaListDocumentsComponent,
+    SeguimientoConsignaComponent,
+    TableSeguimientoConsignaComponent,
   ],
     imports: [
         CommonModule,

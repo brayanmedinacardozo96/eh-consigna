@@ -15,6 +15,7 @@ import { ConsignaUserComponent } from './modules/consigna/consigna-user/consigna
 import {ParametrosComponent} from './modules/parametros/parametros.component';
 import {ComunicadoPrensaFormComponent} from "./modules/comunicado-prensa/comunicado-prensa-form/comunicado-prensa-form.component";
 import {ComunicadoPrensaComponent} from "./modules/comunicado-prensa/comunicado-prensa.component";
+import {SeguimientoConsignaComponent} from './modules/consigna/seguimiento-consigna/seguimiento-consigna.component';
 const routes: Routes = [
   {path: '', component: LoginComponent}
   , {path: 'login', component: LoginComponent}
@@ -36,6 +37,7 @@ const routes: Routes = [
   , {path: 'comunicado-prensa', component: ComunicadoPrensaComponent, canActivate: [AuthGuard]}
   , {path: 'comunicado-prensa/new', component: ComunicadoPrensaFormComponent, canActivate: [AuthGuard]}
   , {path: 'comunicado-prensa/edit/:id', component: ComunicadoPrensaFormComponent, canActivate: [AuthGuard]}
+  , {path: 'seguimiento-consigna', component: SeguimientoConsignaComponent, canActivate: [AuthGuard]}
 
   , {path: '404', component: NotFoundComponent}
   , {path: '**', redirectTo: '/404'}

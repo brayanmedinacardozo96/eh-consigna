@@ -25,7 +25,6 @@ import {ParametrosModule} from './modules/parametros/parametros.module';
 import {ComunicadoPrensaModule} from "./modules/comunicado-prensa/comunicado-prensa.module";
 import {NotifierModule} from "angular-notifier";
 
-
 @NgModule({
   declarations: [
     AppComponent,
