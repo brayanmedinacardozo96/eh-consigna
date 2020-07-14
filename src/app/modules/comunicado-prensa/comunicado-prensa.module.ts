@@ -15,25 +15,36 @@ import { ComunicadoPrensaListComponent } from './comunicado-prensa-list/comunica
 import {RouterModule} from "@angular/router";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {MatRadioModule} from "@angular/material/radio";
+import { ClientesAfectadosComponent } from './clientes-afectados/clientes-afectados.component';
+import {MatDialogModule} from "@angular/material/dialog";
+import {MatInputModule} from "@angular/material/input";
+import {MatTableModule} from "@angular/material/table";
+import {MatSortModule} from "@angular/material/sort";
+import {MatPaginatorModule} from "@angular/material/paginator";
 
 
 
 @NgModule({
-  declarations: [ComunicadoPrensaFormComponent, ComunicadoPrensaComponent, ComunicadoPrensaListComponent],
-    imports: [
-        CommonModule,
-        MatCardModule,
-        CustomFormsModule,
-        MatIconModule,
-        MatButtonModule,
-        MatTooltipModule,
-        MatFormFieldModule,
-        MatSelectModule,
-        FormsModule,
-        CKEditorModule,
-        RouterModule,
-        MatExpansionModule,
-        MatRadioModule
-    ]
+  declarations: [ComunicadoPrensaFormComponent, ComunicadoPrensaComponent, ComunicadoPrensaListComponent, ClientesAfectadosComponent],
+  imports: [
+    CommonModule,
+    MatCardModule,
+    CustomFormsModule,
+    MatIconModule,
+    MatButtonModule,
+    MatTooltipModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    FormsModule,
+    CKEditorModule,
+    RouterModule,
+    MatExpansionModule,
+    MatRadioModule,
+    MatDialogModule,
+    MatInputModule,
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule
+  ]
 })
 export class ComunicadoPrensaModule { }
