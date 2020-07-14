@@ -860,7 +860,7 @@ export class ConsignaNewComponent implements OnInit {
     
     if(this.formElementos.elemento.value!=null){
       var feeders=this.getFeederElemento(this.formElementos.elemento.value);
-      var data = "data="+this.utf8_to_b64('{"feeders":[{"code":"'+feeders+'"}],"tipo":"feeders"}')+'&user='+this.utf8_to_b64(this.login);
+      var data = "data="+this.utf8_to_b64('{"feeders":[{"code":"'+feeders+'"}],"tipo":"feeders"}')+'&user='+this.utf8_to_b64(JSON.stringify(this.user));
       child = window.open(environment.urlEhmap+ '&' + data + '&key=' + key, "MsgWindow", 'width=' + width + ',height=' + height + ',top=' + y + ',left=' + x + ',toolbar=no,resizable=no');
       // child = window.open('http://192.9.200.44/hijo.html?key='+key+'&data={"feeders":[{"code":"'+feeders+'"}]}', 'Mapa', 'width=' + width + ',height=' + height + ',top=' + y + ',left=' + x + ',toolbar=no,resizable=no');
       var apiLocal = this.api;
