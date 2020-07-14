@@ -36,6 +36,18 @@
         </mat-form-field>
      </mat-grid-tile>
 
+     <mat-grid-tile *ngIf="form.estadoConsigna.value==7">
+       <app-datepicker 
+       style="width: 95%;"
+       [label]="form.fechaSolicitud.label" 
+       [value]="form.fechaSolicitud.value"
+       [name]="form.fechaSolicitud.name" 
+       [messages]="form.fechaSolicitud.messages"
+          [required]="form.fechaSolicitud.required"
+          (valueChange)="setData(form.fechaSolicitud.name, $event)"
+          ></app-datepicker>
+      </mat-grid-tile>
+
       <mat-grid-tile [colspan]="2">
 
         <app-input-text-area style="width: 98%;" class="input" [label]="form.observacion.label"
@@ -53,9 +65,9 @@
       <table-aprobar-consigna [data]="data"></table-aprobar-consigna>
     </div>
 
-    <div style="padding: 10px;">
+   <!-- <div style="padding: 10px;">
       <app-table-elemento-calidad [data]="dataElementoCalidad"></app-table-elemento-calidad>
-    </div>
+    </div>-->
 
     <button mat-raised-button color="primary" (click)="guardar()" style="margin-left: 20px; margin-top: 10px;">
       <span style="color: #FFF">Guardar</span>

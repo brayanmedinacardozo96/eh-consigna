@@ -6,7 +6,7 @@
     <th>Publicado</th>
     <th>Fecha publicación</th>
     <th>Fecha creación</th>
-    <th colspan="2">Acciones</th>
+    <th colspan="3">Acciones</th>
   </tr>
   </thead>
   <tbody *ngIf="data.length === 0">
@@ -48,6 +48,16 @@
 
     <td>{{value?.fecha_publicacion | date:'medium'}}</td>
     <td>{{value?.created_at | date:'medium'}}</td>
+
+    <td>
+      <ng-container *ngIf="value.publicado == 1">
+        <mat-icon color="accent"
+                  matTooltip="Ver clientes"
+                  (click)="openVerClientes(value)"
+                  style="cursor: pointer;">group
+        </mat-icon>
+      </ng-container>
+    </td>
 
     <td>
       <ng-container *ngIf="value.publicado == 0">

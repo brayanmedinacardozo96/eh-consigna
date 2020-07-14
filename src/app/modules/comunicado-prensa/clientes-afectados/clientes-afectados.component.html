@@ -1,0 +1,59 @@
+<div>
+  <h2 style="text-align: center;">Clientes afectados
+    <button (click)="close()"
+            mat-mini-fab color="accent"
+            style="float: right;" matTooltip="Cerrar">
+      <mat-icon style="color: #FFFFFF;">close</mat-icon>
+    </button>
+  </h2>
+
+</div>
+
+<div>
+
+  <mat-form-field style="width: 100%">
+    <mat-label>Buscar en el listado</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Ej: 123456789">
+  </mat-form-field>
+
+  <div mat-dialog-content style="text-align: center !important;">
+    <table mat-table [dataSource]="dataSource" matSort class="custom-table" style="min-width: 90%">
+
+      <!-- Contador Column -->
+      <ng-container matColumnDef="count">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="fixed-row">#</th>
+        <td mat-cell *matCellDef="let row">{{row?.count}}</td>
+      </ng-container>
+
+      <!-- Cuenta Column -->
+      <ng-container matColumnDef="cuenta">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="fixed-row">Cuenta</th>
+        <td mat-cell *matCellDef="let row">{{row?.cuenta}}</td>
+      </ng-container>
+
+      <!-- Nombre Column -->
+      <ng-container matColumnDef="nombre">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="fixed-row">Nombre</th>
+        <td mat-cell *matCellDef="let row">{{row?.nombre}}</td>
+      </ng-container>
+
+      <!-- Correos Column -->
+      <ng-container matColumnDef="emails">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="fixed-row">Correos</th>
+        <td mat-cell *matCellDef="let row" style="text-align: left;">
+          <ul>
+            <li *ngFor="let email of row?.emails">{{email}}</li>
+          </ul>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+      </tr>
+    </table>
+
+  </div>
+
+  <mat-paginator [pageSizeOptions]="[10, 50, 100]"></mat-paginator>
+
+</div>
