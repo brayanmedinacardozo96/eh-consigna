@@ -28,7 +28,7 @@ const routes: Routes = [
   , {path: 'mis-consignas', component: ConsignaUserComponent, canActivate: [AuthGuard]}
   , {path: 'consigna/nueva-consigna', component: ConsignaTabsComponent, canActivate: [AuthGuard]}
   , {path: 'consigna/editar/:id', component: ConsignaTabsComponent, canActivate: [AuthGuard]}
-  , {path: 'trabajo-oportunidad', component: ConsignaTabsComponent, canActivate: [AuthGuard]}
+  , {path: 'trabajo-oportunidad/:code', component: ConsignaTabsComponent, canActivate: [AuthGuard]}
   , {path: 'maniobra', component: ManiobraComponent, canActivate: [AuthGuard]}
   , {path: 'autorizar/:id', component: AutorizarComponent, canActivate: [AuthGuard]}
   , {path: 'autorizar', component: AutorizarComponent, canActivate: [AuthGuard]}

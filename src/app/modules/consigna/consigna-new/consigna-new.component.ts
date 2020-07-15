@@ -580,7 +580,11 @@ export class ConsignaNewComponent implements OnInit {
     this.form.urlMapa.value = [];
     for(let value of this.dataElementos){
       if(value.jsonElementoMapa != '' && value.jsonElementoMapa != undefined && value.jsonElementoMapa != null){
-        this.form.urlMapa.value.push(value.jsonElementoMapa);
+        var dataJson =  JSON.parse(value.jsonElementoMapa.value);
+        if(typeof dataJson == 'string'){
+          dataJson =  JSON.parse(dataJson);
+        }
+        this.form.urlMapa.value.push(dataJson.url);
       }
     }
   }
@@ -899,7 +903,7 @@ export class ConsignaNewComponent implements OnInit {
       if(typeof data == 'string'){
         data = JSON.parse(data);
       }
-      var child = window.open(data.url,"MsgWindow", "width=1200,height=600");
+      var child = window.open(environment.urlEhmap+'&'+data.url+'&user='+this.utf8_to_b64(JSON.stringify(this.user)),"MsgWindow", "width=1200,height=600");
     }else{
       this.snackBar.alert('No se encontró mapa',5000);
     }    
