@@ -145,7 +145,7 @@ export class ConsignaTabsComponent implements OnInit {
         this.consigna.dataElementos.push(elemento);
         this.setElemento(elemento.elemento)
 
-        if(value.trabajo_oportunidad.length > 0){
+        /* if(value.trabajo_oportunidad.length > 0){
           for(let valueTrabajo of value.trabajo_oportunidad){
 
             let dataTrabajo = {
@@ -160,11 +160,11 @@ export class ConsignaTabsComponent implements OnInit {
             }
             this.trabajosOportunidad.push(dataTrabajo);
           }         
-        }
+        } */
 
       }
 
-      this.trabajoOportunidad.setDataTrabajosOportunidad(this.trabajosOportunidad);
+      // this.trabajoOportunidad.setDataTrabajosOportunidad(this.trabajosOportunidad);
 
       this.registroManiobra = [];
       for(let value of dataResponse.registro_maniobra){
@@ -205,7 +205,7 @@ export class ConsignaTabsComponent implements OnInit {
           }
       }
     }
-    formData.append('trabajoOportunidad', JSON.stringify(this.trabajoOportunidad.getTrabajosOportunidad()));
+    //formData.append('trabajoOportunidad', JSON.stringify(this.trabajoOportunidad.getTrabajosOportunidad()));
 
     const response = await this.api.post(`${environment.apiBackend}/consigna/save-consigna`, formData);
     let success = response.success;

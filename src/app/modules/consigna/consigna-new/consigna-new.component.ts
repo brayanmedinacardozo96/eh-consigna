@@ -580,7 +580,11 @@ export class ConsignaNewComponent implements OnInit {
     this.form.urlMapa.value = [];
     for(let value of this.dataElementos){
       if(value.jsonElementoMapa != '' && value.jsonElementoMapa != undefined && value.jsonElementoMapa != null){
-        this.form.urlMapa.value.push(value.jsonElementoMapa);
+        var dataJson =  JSON.parse(value.jsonElementoMapa.value);
+        if(typeof dataJson == 'string'){
+          dataJson =  JSON.parse(dataJson);
+        }
+        this.form.urlMapa.value.push(dataJson.url);
       }
     }
   }
@@ -856,10 +860,11 @@ export class ConsignaNewComponent implements OnInit {
     // calculamos la posicion x, y para centrar la ventana
     const y = Number((window.innerHeight / 2) - (height / 2));
     const x = Number((window.innerWidth / 2) - (width / 2));
+    var snackBar = this.snackBar;
     
     if(this.formElementos.elemento.value!=null){
       var feeders=this.getFeederElemento(this.formElementos.elemento.value);
-      var data = "data="+this.utf8_to_b64('{"feeders":[{"code":"'+feeders+'"}],"tipo":"feeders"}')+'&user='+this.utf8_to_b64(this.login);
+      var data = "data="+this.utf8_to_b64('{"feeders":[{"code":"'+feeders+'"}],"tipo":"feeders"}')+'&user='+this.utf8_to_b64(JSON.stringify(this.user));
       child = window.open(environment.urlEhmap+ '&' + data + '&key=' + key, "MsgWindow", 'width=' + width + ',height=' + height + ',top=' + y + ',left=' + x + ',toolbar=no,resizable=no');
       // child = window.open('http://192.9.200.44/hijo.html?key='+key+'&data={"feeders":[{"code":"'+feeders+'"}]}', 'Mapa', 'width=' + width + ',height=' + height + ',top=' + y + ',left=' + x + ',toolbar=no,resizable=no');
       var apiLocal = this.api;
@@ -872,6 +877,8 @@ export class ConsignaNewComponent implements OnInit {
             jsonLocal = JSON.stringify(response.data);
             document.getElementById("jsonDataMapa").textContent = jsonLocal;
             botonVerMapaSelec.style.visibility = "visible";
+          }else{
+            snackBar.alert('No se encontró registro de mapa para guardar!',5000);
           }
           clearInterval(timer);
         }
@@ -896,7 +903,7 @@ export class ConsignaNewComponent implements OnInit {
       if(typeof data == 'string'){
         data = JSON.parse(data);
       }
-      var child = window.open(data.url,"MsgWindow", "width=1200,height=600");
+      var child = window.open(environment.urlEhmap+'&'+data.url+'&user='+this.utf8_to_b64(JSON.stringify(this.user)),"MsgWindow", "width=1200,height=600");
     }else{
       this.snackBar.alert('No se encontró mapa',5000);
     }    
