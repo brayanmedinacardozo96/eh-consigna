@@ -28,6 +28,11 @@
         <td style="text-align:left" mat-cell *matCellDef="let row">{{row?.descripcion}}</td>
       </ng-container>
 
+      <ng-container matColumnDef="valor">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Valor</th>
+        <td style="text-align:left" mat-cell *matCellDef="let row">{{row?.valor}}</td>
+      </ng-container>
+
       <!-- Acciones -->
       <ng-container matColumnDef="acciones">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Acciones</th>
