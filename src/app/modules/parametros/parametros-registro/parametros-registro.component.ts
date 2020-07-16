@@ -63,6 +63,13 @@ export class ParametrosRegistroComponent implements OnInit {
       messages: null,
       required: true,
       length: 10
+    },
+    valor: {
+      label: 'Valor',
+      name: 'valor',
+      value: null,
+      messages: null,
+      required: true,
     }
 
   }
@@ -77,7 +84,8 @@ export class ParametrosRegistroComponent implements OnInit {
       tipo:"",
       nombre: "",
       codigo: "",
-      descripcion: ""
+      descripcion: "",
+      valor:"",
     }]
   }
 
@@ -106,6 +114,7 @@ export class ParametrosRegistroComponent implements OnInit {
       this.form.id = event[1].id;
       this.form.tipo.id= parseInt( event[1].tp_id );
       this.form.codigo.value=event[1].codigo;
+      this.form.valor.value=event[1].valor;
       this.boton.color = "btn-success";
       this.boton.value = "Actualizar";
       new Scroll("0");
@@ -150,6 +159,8 @@ export class ParametrosRegistroComponent implements OnInit {
     this.form.tipo.messages="";
     this.form.codigo.value="";
     this.form.codigo.messages="";
+    this.form.valor.value="";
+    this.form.valor.messages="";
     new Scroll("0");
 
   }
@@ -163,7 +174,8 @@ export class ParametrosRegistroComponent implements OnInit {
         nombre: this.form.nombre.value,
         descripcion: this.form.descripcion.value,
         tipo_parametro_id: this.form.tipo.id,
-        codigo: this.form.codigo.value
+        codigo: this.form.codigo.value,
+        valor:this.form.valor.value
       }
 
       var response;
