@@ -1,0 +1,76 @@
+<div style="min-height: 520px;">
+  <mat-card class="container">
+    <mat-card-content>
+
+      <h1>Registrar ejecución consigna</h1>
+
+      <fieldset>
+        <legend style="text-align: left;">Buscar consignación por número</legend>
+
+        <ng-container>
+
+          <app-input-text
+            class="input"
+            (keyup.enter)="searchConsigna()"
+            [name]="form.numeroConsigna.name"
+            [value]="form.numeroConsigna.value"
+            [label]="form.numeroConsigna.label"
+            [messages]="form.numeroConsigna.messages"
+            (valueChange)="setData(form.numeroConsigna.name, $event)"
+            [style]="'width: 300px'"
+          ></app-input-text>
+
+          <button (click)="searchConsigna()" mat-raised-button color="primary" style="margin-left: 20px;"
+                  matTooltip="Buscar consigna a partir del código">
+            <mat-icon style="color: #FFFFFF">search</mat-icon>
+          </button>
+
+        </ng-container>
+
+        <table class="custom-table">
+          <tbody>
+          <tr>
+            <th style="width: 15%;">Consigna No.</th>
+            <td style="width: 15%;">{{dataConsigna?.codigo}}</td>
+            <th style="width: 15%;">Zona</th>
+            <td style="width: 15%;">{{dataConsigna?.zona?.nombre}}</td>
+            <th style="width: 15%;">Tipo Solicitud</th>
+            <td style="width: 15%;">{{dataConsigna?.tipo_solicitud?.nombre}}</td>
+          </tr>
+          <tr>
+            <th>Fecha solicitud</th>
+            <td>{{dataConsigna?.fecha_solicitud | date}}
+            <th>Tipo Consignación</th>
+            <td>{{dataConsigna?.tipo_consignacion?.nombre}}</td>
+            <th>Estado consignación</th>
+            <td>{{dataConsigna?.estado_consignacion?.nombre}}</td>
+          </tr>
+          <tr>
+            <th>Trabajo a efectuar</th>
+            <td colspan="5">{{dataConsigna?.trabajo_efectuar}}</td>
+          </tr>
+          <tr>
+            <th>Justificación</th>
+            <td colspan="5">{{dataConsigna?.justificacion}}</td>
+          </tr>
+          </tbody>
+        </table>
+
+      </fieldset>
+
+
+
+      <div style="text-align: center;">
+        <button (click)="guardar()" mat-raised-button color="accent" class="button"
+                style="color: #FFFFFF; margin: 5px;">
+          GUARDAR
+        </button>
+        <button (click)="cancel()" mat-raised-button color="accent" class="button" style="color: #FFFFFF; margin: 5px;">
+          CANCELAR
+        </button>
+      </div>
+
+
+    </mat-card-content>
+  </mat-card>
+</div>

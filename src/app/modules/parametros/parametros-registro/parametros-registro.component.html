@@ -52,6 +52,15 @@
 
       </mat-grid-tile>
 
+      <mat-grid-tile [colspan]="2">
+
+        <app-input-text style="width: 98%;" [required]="form.valor.required" [label]="form.valor.label" [value]="form.valor.value"
+          [name]="form.valor.name" [messages]="form.valor.messages" 
+          (valueChange)="setData(form.valor.name, $event)">
+        </app-input-text>
+
+      </mat-grid-tile>
+
 
     </mat-grid-list>
 
