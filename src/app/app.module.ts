@@ -14,8 +14,6 @@ import {DateValidationervice} from './shared/services/date-validations.service';
 import {HttpClientModule} from '@angular/common/http';
 import {DashboardModule} from './modules/dashboard/dashboard.module';
 import {HashLocationStrategy, LocationStrategy} from '@angular/common';
-import {GenerateInvoicesModule} from './modules/generate-invoices/generate-invoices.module';
-import {HistoryInvoicesModule} from './modules/history-invoices/history-invoices.module';
 import {ConsignaModule} from './modules/consigna/consigna.module';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {TrabajoOportunidadModule} from './modules/trabajo-oportunidad/trabajo-oportunidad.module';
@@ -24,6 +22,7 @@ import {AutorizarModule} from './modules/autorizar/autorizar.module';
 import {ParametrosModule} from './modules/parametros/parametros.module';
 import {ComunicadoPrensaModule} from "./modules/comunicado-prensa/comunicado-prensa.module";
 import {NotifierModule} from "angular-notifier";
+import {BitacoraModule} from "./modules/bitacora/bitacora.module";
 
 @NgModule({
   declarations: [
@@ -38,8 +37,6 @@ import {NotifierModule} from "angular-notifier";
     HttpClientModule,
     UiModule,
     DashboardModule,
-    GenerateInvoicesModule,
-    HistoryInvoicesModule,
     ConsignaModule,
     MatSnackBarModule,
     TrabajoOportunidadModule,
@@ -47,6 +44,7 @@ import {NotifierModule} from "angular-notifier";
     AutorizarModule,
     ParametrosModule,
     ComunicadoPrensaModule,
+    BitacoraModule,
     NotifierModule.withConfig({
       position: {
         horizontal: {
