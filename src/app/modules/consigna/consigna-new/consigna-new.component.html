@@ -6,6 +6,18 @@
             
             <mat-grid-tile>
                 <mat-form-field>
+                    <mat-label>{{ form.tipoFormatoConsigna.required ? form.tipoFormatoConsigna.label+' *' : form.tipoFormatoConsigna.label}}</mat-label>
+                    <mat-select [(ngModel)]="form.tipoFormatoConsigna.value" (ngModelChange)="validateTipoFormato($event)" style="padding-top: 5px;padding-bottom: 5px;">
+                        <mat-option *ngFor="let value of dataControls?.tipoFormatoConsigna;" [value]="value.codigo">
+                            {{value.nombre}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-hint style="color: red" *ngIf="form.tipoFormatoConsigna.messages">{{form.tipoFormatoConsigna.messages}}</mat-hint>
+                </mat-form-field>
+            </mat-grid-tile>
+
+            <mat-grid-tile>
+                <mat-form-field>
                     <mat-label>{{ form.divisionArea.required ? form.divisionArea.label+' *' : form.divisionArea.label}}</mat-label>
                     <mat-select [(ngModel)]="form.divisionArea.value" style="padding-top: 5px;padding-bottom: 5px;">
                         <mat-option *ngFor="let value of dataControls?.divisionArea;" [value]="value.id">
@@ -116,8 +128,9 @@
             <mat-grid-tile>
                 <mat-form-field>
                     <mat-label>{{form.subestacion.required ? form.subestacion.label+' *' : form.subestacion.label}}</mat-label>
-                    <mat-select [disabled]="dataControls?.subestacion.length > 0 ? false: true" [(ngModel)]="form.subestacion.value" (ngModelChange)="getTipoElementos($event)"
-                    style="padding-top: 5px;padding-bottom: 5px;">
+                    <mat-select [disabled]="dataControls?.subestacion.length > 0 ? false: true" 
+                        [(ngModel)]="form.subestacion.value" (ngModelChange)="getTipoElementos($event)"
+                        style="padding-top: 5px;padding-bottom: 5px;">
                         <mat-option *ngFor="let value of dataControls?.subestacion;" [value]="value.id">
                             {{ value.codigo }}
                         </mat-option>
@@ -159,8 +172,21 @@
             <mat-grid-list class="row" cols="4" rowHeight="80px">
                 <mat-grid-tile>
                     <mat-form-field>
+                        <mat-label>{{formElementos.redElectrica.required ? formElementos.redElectrica.label+' *' :formElementos.redElectrica.label}}</mat-label>
+                        <mat-select id="form_consigna-red_electrica" [(ngModel)]="formElementos.redElectrica.value"
+                        (ngModelChange)="getTipoElementos($event)" style="padding-top: 5px;padding-bottom: 5px;">
+                            <mat-option *ngFor="let value of dataControls?.redElectrica;" [value]="value.value">
+                                {{ value.nombre }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-hint style="color: red" *ngIf="formElementos.redElectrica.messages">{{formElementos.redElectrica.messages}}</mat-hint>
+                    </mat-form-field>
+                </mat-grid-tile>
+
+                <mat-grid-tile>
+                    <mat-form-field>
                         <mat-label>{{formElementos.tipoElemento.required ? formElementos.tipoElemento.label+' *' :formElementos.tipoElemento.label}}</mat-label>
-                        <mat-select id="form_consigna-tipo_elemento" [(ngModel)]="formElementos.tipoElemento.value"
+                        <mat-select id="form_consigna-tipo_elemento" [disabled]="dataControls?.tipoElemento.length > 0 ? false: true" [(ngModel)]="formElementos.tipoElemento.value"
                         (ngModelChange)="getElementos($event)" style="padding-top: 5px;padding-bottom: 5px;">
                             <mat-option *ngFor="let value of dataControls?.tipoElemento;" [value]="value.id">
                                 {{ value.nombre }}

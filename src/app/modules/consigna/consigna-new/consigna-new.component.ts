@@ -11,11 +11,11 @@ import {MatDialog} from '@angular/material/dialog';
 import {Router,ActivatedRoute} from '@angular/router';
 import { SessionService } from './../../../shared/services/session.service';
 import { TrabajoOportunidadComponent } from './../../trabajo-oportunidad/trabajo-oportunidad.component';
-import {IframeMapComponent} from '../iframe-map/iframe-map.component';
 import { InputFileDynamicComponent } from './../../../ui/forms/input-file-dynamic/input-file-dynamic.component';
 import { InputFileMultipleComponent } from './../../../ui/forms/input-file-multiple/input-file-multiple.component';
 import { ModalConfirmComponent } from './../../../ui/forms/modal-confirm/modal-confirm.component';
 import { Mensaje } from './../../../ui/forms/m-dialog/dialog';
+import { ConsignaNewSearchComponent } from './consigna-new-search/consigna-new-search.component';
 import * as moment from 'moment';
 
 @Component({
@@ -36,6 +36,7 @@ export class ConsignaNewComponent implements OnInit {
   argNumConsigna = ['','','',''];
   dataElementos = [];
   dataControls = {
+    tipoFormatoConsigna:[],
     divisionArea:[],
     tipoZona:[],
     tipoSolicitud:[],
@@ -50,10 +51,21 @@ export class ConsignaNewComponent implements OnInit {
     ramal:[
       {nombre:'Si',value:'1'},
       {nombre:'No',value:'0'}
+    ],
+    redElectrica:[
+      {nombre:'Si',value:'1'},
+      {nombre:'No',value:'0'}
     ]
   };
 
   form = {
+    tipoFormatoConsigna:{
+      label: 'Tipo de Formato',
+      name: 'tipoFormatoConsigna',
+      value: null,
+      messages: null,
+      required: true,
+    },
     divisionArea:{
       label: 'División Area',
       name: 'divisionArea',
@@ -253,6 +265,13 @@ export class ConsignaNewComponent implements OnInit {
   };
 
   formElementos = {
+    redElectrica: {
+      label: '¿Es red eléctrica?',
+      name: 'redElectrica',
+      value: null,
+      messages: null,
+      required: true,
+    },
     tipoElemento: {
       label: 'Tipo elemento',
       name: 'tipoElemento',
@@ -522,6 +541,7 @@ export class ConsignaNewComponent implements OnInit {
   }
 
   async addListElements(){
+    var textRedElectrica = ((document.getElementById("form_consigna-red_electrica")) as HTMLSelectElement).textContent;
     var textTipoElemento = ((document.getElementById("form_consigna-tipo_elemento")) as HTMLSelectElement).textContent;
     var textElemento = ((document.getElementById("form_consigna-elemento")) as HTMLSelectElement).textContent;
     var textRamal = ((document.getElementById("form_consigna-ramal")) as HTMLSelectElement).textContent;
@@ -542,6 +562,7 @@ export class ConsignaNewComponent implements OnInit {
     }
     const elemento = {
       id:             {value: null},
+      redElectrica:   {name: textRedElectrica,  value: this.formElementos.redElectrica.value},
       tipoElemento:   {name: textTipoElemento,  value: this.formElementos.tipoElemento.value},
       elemento:       {name: textElemento,      value: this.formElementos.elemento.value},
       ramal:          {name: textRamal,         value: this.formElementos.ramal.value},
@@ -753,10 +774,11 @@ export class ConsignaNewComponent implements OnInit {
     this.dataControls.estadoEquipo = this.session.getItem('estadoEquipo');
     this.dataControls.tipoMantenimiento = this.session.getItem('tipoMantenimiento');
     // this.dataControls.subestacion = this.session.getItem('subestacion');
-    this.dataControls.tipoElemento = this.session.getItem('tempTipoElemento');
+    // this.dataControls.tipoElemento = this.session.getItem('tempTipoElemento');
     // this.dataControls.elemento = this.session.getItem('elemento');
     this.form.medidasSeguiridad.value=this.session.getItem('medidaSeguridad')[0]['descripcion'];
-
+    this.dataControls.tipoFormatoConsigna = this.session.getItem('tipoFormatoConsigna');
+    this.setDefaultTipoConsigna();
     //cuando es nueva agregar solo la solicitada
     this.dataControls.estadoConsigna = this.session.getItem('estadoConsigna').filter(b => {
       return (b.codigo == 'S')
@@ -774,6 +796,8 @@ export class ConsignaNewComponent implements OnInit {
   }
 
   async getSubestaciones(event){
+    this.dataControls.tipoElemento = [];
+    this.dataControls.elemento = [];
     let request = {
       zona_id: event
     };
@@ -797,28 +821,44 @@ export class ConsignaNewComponent implements OnInit {
   }
   async getTipoElementos(event){
     this.dataControls.tipoElemento = [];
-    this.dataControls.tipoElemento = this.session.getItem('tempTipoElemento');
-    let request = {
-      subestacion_id: event
-    };
+    this.dataControls.elemento = [];
 
-    let dataSession = this.session.getDataInfo('tipoElemento','subestacion_id',event);
-    if(dataSession.success && dataSession.data.length >0){
-      for(let value of dataSession.data){
-        this.dataControls.tipoElemento.push(value);
-      }
+    if(this.form.subestacion.value != null && this.form.subestacion.value != undefined){
+      if(this.formElementos.redElectrica.value != null && this.formElementos.redElectrica.value != undefined){
+        if(this.formElementos.redElectrica.value == '1'){
+          let request = {
+            subestacion_id: event
+          };
+  
+          let dataSession = this.session.getDataInfo('tipoElemento','subestacion_id',this.form.subestacion.value);
+          if(dataSession.success && dataSession.data.length >0){
+            for(let value of dataSession.data){
+              this.dataControls.tipoElemento.push(value);
+            }
+          }else{
+            const response = await this.api.post(`${environment.apiBackend}/tipo-elemento/get-tipo-elemento`, request);
+            let success = response.success;
+            let message = response.message;
+            if(success){
+              if(response.data.length > 0){
+                for(let value of response.data){
+                  this.dataControls.tipoElemento.push(value);        
+                }
+              }else{
+                this.snackBar.alert('No se encontró información con la subestación seleccionada!',5000);
+              }
+            }else{
+              this.snackBar.alert('Ocurrió un error, por favor vuelva a intentarlo o contáctese con el administrador.',10000)
+            } 
+          }
+        }else{
+          this.dataControls.tipoElemento = this.session.getItem('tempTipoElemento');
+        }        
+      }      
     }else{
-      const response = await this.api.post(`${environment.apiBackend}/tipo-elemento/get-tipo-elemento`, request);
-      let success = response.success;
-      let message = response.message;
-      if(success){
-        for(let value of response.data){
-          this.dataControls.tipoElemento.push(value);        
-        }
-      }else{
-        this.snackBar.alert('Ocurrió un error, por favor vuelva a intentarlo o contáctese con el administrador.',10000)
-      } 
+      this.snackBar.alert('seleccione una subestación!',5000);
     }
+    
 
   }
 
@@ -1068,8 +1108,29 @@ export class ConsignaNewComponent implements OnInit {
     this.interrupcionesTrabajo.clientesNoRegulados.value=cliente;
   }
 
-   utf8_to_b64( str ) {
+  utf8_to_b64( str ) {
     return window.btoa(unescape(encodeURIComponent( str )));
+  }
+
+  setDefaultTipoConsigna(){
+    this.form.tipoFormatoConsigna.value = 'C';
+  }
+
+  validateTipoFormato(data){
+    if(this.form.tipoFormatoConsigna.value != 'C'){
+      const dialogRef = this.dialog.open(ConsignaNewSearchComponent, {
+        width:'100%',
+        data: null
+      });
+      dialogRef.afterClosed().subscribe(result => {
+        console.log(result);//returns undefined
+  
+        if(result == undefined){
+          this.snackBar.alert('por favor agregue un consecutivo!', 5000);
+          this.form.tipoFormatoConsigna.value = 'C';
+        }
+      });
+    }
   }
 
   

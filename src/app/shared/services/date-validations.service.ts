@@ -16,4 +16,10 @@ export class DateValidationervice {
 
     return [year, month, day].join('-');
   }
+
+  validateDateRequest(){
+    var date = new Date('2020-17-07');
+
+    
+  }
 }
