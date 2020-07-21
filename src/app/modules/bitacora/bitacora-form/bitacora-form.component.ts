@@ -22,6 +22,7 @@ export class BitacoraFormComponent implements OnInit {
       required: true,
     },
   };
+  ex = null;
 
   constructor(private api: ApiService,
               private notifier: NotifierService) {

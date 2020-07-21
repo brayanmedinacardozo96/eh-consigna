@@ -59,6 +59,107 @@
       </fieldset>
 
 
+      <fieldset>
+        <legend style="text-align: left;">Elementos</legend>
+
+        <table class="custom-table">
+          <thead>
+          <tr>
+            <th>Tipo elemento</th>
+            <th>Elemento</th>
+            <th>Hora inicio programada</th>
+            <th>Hora inicio</th>
+            <th>Hora entrega</th>
+            <th>Hora devolución</th>
+            <th>Hora maniobra</th>
+            <th>Hora fin</th>
+            <th>Hora fin programada</th>
+            <th>Comentario</th>
+          </tr>
+          </thead>
+          <tbody *ngIf="!dataConsigna?.lista_elemento">
+          <tr>
+            <td colspan="10">No hay registros...</td>
+          </tr>
+          </tbody>
+          <tbody *ngIf="dataConsigna?.lista_elemento?.length > 0">
+          <tr *ngFor="let value of dataConsigna?.lista_elemento">
+            <td>{{value?.elemento?.tipo_elemento?.nombre}}</td>
+            <td>{{value?.elemento?.nombre}}</td>
+            <td>{{value?.hora_inicio_prog}}</td>
+            <td>
+              <app-date-time-picker
+                [style]="'width: 100px;'"
+                [label]="'label'"
+                [value]="ex"
+                [name]="'name'"
+                [messages]="'messagges'"
+                [required]="true"
+                (valueChange)="setData('name', $event);">
+              </app-date-time-picker>
+            </td>
+            <td>
+              <app-date-time-picker
+                [style]="'width: 100px;'"
+                [label]="'label'"
+                [value]="ex"
+                [name]="'name'"
+                [messages]="'messagges'"
+                [required]="true"
+                (valueChange)="setData('name', $event);">
+              </app-date-time-picker>
+            </td>
+            <td>
+              <app-date-time-picker
+                [style]="'width: 100px;'"
+                [label]="'label'"
+                [value]="ex"
+                [name]="'name'"
+                [messages]="'messagges'"
+                [required]="true"
+                (valueChange)="setData('name', $event);">
+              </app-date-time-picker>
+            </td>
+            <td>
+              <app-date-time-picker
+                [style]="'width: 100px;'"
+                [label]="'label'"
+                [value]="ex"
+                [name]="'name'"
+                [messages]="'messagges'"
+                [required]="true"
+                (valueChange)="setData('name', $event);">
+              </app-date-time-picker>
+            </td>
+            <td>
+              <app-date-time-picker
+                [style]="'width: 100px;'"
+                [label]="'label'"
+                [value]="ex"
+                [name]="'name'"
+                [messages]="'messagges'"
+                [required]="true"
+                (valueChange)="setData('name', $event);">
+              </app-date-time-picker>
+            </td>
+            <td>{{value?.hora_final_prog}}</td>
+            <td>
+              <app-input-text-area
+                class="input"
+                [required]="true"
+                [label]="'label'"
+                [value]="ex"
+                [name]="'name'"
+                [messages]="'messages'"
+                (valueChange)="setData('name', $event)">
+              </app-input-text-area>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+
+      </fieldset>
+
 
       <div style="text-align: center;">
         <button (click)="guardar()" mat-raised-button color="accent" class="button"
