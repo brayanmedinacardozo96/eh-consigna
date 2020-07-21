@@ -69,7 +69,7 @@ export class ParametrosRegistroComponent implements OnInit {
       name: 'valor',
       value: null,
       messages: null,
-      required: true,
+      required: false,
     }
 
   }
