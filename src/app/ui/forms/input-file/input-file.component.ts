@@ -15,6 +15,7 @@ export class InputFileComponent implements OnInit {
   @Input() fileUrl = '';
   @Input() typeExtension;
   @Input() maxSize;
+  @Input() style;
   @Input() placeholder;
   @Input() messages = '';
   @Output() valueChange = new EventEmitter();
@@ -29,7 +30,7 @@ export class InputFileComponent implements OnInit {
     var files = event.target.files
     this.fileName = files [0].name
     const validationFile = this.fileValidation.validateDocument(event,this.maxSize,this.typeExtension)
-    
+
     if(!validationFile.success){
       this.fileName = this.fileUrl != '' ? urlTemp : '';
       this.messages = validationFile.message

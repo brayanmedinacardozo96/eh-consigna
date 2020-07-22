@@ -7,6 +7,10 @@ import {CustomFormsModule} from "../../ui/forms/custom-forms.module";
 import {MatIconModule} from "@angular/material/icon";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatButtonModule} from "@angular/material/button";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatSelectModule} from "@angular/material/select";
+import {FormsModule} from "@angular/forms";
+import {MatCheckboxModule} from "@angular/material/checkbox";
 
 @NgModule({
   declarations: [BitacoraComponent, BitacoraFormComponent],
@@ -16,7 +20,11 @@ import {MatButtonModule} from "@angular/material/button";
     CustomFormsModule,
     MatIconModule,
     MatTooltipModule,
-    MatButtonModule
+    MatButtonModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    FormsModule,
+    MatCheckboxModule
   ]
 })
 export class BitacoraModule { }
