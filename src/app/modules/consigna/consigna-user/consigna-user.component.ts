@@ -5,6 +5,8 @@ import { User } from './../../../shared/models/user';
 import { Auth } from './../../../shared/auth';
 import { SnackBarService } from './../../../shared/services/snack-bar.service';
 import {Aprobar} from '../../autorizar/aprobar';
+import { DateValidationervice } from './../../../shared/services/date-validations.service';
+
 @Component({
   selector: 'app-consigna-user',
   templateUrl: './consigna-user.component.html',
@@ -40,7 +42,8 @@ export class ConsignaUserComponent implements OnInit {
 
   constructor(private api: ApiService,
               private snackBar: SnackBarService,
-              private aprobar:Aprobar) {
+              private aprobar:Aprobar,
+              private dateValidation: DateValidationervice) {
     this.viewList = false;
    }
 
@@ -84,7 +87,7 @@ export class ConsignaUserComponent implements OnInit {
     //  const response = await this.api.get(`${environment.apiBackend}/tipo-elemento/update-spard`);
     // const response = await this.api.get(`${environment.apiBackend}/elemento/update-spard`);
     // const response = await this.api.get(`${environment.apiBackend}/parametro/update-division-area-siec`);
-    
+    this.dateValidation.validateDateRequest();
   }
 
   async consignaAprobar()

@@ -38,6 +38,7 @@ import {DirectivesModule} from "../../shared/directives/directives.module";
 import { ConsignaListDocumentsComponent } from './consigna-list-documents/consigna-list-documents.component';
 import { SeguimientoConsignaComponent } from './seguimiento-consigna/seguimiento-consigna.component';
 import { TableSeguimientoConsignaComponent } from './seguimiento-consigna/table-seguimiento-consigna/table-seguimiento-consigna.component';
+import { ConsignaNewSearchComponent } from './consigna-new/consigna-new-search/consigna-new-search.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { TableSeguimientoConsignaComponent } from './seguimiento-consigna/table-
     ConsignaListDocumentsComponent,
     SeguimientoConsignaComponent,
     TableSeguimientoConsignaComponent,
+    ConsignaNewSearchComponent,
   ],
     imports: [
         CommonModule,

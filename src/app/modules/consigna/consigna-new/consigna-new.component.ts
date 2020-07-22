@@ -11,11 +11,11 @@ import {MatDialog} from '@angular/material/dialog';
 import {Router,ActivatedRoute} from '@angular/router';
 import { SessionService } from './../../../shared/services/session.service';
 import { TrabajoOportunidadComponent } from './../../trabajo-oportunidad/trabajo-oportunidad.component';
-import {IframeMapComponent} from '../iframe-map/iframe-map.component';
 import { InputFileDynamicComponent } from './../../../ui/forms/input-file-dynamic/input-file-dynamic.component';
 import { InputFileMultipleComponent } from './../../../ui/forms/input-file-multiple/input-file-multiple.component';
 import { ModalConfirmComponent } from './../../../ui/forms/modal-confirm/modal-confirm.component';
 import { Mensaje } from './../../../ui/forms/m-dialog/dialog';
+import { ConsignaNewSearchComponent } from './consigna-new-search/consigna-new-search.component';
 import * as moment from 'moment';
 
 @Component({
@@ -32,10 +32,14 @@ export class ConsignaNewComponent implements OnInit {
   
   action = 'Guardar';
   consignacionId = null;
+  consignaPadreId = null;
+  tempTipoFormatoConsigna = 'C';
+  tipoFormato = 'Consignación';
   data = [];
   argNumConsigna = ['','','',''];
   dataElementos = [];
   dataControls = {
+    tipoFormatoConsigna:[],
     divisionArea:[],
     tipoZona:[],
     tipoSolicitud:[],
@@ -50,16 +54,28 @@ export class ConsignaNewComponent implements OnInit {
     ramal:[
       {nombre:'Si',value:'1'},
       {nombre:'No',value:'0'}
+    ],
+    redElectrica:[
+      {nombre:'Si',value:'1'},
+      {nombre:'No',value:'0'}
     ]
   };
 
   form = {
+    tipoFormatoConsigna:{
+      label: 'Tipo de Formato',
+      name: 'tipoFormatoConsigna',
+      value: null,
+      messages: null,
+      required: true,
+    },
     divisionArea:{
       label: 'División Area',
       name: 'divisionArea',
       value: null,
       messages: null,
       required: true,
+      disabled: false
     },
     numeroConsigna:{
       label: 'Consignación No.',
@@ -74,7 +90,7 @@ export class ConsignaNewComponent implements OnInit {
       value: null,
       messages: null,
       required: false,
-      disable: false,
+      disabled: false
     },
     tipoZona: {
       label: 'Tipo zona',
@@ -82,6 +98,7 @@ export class ConsignaNewComponent implements OnInit {
       value: null,
       messages: null,
       required: true,
+      disabled: false
     },
     tipoSolicitud: {
       label: 'Tipo de solicitud',
@@ -89,6 +106,7 @@ export class ConsignaNewComponent implements OnInit {
       value: null,
       messages: null,
       required: true,
+      disabled: false
     },
     tipoConsignacion: {
       label: 'Tipo de consignación',
@@ -96,6 +114,7 @@ export class ConsignaNewComponent implements OnInit {
       value: null,
       messages: null,
       required: true,
+      disabled: false
     },
     fechaSolicitud: {
       label: 'Fecha de solicitud',
@@ -103,6 +122,7 @@ export class ConsignaNewComponent implements OnInit {
       value: null,
       messages: null,
       required: true,
+      disabled: false
     },
     estadoConsigna: {
       label: 'Estado consignación',
@@ -110,6 +130,7 @@ export class ConsignaNewComponent implements OnInit {
       value: null,
       messages: null,
       required: true,
+      disabled: false
     },
     estadoEquipo: {
       label: 'Estado del equipo',
@@ -117,6 +138,7 @@ export class ConsignaNewComponent implements OnInit {
       value: null,
       messages: null,
       required: true,
+      disabled: false
     },
     solicitante: {
       label: 'Solicitante',
@@ -131,6 +153,7 @@ export class ConsignaNewComponent implements OnInit {
       value: null,
       messages: null,
       required: true,
+      disabled: false
     },
     tipoMantenimiento: {
       label: 'Tipo mantenimiento',
@@ -138,6 +161,7 @@ export class ConsignaNewComponent implements OnInit {
       value: null,
       messages: null,
       required: true,
+      disabled: false
     },
     trabajoEfectuar: {
       label: 'Trabajos a efectuar',
@@ -253,6 +277,13 @@ export class ConsignaNewComponent implements OnInit {
   };
 
   formElementos = {
+    redElectrica: {
+      label: '¿Es red eléctrica?',
+      name: 'redElectrica',
+      value: null,
+      messages: null,
+      required: true,
+    },
     tipoElemento: {
       label: 'Tipo elemento',
       name: 'tipoElemento',
@@ -522,6 +553,7 @@ export class ConsignaNewComponent implements OnInit {
   }
 
   async addListElements(){
+    var textRedElectrica = ((document.getElementById("form_consigna-red_electrica")) as HTMLSelectElement).textContent;
     var textTipoElemento = ((document.getElementById("form_consigna-tipo_elemento")) as HTMLSelectElement).textContent;
     var textElemento = ((document.getElementById("form_consigna-elemento")) as HTMLSelectElement).textContent;
     var textRamal = ((document.getElementById("form_consigna-ramal")) as HTMLSelectElement).textContent;
@@ -542,6 +574,7 @@ export class ConsignaNewComponent implements OnInit {
     }
     const elemento = {
       id:             {value: null},
+      redElectrica:   {name: textRedElectrica,  value: this.formElementos.redElectrica.value},
       tipoElemento:   {name: textTipoElemento,  value: this.formElementos.tipoElemento.value},
       elemento:       {name: textElemento,      value: this.formElementos.elemento.value},
       ramal:          {name: textRamal,         value: this.formElementos.ramal.value},
@@ -640,6 +673,7 @@ export class ConsignaNewComponent implements OnInit {
       }
 
       response.formData.append('consignacionId', this.consignacionId);
+      response.formData.append('consignaPadreId', this.consignaPadreId);
       response.formData.append('fileUrl', this.fileUrl);
       response.formData.append('form',JSON.stringify(this.form));
       response.formData.append('dataElementos',JSON.stringify(this.dataElementos));
@@ -710,11 +744,11 @@ export class ConsignaNewComponent implements OnInit {
     switch(position){
       case 0:
           if(value == 'A'){
-            this.form.consecutivoSnc.disable = false;
+            this.form.consecutivoSnc.disabled = false;
             this.form.consecutivoSnc.required = true;
           }else{
             value = '';
-            this.form.consecutivoSnc.disable = true;
+            this.form.consecutivoSnc.disabled = true;
             this.form.consecutivoSnc.required = false;
             this.form.consecutivoSnc.messages = '';
             this.form.consecutivoSnc.value = '';
@@ -741,7 +775,7 @@ export class ConsignaNewComponent implements OnInit {
         this.setSelect();
       }
     }else{
-      this.setSelect();1
+      this.setSelect();
     }
   }
 
@@ -753,10 +787,11 @@ export class ConsignaNewComponent implements OnInit {
     this.dataControls.estadoEquipo = this.session.getItem('estadoEquipo');
     this.dataControls.tipoMantenimiento = this.session.getItem('tipoMantenimiento');
     // this.dataControls.subestacion = this.session.getItem('subestacion');
-    this.dataControls.tipoElemento = this.session.getItem('tempTipoElemento');
+    // this.dataControls.tipoElemento = this.session.getItem('tempTipoElemento');
     // this.dataControls.elemento = this.session.getItem('elemento');
     this.form.medidasSeguiridad.value=this.session.getItem('medidaSeguridad')[0]['descripcion'];
-
+    this.dataControls.tipoFormatoConsigna = this.session.getItem('tipoFormatoConsigna');
+    this.setDefaultTipoConsigna();
     //cuando es nueva agregar solo la solicitada
     this.dataControls.estadoConsigna = this.session.getItem('estadoConsigna').filter(b => {
       return (b.codigo == 'S')
@@ -774,6 +809,8 @@ export class ConsignaNewComponent implements OnInit {
   }
 
   async getSubestaciones(event){
+    this.dataControls.tipoElemento = [];
+    this.dataControls.elemento = [];
     let request = {
       zona_id: event
     };
@@ -797,28 +834,57 @@ export class ConsignaNewComponent implements OnInit {
   }
   async getTipoElementos(event){
     this.dataControls.tipoElemento = [];
-    this.dataControls.tipoElemento = this.session.getItem('tempTipoElemento');
-    let request = {
-      subestacion_id: event
-    };
+    this.dataControls.elemento = [];
 
-    let dataSession = this.session.getDataInfo('tipoElemento','subestacion_id',event);
-    if(dataSession.success && dataSession.data.length >0){
-      for(let value of dataSession.data){
-        this.dataControls.tipoElemento.push(value);
-      }
+    //validar si existe una consigna con la misma subestación y solicitada
+    // console.log(event);
+    // let request = {
+    //   codigoEstadoConsigna:{ //consultar unicamente las solicitadas
+    //     value: 'S'
+    //   },
+
+    // }
+    // const response = await this.api.post(`${environment.apiBackend}/consigna/get-list`, request);
+    // if(response.success){
+
+    // }
+
+    if(this.form.subestacion.value != null && this.form.subestacion.value != undefined){
+      if(this.formElementos.redElectrica.value != null && this.formElementos.redElectrica.value != undefined){
+        if(this.formElementos.redElectrica.value == '1'){
+          let request = {
+            subestacion_id: event
+          };
+  
+          let dataSession = this.session.getDataInfo('tipoElemento','subestacion_id',this.form.subestacion.value);
+          if(dataSession.success && dataSession.data.length >0){
+            for(let value of dataSession.data){
+              this.dataControls.tipoElemento.push(value);
+            }
+          }else{
+            const response = await this.api.post(`${environment.apiBackend}/tipo-elemento/get-tipo-elemento`, request);
+            let success = response.success;
+            let message = response.message;
+            if(success){
+              if(response.data.length > 0){
+                for(let value of response.data){
+                  this.dataControls.tipoElemento.push(value);        
+                }
+              }else{
+                this.snackBar.alert('No se encontró información con la subestación seleccionada!',5000);
+              }
+            }else{
+              this.snackBar.alert('Ocurrió un error, por favor vuelva a intentarlo o contáctese con el administrador.',10000)
+            } 
+          }
+        }else{
+          this.dataControls.tipoElemento = this.session.getItem('tempTipoElemento');
+        }        
+      }      
     }else{
-      const response = await this.api.post(`${environment.apiBackend}/tipo-elemento/get-tipo-elemento`, request);
-      let success = response.success;
-      let message = response.message;
-      if(success){
-        for(let value of response.data){
-          this.dataControls.tipoElemento.push(value);        
-        }
-      }else{
-        this.snackBar.alert('Ocurrió un error, por favor vuelva a intentarlo o contáctese con el administrador.',10000)
-      } 
+      this.snackBar.alert('seleccione una subestación!',5000);
     }
+    
 
   }
 
@@ -1068,8 +1134,119 @@ export class ConsignaNewComponent implements OnInit {
     this.interrupcionesTrabajo.clientesNoRegulados.value=cliente;
   }
 
-   utf8_to_b64( str ) {
+  utf8_to_b64( str ) {
     return window.btoa(unescape(encodeURIComponent( str )));
+  }
+
+  setDefaultTipoConsigna(){
+    this.form.tipoFormatoConsigna.value = 'C';
+  }
+
+  validateTipoFormato(data){
+    if(this.consignacionId != null || this.consignaPadreId != null){
+      this.dialogo
+        .open(ModalConfirmComponent, {
+        data: new Mensaje("Atención:","Si realiza esta acción, se eliminará los registros guardados anteriormente. ¿ Desea realizarlo ?")
+      })
+      .afterClosed()
+      .subscribe((confirmado: Boolean) => {
+        if(confirmado) {
+          this.limpiarForm();
+          this.dataElementos = [];
+          this.showDialogBuscarConsigna(data);
+        }else{
+          this.form.tipoFormatoConsigna.value = this.tempTipoFormatoConsigna;
+        }
+      });  
+    }else{
+      this.showDialogBuscarConsigna(data);
+    }
+  }
+
+  showDialogBuscarConsigna(data){
+    var response = {
+      success: true,
+      message: 'por favor agregue un consecutivo!'
+    };
+    this.setDisableForm(this.form,false);
+
+    if(this.form.tipoFormatoConsigna.value != 'C'){
+      const dialogRef = this.dialog.open(ConsignaNewSearchComponent, {
+        width:'100%',
+        data: data
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        if(result == undefined){
+          response.success = false;
+          this.snackBar.alert('por favor agregue un consecutivo!', 5000);
+          this.form.tipoFormatoConsigna.value = 'C';
+        }else if(result.data[0] == undefined){
+          response.success = false;
+          this.snackBar.alert('por favor agregue un consecutivo!', 5000);
+          this.form.tipoFormatoConsigna.value = 'C';
+        }else{
+          console.log(result);   
+          this.tempTipoFormatoConsigna = this.form.tipoFormatoConsigna.value;
+          var data = result.data[0];
+          this.setDataFormDisable(data);
+
+          if(this.form.tipoFormatoConsigna.value == 'CH'){
+            this.dataElementos = result.listaElemento;
+          }
+        }
+
+        if(!response.success){
+          this.limpiarForm();
+        }
+
+        this.tipoFormato = ((document.getElementById("form_consigna-tipo_formato")) as HTMLSelectElement).textContent;
+      });
+    }
+  }
+
+  setDataFormDisable(data){
+    this.consignaPadreId = data.consignacion_id;
+    this.form.divisionArea.value = parseInt(data.division_area_id);
+    this.form.tipoZona.value = parseInt(data.zona_id);
+    this.getSubestaciones(this.form.tipoZona.value);
+    this.form.tipoSolicitud.value = parseInt(data.tipo_solicitud_id);
+    this.form.fechaSolicitud.value = new Date(data.fecha_solicitud);
+    this.form.tipoConsignacion.value = parseInt(data.tipo_consignacion_id);
+    this.form.numeroConsigna.value = data.codigo;
+    this.form.consecutivoSnc.value = data.codigo_snc;
+    this.form.estadoConsigna.value = parseInt(data.estado_id);
+    this.form.estadoEquipo.value = parseInt(data.estado_equipo_id);
+    this.form.subestacion.value = parseInt(data.subestacion_id);
+    this.form.tipoMantenimiento.value = parseInt(data.tipo_mantenimiento_id);
+    this.getTipoElementos(this.form.subestacion.value);
+
+    this.setDisableForm(this.form,true);
+  }
+
+  limpiarForm(){
+    this.consignaPadreId = null;
+    this.form.divisionArea.value = null;
+    this.form.tipoZona.value = null;
+    this.form.tipoSolicitud.value = null;
+    this.form.fechaSolicitud.value = null;
+    this.form.tipoConsignacion.value = null;
+    this.form.numeroConsigna.value = null;
+    this.form.consecutivoSnc.value = null;
+    this.form.estadoConsigna.value = null;
+    this.form.estadoEquipo.value = null;
+    this.form.subestacion.value = null;
+    this.form.tipoMantenimiento.value = null;
+  }
+
+  setDisableForm(object, state){
+    for (const key in object) {
+      if (object.hasOwnProperty(key)) {
+          if(object[key].disabled != undefined) {
+            object[key].disabled = state;
+          } 
+      }
+    }
   }
 
   

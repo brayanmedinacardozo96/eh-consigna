@@ -1,7 +1,7 @@
 <mat-tab-group mat-align-tabs="center" (selectedIndexChange)="selectedIndexChange($event)">
     <mat-tab>
         <ng-template mat-tab-label>
-            <span>{{nameTab}} Consigna</span>
+            <span>{{nameTab}}</span>
         </ng-template>
         <app-consigna-new (setElemento)="setElemento($event)"></app-consigna-new>
     </mat-tab>
@@ -27,6 +27,6 @@
 
 <!-- botón para abrir form nueva consigna -->
 <button *ngIf="showBotonGuardar" mat-fab color="primary" style="position: fixed; right: 3%; top: 12%; z-index: 1;" (click)="saveConsigna()" 
-    matTooltip="{{action}} Consigna" matTooltipClass="custom-tooltip">
+    matTooltip="{{action}}" matTooltipClass="custom-tooltip">
     <mat-icon style="color: #FFFFFF;">save</mat-icon>
 </button> 

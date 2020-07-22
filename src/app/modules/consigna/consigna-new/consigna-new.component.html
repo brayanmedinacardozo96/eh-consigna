@@ -1,13 +1,26 @@
 <mat-card class="container">
     <mat-card-content>
-        <h1>{{action}} Consigna</h1>
+        <h1>{{action | titlecase}} {{ tipoFormato | titlecase}}</h1>
         <br>
         <mat-grid-list class="row" cols="4" rowHeight="80px">
             
             <mat-grid-tile>
                 <mat-form-field>
+                    <mat-label>{{ form.tipoFormatoConsigna.required ? form.tipoFormatoConsigna.label+' *' : form.tipoFormatoConsigna.label}}</mat-label>
+                    <mat-select id="form_consigna-tipo_formato" [(ngModel)]="form.tipoFormatoConsigna.value" 
+                        (ngModelChange)="validateTipoFormato($event)" style="padding-top: 5px;padding-bottom: 5px;">
+                        <mat-option *ngFor="let value of dataControls?.tipoFormatoConsigna;" [value]="value.codigo">
+                            {{value.nombre}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-hint style="color: red" *ngIf="form.tipoFormatoConsigna.messages">{{form.tipoFormatoConsigna.messages}}</mat-hint>
+                </mat-form-field>
+            </mat-grid-tile>
+
+            <mat-grid-tile>
+                <mat-form-field>
                     <mat-label>{{ form.divisionArea.required ? form.divisionArea.label+' *' : form.divisionArea.label}}</mat-label>
-                    <mat-select [(ngModel)]="form.divisionArea.value" style="padding-top: 5px;padding-bottom: 5px;">
+                    <mat-select [disabled]="form.divisionArea.disabled" [(ngModel)]="form.divisionArea.value" style="padding-top: 5px;padding-bottom: 5px;">
                         <mat-option *ngFor="let value of dataControls?.divisionArea;" [value]="value.id">
                             {{value.nombre}}
                         </mat-option>
@@ -19,7 +32,7 @@
             <mat-grid-tile>
                 <mat-form-field>
                     <mat-label>{{ form.tipoZona.required ? form.tipoZona.label+' *' : form.tipoZona.label}}</mat-label>
-                    <mat-select [(ngModel)]="form.tipoZona.value" (ngModelChange)="setConsecutivo(2,dataControls?.tipoZona,form.tipoZona.value)" style="padding-top: 5px;padding-bottom: 5px;">
+                    <mat-select [disabled]="form.tipoZona.disabled" [(ngModel)]="form.tipoZona.value" (ngModelChange)="setConsecutivo(2,dataControls?.tipoZona,form.tipoZona.value)" style="padding-top: 5px;padding-bottom: 5px;">
                         <mat-option *ngFor="let value of dataControls?.tipoZona;" [value]="value.id">
                             {{value.nombre}}
                         </mat-option>
@@ -31,7 +44,7 @@
             <mat-grid-tile>
                 <mat-form-field>
                     <mat-label>{{form.tipoSolicitud.required ? form.tipoSolicitud.label+' *' : form.tipoSolicitud.label}}</mat-label>
-                    <mat-select [(ngModel)]="form.tipoSolicitud.value" (ngModelChange)="setConsecutivo(1,dataControls?.tipoSolicitud,form.tipoSolicitud.value)" style="padding-top: 5px;padding-bottom: 5px;">
+                    <mat-select [disabled]="form.tipoSolicitud.disabled" [(ngModel)]="form.tipoSolicitud.value" (ngModelChange)="setConsecutivo(1,dataControls?.tipoSolicitud,form.tipoSolicitud.value)" style="padding-top: 5px;padding-bottom: 5px;">
                         <mat-option *ngFor="let value of dataControls?.tipoSolicitud;" [value]="value.id">
                             {{value.nombre}}
                         </mat-option>
@@ -46,15 +59,16 @@
                 [value]="form.fechaSolicitud.value"
                 [name]="form.fechaSolicitud.name" 
                 [messages]="form.fechaSolicitud.messages"
-                    [required]="form.fechaSolicitud.required"
-                    (valueChange)="setData(form.fechaSolicitud.name, $event)"
-                    ></app-datepicker>
+                [required]="form.fechaSolicitud.required"
+                [disabled]="form.fechaSolicitud.disabled"
+                (valueChange)="setData(form.fechaSolicitud.name, $event)"
+                ></app-datepicker>
             </mat-grid-tile>
             
             <mat-grid-tile>
                 <mat-form-field>
                     <mat-label>{{form.tipoConsignacion.required ? form.tipoConsignacion.label+' *' : form.tipoConsignacion.label}}</mat-label>
-                    <mat-select [(ngModel)]="form.tipoConsignacion.value" (ngModelChange)="setConsecutivo(0,dataControls?.tipoConsignacion,form.tipoConsignacion.value)" style="padding-top: 5px;padding-bottom: 5px;">
+                    <mat-select [disabled]="form.tipoConsignacion.disabled" [(ngModel)]="form.tipoConsignacion.value" (ngModelChange)="setConsecutivo(0,dataControls?.tipoConsignacion,form.tipoConsignacion.value)" style="padding-top: 5px;padding-bottom: 5px;">
                         <mat-option *ngFor="let value of dataControls?.tipoConsignacion;" [value]="value.id">
                             {{value.nombre}}
                         </mat-option>
@@ -70,7 +84,7 @@
                     [value]="form.numeroConsigna.value"
                     [name]="form.numeroConsigna.name"
                     [messages]="form.numeroConsigna.messages"
-                    [disable] = "'True'"
+                    [disable] = true
                     (valueChange)="setData(form.numeroConsigna.name, $event)">
                 </app-input-text>
             </mat-grid-tile>
@@ -83,7 +97,7 @@
                     [name]="form.consecutivoSnc.name"
                     [messages]="form.consecutivoSnc.messages"
                     [required]="form.consecutivoSnc.required"
-                    [disable]="form.consecutivoSnc.disable"
+                    [disable]="form.consecutivoSnc.disabled"
                     (valueChange)="setData(form.consecutivoSnc.name, $event)">
                 </app-input-text>
             </mat-grid-tile> 
@@ -91,7 +105,7 @@
             <mat-grid-tile>
                 <mat-form-field>
                     <mat-label>{{form.estadoConsigna.required ? form.estadoConsigna.label+' *':form.estadoConsigna.label}}</mat-label>
-                    <mat-select [(ngModel)]="form.estadoConsigna.value" style="padding-top: 5px;padding-bottom: 5px;">
+                    <mat-select [disabled]="form.estadoConsigna.disabled" [(ngModel)]="form.estadoConsigna.value" style="padding-top: 5px;padding-bottom: 5px;">
                         <mat-option *ngFor="let value of dataControls?.estadoConsigna;" [value]="value.id">
                             {{value.nombre}}
                         </mat-option>
@@ -103,7 +117,7 @@
             <mat-grid-tile>
                 <mat-form-field>
                     <mat-label>{{form.estadoEquipo.required ? form.estadoEquipo.label+' *' : form.estadoEquipo.label}}</mat-label>
-                    <mat-select [(ngModel)]="form.estadoEquipo.value" style="padding-top: 5px;padding-bottom: 5px;">
+                    <mat-select [disabled]="form.estadoEquipo.disabled" [(ngModel)]="form.estadoEquipo.value" style="padding-top: 5px;padding-bottom: 5px;">
                         <mat-option *ngFor="let value of dataControls?.estadoEquipo;" [value]="value.id">
                             {{value.nombre}}
                         </mat-option>
@@ -116,8 +130,9 @@
             <mat-grid-tile>
                 <mat-form-field>
                     <mat-label>{{form.subestacion.required ? form.subestacion.label+' *' : form.subestacion.label}}</mat-label>
-                    <mat-select [disabled]="dataControls?.subestacion.length > 0 ? false: true" [(ngModel)]="form.subestacion.value" (ngModelChange)="getTipoElementos($event)"
-                    style="padding-top: 5px;padding-bottom: 5px;">
+                    <mat-select [disabled]="(dataControls?.subestacion.length > 0 ? false: true) || form.subestacion.disabled" 
+                        [(ngModel)]="form.subestacion.value" (ngModelChange)="getTipoElementos($event)"
+                        style="padding-top: 5px;padding-bottom: 5px;">
                         <mat-option *ngFor="let value of dataControls?.subestacion;" [value]="value.id">
                             {{ value.codigo }}
                         </mat-option>
@@ -129,7 +144,7 @@
             <mat-grid-tile>
                 <mat-form-field>
                     <mat-label>{{form.tipoMantenimiento.required ? form.tipoMantenimiento.label+' *' : form.tipoMantenimiento.label}}</mat-label>
-                    <mat-select [(ngModel)]="form.tipoMantenimiento.value" style="padding-top: 5px;padding-bottom: 5px;">
+                    <mat-select [disabled]="form.tipoMantenimiento.disabled" [(ngModel)]="form.tipoMantenimiento.value" style="padding-top: 5px;padding-bottom: 5px;">
                         <mat-option *ngFor="let value of dataControls?.tipoMantenimiento;" [value]="value.id">
                             {{ value.nombre }}
                         </mat-option>
@@ -159,8 +174,21 @@
             <mat-grid-list class="row" cols="4" rowHeight="80px">
                 <mat-grid-tile>
                     <mat-form-field>
+                        <mat-label>{{formElementos.redElectrica.required ? formElementos.redElectrica.label+' *' :formElementos.redElectrica.label}}</mat-label>
+                        <mat-select id="form_consigna-red_electrica" [(ngModel)]="formElementos.redElectrica.value"
+                        (ngModelChange)="getTipoElementos($event)" style="padding-top: 5px;padding-bottom: 5px;">
+                            <mat-option *ngFor="let value of dataControls?.redElectrica;" [value]="value.value">
+                                {{ value.nombre }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-hint style="color: red" *ngIf="formElementos.redElectrica.messages">{{formElementos.redElectrica.messages}}</mat-hint>
+                    </mat-form-field>
+                </mat-grid-tile>
+
+                <mat-grid-tile>
+                    <mat-form-field>
                         <mat-label>{{formElementos.tipoElemento.required ? formElementos.tipoElemento.label+' *' :formElementos.tipoElemento.label}}</mat-label>
-                        <mat-select id="form_consigna-tipo_elemento" [(ngModel)]="formElementos.tipoElemento.value"
+                        <mat-select id="form_consigna-tipo_elemento" [disabled]="dataControls?.tipoElemento.length > 0 ? false: true" [(ngModel)]="formElementos.tipoElemento.value"
                         (ngModelChange)="getElementos($event)" style="padding-top: 5px;padding-bottom: 5px;">
                             <mat-option *ngFor="let value of dataControls?.tipoElemento;" [value]="value.id">
                                 {{ value.nombre }}
