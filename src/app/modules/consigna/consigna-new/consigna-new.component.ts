@@ -836,6 +836,19 @@ export class ConsignaNewComponent implements OnInit {
     this.dataControls.tipoElemento = [];
     this.dataControls.elemento = [];
 
+    //validar si existe una consigna con la misma subestación y solicitada
+    // console.log(event);
+    // let request = {
+    //   codigoEstadoConsigna:{ //consultar unicamente las solicitadas
+    //     value: 'S'
+    //   },
+
+    // }
+    // const response = await this.api.post(`${environment.apiBackend}/consigna/get-list`, request);
+    // if(response.success){
+
+    // }
+
     if(this.form.subestacion.value != null && this.form.subestacion.value != undefined){
       if(this.formElementos.redElectrica.value != null && this.formElementos.redElectrica.value != undefined){
         if(this.formElementos.redElectrica.value == '1'){
@@ -1140,20 +1153,17 @@ export class ConsignaNewComponent implements OnInit {
         if(confirmado) {
           this.limpiarForm();
           this.dataElementos = [];
-          this.showDialogBuscarConsigna();
+          this.showDialogBuscarConsigna(data);
         }else{
           this.form.tipoFormatoConsigna.value = this.tempTipoFormatoConsigna;
         }
       });  
     }else{
-      this.showDialogBuscarConsigna();
+      this.showDialogBuscarConsigna(data);
     }
-     
-    
-
   }
 
-  showDialogBuscarConsigna(){
+  showDialogBuscarConsigna(data){
     var response = {
       success: true,
       message: 'por favor agregue un consecutivo!'
@@ -1163,7 +1173,7 @@ export class ConsignaNewComponent implements OnInit {
     if(this.form.tipoFormatoConsigna.value != 'C'){
       const dialogRef = this.dialog.open(ConsignaNewSearchComponent, {
         width:'100%',
-        data: null
+        data: data
       });
 
       dialogRef.afterClosed().subscribe(result => {
@@ -1175,25 +1185,15 @@ export class ConsignaNewComponent implements OnInit {
           response.success = false;
           this.snackBar.alert('por favor agregue un consecutivo!', 5000);
           this.form.tipoFormatoConsigna.value = 'C';
-        }else{   
+        }else{
+          console.log(result);   
           this.tempTipoFormatoConsigna = this.form.tipoFormatoConsigna.value;
           var data = result.data[0];
-          this.consignaPadreId = data.consignacion_id;
-          this.form.divisionArea.value = parseInt(data.division_area_id);
-          this.form.tipoZona.value = parseInt(data.zona_id);
-          this.getSubestaciones(this.form.tipoZona.value);
-          this.form.tipoSolicitud.value = parseInt(data.tipo_solicitud_id);
-          this.form.fechaSolicitud.value = new Date(data.fecha_solicitud);
-          this.form.tipoConsignacion.value = parseInt(data.tipo_consignacion_id);
-          this.form.numeroConsigna.value = data.codigo;
-          this.form.consecutivoSnc.value = data.codigo_snc;
-          this.form.estadoConsigna.value = parseInt(data.estado_id);
-          this.form.estadoEquipo.value = parseInt(data.estado_equipo_id);
-          this.form.subestacion.value = parseInt(data.subestacion_id);
-          this.form.tipoMantenimiento.value = parseInt(data.tipo_mantenimiento_id);
-          this.getTipoElementos(this.form.subestacion.value);
+          this.setDataFormDisable(data);
 
-          this.setDisableForm(this.form,true);
+          if(this.form.tipoFormatoConsigna.value == 'CH'){
+            this.dataElementos = result.listaElemento;
+          }
         }
 
         if(!response.success){
@@ -1203,6 +1203,25 @@ export class ConsignaNewComponent implements OnInit {
         this.tipoFormato = ((document.getElementById("form_consigna-tipo_formato")) as HTMLSelectElement).textContent;
       });
     }
+  }
+
+  setDataFormDisable(data){
+    this.consignaPadreId = data.consignacion_id;
+    this.form.divisionArea.value = parseInt(data.division_area_id);
+    this.form.tipoZona.value = parseInt(data.zona_id);
+    this.getSubestaciones(this.form.tipoZona.value);
+    this.form.tipoSolicitud.value = parseInt(data.tipo_solicitud_id);
+    this.form.fechaSolicitud.value = new Date(data.fecha_solicitud);
+    this.form.tipoConsignacion.value = parseInt(data.tipo_consignacion_id);
+    this.form.numeroConsigna.value = data.codigo;
+    this.form.consecutivoSnc.value = data.codigo_snc;
+    this.form.estadoConsigna.value = parseInt(data.estado_id);
+    this.form.estadoEquipo.value = parseInt(data.estado_equipo_id);
+    this.form.subestacion.value = parseInt(data.subestacion_id);
+    this.form.tipoMantenimiento.value = parseInt(data.tipo_mantenimiento_id);
+    this.getTipoElementos(this.form.subestacion.value);
+
+    this.setDisableForm(this.form,true);
   }
 
   limpiarForm(){
