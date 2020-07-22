@@ -54,7 +54,6 @@ export class ConsignaNewSearchComponent implements OnInit {
       const response = await this.api.post(`${environment.apiBackend}/consigna/get-list`, this.form);
       if(response.success){
         this.data = response.data;
-        console.log(this.data);
         if(this.data.length < 1){
           this.snackBar.alert('No se encontraron registros con los parámetros consultados.',5000);
         }

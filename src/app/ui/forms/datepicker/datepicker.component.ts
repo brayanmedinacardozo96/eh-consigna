@@ -20,6 +20,7 @@ export class DatepickerComponent implements OnInit {
   @Input() style;
   @Input() id;
   @Input() required;
+  @Input() disabled = false;
   @Output() valueChange = new EventEmitter();
   constructor() { }
 

@@ -32,6 +32,9 @@ export class ConsignaNewComponent implements OnInit {
   
   action = 'Guardar';
   consignacionId = null;
+  consignaPadreId = null;
+  tempTipoFormatoConsigna = 'C';
+  tipoFormato = 'Consignación';
   data = [];
   argNumConsigna = ['','','',''];
   dataElementos = [];
@@ -72,6 +75,7 @@ export class ConsignaNewComponent implements OnInit {
       value: null,
       messages: null,
       required: true,
+      disabled: false
     },
     numeroConsigna:{
       label: 'Consignación No.',
@@ -86,7 +90,7 @@ export class ConsignaNewComponent implements OnInit {
       value: null,
       messages: null,
       required: false,
-      disable: false,
+      disabled: false
     },
     tipoZona: {
       label: 'Tipo zona',
@@ -94,6 +98,7 @@ export class ConsignaNewComponent implements OnInit {
       value: null,
       messages: null,
       required: true,
+      disabled: false
     },
     tipoSolicitud: {
       label: 'Tipo de solicitud',
@@ -101,6 +106,7 @@ export class ConsignaNewComponent implements OnInit {
       value: null,
       messages: null,
       required: true,
+      disabled: false
     },
     tipoConsignacion: {
       label: 'Tipo de consignación',
@@ -108,6 +114,7 @@ export class ConsignaNewComponent implements OnInit {
       value: null,
       messages: null,
       required: true,
+      disabled: false
     },
     fechaSolicitud: {
       label: 'Fecha de solicitud',
@@ -115,6 +122,7 @@ export class ConsignaNewComponent implements OnInit {
       value: null,
       messages: null,
       required: true,
+      disabled: false
     },
     estadoConsigna: {
       label: 'Estado consignación',
@@ -122,6 +130,7 @@ export class ConsignaNewComponent implements OnInit {
       value: null,
       messages: null,
       required: true,
+      disabled: false
     },
     estadoEquipo: {
       label: 'Estado del equipo',
@@ -129,6 +138,7 @@ export class ConsignaNewComponent implements OnInit {
       value: null,
       messages: null,
       required: true,
+      disabled: false
     },
     solicitante: {
       label: 'Solicitante',
@@ -143,6 +153,7 @@ export class ConsignaNewComponent implements OnInit {
       value: null,
       messages: null,
       required: true,
+      disabled: false
     },
     tipoMantenimiento: {
       label: 'Tipo mantenimiento',
@@ -150,6 +161,7 @@ export class ConsignaNewComponent implements OnInit {
       value: null,
       messages: null,
       required: true,
+      disabled: false
     },
     trabajoEfectuar: {
       label: 'Trabajos a efectuar',
@@ -661,6 +673,7 @@ export class ConsignaNewComponent implements OnInit {
       }
 
       response.formData.append('consignacionId', this.consignacionId);
+      response.formData.append('consignaPadreId', this.consignaPadreId);
       response.formData.append('fileUrl', this.fileUrl);
       response.formData.append('form',JSON.stringify(this.form));
       response.formData.append('dataElementos',JSON.stringify(this.dataElementos));
@@ -731,11 +744,11 @@ export class ConsignaNewComponent implements OnInit {
     switch(position){
       case 0:
           if(value == 'A'){
-            this.form.consecutivoSnc.disable = false;
+            this.form.consecutivoSnc.disabled = false;
             this.form.consecutivoSnc.required = true;
           }else{
             value = '';
-            this.form.consecutivoSnc.disable = true;
+            this.form.consecutivoSnc.disabled = true;
             this.form.consecutivoSnc.required = false;
             this.form.consecutivoSnc.messages = '';
             this.form.consecutivoSnc.value = '';
@@ -762,7 +775,7 @@ export class ConsignaNewComponent implements OnInit {
         this.setSelect();
       }
     }else{
-      this.setSelect();1
+      this.setSelect();
     }
   }
 
@@ -1117,19 +1130,103 @@ export class ConsignaNewComponent implements OnInit {
   }
 
   validateTipoFormato(data){
+    if(this.consignacionId != null || this.consignaPadreId != null){
+      this.dialogo
+        .open(ModalConfirmComponent, {
+        data: new Mensaje("Atención:","Si realiza esta acción, se eliminará los registros guardados anteriormente. ¿ Desea realizarlo ?")
+      })
+      .afterClosed()
+      .subscribe((confirmado: Boolean) => {
+        if(confirmado) {
+          this.limpiarForm();
+          this.dataElementos = [];
+          this.showDialogBuscarConsigna();
+        }else{
+          this.form.tipoFormatoConsigna.value = this.tempTipoFormatoConsigna;
+        }
+      });  
+    }else{
+      this.showDialogBuscarConsigna();
+    }
+     
+    
+
+  }
+
+  showDialogBuscarConsigna(){
+    var response = {
+      success: true,
+      message: 'por favor agregue un consecutivo!'
+    };
+    this.setDisableForm(this.form,false);
+
     if(this.form.tipoFormatoConsigna.value != 'C'){
       const dialogRef = this.dialog.open(ConsignaNewSearchComponent, {
         width:'100%',
         data: null
       });
+
       dialogRef.afterClosed().subscribe(result => {
-        console.log(result);//returns undefined
-  
         if(result == undefined){
+          response.success = false;
           this.snackBar.alert('por favor agregue un consecutivo!', 5000);
           this.form.tipoFormatoConsigna.value = 'C';
+        }else if(result.data[0] == undefined){
+          response.success = false;
+          this.snackBar.alert('por favor agregue un consecutivo!', 5000);
+          this.form.tipoFormatoConsigna.value = 'C';
+        }else{   
+          this.tempTipoFormatoConsigna = this.form.tipoFormatoConsigna.value;
+          var data = result.data[0];
+          this.consignaPadreId = data.consignacion_id;
+          this.form.divisionArea.value = parseInt(data.division_area_id);
+          this.form.tipoZona.value = parseInt(data.zona_id);
+          this.getSubestaciones(this.form.tipoZona.value);
+          this.form.tipoSolicitud.value = parseInt(data.tipo_solicitud_id);
+          this.form.fechaSolicitud.value = new Date(data.fecha_solicitud);
+          this.form.tipoConsignacion.value = parseInt(data.tipo_consignacion_id);
+          this.form.numeroConsigna.value = data.codigo;
+          this.form.consecutivoSnc.value = data.codigo_snc;
+          this.form.estadoConsigna.value = parseInt(data.estado_id);
+          this.form.estadoEquipo.value = parseInt(data.estado_equipo_id);
+          this.form.subestacion.value = parseInt(data.subestacion_id);
+          this.form.tipoMantenimiento.value = parseInt(data.tipo_mantenimiento_id);
+          this.getTipoElementos(this.form.subestacion.value);
+
+          this.setDisableForm(this.form,true);
         }
+
+        if(!response.success){
+          this.limpiarForm();
+        }
+
+        this.tipoFormato = ((document.getElementById("form_consigna-tipo_formato")) as HTMLSelectElement).textContent;
       });
+    }
+  }
+
+  limpiarForm(){
+    this.consignaPadreId = null;
+    this.form.divisionArea.value = null;
+    this.form.tipoZona.value = null;
+    this.form.tipoSolicitud.value = null;
+    this.form.fechaSolicitud.value = null;
+    this.form.tipoConsignacion.value = null;
+    this.form.numeroConsigna.value = null;
+    this.form.consecutivoSnc.value = null;
+    this.form.estadoConsigna.value = null;
+    this.form.estadoEquipo.value = null;
+    this.form.subestacion.value = null;
+    this.form.tipoMantenimiento.value = null;
+  }
+
+  setDisableForm(object, state){
+    for (const key in object) {
+      if (object.hasOwnProperty(key)) {
+          if(object[key].disabled != undefined) {
+            object[key].disabled = state;
+          } 
+      }
     }
   }
 

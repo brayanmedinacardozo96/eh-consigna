@@ -24,7 +24,8 @@ export class ConsignaComponent implements OnInit {
     estadoEquipo:[],
     solicitante:[
       {nombre:'',identificacion:'',id:1},
-    ]
+    ],
+    tipoFormatoConsigna: []
   };
   form = {
     numeroConsigna:{
@@ -40,6 +41,13 @@ export class ConsignaComponent implements OnInit {
       value: null,
       messages: null,
       required: false,
+    },
+    tipoFormatoConsigna:{
+      label: 'Tipo de Formato',
+      name: 'tipoFormatoConsigna',
+      value: null,
+      messages: null,
+      required: true,
     },
     tipoZona: {
       label: 'Tipo zona',
@@ -143,6 +151,7 @@ export class ConsignaComponent implements OnInit {
     this.dataControls.tipoConsignacion = this.session.getItem('tipoConsignacion');
     this.dataControls.estadoConsigna = this.session.getItem('estadoConsigna');
     this.dataControls.estadoEquipo = this.session.getItem('estadoEquipo');
+    this.dataControls.tipoFormatoConsigna = this.session.getItem('tipoFormatoConsigna');
     this.dataControls.solicitante= this.session.getPersona();
   }
 
