@@ -31,11 +31,12 @@ export class AutorizarComponent implements OnInit {
     this.activeRoute.params.subscribe(params => {
 
       if (params.id !== undefined && params.id !== null) {
-
-         this.buscarConsigna(  { consignacion_id:{value: params.id}} );
-
+        if(isNaN(parseInt(params.id))){
+          this.buscarConsigna(  { numeroConsigna:{value: params.id}} );
+        }else{
+          this.buscarConsigna(  { consignacion_id:{value: params.id}} );
+        }
       }
-
     });
    }
 
@@ -123,11 +124,9 @@ export class AutorizarComponent implements OnInit {
 
   setSelect()
   {
-
     var result=this.session.getItem('estadoConsigna').filter(b=>{
-      return (b.nombre!="Ejecutada" && b.nombre!="Solicitada" )
+      return (b.codigo =="A" || b.codigo == "R" || b.codigo =="C")
     });
-
     this.dataControls.estadoConsigna = result;
   }
 
