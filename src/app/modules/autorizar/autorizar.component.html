@@ -27,7 +27,7 @@
       <mat-grid-tile [colspan]="2">
         <mat-form-field class="input" style="width: 95%;">
             <mat-label>{{form.estadoConsigna.required ? form.estadoConsigna.label+' *':form.estadoConsigna.label}}</mat-label>
-            <mat-select id="ddlEstadoConsigna" (valueChange)="setData(form.estadoConsigna.name, $event)" [(ngModel)]="form.estadoConsigna.value" style="padding-top: 5px;padding-bottom: 5px;">
+            <mat-select id="ddlEstadoConsigna" (valueChange)="setDataEstado(form.estadoConsigna.name, $event)" [(ngModel)]="form.estadoConsigna.value" style="padding-top: 5px;padding-bottom: 5px;">
                 <mat-option *ngFor="let value of dataControls?.estadoConsigna;" [value]="value.id">
                     {{value.nombre}}
                 </mat-option>
@@ -69,7 +69,7 @@
       <app-table-elemento-calidad [data]="dataElementoCalidad"></app-table-elemento-calidad>
     </div>-->
 
-    <button mat-raised-button color="primary" (click)="guardar()" style="margin-left: 20px; margin-top: 10px;">
+    <button *ngIf="permitir" mat-raised-button color="primary" (click)="guardar()" style="margin-left: 20px; margin-top: 10px;">
       <span style="color: #FFF">Guardar</span>
     </button>
 
