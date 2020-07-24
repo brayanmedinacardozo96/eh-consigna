@@ -13,9 +13,11 @@ import {InputFileComponent} from "../../../ui/forms/input-file/input-file.compon
 export class BitacoraFormComponent implements OnInit {
 
   @ViewChild(InputFileComponent) inputFileComponent: InputFileComponent;
+  env = environment;
 
   dataControls: any;
   consignaID = null;
+  bitacoraID = null;
   dataConsigna = null;
   dataDocumentos = [];
   inputFile: any;
@@ -90,35 +92,72 @@ export class BitacoraFormComponent implements OnInit {
     }
 
     const numeroConsigna = this.form.numeroConsigna.value;
-    const response = await this.api.get(`${environment.apiBackend}/bitacora/get-consigna-by-code/${numeroConsigna}`);
+    const response = await this.api.get(`${environment.apiBackend}/bitacora/get-bitacora-by-code-consigna/${numeroConsigna}`);
 
     if (!response.success) {
       this.notifier.notify('error', response.message);
       this.dataConsigna = null;
       this.consignaID = null;
+      this.bitacoraID = null;
       return false;
     }
 
     if (response.data) {
       this.dataConsigna = response.data;
-      this.consignaID = this.dataConsigna.id;
+      this.consignaID = this.dataConsigna.consigna_id;
+      this.bitacoraID = this.dataConsigna.bitacora_id;
+
+      if (this.bitacoraID) {
+        this.loadDataBitacora(this.dataConsigna);
+      } else {
+        this.cleanDataBitacora();
+      }
+
     }
 
   }
 
+  loadDataBitacora(data) {
+
+    this.dataDocumentos = [];
+    for (let value of data.bitacora_json_files) {
+      this.dataDocumentos.push({
+        file: null,
+        name: value.archivo,
+        url: value.public_path,
+        observacion: value.observacion,
+      });
+    }
+
+    this.formCompletado.completado.value = parseInt(data.bitacora_completado);
+    this.formCompletado.causalIncumplimiento.value = data.bitacora_causal_incum_id ? parseInt(data.bitacora_causal_incum_id) : null;
+    this.formCompletado.observacionCausalIncumplimiento.value = data.bitacora_obser_causal_incum;
+
+  }
+
+  cleanDataBitacora() {
+    this.dataDocumentos = [];
+    this.formCompletado.completado.value = null;
+    this.formCompletado.causalIncumplimiento.value = null;
+    this.formCompletado.observacionCausalIncumplimiento.value = null;
+  }
+
   getSendData() {
     let formData = new FormData();
+    formData.append('bitacora_id', this.bitacoraID);
     formData.append('consignacion_id', this.consignaID);
     formData.append('completado', this.formCompletado.completado.value);
     formData.append('causal_incum_id', this.formCompletado.causalIncumplimiento.value);
     formData.append('obser_causal_incum', this.formCompletado.observacionCausalIncumplimiento.value);
     formData.append('cerrado', this.cerrarBitacora ? '1' : '0');
-    formData.append('elementos', JSON.stringify(this.dataConsigna.lista_elemento));
+    formData.append('elementos', JSON.stringify(this.dataConsigna.bitacora_elementos));
 
     for (let i = 0; i < this.dataDocumentos.length; i++) {
       const obj = this.dataDocumentos[i];
-      formData.append('files[]', obj.file);
-      formData.append('observaciones[]', obj.observacion);
+      formData.append('file_' + i, obj.file);
+      formData.append('namesFiles[]', obj.name);
+      formData.append('urlsFiles[]', obj.url);
+      formData.append('observacionesFiles[]', obj.observacion);
     }
 
     return formData;
@@ -134,6 +173,8 @@ export class BitacoraFormComponent implements OnInit {
     const response = await this.api.post(`${environment.apiBackend}/bitacora/save`, data);
     if (response.success) {
       this.notifier.notify('success', response.message);
+    } else {
+      this.notifier.notify('error', response.message);
     }
 
   }
@@ -170,7 +211,7 @@ export class BitacoraFormComponent implements OnInit {
     }
 
     if (this.dataConsigna) {
-      if (!this.dataConsigna.lista_elemento) {
+      if (!this.dataConsigna.bitacora_elementos) {
         this.notifier.notify('error', 'Ups! Parece que esta consigna no tiene ningún elemento.');
         return false;
       }
@@ -205,7 +246,7 @@ export class BitacoraFormComponent implements OnInit {
   }
 
   setDinamicData(name, event, index) {
-    this.dataConsigna.lista_elemento[index].form[name].value = event;
+    this.dataConsigna.bitacora_elementos[index].form[name].value = event;
   }
 
 }

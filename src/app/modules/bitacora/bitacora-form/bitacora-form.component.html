@@ -31,27 +31,27 @@
           <tbody>
           <tr>
             <th style="width: 15%;">Consigna No.</th>
-            <td style="width: 15%;">{{dataConsigna?.codigo}}</td>
+            <td style="width: 15%;">{{dataConsigna?.consigna_codigo}}</td>
             <th style="width: 15%;">Zona</th>
-            <td style="width: 15%;">{{dataConsigna?.zona?.nombre}}</td>
+            <td style="width: 15%;">{{dataConsigna?.consigna_zona}}</td>
             <th style="width: 15%;">Tipo Solicitud</th>
-            <td style="width: 15%;">{{dataConsigna?.tipo_solicitud?.nombre}}</td>
+            <td style="width: 15%;">{{dataConsigna?.consigna_tipo_solicitud}}</td>
           </tr>
           <tr>
             <th>Fecha solicitud</th>
-            <td>{{dataConsigna?.fecha_solicitud | date}}
+            <td>{{dataConsigna?.consigna_fecha_solicitud | date}}
             <th>Tipo Consignación</th>
-            <td>{{dataConsigna?.tipo_consignacion?.nombre}}</td>
+            <td>{{dataConsigna?.consigna_tipo_consignacion}}</td>
             <th>Estado consignación</th>
-            <td>{{dataConsigna?.estado_consignacion?.nombre}}</td>
+            <td>{{dataConsigna?.consigna_estado_consignacion}}</td>
           </tr>
           <tr>
             <th>Trabajo a efectuar</th>
-            <td colspan="5">{{dataConsigna?.trabajo_efectuar}}</td>
+            <td colspan="5">{{dataConsigna?.consigna_trabajo_efectuar}}</td>
           </tr>
           <tr>
             <th>Justificación</th>
-            <td colspan="5">{{dataConsigna?.justificacion}}</td>
+            <td colspan="5">{{dataConsigna?.consigna_justificacion}}</td>
           </tr>
           </tbody>
         </table>
@@ -77,15 +77,15 @@
             <th>Comentario</th>
           </tr>
           </thead>
-          <tbody *ngIf="!dataConsigna?.lista_elemento">
+          <tbody *ngIf="!dataConsigna?.bitacora_elementos">
           <tr>
             <td colspan="10">No hay registros...</td>
           </tr>
           </tbody>
-          <tbody *ngIf="dataConsigna?.lista_elemento?.length > 0">
-          <tr *ngFor="let value of dataConsigna?.lista_elemento; let i = index;">
-            <td>{{value?.elemento?.tipo_elemento?.nombre}}</td>
-            <td>{{value?.elemento?.nombre}}</td>
+          <tbody *ngIf="dataConsigna?.bitacora_elementos?.length > 0">
+          <tr *ngFor="let value of dataConsigna?.bitacora_elementos; let i = index;">
+            <td>{{value?.tipo_elemento}}</td>
+            <td>{{value?.elemento}}</td>
             <td>{{value?.hora_inicio_prog}}</td>
             <td>
               <app-date-time-picker
@@ -193,7 +193,17 @@
           </tbody>
           <tbody *ngIf="dataDocumentos.length > 0">
           <tr *ngFor="let value of dataDocumentos; let i = index;">
-            <td>{{value?.name}}</td>
+            <td>
+
+              <ng-container *ngIf="value.url">
+                <a [href]="env.urlPublicFiles + value.url" target="_blank">{{value?.name}}</a>
+              </ng-container>
+
+              <ng-container *ngIf="!value.url">
+                {{value?.name}}
+              </ng-container>
+
+            </td>
             <td>{{value?.observacion}}</td>
             <td>
               <mat-icon style="cursor: pointer;" (click)="deleteDocumento(value, i)" matTooltip="Borrar documento"
