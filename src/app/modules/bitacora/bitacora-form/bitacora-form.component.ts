@@ -6,6 +6,7 @@ import {NotifierService} from "angular-notifier";
 import {InputFileComponent} from "../../../ui/forms/input-file/input-file.component";
 import {ConfirmDialogComponent, ConfirmDialogModel} from "../../../ui/confirm-dialog/confirm-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
+import {Location} from "@angular/common";
 
 @Component({
   selector: 'app-bitacora-form',
@@ -72,7 +73,8 @@ export class BitacoraFormComponent implements OnInit {
 
   constructor(private api: ApiService,
               private notifier: NotifierService,
-              private dialogConfirm: MatDialog) {
+              private dialogConfirm: MatDialog,
+              private location: Location) {
   }
 
   ngOnInit(): void {
@@ -171,7 +173,7 @@ export class BitacoraFormComponent implements OnInit {
     const response = await this.api.post(`${environment.apiBackend}/bitacora/save`, data);
     if (response.success) {
       this.notifier.notify('success', response.message);
-      this.cleanAll();
+      this.cancel();
     } else {
       this.notifier.notify('error', response.message);
     }
@@ -245,18 +247,6 @@ export class BitacoraFormComponent implements OnInit {
     return true;
   }
 
-  cleanAll() {
-    this.consignaID = null;
-    this.bitacoraID = null;
-    this.dataConsigna = null;
-    this.cerrarBitacora = false;
-    this.form.numeroConsigna.value = null;
-    this.inputFile = null;
-    this.inputFileComponent.setFileName('');
-    this.formDocumentos.observacion.value = null;
-    this.cleanDataBitacora();
-  }
-
   cleanDataBitacora() {
     this.dataDocumentos = [];
     this.documentosEliminados = [];
@@ -266,6 +256,7 @@ export class BitacoraFormComponent implements OnInit {
   }
 
   cancel() {
+    this.location.back();
   }
 
   setInput(event) {
