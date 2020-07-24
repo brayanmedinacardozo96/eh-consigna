@@ -8,8 +8,8 @@ import { ConsignaElementoListComponent } from '../../consigna/consigna-elemento-
 import { ConsignaTrabajoListComponent } from '../../consigna/consigna-trabajo-list/consigna-trabajo-list.component';
 import { ConsignaManiobraListComponent } from '../../consigna/consigna-maniobra-list/consigna-maniobra-list.component';
 import { ApiService } from 'src/app/shared/services/api.service';
-
-
+import {SnackBarClass} from '../../../ui/snack-bar/snack-bar';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'table-aprobar-consigna',
@@ -18,7 +18,7 @@ import { ApiService } from 'src/app/shared/services/api.service';
 })
 export class TableAprobarConsignaComponent implements OnInit {
 
-  displayedColumns: string[] = ['numeroConsigna', 'consecutivoSnc', 'tipoZona', 'estadoConsigna','estadoEquipo', 'elementosConsignados', 'trabajosOportunidad', 'maniobras','archivo'];
+  displayedColumns: string[] = ['fecha_solicitud','numeroConsigna', 'consecutivoSnc', 'tipoZona', 'estadoConsigna','estadoEquipo', 'elementosConsignados', 'trabajosOportunidad', 'maniobras','html_documento'];
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
@@ -31,6 +31,7 @@ export class TableAprobarConsignaComponent implements OnInit {
 
   constructor(private api: ApiService,
               public dialog: MatDialog,
+              private snackBar: MatSnackBar,
              ) { }
 
   ngOnInit() {
@@ -74,6 +75,22 @@ export class TableAprobarConsignaComponent implements OnInit {
   showUrl(url)
   {
     window.open(`${environment.urlFiles}/public/${url}`);
+  }
+
+  generatePdf(html)
+  {
+    this.showPdf(html);
+  }
+
+  async showPdf(html){
+    const response = await this.api.post(`${environment.apiBackend}/file/generate-pdf`, {html: html} );
+      let success = response.success;
+      let message = response.message;
+      if(success){
+        window.open(`${environment.urlFiles}/${response.path}`);
+      }else{
+        new SnackBarClass(this.snackBar,'Ocurrió un error, por favor vuelva a intentarlo o contáctese con el administrador.', 'btn-warning').openSnackBar();
+      }
   }
 
 

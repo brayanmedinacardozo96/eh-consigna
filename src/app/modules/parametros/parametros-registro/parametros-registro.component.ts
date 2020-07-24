@@ -115,6 +115,7 @@ export class ParametrosRegistroComponent implements OnInit {
       this.form.tipo.id= parseInt( event[1].tp_id );
       this.form.codigo.value=event[1].codigo;
       this.form.valor.value=event[1].valor;
+      this.form.tipo.value=parseInt( event[1].tp_id );
       this.boton.color = "btn-success";
       this.boton.value = "Actualizar";
       new Scroll("0");
@@ -243,6 +244,7 @@ export class ParametrosRegistroComponent implements OnInit {
     }
 
     new SnackBarClass(this.snackBar, mensaje[0], mensaje[1]).openSnackBar();
+    this.select();
   }
 
   validateEmptyFields() {

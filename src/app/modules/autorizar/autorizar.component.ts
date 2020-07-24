@@ -10,7 +10,9 @@ import {SnackBarClass} from '../../ui/snack-bar/snack-bar';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {Mensaje} from '../../ui/forms/modal-confirm/mensaje';
 import {ModalConfirmComponent} from "../../ui/forms/modal-confirm/modal-confirm.component";
+import {MDialogComponent} from "../../ui/forms/m-dialog/m-dialog.component"
 import {MatDialog} from "@angular/material/dialog";
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-autorizar',
@@ -29,8 +31,9 @@ export class AutorizarComponent implements OnInit {
     private dialogo: MatDialog
     ) {
     this.activeRoute.params.subscribe(params => {
+      
 
-      if (params.id !== undefined && params.id !== null) {
+      if (params.id !== undefined && params.id !== null && params.id!="") {
 
          this.buscarConsigna(  { consignacion_id:{value: params.id}} );
 
@@ -54,7 +57,8 @@ export class AutorizarComponent implements OnInit {
       value: null,
       messages: null,
       required: true,
-      url: this.urlAutoComletar
+      url: this.urlAutoComletar,
+      fechaSolicitud:null,
     },
     usuario: {
       id:null,
@@ -79,6 +83,7 @@ export class AutorizarComponent implements OnInit {
       value: null,
       messages: null,
       required: true,
+      valor:null
     },
     fechaSolicitud: {
       label: 'Fecha de solicitud',
@@ -96,9 +101,10 @@ export class AutorizarComponent implements OnInit {
   dataElementoCalidad=[
     {elemento:"xxx", sDesconexion:"100", desMax:"10", feMax:"10", deHora:"10",feHora:"10"}
   ]
-  
+  valor=null;
   viewList = false;
   data = [];
+  permitir=true;
 
   ngOnInit(): void {
 
@@ -114,6 +120,8 @@ export class AutorizarComponent implements OnInit {
     this.form.numeroConsigna.value=null;
     this.form.observacion.value=null;
     this.form.estadoConsigna.value=null;
+    this.form.estadoConsigna.messages=null;
+    this.form.observacion.messages=null;
 
   }
 
@@ -121,11 +129,43 @@ export class AutorizarComponent implements OnInit {
     this.form[name].value = event;
   }
 
+  setDataEstado(name, event) {
+    
+    this.form[name].value = event;
+    var estado=this.dataControls.estadoConsigna.filter(b=>{  return (b.id==event) });
+    this.valor=estado[0].valor;
+
+    this.validarEstados(estado);
+
+  }
+
+  validarEstados(estado)
+  {
+    
+    this.permitir=true;
+    if(this.valor!=null)
+    {
+      var plazo = moment(this.form.numeroConsigna.fechaSolicitud).add(-this.valor, 'days');
+      var fecha = moment();
+      if( fecha > plazo  )
+      {
+        this.permitir=false;
+        this.dialogo
+          .open(MDialogComponent, {
+            data: new Mensaje("Consigna",`El tiempo para el estado ${estado[0].nombre} ha terminada. Plazo máximo era hasta ${plazo.format("YYYY/MM/DD")} `)
+          });
+      }
+    }
+    
+   
+    
+  }
+
   setSelect()
   {
 
     var result=this.session.getItem('estadoConsigna').filter(b=>{
-      return (b.nombre!="Ejecutada" && b.nombre!="Solicitada" )
+      return (b.nombre=="Aprobada" || b.nombre=="Cancelada" || b.nombre=="Reprogramada" )
     });
 
     this.dataControls.estadoConsigna = result;
@@ -144,20 +184,22 @@ export class AutorizarComponent implements OnInit {
 
   async buscarConsigna(params){
 
-    const response = await this.api.post(`${environment.apiBackend}/consigna/get-list`, params);
-    if(response.success){
+    this.limpiar();
+
+    const response = await this.api.post(`${environment.apiBackend}/consigna/get-list-aprobar`, params);
+    if(response.success && response.data.length>0){
 
       this.viewList = true;
       this.data = response.data;
       this.form.numeroConsigna.value=this.data[0].codigo;
       this.form.id.value=this.data[0].consignacion_id;
       this.form.estado_actual.value= this.data[0].estado_id;
-      this.form.estadoConsigna.value=parseInt( this.data[0].estado_id );
+      this.form.numeroConsigna.fechaSolicitud=this.data[0].fecha_solicitud;
 
-      if(this.data.length < 1){
-       // this.snackBar.alert('No se encontraron registros con los parámetros consultados.',5000);
-      }
+    }
 
+    if(response.data.length < 1){
+      new SnackBarClass(this.snackBar,'No se encontraron registros.', 'btn-warning').openSnackBar();
     }
 
   }
@@ -224,7 +266,13 @@ export class AutorizarComponent implements OnInit {
 
   async buscar()
   {
-    this.buscarConsigna(  { numeroConsigna:{value: this.form.numeroConsigna.value }} );
+    
+    if (this.form.numeroConsigna.value  !== undefined && this.form.numeroConsigna.value  !== null && this.form.numeroConsigna.value !="") {
+
+      this.buscarConsigna(  { numeroConsigna:{value: this.form.numeroConsigna.value }} );
+
+   }
+    
 
   }
 
