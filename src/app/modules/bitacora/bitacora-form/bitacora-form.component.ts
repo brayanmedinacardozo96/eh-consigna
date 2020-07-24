@@ -4,6 +4,8 @@ import {environment} from "../../../../environments/environment";
 import {ApiService} from "../../../shared/services/api.service";
 import {NotifierService} from "angular-notifier";
 import {InputFileComponent} from "../../../ui/forms/input-file/input-file.component";
+import {ConfirmDialogComponent, ConfirmDialogModel} from "../../../ui/confirm-dialog/confirm-dialog.component";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-bitacora-form',
@@ -20,6 +22,7 @@ export class BitacoraFormComponent implements OnInit {
   bitacoraID = null;
   dataConsigna = null;
   dataDocumentos = [];
+  documentosEliminados = [];
   inputFile: any;
   cerrarBitacora = false;
 
@@ -37,7 +40,7 @@ export class BitacoraFormComponent implements OnInit {
     observacion: {
       label: 'Observación',
       name: 'observacion',
-      value: null,
+      value: '',
       messages: null,
       required: false,
     },
@@ -68,7 +71,8 @@ export class BitacoraFormComponent implements OnInit {
   };
 
   constructor(private api: ApiService,
-              private notifier: NotifierService,) {
+              private notifier: NotifierService,
+              private dialogConfirm: MatDialog) {
   }
 
   ngOnInit(): void {
@@ -135,13 +139,6 @@ export class BitacoraFormComponent implements OnInit {
 
   }
 
-  cleanDataBitacora() {
-    this.dataDocumentos = [];
-    this.formCompletado.completado.value = null;
-    this.formCompletado.causalIncumplimiento.value = null;
-    this.formCompletado.observacionCausalIncumplimiento.value = null;
-  }
-
   getSendData() {
     let formData = new FormData();
     formData.append('bitacora_id', this.bitacoraID);
@@ -151,6 +148,7 @@ export class BitacoraFormComponent implements OnInit {
     formData.append('obser_causal_incum', this.formCompletado.observacionCausalIncumplimiento.value);
     formData.append('cerrado', this.cerrarBitacora ? '1' : '0');
     formData.append('elementos', JSON.stringify(this.dataConsigna.bitacora_elementos));
+    formData.append('documentos_eliminados', JSON.stringify(this.documentosEliminados));
 
     for (let i = 0; i < this.dataDocumentos.length; i++) {
       const obj = this.dataDocumentos[i];
@@ -173,6 +171,7 @@ export class BitacoraFormComponent implements OnInit {
     const response = await this.api.post(`${environment.apiBackend}/bitacora/save`, data);
     if (response.success) {
       this.notifier.notify('success', response.message);
+      this.cleanAll();
     } else {
       this.notifier.notify('error', response.message);
     }
@@ -200,7 +199,21 @@ export class BitacoraFormComponent implements OnInit {
   }
 
   deleteDocumento(obj, i) {
-    this.dataDocumentos.splice(i, 1);
+
+    const dialogData = new ConfirmDialogModel('Confirmar', `¿Está seguro(a) de borrar el documento: ${obj.name}?`);
+    const dialogRef = this.dialogConfirm.open(ConfirmDialogComponent, {
+      maxWidth: '400px',
+      data: dialogData
+    });
+
+    dialogRef.afterClosed().subscribe(async (result) => {
+      if (result) {
+        if (obj.url) {
+          this.documentosEliminados.push(obj.url);
+        }
+        this.dataDocumentos.splice(i, 1);
+      }
+    });
   }
 
   validate() {
@@ -230,6 +243,26 @@ export class BitacoraFormComponent implements OnInit {
     }
 
     return true;
+  }
+
+  cleanAll() {
+    this.consignaID = null;
+    this.bitacoraID = null;
+    this.dataConsigna = null;
+    this.cerrarBitacora = false;
+    this.form.numeroConsigna.value = null;
+    this.inputFile = null;
+    this.inputFileComponent.setFileName('');
+    this.formDocumentos.observacion.value = null;
+    this.cleanDataBitacora();
+  }
+
+  cleanDataBitacora() {
+    this.dataDocumentos = [];
+    this.documentosEliminados = [];
+    this.formCompletado.completado.value = null;
+    this.formCompletado.causalIncumplimiento.value = null;
+    this.formCompletado.observacionCausalIncumplimiento.value = null;
   }
 
   cancel() {
