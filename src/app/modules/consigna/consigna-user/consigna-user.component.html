@@ -54,6 +54,14 @@
         </div>
       </mat-grid-tile>
 
+      <mat-grid-tile  class="item" (click)="buscarConsignaEstado()" matTooltip="Ver Pendientes por aprobar" matTooltipClass="custom-tooltip">
+        <mat-icon style="transform: scale(2); color: #0371d881;">flaky</mat-icon>
+        <div style="margin-left: 10px;">Estado
+            <br>
+            {{ total.totalAprobar }}
+        </div>
+      </mat-grid-tile>
+
     </mat-grid-list>
   </mat-card-content>
 </mat-card>
@@ -65,4 +73,8 @@
 
 <div style="padding: 10px;"  *ngIf="viewList">
     <app-consigna-list [data]="data"></app-consigna-list>
+</div>
+
+<div style="padding: 10px;"  *ngIf="viewListEstado">
+    <app-consigna-solicitud-estado [data]="dataEstado"></app-consigna-solicitud-estado>
 </div>

@@ -7,6 +7,7 @@ import { SnackBarService } from './../../../shared/services/snack-bar.service';
 import {Aprobar} from '../../autorizar/aprobar';
 import { DateValidationervice } from './../../../shared/services/date-validations.service';
 
+
 @Component({
   selector: 'app-consigna-user',
   templateUrl: './consigna-user.component.html',
@@ -36,8 +37,10 @@ export class ConsignaUserComponent implements OnInit {
 
   };
   data = [];
+  dataEstado=[];
 
   viewList = false;
+  viewListEstado=false;
   isVisible=false;
 
   constructor(private api: ApiService,
@@ -54,6 +57,7 @@ export class ConsignaUserComponent implements OnInit {
 
   async buscarConsigna(codigoEstado){
     this.viewList = true;
+    this.viewListEstado=false;
     let params = {
       solicitante:{value: this.user.id},
       codigoEstadoConsigna:{value:codigoEstado}
@@ -112,6 +116,7 @@ export class ConsignaUserComponent implements OnInit {
   async buscarConsignaAprobar()
   {
     this.viewList = true;
+    this.viewListEstado=false;
     let params = {
       codigoEstadoConsigna:{value:'S'}
     }
@@ -123,4 +128,20 @@ export class ConsignaUserComponent implements OnInit {
       }
     }
   }
+
+  async buscarConsignaEstado()
+  {
+    this.viewList = false;
+    this.viewListEstado=true;
+    const response = await this.api.get(`${environment.apiBackend}/consigna/getSolicitada`);
+    if(response.success){
+      this.dataEstado = response;
+      if(this.dataEstado.length < 1){
+        this.snackBar.alert('No se encontraron registros con los parámetros consultados.',5000);
+      }
+    }
+  }
+ 
 }
+
+

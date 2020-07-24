@@ -42,7 +42,6 @@ export class HeaderComponent implements OnInit {
   {
     const response = await this.api.get(`${environment.apiBackend}/consigna/getSolicitada`);
     this.numero=response.numero;
-    console.log(response);
   }
 
 }
