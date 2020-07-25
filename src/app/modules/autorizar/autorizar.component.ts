@@ -33,19 +33,12 @@ export class AutorizarComponent implements OnInit {
     this.activeRoute.params.subscribe(params => {
       
 
-<<<<<<< HEAD
-      if (params.id !== undefined && params.id !== null) {
+      if (params.id !== undefined && params.id !== null && params.id!="") {
         if(isNaN(parseInt(params.id))){
           this.buscarConsigna(  { numeroConsigna:{value: params.id}} );
         }else{
           this.buscarConsigna(  { consignacion_id:{value: params.id}} );
         }
-=======
-      if (params.id !== undefined && params.id !== null && params.id!="") {
-
-         this.buscarConsigna(  { consignacion_id:{value: params.id}} );
-
->>>>>>> 04ef37d18a3ac28488e126233bf757f337012877
       }
     });
    }
@@ -172,11 +165,7 @@ export class AutorizarComponent implements OnInit {
   setSelect()
   {
     var result=this.session.getItem('estadoConsigna').filter(b=>{
-<<<<<<< HEAD
       return (b.codigo =="A" || b.codigo == "R" || b.codigo =="C")
-=======
-      return (b.nombre=="Aprobada" || b.nombre=="Cancelada" || b.nombre=="Reprogramada" )
->>>>>>> 04ef37d18a3ac28488e126233bf757f337012877
     });
     this.dataControls.estadoConsigna = result;
   }
