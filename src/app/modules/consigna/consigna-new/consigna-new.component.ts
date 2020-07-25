@@ -474,6 +474,8 @@ export class ConsignaNewComponent implements OnInit {
     }else{
       obj[name].value = event;
     }
+
+    this.validateFechaSolicitud();
   }
   
   setListElementoFecha(name, event, obj: any = undefined) {
@@ -1276,6 +1278,16 @@ export class ConsignaNewComponent implements OnInit {
           } 
       }
     }
+  }
+
+  validateFechaSolicitud(){
+    //var diaSemana = moment(this.form.fechaSolicitud.value).day(); //0 a 6 donde 0 = Domingo
+    var diaSemana = moment(this.form.fechaSolicitud.value).isoWeekday();//1 a 7 donde 7 = Domingo
+
+    if(diaSemana > 2){
+      
+    }
+    console.log(diaSemana);
   }
 
   
