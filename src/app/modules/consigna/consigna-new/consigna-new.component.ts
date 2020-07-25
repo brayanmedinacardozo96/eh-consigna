@@ -17,6 +17,7 @@ import { ModalConfirmComponent } from './../../../ui/forms/modal-confirm/modal-c
 import { Mensaje } from './../../../ui/forms/m-dialog/dialog';
 import { ConsignaNewSearchComponent } from './consigna-new-search/consigna-new-search.component';
 import * as moment from 'moment';
+import { element } from 'protractor';
 
 @Component({
   selector: 'app-consigna-new',
@@ -542,7 +543,7 @@ export class ConsignaNewComponent implements OnInit {
     }else{
       this.dialogo
         .open(ModalConfirmComponent, {
-        data: new Mensaje("Eliminar:","No ha guardado mapa para el elemento seleccionado. ¿Está seguro de guardar el registro?")
+        data: new Mensaje("Mensaje:","No ha guardado mapa para el elemento seleccionado. ¿Está seguro de guardar el registro?")
       })
       .afterClosed()
       .subscribe((confirmado: Boolean) => {
@@ -564,16 +565,19 @@ export class ConsignaNewComponent implements OnInit {
     var horaInicio = this.formElementos.horaInicio.value;
     var fechaFinal = this.dateValidation.getYearMounthDay(this.formElementos.fechaFinal.value);
     var horaFinal = this.formElementos.horaFinal.value;
-    await this.getAreaAFectada(  this.getFeederElemento(this.formElementos.elemento.value) );
+    var feeder= this.getFeederElemento(this.formElementos.elemento.value);
+    await this.getAreaAFectada( feeder );
     
     var jsonAreaAfectada="[[],[]]";
     var jsonPersona="[]";
+ 
     if(this.formElementos.afectaUsuarios.value==1 && this.areaAFectada.length>0)
     {
       jsonAreaAfectada=JSON.stringify( this.areaAFectada[0].area );
-      jsonPersona= JSON.stringify( this.areaAFectada[0].persona )
+      jsonPersona= JSON.stringify( this.areaAFectada[0].persona );
 
     }
+
     const elemento = {
       id:             {value: null},
       redElectrica:   {name: textRedElectrica,  value: this.formElementos.redElectrica.value},
@@ -587,7 +591,8 @@ export class ConsignaNewComponent implements OnInit {
       horaFinal:      {name: horaFinal,         value: horaFinal},
       jsonAreaAfectada: {name:'jsonAreaAfectada', value: jsonAreaAfectada   },
       jsonPersona:{name:'jsonPersona',value: jsonPersona},
-      jsonElementoMapa:{name:'jsonElementoMapa', value: this.jsonMapa}
+      jsonElementoMapa:{name:'jsonElementoMapa', value: this.jsonMapa},
+      feeder:feeder
     }
     this.dataElementos.push(elemento);
     this.getElementoMapa();
@@ -615,11 +620,14 @@ export class ConsignaNewComponent implements OnInit {
     this.form.urlMapa.value = [];
     for(let value of this.dataElementos){
       if(value.jsonElementoMapa != '' && value.jsonElementoMapa != undefined && value.jsonElementoMapa != null){
+       if(value.jsonElementoMapa.value!="")
+       {
         var dataJson =  JSON.parse(value.jsonElementoMapa.value);
         if(typeof dataJson == 'string'){
           dataJson =  JSON.parse(dataJson);
         }
         this.form.urlMapa.value.push(dataJson.url);
+       }
       }
     }
   }
@@ -632,7 +640,33 @@ export class ConsignaNewComponent implements OnInit {
     .afterClosed()
     .subscribe((confirmado: Boolean) => {
       if(confirmado) {
+
+        var elemento=this.dataElementos[id];
+        var feederEli= elemento.feeder;
         this.dataElementos.splice(id,1);
+        this.logAreaAFectada=[];
+
+        for (let index = 0; index < this.dataElementos.length; index++) {
+          const element = this.dataElementos[index];
+          
+          if (element.feeder == feederEli) {
+            var data = this.logAreaAFectada.filter(b => {
+              return (b.feeder == elemento)
+            });
+            
+            if (data.length == 0) {
+              if (element.jsonAreaAfectada.value == "[[],[]]") {
+                element.jsonAreaAfectada.value = elemento.jsonAreaAfectada.value;
+              }
+              if (element.jsonPersona.value == "[]") {
+                element.jsonPersona.value = elemento.jsonPersona.value;
+              }
+            }
+          }
+
+          this.logAreaAFectada.push({feeder: element.feeder});
+
+        }
         this.escribrirAreaAfectada();
         this.getElementoMapa();
       }
@@ -1015,7 +1049,6 @@ export class ConsignaNewComponent implements OnInit {
     
     this.areaAFectada=[];
     //VALIDAR EL FEEDER PARA NO REPETIR
-    
     var data=this.logAreaAFectada.filter(b=>{
       return (b.feeder==elemento)
     });
@@ -1038,8 +1071,7 @@ export class ConsignaNewComponent implements OnInit {
     if (response.message == null) {
       
       var municipio="inicio";
-      //var barrio="";
-
+    
       response.data.barrioAfectado.forEach(element => {
          
          if (municipio == "inicio") {
@@ -1054,16 +1086,12 @@ export class ConsignaNewComponent implements OnInit {
             objSector.push(this.crearJsonSector(municipio, response.data.barrioAfectado));
          }
 
-        //barrio += element.barrio + "\r";
 
       });
       
-      //var cliente="";
+
       response.data.clieteAfectado.forEach(element => {
 
-        /*if (element.tipo_cliente == "No regulado") {
-           cliente += element.nombre_completo + "\r";
-        }*/
         objCliente.push({
           nombre: element.nombre_completo,
           cuenta:element.code,

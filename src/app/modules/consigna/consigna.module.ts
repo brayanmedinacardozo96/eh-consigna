@@ -39,6 +39,7 @@ import { ConsignaListDocumentsComponent } from './consigna-list-documents/consig
 import { SeguimientoConsignaComponent } from './seguimiento-consigna/seguimiento-consigna.component';
 import { TableSeguimientoConsignaComponent } from './seguimiento-consigna/table-seguimiento-consigna/table-seguimiento-consigna.component';
 import { ConsignaNewSearchComponent } from './consigna-new/consigna-new-search/consigna-new-search.component';
+import { ConsignaSolicitudEstadoComponent } from './consigna-solicitud-estado/consigna-solicitud-estado.component';
 
 @NgModule({
   declarations: [
@@ -56,6 +57,7 @@ import { ConsignaNewSearchComponent } from './consigna-new/consigna-new-search/c
     SeguimientoConsignaComponent,
     TableSeguimientoConsignaComponent,
     ConsignaNewSearchComponent,
+    ConsignaSolicitudEstadoComponent,
   ],
     imports: [
         CommonModule,

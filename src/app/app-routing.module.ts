@@ -15,6 +15,7 @@ import {ComunicadoPrensaFormComponent} from "./modules/comunicado-prensa/comunic
 import {ComunicadoPrensaComponent} from "./modules/comunicado-prensa/comunicado-prensa.component";
 import {SeguimientoConsignaComponent} from './modules/consigna/seguimiento-consigna/seguimiento-consigna.component';
 import {BitacoraFormComponent} from "./modules/bitacora/bitacora-form/bitacora-form.component";
+import {BitacoraComponent} from "./modules/bitacora/bitacora.component";
 const routes: Routes = [
   {path: '', component: LoginComponent}
   , {path: 'login', component: LoginComponent}
@@ -33,6 +34,7 @@ const routes: Routes = [
   , {path: 'comunicado-prensa/new', component: ComunicadoPrensaFormComponent, canActivate: [AuthGuard]}
   , {path: 'comunicado-prensa/edit/:id', component: ComunicadoPrensaFormComponent, canActivate: [AuthGuard]}
   , {path: 'seguimiento-consigna', component: SeguimientoConsignaComponent, canActivate: [AuthGuard]}
+  , {path: 'bitacora', component: BitacoraComponent, canActivate: [AuthGuard]}
   , {path: 'bitacora/new', component: BitacoraFormComponent, canActivate: [AuthGuard]}
 
   , {path: '404', component: NotFoundComponent}
