@@ -475,6 +475,8 @@ export class ConsignaNewComponent implements OnInit {
     }else{
       obj[name].value = event;
     }
+
+    this.validateFechaSolicitud();
   }
   
   setListElementoFecha(name, event, obj: any = undefined) {
@@ -869,19 +871,51 @@ export class ConsignaNewComponent implements OnInit {
   async getTipoElementos(event){
     this.dataControls.tipoElemento = [];
     this.dataControls.elemento = [];
+    var dataConsigna = [];
 
-    //validar si existe una consigna con la misma subestación y solicitada
-    // console.log(event);
-    // let request = {
-    //   codigoEstadoConsigna:{ //consultar unicamente las solicitadas
-    //     value: 'S'
-    //   },
+    // validar si existe una consigna con la misma subestación y solicitada
+    if(this.consignaPadreId == null && this.form.tipoFormatoConsigna.value == 'C'){
+      var fechaInicio = moment().format('YYYY/MM/DD');
+      var fechaFinal = moment(fechaFinal).endOf('month').format('YYYY/MM/DD');
 
-    // }
-    // const response = await this.api.post(`${environment.apiBackend}/consigna/get-list`, request);
-    // if(response.success){
-
-    // }
+      let request = {
+        codigoEstadoConsigna:{ //consultar unicamente las solicitadas
+          value: 'S'
+        },
+        fechaSolicitudInicio:{
+          value: fechaInicio
+        },
+        fechaSolicitudFinal:{
+          value: fechaFinal
+        },
+        codigoTipoFormato:{
+          value: this.form.tipoFormatoConsigna.value
+        }
+      }
+      const response = await this.api.post(`${environment.apiBackend}/consigna/get-list`, request);
+      if(response.success){
+        var data = response.data;
+        for(let value of response.data){
+          if(event == parseInt(value.subestacion_id)){
+            var message = "Existe una solicitud con la subestación seleccionada en estado pendiente para la fecha de solicitud "+moment(value.fecha_solicitud).format('YYYY/MM/DD')+" ¿desea crear la solicitud como trabajo de oportunidad?"
+            this.dialogo
+              .open(ModalConfirmComponent, {
+              data: new Mensaje("Atención:", message)
+            })
+            .afterClosed()
+            .subscribe((confirmado: Boolean) => {
+              if(confirmado) {
+                this.tempTipoFormatoConsigna = "TDO";
+                this.form.tipoFormatoConsigna.value = "TDO";
+                this.setDataFormAndDisable(value);
+              }
+            });
+            return;
+          }
+        }
+      }
+    }
+    
 
     if(this.form.subestacion.value != null && this.form.subestacion.value != undefined){
       if(this.formElementos.redElectrica.value != null && this.formElementos.redElectrica.value != undefined){
@@ -1018,7 +1052,6 @@ export class ConsignaNewComponent implements OnInit {
     var data=this.logAreaAFectada.filter(b=>{
       return (b.feeder==elemento)
     });
-    console.log(data);
     if(data.length>0 || this.formElementos.afectaUsuarios.value==0 ){
      // console.log(this.areaAFectada[0].persona);
      // console.log(this.areaAFectada[0]);
@@ -1213,10 +1246,9 @@ export class ConsignaNewComponent implements OnInit {
           this.snackBar.alert('por favor agregue un consecutivo!', 5000);
           this.form.tipoFormatoConsigna.value = 'C';
         }else{
-          console.log(result);   
           this.tempTipoFormatoConsigna = this.form.tipoFormatoConsigna.value;
           var data = result.data[0];
-          this.setDataFormDisable(data);
+          this.setDataFormAndDisable(data);
 
           if(this.form.tipoFormatoConsigna.value == 'CH'){
             this.dataElementos = result.listaElemento;
@@ -1232,7 +1264,7 @@ export class ConsignaNewComponent implements OnInit {
     }
   }
 
-  setDataFormDisable(data){
+  setDataFormAndDisable(data){
     this.consignaPadreId = data.consignacion_id;
     this.form.divisionArea.value = parseInt(data.division_area_id);
     this.form.tipoZona.value = parseInt(data.zona_id);
@@ -1274,6 +1306,16 @@ export class ConsignaNewComponent implements OnInit {
           } 
       }
     }
+  }
+
+  validateFechaSolicitud(){
+    //var diaSemana = moment(this.form.fechaSolicitud.value).day(); //0 a 6 donde 0 = Domingo
+    var diaSemana = moment(this.form.fechaSolicitud.value).isoWeekday();//1 a 7 donde 7 = Domingo
+
+    if(diaSemana > 2){
+      
+    }
+    console.log(diaSemana);
   }
 
   

@@ -34,11 +34,12 @@ export class AutorizarComponent implements OnInit {
       
 
       if (params.id !== undefined && params.id !== null && params.id!="") {
-
-         this.buscarConsigna(  { consignacion_id:{value: params.id}} );
-
+        if(isNaN(parseInt(params.id))){
+          this.buscarConsigna(  { numeroConsigna:{value: params.id}} );
+        }else{
+          this.buscarConsigna(  { consignacion_id:{value: params.id}} );
+        }
       }
-
     });
    }
 
@@ -163,11 +164,9 @@ export class AutorizarComponent implements OnInit {
 
   setSelect()
   {
-
     var result=this.session.getItem('estadoConsigna').filter(b=>{
-      return (b.nombre=="Aprobada" || b.nombre=="Cancelada" || b.nombre=="Reprogramada" )
+      return (b.codigo =="A" || b.codigo == "R" || b.codigo =="C")
     });
-
     this.dataControls.estadoConsigna = result;
   }
 

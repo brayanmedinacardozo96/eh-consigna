@@ -6,6 +6,7 @@ import {NotifierService} from "angular-notifier";
 import {InputFileComponent} from "../../../ui/forms/input-file/input-file.component";
 import {ConfirmDialogComponent, ConfirmDialogModel} from "../../../ui/confirm-dialog/confirm-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
+import {Location} from "@angular/common";
 
 @Component({
   selector: 'app-bitacora-form',
@@ -25,6 +26,7 @@ export class BitacoraFormComponent implements OnInit {
   documentosEliminados = [];
   inputFile: any;
   cerrarBitacora = false;
+  selectAllElementos = false;
 
   form = {
     numeroConsigna: {
@@ -72,7 +74,8 @@ export class BitacoraFormComponent implements OnInit {
 
   constructor(private api: ApiService,
               private notifier: NotifierService,
-              private dialogConfirm: MatDialog) {
+              private dialogConfirm: MatDialog,
+              private location: Location) {
   }
 
   ngOnInit(): void {
@@ -116,6 +119,8 @@ export class BitacoraFormComponent implements OnInit {
       } else {
         this.cleanDataBitacora();
       }
+
+      this.setCumplioCompleto();
 
     }
 
@@ -171,7 +176,7 @@ export class BitacoraFormComponent implements OnInit {
     const response = await this.api.post(`${environment.apiBackend}/bitacora/save`, data);
     if (response.success) {
       this.notifier.notify('success', response.message);
-      this.cleanAll();
+      this.cancel();
     } else {
       this.notifier.notify('error', response.message);
     }
@@ -245,18 +250,6 @@ export class BitacoraFormComponent implements OnInit {
     return true;
   }
 
-  cleanAll() {
-    this.consignaID = null;
-    this.bitacoraID = null;
-    this.dataConsigna = null;
-    this.cerrarBitacora = false;
-    this.form.numeroConsigna.value = null;
-    this.inputFile = null;
-    this.inputFileComponent.setFileName('');
-    this.formDocumentos.observacion.value = null;
-    this.cleanDataBitacora();
-  }
-
   cleanDataBitacora() {
     this.dataDocumentos = [];
     this.documentosEliminados = [];
@@ -266,6 +259,32 @@ export class BitacoraFormComponent implements OnInit {
   }
 
   cancel() {
+    this.location.back();
+  }
+
+  checkAll() {
+    for (let obj of this.dataConsigna.bitacora_elementos) {
+      obj.form.completado = this.selectAllElementos;
+    }
+    this.setCumplioCompleto();
+  }
+
+  setCumplioCompleto() {
+
+    const totalElementos = this.dataConsigna.bitacora_elementos.length;
+    let elementosSeleccionados = 0;
+    for (let obj of this.dataConsigna.bitacora_elementos) {
+      if (obj.form.completado) {
+        elementosSeleccionados++;
+      }
+    }
+
+    if (totalElementos == elementosSeleccionados) {
+      this.formCompletado.completado.value = 1;
+    } else {
+      this.formCompletado.completado.value = 0;
+    }
+
   }
 
   setInput(event) {

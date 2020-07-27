@@ -11,9 +11,11 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatSelectModule} from "@angular/material/select";
 import {FormsModule} from "@angular/forms";
 import {MatCheckboxModule} from "@angular/material/checkbox";
+import { BitacoraListComponent } from './bitacora-list/bitacora-list.component';
+import {RouterModule} from "@angular/router";
 
 @NgModule({
-  declarations: [BitacoraComponent, BitacoraFormComponent],
+  declarations: [BitacoraComponent, BitacoraFormComponent, BitacoraListComponent],
   imports: [
     CommonModule,
     MatCardModule,
@@ -24,7 +26,8 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
     MatFormFieldModule,
     MatSelectModule,
     FormsModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    RouterModule
   ]
 })
 export class BitacoraModule { }
