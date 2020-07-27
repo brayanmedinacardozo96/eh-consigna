@@ -19,7 +19,7 @@ export class ConsignaSolicitudEstadoComponent implements OnInit {
 
   number = Number;
 
-  displayedColumns: string[] = ['codigo', 'fecha_solicitud','fecha_aprobar','fecha_reprogramar','fecha_cancelar','acciones'];
+  displayedColumns: string[] = ['codigo','parametro', 'fecha_solicitud','fecha_aprobar','fecha_reprogramar','fecha_cancelar','acciones'];
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
@@ -102,6 +102,7 @@ export class ConsignaSolicitudEstadoComponent implements OnInit {
       resultado.push({
         id:element.id,
         codigo: element.codigo,
+        parametro:element.nombre,
         fecha_solicitud: moment(element.fecha_solicitud).format('YYYY/MM/DD'),
         fecha_aprobar:fecha_aprobar,
         fecha_reprogramar:fecha_reprogramar,
