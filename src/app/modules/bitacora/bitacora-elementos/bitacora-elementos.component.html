@@ -1,0 +1,52 @@
+<div>
+  <h2 style="text-align: center;">Elementos
+    <button (click)="close()"
+            mat-mini-fab color="accent"
+            style="float: right;" matTooltip="Cerrar">
+      <mat-icon style="color: #FFFFFF;">close</mat-icon>
+    </button>
+  </h2>
+
+</div>
+
+<div>
+
+  <table class="custom-table" style="text-align: center;">
+    <thead>
+    <tr>
+      <th>Tipo elemento</th>
+      <th>Elemento</th>
+      <th>Hora inicio programada</th>
+      <th>Hora inicio</th>
+      <th>Hora entrega</th>
+      <th>Hora devolución</th>
+      <th>Hora maniobra</th>
+      <th>Hora fin</th>
+      <th>Hora fin programada</th>
+      <th>Comentario</th>
+      <th>Completado</th>
+    </tr>
+    </thead>
+    <tbody *ngIf="data.length === 0">
+    <tr>
+      <td colspan="11">No hay registros...</td>
+    </tr>
+    </tbody>
+    <tbody *ngIf="data.length > 0">
+    <tr *ngFor="let value of data;">
+      <td>{{value?.lista_elemento?.elemento?.tipo_elemento?.nombre}}</td>
+      <td>{{value?.lista_elemento?.elemento?.nombre}}</td>
+      <td>{{value?.hora_inicio_prog_formated}}</td>
+      <td>{{value?.hora_inicio}}</td>
+      <td>{{value?.hora_entrega}}</td>
+      <td>{{value?.hora_devolucion}}</td>
+      <td>{{value?.hora_maniobra}}</td>
+      <td>{{value?.hora_fin}}</td>
+      <td>{{value?.hora_final_prog_formated}}</td>
+      <td>{{value?.comentario}}</td>
+      <td>{{value?.completado === '1' ? 'SI' : 'NO'}}</td>
+    </tr>
+    </tbody>
+  </table>
+
+</div>
