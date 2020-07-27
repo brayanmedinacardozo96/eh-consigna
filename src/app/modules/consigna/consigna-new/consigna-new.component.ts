@@ -389,7 +389,7 @@ export class ConsignaNewComponent implements OnInit {
   ];
 
   jsonMapa = ''; 
-
+  
   constructor(private api: ApiService,
               private validations: ValidationService,
               private dateValidation: DateValidationervice,
@@ -556,6 +556,7 @@ export class ConsignaNewComponent implements OnInit {
   }
 
   async addListElements(){
+
     var textRedElectrica = ((document.getElementById("form_consigna-red_electrica")) as HTMLSelectElement).textContent;
     var textTipoElemento = ((document.getElementById("form_consigna-tipo_elemento")) as HTMLSelectElement).textContent;
     var textElemento = ((document.getElementById("form_consigna-elemento")) as HTMLSelectElement).textContent;
@@ -577,7 +578,7 @@ export class ConsignaNewComponent implements OnInit {
       jsonPersona= JSON.stringify( this.areaAFectada[0].persona );
 
     }
-
+ 
     const elemento = {
       id:             {value: null},
       redElectrica:   {name: textRedElectrica,  value: this.formElementos.redElectrica.value},
@@ -592,8 +593,10 @@ export class ConsignaNewComponent implements OnInit {
       jsonAreaAfectada: {name:'jsonAreaAfectada', value: jsonAreaAfectada   },
       jsonPersona:{name:'jsonPersona',value: jsonPersona},
       jsonElementoMapa:{name:'jsonElementoMapa', value: this.jsonMapa},
-      feeder:feeder
+      feeder:feeder,
+      jsonIntervenirElementoMapa:{name:'jsonIntervenirElementoMapa', value: document.getElementById("jsonElementoIntervenirMapa").innerText } 
     }
+    console.log(elemento.jsonIntervenirElementoMapa);
     this.dataElementos.push(elemento);
     this.getElementoMapa();
 
@@ -605,6 +608,7 @@ export class ConsignaNewComponent implements OnInit {
     botonVerMapaSelec.style.visibility = "hidden";
     this.jsonMapa = '';
     document.getElementById("jsonDataMapa").textContent = '';
+    document.getElementById("jsonElementoIntervenirMapa").textContent ="";
 
     this.formElementos.tipoElemento.value = null;
     this.formElementos.elemento.value = null;
@@ -614,6 +618,7 @@ export class ConsignaNewComponent implements OnInit {
     this.formElementos.horaInicio.value = null;
     this.formElementos.fechaFinal.value = null;
     this.formElementos.horaFinal.value = null;
+
   }
 
   getElementoMapa(){
@@ -1003,13 +1008,19 @@ export class ConsignaNewComponent implements OnInit {
       // child = window.open('http://192.9.200.44/hijo.html?key='+key+'&data={"feeders":[{"code":"'+feeders+'"}]}', 'Mapa', 'width=' + width + ',height=' + height + ',top=' + y + ',left=' + x + ',toolbar=no,resizable=no');
       var apiLocal = this.api;
       var jsonLocal = '';
+      var jsonIntervenirElementoMapa='';
       var timer = setInterval(async function () {
         if (child.closed) {
           // Se realiza el llamado del api que obtiene la data del mapa a partir del key
           const response = await apiLocal.get(`${environment.apiBackend}/integracion-mapa/get/${key}`);
           if(response.success){
-            jsonLocal = JSON.stringify(response.data);
+
+            jsonLocal =JSON.stringify({url: JSON.parse( response.data ).url });//  JSON.stringify(response.data.url);
+            jsonIntervenirElementoMapa=JSON.stringify( JSON.parse( response.data ).json );
+
+            document.getElementById("jsonElementoIntervenirMapa").textContent = jsonIntervenirElementoMapa;
             document.getElementById("jsonDataMapa").textContent = jsonLocal;
+
             botonVerMapaSelec.style.visibility = "visible";
           }else{
             snackBar.alert('No se encontró registro de mapa para guardar!',5000);
