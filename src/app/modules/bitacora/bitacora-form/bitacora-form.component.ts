@@ -26,6 +26,7 @@ export class BitacoraFormComponent implements OnInit {
   documentosEliminados = [];
   inputFile: any;
   cerrarBitacora = false;
+  selectAllElementos = false;
 
   form = {
     numeroConsigna: {
@@ -118,6 +119,8 @@ export class BitacoraFormComponent implements OnInit {
       } else {
         this.cleanDataBitacora();
       }
+
+      this.setCumplioCompleto();
 
     }
 
@@ -257,6 +260,31 @@ export class BitacoraFormComponent implements OnInit {
 
   cancel() {
     this.location.back();
+  }
+
+  checkAll() {
+    for (let obj of this.dataConsigna.bitacora_elementos) {
+      obj.form.completado = this.selectAllElementos;
+    }
+    this.setCumplioCompleto();
+  }
+
+  setCumplioCompleto() {
+
+    const totalElementos = this.dataConsigna.bitacora_elementos.length;
+    let elementosSeleccionados = 0;
+    for (let obj of this.dataConsigna.bitacora_elementos) {
+      if (obj.form.completado) {
+        elementosSeleccionados++;
+      }
+    }
+
+    if (totalElementos == elementosSeleccionados) {
+      this.formCompletado.completado.value = 1;
+    } else {
+      this.formCompletado.completado.value = 0;
+    }
+
   }
 
   setInput(event) {

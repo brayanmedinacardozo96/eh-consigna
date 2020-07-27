@@ -65,6 +65,9 @@
         <table class="custom-table">
           <thead>
           <tr>
+            <th>
+              <mat-checkbox [(ngModel)]="selectAllElementos" (ngModelChange)="checkAll()"></mat-checkbox>
+            </th>
             <th>Tipo elemento</th>
             <th>Elemento</th>
             <th>Hora inicio programada</th>
@@ -84,6 +87,7 @@
           </tbody>
           <tbody *ngIf="dataConsigna?.bitacora_elementos?.length > 0">
           <tr *ngFor="let value of dataConsigna?.bitacora_elementos; let i = index;">
+            <td><mat-checkbox [(ngModel)]="value.form.completado" (ngModelChange)="setCumplioCompleto()"></mat-checkbox></td>
             <td>{{value?.tipo_elemento}}</td>
             <td>{{value?.elemento}}</td>
             <td>{{value?.hora_inicio_prog}}</td>
@@ -225,7 +229,7 @@
             <mat-label>{{formCompletado.completado.label}}
               <ng-container *ngIf="formCompletado.completado.required">*</ng-container>
             </mat-label>
-            <mat-select [(ngModel)]="formCompletado.completado.value"
+            <mat-select [disabled]="true" [(ngModel)]="formCompletado.completado.value"
                         (ngModelChange)="setData(formCompletado, formCompletado.completado.name, $event)">
               <mat-option [value]="1">SI</mat-option>
               <mat-option [value]="0">NO</mat-option>
