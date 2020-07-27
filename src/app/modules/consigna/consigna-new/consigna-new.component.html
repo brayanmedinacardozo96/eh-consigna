@@ -44,7 +44,7 @@
             <mat-grid-tile>
                 <mat-form-field>
                     <mat-label>{{form.tipoSolicitud.required ? form.tipoSolicitud.label+' *' : form.tipoSolicitud.label}}</mat-label>
-                    <mat-select [disabled]="form.tipoSolicitud.disabled" [(ngModel)]="form.tipoSolicitud.value" (ngModelChange)="setConsecutivo(1,dataControls?.tipoSolicitud,form.tipoSolicitud.value)" style="padding-top: 5px;padding-bottom: 5px;">
+                    <mat-select [disabled]="form.tipoSolicitud.disabled" [(ngModel)]="form.tipoSolicitud.value" (ngModelChange)="setConsecutivo(1,dataControls?.tipoSolicitud,form.tipoSolicitud.value); validateFechaSolicitud()" style="padding-top: 5px;padding-bottom: 5px;">
                         <mat-option *ngFor="let value of dataControls?.tipoSolicitud;" [value]="value.id">
                             {{value.nombre}}
                         </mat-option>
@@ -61,7 +61,7 @@
                 [messages]="form.fechaSolicitud.messages"
                 [required]="form.fechaSolicitud.required"
                 [disabled]="form.fechaSolicitud.disabled"
-                (valueChange)="setData(form.fechaSolicitud.name, $event)"
+                (valueChange)="setData(form.fechaSolicitud.name, $event); validateFechaSolicitud()"
                 ></app-datepicker>
             </mat-grid-tile>
             

@@ -475,8 +475,6 @@ export class ConsignaNewComponent implements OnInit {
     }else{
       obj[name].value = event;
     }
-
-    this.validateFechaSolicitud();
   }
   
   setListElementoFecha(name, event, obj: any = undefined) {
@@ -1308,14 +1306,64 @@ export class ConsignaNewComponent implements OnInit {
     }
   }
 
-  validateFechaSolicitud(){
-    //var diaSemana = moment(this.form.fechaSolicitud.value).day(); //0 a 6 donde 0 = Domingo
-    var diaSemana = moment(this.form.fechaSolicitud.value).isoWeekday();//1 a 7 donde 7 = Domingo
+  async validateFechaSolicitud(){
+    var message = '';
 
-    if(diaSemana > 2){
+    //valida que no exista un id para identificar que sea una consigna nueva
+    if(this.consignacionId == null && this.consignaPadreId == null && this.form.fechaSolicitud.value != null){
+
+      if(moment(this.form.fechaSolicitud.value).format('YYYY/MM/DD') >= moment().format('YYYY/MM/DD')){
+        this.form.fechaSolicitud.messages = message;
+
+        if(this.form.tipoSolicitud.value != null){
+          var tipoSolicitud = this.dataControls.tipoSolicitud.filter(b=>{
+            return (b.id == this.form.tipoSolicitud.value)
+          });
+  
+          var codTipoSolicitud = tipoSolicitud[0].codigo;
+          //valida que no sea una solicitud de emergencia
+          if(codTipoSolicitud != 'E'){
+            var dataFechaSolicitud = this.session.getItem('validacionFechaSolicitud');
+            var valorValidacion = null;
+            if(dataFechaSolicitud == null){ //valida si trae información
+              const response = await this.session.getDataSelectConsigna();
+              if(response.success){
+                dataFechaSolicitud = this.session.getItem('validacionFechaSolicitud');
+              }
+            }
+        
+            for(let value of dataFechaSolicitud){
+              if(value.estado == '1' && value.codigo == 'FDS'){
+                valorValidacion = value.valor
+              }
+            }
+            
+            if(valorValidacion != null && valorValidacion != undefined){
+              //var diaSemana = moment(this.form.fechaSolicitud.value).day(); //0 a 6, donde 0 = Domingo
+              var diaSemanaActual = moment().isoWeekday();//1 a 7, donde 7 = Domingo
+              var fechaValidacion = moment().add(1, 'weeks').startOf('isoWeek');//inicia la semana el lunes
+        
+              if(diaSemanaActual > parseInt(valorValidacion)){
+                fechaValidacion = moment().add(2, 'weeks').startOf('isoWeek');//inicia la semana el lunes
+              }        
+              if(this.form.fechaSolicitud.value < fechaValidacion){
+                message = 'No se puede agregar para la fecha indicada';              
+              }
+            }
+          }
+        }
+        
+      }else{
+        message = 'La fecha debe ser mayor o igual a la actual';
+      }
+
+      if(message != ''){
+        this.snackBar.alert(message, 5000);
+        this.form.fechaSolicitud.value = null; 
+        this.form.fechaSolicitud.messages = message;
+      }
       
     }
-    console.log(diaSemana);
   }
 
   
