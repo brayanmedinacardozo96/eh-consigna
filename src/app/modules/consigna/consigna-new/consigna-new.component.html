@@ -131,7 +131,7 @@
                 <mat-form-field>
                     <mat-label>{{form.subestacion.required ? form.subestacion.label+' *' : form.subestacion.label}}</mat-label>
                     <mat-select [disabled]="(dataControls?.subestacion.length > 0 ? false: true) || form.subestacion.disabled" 
-                        [(ngModel)]="form.subestacion.value" (ngModelChange)="validateSubestacion($event, 'S')"
+                        [(ngModel)]="form.subestacion.value" (ngModelChange)="validateSubestacion()"
                         style="padding-top: 5px;padding-bottom: 5px;">
                         <mat-option *ngFor="let value of dataControls?.subestacion;" [value]="value.id">
                             {{ value.codigo }}
@@ -202,7 +202,7 @@
                     <mat-form-field>
                         <mat-label>{{formElementos.elemento.required? formElementos.elemento.label+' *':formElementos.elemento.label}}</mat-label>
                         <mat-select [disabled]="dataControls?.elemento.length > 0 ? false: true" id="form_consigna-elemento" [(ngModel)]="formElementos.elemento.value" 
-                            (ngModelChange)="validateSubestacion($event,'E')" style="padding-top: 5px;padding-bottom: 5px;">
+                            (ngModelChange)="validateElementos($event,'E')" style="padding-top: 5px;padding-bottom: 5px;">
                             <mat-option *ngFor="let value of dataControls?.elemento;" [value]="value.id">
                                 {{ value.nombre }}
                             </mat-option>
