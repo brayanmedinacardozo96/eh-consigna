@@ -101,7 +101,7 @@ export class ConsignaTabsComponent implements OnInit {
       this.consigna.form.estadoConsigna.value = parseInt(dataResponse.estado_consignacion_id);
       this.consigna.form.estadoEquipo.value = parseInt(dataResponse.estado_equipo_id);
       this.consigna.form.subestacion.value = parseInt(dataResponse.lista_elemento[0].subestacion_id);
-      this.consigna.getTipoElementos(this.consigna.form.subestacion.value);
+      this.consigna.getTipoElementos();
       this.consigna.form.tipoMantenimiento.value = parseInt(dataResponse.tipo_mantenimiento_id);
       this.consigna.form.trabajoEfectuar.value = dataResponse.trabajo_efectuar;
       this.consigna.form.justificacion.value = dataResponse.justificacion;

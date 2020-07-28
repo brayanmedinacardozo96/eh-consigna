@@ -871,7 +871,8 @@ export class ConsignaNewComponent implements OnInit {
       }
     }
   }
-  async getTipoElementos(event){
+
+  async validateSubestacion(event, tipoSelect){
     this.dataControls.tipoElemento = [];
     this.dataControls.elemento = [];
     var dataConsigna = [];
@@ -879,7 +880,7 @@ export class ConsignaNewComponent implements OnInit {
     // validar si existe una consigna con la misma subestación y solicitada
     if(this.consignaPadreId == null && this.form.tipoFormatoConsigna.value == 'C'){
       var fechaInicio = moment().format('YYYY/MM/DD');
-      var fechaFinal = moment(fechaFinal).endOf('month').format('YYYY/MM/DD');
+      var fechaFinal = moment(fechaFinal).endOf('month').format('YYYY/MM/DD');//fecha final del mes
 
       let request = {
         codigoEstadoConsigna:{ //consultar unicamente las solicitadas
@@ -897,28 +898,59 @@ export class ConsignaNewComponent implements OnInit {
       }
       const response = await this.api.post(`${environment.apiBackend}/consigna/get-list`, request);
       if(response.success){
-        var data = response.data;
-        for(let value of response.data){
-          if(event == parseInt(value.subestacion_id)){
-            var message = "Existe una solicitud con la subestación seleccionada en estado pendiente para la fecha de solicitud "+moment(value.fecha_solicitud).format('YYYY/MM/DD')+" ¿desea crear la solicitud como trabajo de oportunidad?"
-            this.dialogo
-              .open(ModalConfirmComponent, {
-              data: new Mensaje("Atención:", message)
-            })
-            .afterClosed()
-            .subscribe((confirmado: Boolean) => {
-              if(confirmado) {
-                this.tempTipoFormatoConsigna = "TDO";
-                this.form.tipoFormatoConsigna.value = "TDO";
-                this.setDataFormAndDisable(value);
-              }
-            });
-            return;
+        //si el select es una subestacion
+        if(tipoSelect == 'S'){ 
+          for(let value of response.data){
+            if(event == parseInt(value.subestacion_id)){
+              var message = "Existe una solicitud con la subestación seleccionada en estado pendiente para la fecha de solicitud "+moment(value.fecha_solicitud).format('YYYY/MM/DD')+" ¿desea crear la solicitud como trabajo de oportunidad?"
+              this.dialogo
+                .open(ModalConfirmComponent, {
+                data: new Mensaje("Atención:", message)
+              })
+              .afterClosed()
+              .subscribe((confirmado: Boolean) => {
+                if(confirmado) {
+                  this.tempTipoFormatoConsigna = "TDO";
+                  this.form.tipoFormatoConsigna.value = "TDO";
+                  this.setDataFormAndDisable(value);
+                }
+              });
+              return;
+            }
+          }
+        }
+
+        //si el select es un elemento
+        if(tipoSelect == 'E'){
+          for(let value of response.lista_elemento){
+            if(parseInt(value.subestacion_id) == this.form.subestacion.value && 
+              parseInt(value.elemento_id) == event){
+                var message = "Existe una solicitud con la subestación y elemento seleccionado en estado pendiente para la fecha de solicitud "+moment(value.fecha_solicitud).format('YYYY/MM/DD')+" ¿desea crear la solicitud como trabajo de oportunidad?"
+                this.dialogo
+                  .open(ModalConfirmComponent, {
+                  data: new Mensaje("Atención:", message)
+                })
+                .afterClosed()
+                .subscribe((confirmado: Boolean) => {
+                  if(confirmado) {
+                    this.tempTipoFormatoConsigna = "TDO";
+                    this.form.tipoFormatoConsigna.value = "TDO";
+                    this.setDataFormAndDisable(value);
+                  }
+                });
+                return;
+            }
           }
         }
       }
     }
     
+    this.getTipoElementos();    
+  }
+
+  async getTipoElementos(){
+    this.dataControls.tipoElemento = [];
+    this.dataControls.elemento = [];
 
     if(this.form.subestacion.value != null && this.form.subestacion.value != undefined){
       if(this.formElementos.redElectrica.value != null && this.formElementos.redElectrica.value != undefined){
@@ -955,8 +987,6 @@ export class ConsignaNewComponent implements OnInit {
     }else{
       this.snackBar.alert('seleccione una subestación!',5000);
     }
-    
-
   }
 
   async getElementos(event){
@@ -1287,7 +1317,7 @@ export class ConsignaNewComponent implements OnInit {
     this.form.estadoEquipo.value = parseInt(data.estado_equipo_id);
     this.form.subestacion.value = parseInt(data.subestacion_id);
     this.form.tipoMantenimiento.value = parseInt(data.tipo_mantenimiento_id);
-    this.getTipoElementos(this.form.subestacion.value);
+    this.getTipoElementos();
 
     this.setDisableForm(this.form,true);
   }
@@ -1375,6 +1405,9 @@ export class ConsignaNewComponent implements OnInit {
       }
       
     }
+
+    this.formElementos.fechaInicio.value = this.form.fechaSolicitud.value;
+    this.formElementos.fechaFinal.value = this.form.fechaSolicitud.value;
   }
 
   

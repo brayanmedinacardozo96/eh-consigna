@@ -131,7 +131,7 @@
                 <mat-form-field>
                     <mat-label>{{form.subestacion.required ? form.subestacion.label+' *' : form.subestacion.label}}</mat-label>
                     <mat-select [disabled]="(dataControls?.subestacion.length > 0 ? false: true) || form.subestacion.disabled" 
-                        [(ngModel)]="form.subestacion.value" (ngModelChange)="getTipoElementos($event)"
+                        [(ngModel)]="form.subestacion.value" (ngModelChange)="validateSubestacion($event, 'S')"
                         style="padding-top: 5px;padding-bottom: 5px;">
                         <mat-option *ngFor="let value of dataControls?.subestacion;" [value]="value.id">
                             {{ value.codigo }}
@@ -176,7 +176,7 @@
                     <mat-form-field>
                         <mat-label>{{formElementos.redElectrica.required ? formElementos.redElectrica.label+' *' :formElementos.redElectrica.label}}</mat-label>
                         <mat-select id="form_consigna-red_electrica" [(ngModel)]="formElementos.redElectrica.value"
-                        (ngModelChange)="getTipoElementos($event)" style="padding-top: 5px;padding-bottom: 5px;">
+                        (ngModelChange)="getTipoElementos()" style="padding-top: 5px;padding-bottom: 5px;">
                             <mat-option *ngFor="let value of dataControls?.redElectrica;" [value]="value.value">
                                 {{ value.nombre }}
                             </mat-option>
@@ -201,7 +201,8 @@
                 <mat-grid-tile>
                     <mat-form-field>
                         <mat-label>{{formElementos.elemento.required? formElementos.elemento.label+' *':formElementos.elemento.label}}</mat-label>
-                        <mat-select [disabled]="dataControls?.elemento.length > 0 ? false: true" id="form_consigna-elemento" [(ngModel)]="formElementos.elemento.value" style="padding-top: 5px;padding-bottom: 5px;">
+                        <mat-select [disabled]="dataControls?.elemento.length > 0 ? false: true" id="form_consigna-elemento" [(ngModel)]="formElementos.elemento.value" 
+                            (ngModelChange)="validateSubestacion($event,'E')" style="padding-top: 5px;padding-bottom: 5px;">
                             <mat-option *ngFor="let value of dataControls?.elemento;" [value]="value.id">
                                 {{ value.nombre }}
                             </mat-option>
@@ -243,6 +244,7 @@
                         [name]="formElementos.fechaInicio.name" 
                         [messages]="formElementos.fechaInicio.messages"
                         [required]="formElementos.fechaInicio.required"
+                        [disabled]="true"
                         [id]="'mat-prueba'"
                         (valueChange)="setListElementoFecha(formElementos.fechaInicio.name, $event,this.formElementos)"
                     >                        
@@ -268,6 +270,7 @@
                         [name]="formElementos.fechaFinal.name" 
                         [messages]="formElementos.fechaFinal.messages"
                         [required]="formElementos.fechaFinal.required"
+                        [disabled]="true"
                         [id]="'mat-prueba'"
                         (valueChange)="setListElementoFecha(formElementos.fechaFinal.name, $event,this.formElementos)"
                     >                        
