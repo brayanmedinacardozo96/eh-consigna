@@ -15,9 +15,10 @@ import { BitacoraListComponent } from './bitacora-list/bitacora-list.component';
 import {RouterModule} from "@angular/router";
 import { BitacoraDocumentosComponent } from './bitacora-documentos/bitacora-documentos.component';
 import { BitacoraElementosComponent } from './bitacora-elementos/bitacora-elementos.component';
+import { BitacoraSubelementosComponent } from './bitacora-subelementos/bitacora-subelementos.component';
 
 @NgModule({
-  declarations: [BitacoraComponent, BitacoraFormComponent, BitacoraListComponent, BitacoraDocumentosComponent, BitacoraElementosComponent],
+  declarations: [BitacoraComponent, BitacoraFormComponent, BitacoraListComponent, BitacoraDocumentosComponent, BitacoraElementosComponent, BitacoraSubelementosComponent],
   imports: [
     CommonModule,
     MatCardModule,
