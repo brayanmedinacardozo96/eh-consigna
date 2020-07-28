@@ -120,7 +120,7 @@ export class ConsignaUserComponent implements OnInit {
     let params = {
       codigoEstadoConsigna:{value:'S'}
     }
-    const response = await this.api.post(`${environment.apiBackend}/consigna/get-list`, params);
+    const response = await this.api.post(`${environment.apiBackend}/consigna/get-list-aprobar`, params);
     if(response.success){
       this.data = response.data;
       if(this.data.length < 1){
