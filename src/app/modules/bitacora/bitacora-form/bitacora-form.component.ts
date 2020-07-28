@@ -5,8 +5,11 @@ import {ApiService} from "../../../shared/services/api.service";
 import {NotifierService} from "angular-notifier";
 import {InputFileComponent} from "../../../ui/forms/input-file/input-file.component";
 import {ConfirmDialogComponent, ConfirmDialogModel} from "../../../ui/confirm-dialog/confirm-dialog.component";
-import {MatDialog} from "@angular/material/dialog";
+import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
 import {Location} from "@angular/common";
+import {ActivatedRoute} from "@angular/router";
+import {BitacoraDocumentosComponent} from "../bitacora-documentos/bitacora-documentos.component";
+import {BitacoraSubelementosComponent} from "../bitacora-subelementos/bitacora-subelementos.component";
 
 @Component({
   selector: 'app-bitacora-form',
@@ -75,11 +78,31 @@ export class BitacoraFormComponent implements OnInit {
   constructor(private api: ApiService,
               private notifier: NotifierService,
               private dialogConfirm: MatDialog,
-              private location: Location) {
+              private location: Location,
+              private activeRoute: ActivatedRoute,
+              private dialog: MatDialog) {
+
+    this.activeRoute.params.subscribe(params => {
+
+      if (params.id !== undefined && params.id !== null) {
+        this.form.numeroConsigna.value = params.id;
+        this.load().then();
+      } else {
+        this.loadControls().then();
+      }
+
+    });
+
   }
 
   ngOnInit(): void {
-    this.loadControls().then();
+
+  }
+
+  async load() {
+    this.loadControls().then(async () => {
+      this.searchConsigna().then();
+    });
   }
 
   async loadControls() {
@@ -267,6 +290,17 @@ export class BitacoraFormComponent implements OnInit {
       obj.form.completado = this.selectAllElementos;
     }
     this.setCumplioCompleto();
+  }
+
+  abrirSubelementos(obj) {
+    console.log(obj.json_elemento_mapa);
+    const jsonSubElementos = JSON.parse(obj.json_elemento_mapa);
+
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.minWidth = 500;
+    dialogConfig.minHeight = 300;
+    dialogConfig.data = jsonSubElementos;
+    this.dialog.open(BitacoraSubelementosComponent, dialogConfig);
   }
 
   setCumplioCompleto() {

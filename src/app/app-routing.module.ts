@@ -36,6 +36,7 @@ const routes: Routes = [
   , {path: 'seguimiento-consigna', component: SeguimientoConsignaComponent, canActivate: [AuthGuard]}
   , {path: 'bitacora', component: BitacoraComponent, canActivate: [AuthGuard]}
   , {path: 'bitacora/new', component: BitacoraFormComponent, canActivate: [AuthGuard]}
+  , {path: 'bitacora/edit/:id', component: BitacoraFormComponent, canActivate: [AuthGuard]}
 
   , {path: '404', component: NotFoundComponent}
   , {path: '**', redirectTo: '/404'}

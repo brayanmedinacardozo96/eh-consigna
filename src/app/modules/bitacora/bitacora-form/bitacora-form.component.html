@@ -89,7 +89,14 @@
           <tr *ngFor="let value of dataConsigna?.bitacora_elementos; let i = index;">
             <td><mat-checkbox [(ngModel)]="value.form.completado" (ngModelChange)="setCumplioCompleto()"></mat-checkbox></td>
             <td>{{value?.tipo_elemento}}</td>
-            <td>{{value?.elemento}}</td>
+            <td>
+              {{value?.elemento}}
+              <!--<mat-icon color="accent"
+                        matTooltip="Abrir elementos afectados"
+                        (click)="abrirSubelementos(value)"
+                        style="cursor: pointer;">offline_bolt
+              </mat-icon>-->
+            </td>
             <td>{{value?.hora_inicio_prog}}</td>
             <td>
               <app-date-time-picker
