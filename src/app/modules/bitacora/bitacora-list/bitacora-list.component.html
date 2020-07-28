@@ -43,18 +43,18 @@
     </td>
 
     <td>
-        <mat-icon color="accent"
-                  matTooltip="Ver documentos adjuntos"
-                  (click)="verDocumentos(value)"
-                  style="cursor: pointer;">attachment
-        </mat-icon>
+      <mat-icon color="accent"
+                matTooltip="Ver documentos adjuntos"
+                (click)="verDocumentos(value)"
+                style="cursor: pointer;">attachment
+      </mat-icon>
     </td>
 
     <td>
       <ng-container *ngIf="value?.cerrado === '0'">
         <mat-icon color="accent"
                   matTooltip="Editar"
-                  [routerLink]="['/comunicado-prensa/edit/'+value?.id]"
+                  [routerLink]="['/bitacora/edit/'+value?.consigna?.codigo]"
                   style="cursor: pointer;">edit
         </mat-icon>
       </ng-container>

@@ -7,6 +7,7 @@ import {InputFileComponent} from "../../../ui/forms/input-file/input-file.compon
 import {ConfirmDialogComponent, ConfirmDialogModel} from "../../../ui/confirm-dialog/confirm-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
 import {Location} from "@angular/common";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-bitacora-form',
@@ -75,11 +76,30 @@ export class BitacoraFormComponent implements OnInit {
   constructor(private api: ApiService,
               private notifier: NotifierService,
               private dialogConfirm: MatDialog,
-              private location: Location) {
+              private location: Location,
+              private activeRoute: ActivatedRoute) {
+
+    this.activeRoute.params.subscribe(params => {
+
+      if (params.id !== undefined && params.id !== null) {
+        this.form.numeroConsigna.value = params.id;
+        this.load().then();
+      } else {
+        this.loadControls().then();
+      }
+
+    });
+
   }
 
   ngOnInit(): void {
-    this.loadControls().then();
+
+  }
+
+  async load() {
+    this.loadControls().then(async () => {
+      this.searchConsigna().then();
+    });
   }
 
   async loadControls() {
