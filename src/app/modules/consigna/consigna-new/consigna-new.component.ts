@@ -872,10 +872,15 @@ export class ConsignaNewComponent implements OnInit {
     }
   }
 
-  async validateSubestacion(event, tipoSelect){
+  validateSubestacion(){
     this.dataControls.tipoElemento = [];
     this.dataControls.elemento = [];
     var dataConsigna = [];
+
+    this.getTipoElementos();
+  }
+
+  async validateElementos(event, tipoSelect){
 
     // validar si existe una consigna con la misma subestación y solicitada
     if(this.consignaPadreId == null && this.form.tipoFormatoConsigna.value == 'C'){
@@ -944,8 +949,6 @@ export class ConsignaNewComponent implements OnInit {
         }
       }
     }
-    
-    this.getTipoElementos();    
   }
 
   async getTipoElementos(){
