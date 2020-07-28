@@ -924,7 +924,7 @@ export class ConsignaNewComponent implements OnInit {
             }
           }
         }
-
+        var dataConsigna = response.data;
         //si el select es un elemento
         if(tipoSelect == 'E'){
           for(let value of response.lista_elemento){
@@ -938,9 +938,13 @@ export class ConsignaNewComponent implements OnInit {
                 .afterClosed()
                 .subscribe((confirmado: Boolean) => {
                   if(confirmado) {
-                    this.tempTipoFormatoConsigna = "TDO";
-                    this.form.tipoFormatoConsigna.value = "TDO";
-                    this.setDataFormAndDisable(value);
+                    for(let data of dataConsigna){
+                      if(data.consignacion_id == value.consignacion_id){
+                        this.tempTipoFormatoConsigna = "TDO";
+                        this.form.tipoFormatoConsigna.value = "TDO";
+                        this.setDataFormAndDisable(data);
+                      }
+                    }
                   }
                 });
                 return;
@@ -985,7 +989,8 @@ export class ConsignaNewComponent implements OnInit {
           }
         }else{
           this.dataControls.tipoElemento = this.session.getItem('tempTipoElemento');
-        }        
+        }
+        this.getElementos(this.formElementos.tipoElemento.value);        
       }      
     }else{
       this.snackBar.alert('seleccione una subestación!',5000);
@@ -993,24 +998,26 @@ export class ConsignaNewComponent implements OnInit {
   }
 
   async getElementos(event){
-    this.dataControls.elemento = [];
-    let request = {
-      tipo_elemento_id: event
-    };
-
-    let dataSession = this.session.getDataInfo('elemento','tipo_elemento_id',event);
-    if(dataSession.success && dataSession.data.length >0){
-      this.dataControls.elemento = dataSession.data;
-    }else{
-      const response = await this.api.post(`${environment.apiBackend}/elemento/get-elemento`, request);
-      let success = response.success;
-      let message = response.message;
-      if(success){
-        this.dataControls.elemento = response.data;
+    if(event != null && event != undefined){
+      this.dataControls.elemento = [];
+      let request = {
+        tipo_elemento_id: event
+      };
+  
+      let dataSession = this.session.getDataInfo('elemento','tipo_elemento_id',event);
+      if(dataSession.success && dataSession.data.length >0){
+        this.dataControls.elemento = dataSession.data;
       }else{
-        this.snackBar.alert('Ocurrió un error, por favor vuelva a intentarlo o contáctese con el administrador.',10000)
-      } 
-    }    
+        const response = await this.api.post(`${environment.apiBackend}/elemento/get-elemento`, request);
+        let success = response.success;
+        let message = response.message;
+        if(success){
+          this.dataControls.elemento = response.data;
+        }else{
+          this.snackBar.alert('Ocurrió un error, por favor vuelva a intentarlo o contáctese con el administrador.',10000)
+        } 
+      }    
+    }
   }
 
  getJsonMapa(){
@@ -1321,6 +1328,7 @@ export class ConsignaNewComponent implements OnInit {
     this.form.subestacion.value = parseInt(data.subestacion_id);
     this.form.tipoMantenimiento.value = parseInt(data.tipo_mantenimiento_id);
     this.getTipoElementos();
+    this.setElementoFechaSolicitud();
 
     this.setDisableForm(this.form,true);
   }
@@ -1408,7 +1416,10 @@ export class ConsignaNewComponent implements OnInit {
       }
       
     }
-
+    this.setElementoFechaSolicitud();
+  }
+  
+  setElementoFechaSolicitud(){
     this.formElementos.fechaInicio.value = this.form.fechaSolicitud.value;
     this.formElementos.fechaFinal.value = this.form.fechaSolicitud.value;
   }
