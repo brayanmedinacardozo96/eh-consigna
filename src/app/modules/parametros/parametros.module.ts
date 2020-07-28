@@ -20,6 +20,7 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatTableModule} from '@angular/material/table';
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {DirectivesModule} from "../../shared/directives/directives.module";
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [ParametrosComponent, ParametrosRegistroComponent, TipoParametrosComponent, TableTipoParametroComponent, TableParametroComponent],
@@ -41,6 +42,7 @@ import {DirectivesModule} from "../../shared/directives/directives.module";
     MatTableModule,
     MatTooltipModule,
     DirectivesModule,
+    MatCheckboxModule
   ]
 })
 export class ParametrosModule { }

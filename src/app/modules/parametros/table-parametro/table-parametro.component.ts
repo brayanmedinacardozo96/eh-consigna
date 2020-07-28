@@ -2,6 +2,8 @@ import { Component, OnInit,ViewChild,Input,Output,EventEmitter } from '@angular/
 import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
+import {ApiService} from '../../../shared/services/api.service';
+import {environment} from 'src/environments/environment';
 
 @Component({
   selector: 'app-table-parametro',
@@ -10,7 +12,7 @@ import {MatSort} from '@angular/material/sort';
 })
 export class TableParametroComponent implements OnInit {
 
-  displayedColumns: string[] = ['tp_nombre','codigo','nombre', 'descripcion','valor','acciones'];
+  displayedColumns: string[] = ['tp_nombre','codigo','nombre', 'descripcion','valor','estado','acciones'];
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
@@ -19,7 +21,9 @@ export class TableParametroComponent implements OnInit {
     this.init(data);
   }
 
-  constructor() { }
+  constructor(
+    private apiService: ApiService,
+  ) { }
 
 
   ngOnInit(): void {
@@ -47,6 +51,16 @@ export class TableParametroComponent implements OnInit {
 
     this.valueChange.emit(["select",row]);
 
+  }
+
+  async setEstado(row,checkbox) 
+  {
+      var obj = {
+        id: row.id,
+        estado: checkbox?"1":"0"
+      }
+
+      var response = await this.apiService.post(`${environment.apiBackend}/parametro/putUpdateEstado`, obj);
   }
 
   eliminar(row)
