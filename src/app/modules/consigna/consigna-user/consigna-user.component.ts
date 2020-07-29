@@ -126,7 +126,7 @@ export class ConsignaUserComponent implements OnInit {
     if(result.length>0)
     {
       this.isVisible=true;
-      const response = await this.api.get(`${environment.apiBackend}/bitacora/getNumero/1`);
+      const response = await this.api.get(`${environment.apiBackend}/bitacora/getNumero/0`);
       if(response.message==null){
         let data = response.data;
         this.total.totalBitacora =data[0].numero;
@@ -144,7 +144,7 @@ export class ConsignaUserComponent implements OnInit {
     this.viewListBitacora=true;
     this.viewList=false;
     this.viewListEstado=false;
-    if (this.data.length === 0) {
+    if (response.data.length === 0) {
       this.snackBar.alert('No se encontraron registros.',5000);
     }
   }
