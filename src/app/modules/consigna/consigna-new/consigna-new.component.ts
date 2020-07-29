@@ -1060,6 +1060,8 @@ export class ConsignaNewComponent implements OnInit {
             document.getElementById("jsonDataMapa").textContent = jsonLocal;
 
             botonVerMapaSelec.style.visibility = "visible";
+            clearInterval(timer);
+            
           }else{
             snackBar.alert('No se encontró registro de mapa para guardar!',5000);
           }
