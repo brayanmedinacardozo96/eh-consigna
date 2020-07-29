@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Input } from '@angular/core';
 import {environment} from '../../../../environments/environment';
 import { ApiService } from './../../../shared/services/api.service';
 import { User } from './../../../shared/models/user';
@@ -14,7 +14,7 @@ import { DateValidationervice } from './../../../shared/services/date-validation
   styleUrls: ['./consigna-user.component.scss']
 })
 export class ConsignaUserComponent implements OnInit {
-
+  
 
   user: User = Auth.getUserDataPerson();
   request = {
@@ -34,13 +34,16 @@ export class ConsignaUserComponent implements OnInit {
     totalCanceladas: 0,
     totalReprogramadas: 0,
     totalAprobar:0,
+    totalBitacora:0,
 
   };
   data = [];
   dataEstado=[];
+  dataBitacora=[];
 
   viewList = false;
   viewListEstado=false;
+  viewListBitacora=false;
   isVisible=false;
 
   constructor(private api: ApiService,
@@ -53,11 +56,13 @@ export class ConsignaUserComponent implements OnInit {
   ngOnInit(): void {
     this.search();
     this.consignaAprobar();
+    this.bitacora();
   }
 
   async buscarConsigna(codigoEstado){
     this.viewList = true;
     this.viewListEstado=false;
+    this.viewListBitacora=false;
     let params = {
       solicitante:{value: this.user.id},
       codigoEstadoConsigna:{value:codigoEstado}
@@ -113,10 +118,44 @@ export class ConsignaUserComponent implements OnInit {
 
   }
 
+  async bitacora()
+  {
+
+    var result=this.aprobar.validarPermiso();
+
+    if(result.length>0)
+    {
+      this.isVisible=true;
+      const response = await this.api.get(`${environment.apiBackend}/bitacora/getNumero/1`);
+      if(response.message==null){
+        let data = response.data;
+        this.total.totalBitacora =data[0].numero;
+      }
+
+    }
+
+  }
+
+  async buscarBitacora()
+  {
+    var params='{"estado":0}';
+    const response = await this.api.get(`${environment.apiBackend}/bitacora/get-all?params=${params}`);
+    this.dataBitacora = response.data;
+    this.viewListBitacora=true;
+    this.viewList=false;
+    this.viewListEstado=false;
+    if (this.data.length === 0) {
+      this.snackBar.alert('No se encontraron registros.',5000);
+    }
+  }
+
+  
+
   async buscarConsignaAprobar()
   {
     this.viewList = true;
     this.viewListEstado=false;
+    this.viewListBitacora=false;
     let params = {
       codigoEstadoConsigna:{value:'S'}
     }
@@ -132,6 +171,7 @@ export class ConsignaUserComponent implements OnInit {
   async buscarConsignaEstado()
   {
     this.viewList = false;
+    this.viewListBitacora=false;
     this.viewListEstado=true;
     const response = await this.api.get(`${environment.apiBackend}/consigna/getSolicitada`);
     if(response.success){

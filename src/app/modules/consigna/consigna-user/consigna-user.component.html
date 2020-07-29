@@ -33,9 +33,16 @@
         </mat-grid-tile>
         <mat-grid-tile class="item" (click)="buscarConsigna(request.codigos.reprogramadas)" matTooltip="Ver Canceladas/Reprogramadas" matTooltipClass="custom-tooltip">
             <mat-icon style="transform: scale(2); color: #481d10;">watch_later</mat-icon>
-            <div style="margin-left: 10px;">Reprogramadas
+            <div style="margin-left: 10px;">Reprogramada
                 <br>
                 {{total.totalReprogramadas}}
+            </div><br>
+        </mat-grid-tile>
+        <mat-grid-tile class="item" (click)="buscarBitacora()" matTooltip="Bitácora activas" matTooltipClass="custom-tooltip">
+            <mat-icon style="transform: scale(2); color: #6868ae;">menu_book</mat-icon>
+            <div style="margin-left: 10px;">Bitacora
+                <br>
+                {{total.totalBitacora}}
             </div><br>
         </mat-grid-tile>
       </mat-grid-list>
@@ -77,4 +84,8 @@
 
 <div style="padding: 10px;"  *ngIf="viewListEstado">
     <app-consigna-solicitud-estado [data]="dataEstado"></app-consigna-solicitud-estado>
+</div>
+
+<div style="padding: 10px;">
+    <app-bitacora-list [data]="dataBitacora" *ngIf="viewListBitacora"></app-bitacora-list>
 </div>
