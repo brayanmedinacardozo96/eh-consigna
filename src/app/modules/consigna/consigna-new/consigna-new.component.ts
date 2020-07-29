@@ -612,9 +612,9 @@ export class ConsignaNewComponent implements OnInit {
     this.formElementos.elemento.value = null;
     this.formElementos.ramal.value = null;
     this.formElementos.afectaUsuarios.value = null;
-    this.formElementos.fechaInicio.value = null;
+    this.formElementos.fechaInicio.value = this.form.fechaSolicitud.value;
     this.formElementos.horaInicio.value = null;
-    this.formElementos.fechaFinal.value = null;
+    this.formElementos.fechaFinal.value = this.form.fechaSolicitud.value;
     this.formElementos.horaFinal.value = null;
 
   }
