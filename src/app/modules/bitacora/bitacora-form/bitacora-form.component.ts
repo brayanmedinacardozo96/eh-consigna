@@ -263,6 +263,10 @@ export class BitacoraFormComponent implements OnInit {
       return false;
     }
 
+    if (!this.validateHorasElementos()) {
+      return false;
+    }
+
     if (this.formCompletado.completado.value === 0) {
       if (!this.formCompletado.causalIncumplimiento.value) {
         this.notifier.notify('error', 'Debe indicar la razón del incumplimiento.');
@@ -271,6 +275,24 @@ export class BitacoraFormComponent implements OnInit {
     }
 
     return true;
+  }
+
+  validateHorasElementos() {
+    let response = true;
+    if (this.cerrarBitacora) { // Solo se valida cuando se cierre la bitacora
+      for (let value of this.dataConsigna.bitacora_elementos) {
+        const obj = value.form;
+        if (obj.completado) { // Solo se valida para los elementos seleccionados
+          if (obj.hora_inicio.value == null || obj.hora_entrega.value == null || obj.hora_devolucion.value == null ||
+            obj.hora_maniobra.value == null || obj.hora_fin.value == null) {
+            this.notifier.notify('error', 'Debe diligenciar las horas para el elemento: ' + value.elemento);
+            response = false;
+            break;
+          }
+        }
+      }
+    }
+    return response;
   }
 
   cleanDataBitacora() {
