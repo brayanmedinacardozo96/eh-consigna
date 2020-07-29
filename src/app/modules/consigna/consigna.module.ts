@@ -40,6 +40,7 @@ import { SeguimientoConsignaComponent } from './seguimiento-consigna/seguimiento
 import { TableSeguimientoConsignaComponent } from './seguimiento-consigna/table-seguimiento-consigna/table-seguimiento-consigna.component';
 import { ConsignaNewSearchComponent } from './consigna-new/consigna-new-search/consigna-new-search.component';
 import { ConsignaSolicitudEstadoComponent } from './consigna-solicitud-estado/consigna-solicitud-estado.component';
+import { BitacoraListComponent } from './bitacora-list/bitacora-list.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +59,9 @@ import { ConsignaSolicitudEstadoComponent } from './consigna-solicitud-estado/co
     TableSeguimientoConsignaComponent,
     ConsignaNewSearchComponent,
     ConsignaSolicitudEstadoComponent,
+    BitacoraListComponent,
+    
+    
   ],
     imports: [
         CommonModule,
@@ -85,7 +89,9 @@ import { ConsignaSolicitudEstadoComponent } from './consigna-solicitud-estado/co
         MatListModule,
         TrabajoOportunidadModule,
         ManiobraModule,
-        DirectivesModule
-    ]
+        DirectivesModule,
+        
+    ],
+    
 })
-export class ConsignaModule { }
+export  class ConsignaModule { }
