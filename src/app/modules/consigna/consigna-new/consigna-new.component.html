@@ -314,6 +314,7 @@
                 <!-- para ver obtener de manera temporar la data del mapa -->
                 <span style="display: none;" id="jsonDataMapa"></span>
                 <span style="display: none;" id="jsonElementoIntervenirMapa"></span>
+                <span style="display: none;" id="jsonMapaTipo"></span>
             </span>
 
             <table class="custom-table">
@@ -412,7 +413,8 @@
 
         <!-- areas afectadas -->
         <fieldset>
-            <legend style="text-align: left;">Areas Afectadas</legend>
+            <legend style="text-align: left;">Areas Afectadas - <em>Barrios:{{numeroAreaAfectada.barrios}}, Clientes regulados:{{numeroAreaAfectada.clienteRegulado}} ,Clientes no regulados:{{numeroAreaAfectada.clienteNoRegulado}}</em> </legend>
+            
             <h3 style="text-align: left;">Interrupciones Mientras Dura el Trabajo</h3>
             <mat-grid-list class="row" cols="2" rowHeight="110px">
 
@@ -427,6 +429,7 @@
                     </app-input-text-area>
                 </mat-grid-tile>
                 
+
                 <mat-grid-tile>
                     <app-input-text-area style="width: 100%;"
                         class="input"
