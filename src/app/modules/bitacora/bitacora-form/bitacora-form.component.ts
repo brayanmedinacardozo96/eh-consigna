@@ -8,7 +8,6 @@ import {ConfirmDialogComponent, ConfirmDialogModel} from "../../../ui/confirm-di
 import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
 import {Location} from "@angular/common";
 import {ActivatedRoute} from "@angular/router";
-import {BitacoraDocumentosComponent} from "../bitacora-documentos/bitacora-documentos.component";
 import {BitacoraSubelementosComponent} from "../bitacora-subelementos/bitacora-subelementos.component";
 
 @Component({
@@ -315,13 +314,10 @@ export class BitacoraFormComponent implements OnInit {
   }
 
   abrirSubelementos(obj) {
-    console.log(obj.json_elemento_mapa);
-    const jsonSubElementos = JSON.parse(obj.json_elemento_mapa);
-
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = 500;
-    dialogConfig.minHeight = 300;
-    dialogConfig.data = jsonSubElementos;
+    dialogConfig.minHeight = 650;
+    dialogConfig.data = obj.json_elemento_mapa;
     this.dialog.open(BitacoraSubelementosComponent, dialogConfig);
   }
 

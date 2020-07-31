@@ -16,21 +16,23 @@ import {RouterModule} from "@angular/router";
 import { BitacoraDocumentosComponent } from './bitacora-documentos/bitacora-documentos.component';
 import { BitacoraElementosComponent } from './bitacora-elementos/bitacora-elementos.component';
 import { BitacoraSubelementosComponent } from './bitacora-subelementos/bitacora-subelementos.component';
+import {MatTabsModule} from "@angular/material/tabs";
 
 @NgModule({
   declarations: [BitacoraComponent, BitacoraFormComponent, BitacoraListComponent, BitacoraDocumentosComponent, BitacoraElementosComponent, BitacoraSubelementosComponent],
-  imports: [
-    CommonModule,
-    MatCardModule,
-    CustomFormsModule,
-    MatIconModule,
-    MatTooltipModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    FormsModule,
-    MatCheckboxModule,
-    RouterModule
-  ]
+    imports: [
+        CommonModule,
+        MatCardModule,
+        CustomFormsModule,
+        MatIconModule,
+        MatTooltipModule,
+        MatButtonModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        FormsModule,
+        MatCheckboxModule,
+        RouterModule,
+        MatTabsModule
+    ]
 })
 export class BitacoraModule { }
