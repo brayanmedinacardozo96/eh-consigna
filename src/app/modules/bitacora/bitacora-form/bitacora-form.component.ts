@@ -8,7 +8,6 @@ import {ConfirmDialogComponent, ConfirmDialogModel} from "../../../ui/confirm-di
 import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
 import {Location} from "@angular/common";
 import {ActivatedRoute} from "@angular/router";
-import {BitacoraDocumentosComponent} from "../bitacora-documentos/bitacora-documentos.component";
 import {BitacoraSubelementosComponent} from "../bitacora-subelementos/bitacora-subelementos.component";
 
 @Component({
@@ -263,6 +262,10 @@ export class BitacoraFormComponent implements OnInit {
       return false;
     }
 
+    if (!this.validateHorasElementos()) {
+      return false;
+    }
+
     if (this.formCompletado.completado.value === 0) {
       if (!this.formCompletado.causalIncumplimiento.value) {
         this.notifier.notify('error', 'Debe indicar la razón del incumplimiento.');
@@ -271,6 +274,24 @@ export class BitacoraFormComponent implements OnInit {
     }
 
     return true;
+  }
+
+  validateHorasElementos() {
+    let response = true;
+    if (this.cerrarBitacora) { // Solo se valida cuando se cierre la bitacora
+      for (let value of this.dataConsigna.bitacora_elementos) {
+        const obj = value.form;
+        if (obj.completado) { // Solo se valida para los elementos seleccionados
+          if (obj.hora_inicio.value == null || obj.hora_entrega.value == null || obj.hora_devolucion.value == null ||
+            obj.hora_maniobra.value == null || obj.hora_fin.value == null) {
+            this.notifier.notify('error', 'Debe diligenciar las horas para el elemento: ' + value.elemento);
+            response = false;
+            break;
+          }
+        }
+      }
+    }
+    return response;
   }
 
   cleanDataBitacora() {
@@ -293,13 +314,10 @@ export class BitacoraFormComponent implements OnInit {
   }
 
   abrirSubelementos(obj) {
-    console.log(obj.json_elemento_mapa);
-    const jsonSubElementos = JSON.parse(obj.json_elemento_mapa);
-
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = 500;
-    dialogConfig.minHeight = 300;
-    dialogConfig.data = jsonSubElementos;
+    dialogConfig.minHeight = 650;
+    dialogConfig.data = obj.json_elemento_mapa;
     this.dialog.open(BitacoraSubelementosComponent, dialogConfig);
   }
 

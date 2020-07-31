@@ -106,6 +106,7 @@ export class AutorizarComponent implements OnInit {
   viewList = false;
   data = [];
   permitir=true;
+  tipo_solicitud="";
 
   ngOnInit(): void {
 
@@ -135,7 +136,7 @@ export class AutorizarComponent implements OnInit {
     this.form[name].value = event;
     var estado=this.dataControls.estadoConsigna.filter(b=>{  return (b.id==event) });
     this.valor=estado[0].valor;
-
+  
     this.validarEstados(estado);
 
   }
@@ -144,6 +145,12 @@ export class AutorizarComponent implements OnInit {
   {
     
     this.permitir=true;
+    
+    if(this.tipo_solicitud=="Emergencia")
+    {
+      return;
+    } 
+
     if(this.valor!=null)
     {
       var plazo = moment(this.form.numeroConsigna.fechaSolicitud).add(-this.valor, 'days');
@@ -194,6 +201,7 @@ export class AutorizarComponent implements OnInit {
       this.form.id.value=this.data[0].consignacion_id;
       this.form.estado_actual.value= this.data[0].estado_id;
       this.form.numeroConsigna.fechaSolicitud=this.data[0].fecha_solicitud;
+      this.tipo_solicitud=this.data[0].tipo_solicitud;
 
     }
 
