@@ -90,7 +90,7 @@ body {
 }
 
 .btn-primary {
-  background-color:#0098db;
+  background-color: #0098db;
   color: #fff;
 }
 
@@ -101,12 +101,12 @@ body {
 }
 
 .btn-danger {
-  background-color:#f44336;
+  background-color: #f44336;
   color: #fff;
 }
 
 .btn-warning {
-  background-color:#f0ad4e;
+  background-color: #f0ad4e;
   color: #fff;
 }
 
@@ -115,4 +115,12 @@ body {
   bottom: 40px !important;
   right: 40px !important;
   z-index: 999 !important;
+}
+
+.timepicker-overlay {
+  z-index: 10000000 !important;
+}
+
+.timepicker-backdrop-overlay {
+  z-index: 10000000 !important;
 }
