@@ -23,6 +23,7 @@ import {ParametrosModule} from './modules/parametros/parametros.module';
 import {ComunicadoPrensaModule} from "./modules/comunicado-prensa/comunicado-prensa.module";
 import {NotifierModule} from "angular-notifier";
 import {BitacoraModule} from "./modules/bitacora/bitacora.module";
+import {AsignacionSolicitudesModule} from './modules/asignacion-solicitudes/asignacion-solicitudes.module';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import {BitacoraModule} from "./modules/bitacora/bitacora.module";
     ParametrosModule,
     ComunicadoPrensaModule,
     BitacoraModule,
+    AsignacionSolicitudesModule,
     NotifierModule.withConfig({
       position: {
         horizontal: {

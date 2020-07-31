@@ -5,7 +5,6 @@ import {DashboardComponent} from './modules/dashboard/dashboard.component';
 import {AuthGuardService as AuthGuard} from './shared/auth-guard.service';
 import {NotFoundComponent} from './ui/not-found/not-found.component';
 import {ConsignaComponent} from './modules/consigna/consigna.component';
-import {TrabajoOportunidadComponent} from './modules/trabajo-oportunidad/trabajo-oportunidad.component';
 import {ManiobraComponent} from './modules/maniobra/maniobra.component';
 import {AutorizarComponent}  from './modules/autorizar/autorizar.component'
 import { ConsignaTabsComponent } from './modules/consigna/consigna-tabs/consigna-tabs.component';
@@ -16,6 +15,9 @@ import {ComunicadoPrensaComponent} from "./modules/comunicado-prensa/comunicado-
 import {SeguimientoConsignaComponent} from './modules/consigna/seguimiento-consigna/seguimiento-consigna.component';
 import {BitacoraFormComponent} from "./modules/bitacora/bitacora-form/bitacora-form.component";
 import {BitacoraComponent} from "./modules/bitacora/bitacora.component";
+import {AsignacionSolicitudesComponent} from './modules/asignacion-solicitudes/asignacion-solicitudes.component';
+import { AsignacionSolicitudesNewComponent } from './modules/asignacion-solicitudes/asignacion-solicitudes-new/asignacion-solicitudes-new.component';
+
 const routes: Routes = [
   {path: '', component: LoginComponent}
   , {path: 'login', component: LoginComponent}
@@ -37,6 +39,9 @@ const routes: Routes = [
   , {path: 'bitacora', component: BitacoraComponent, canActivate: [AuthGuard]}
   , {path: 'bitacora/new', component: BitacoraFormComponent, canActivate: [AuthGuard]}
   , {path: 'bitacora/edit/:id', component: BitacoraFormComponent, canActivate: [AuthGuard]}
+  , {path: 'bitacora/edit/:id', component: BitacoraFormComponent, canActivate: [AuthGuard]}
+  , {path: 'asignacion-solicitudes', component: AsignacionSolicitudesComponent, canActivate: [AuthGuard]}
+  , {path: 'asignacion-solicitudes/new', component: AsignacionSolicitudesNewComponent, canActivate: [AuthGuard]}
 
   , {path: '404', component: NotFoundComponent}
   , {path: '**', redirectTo: '/404'}
