@@ -575,8 +575,8 @@ export class ConsignaNewComponent implements OnInit {
     
     
     
-    var jsonAreaAfectada="[[],[]]";
-    var jsonPersona="[]";
+    var jsonAreaAfectada="";//[[],[]]
+    var jsonPersona="";//[]
  
     if(this.formElementos.afectaUsuarios.value==1 && this.areaAFectada.length>0)
     {
@@ -666,10 +666,10 @@ export class ConsignaNewComponent implements OnInit {
             });
             
             if (data.length == 0) {
-              if (element.jsonAreaAfectada.value == "[[],[]]") {
+              if (element.jsonAreaAfectada.value == "") {//[[],[]]
                 element.jsonAreaAfectada.value = elemento.jsonAreaAfectada.value;
               }
-              if (element.jsonPersona.value == "[]") {
+              if (element.jsonPersona.value == "") {//[]
                 element.jsonPersona.value = elemento.jsonPersona.value;
               }
             }
