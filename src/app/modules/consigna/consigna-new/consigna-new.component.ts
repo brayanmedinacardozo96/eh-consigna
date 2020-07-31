@@ -389,6 +389,12 @@ export class ConsignaNewComponent implements OnInit {
   ];
 
   jsonMapa = ''; 
+  numeroAreaAfectada={
+    barrios:0,
+    clienteRegulado:0,
+    clienteNoRegulado:0
+  };
+  
   
   constructor(private api: ApiService,
               private validations: ValidationService,
@@ -567,6 +573,8 @@ export class ConsignaNewComponent implements OnInit {
     var feeder= this.getFeederElemento(this.formElementos.elemento.value);
     await this.getAreaAFectada( feeder );
     
+    
+    
     var jsonAreaAfectada="[[],[]]";
     var jsonPersona="[]";
  
@@ -574,9 +582,8 @@ export class ConsignaNewComponent implements OnInit {
     {
       jsonAreaAfectada=JSON.stringify( this.areaAFectada[0].area );
       jsonPersona= JSON.stringify( this.areaAFectada[0].persona );
-
     }
- 
+
     const elemento = {
       id:             {value: null},
       redElectrica:   {name: textRedElectrica,  value: this.formElementos.redElectrica.value},
@@ -594,7 +601,7 @@ export class ConsignaNewComponent implements OnInit {
       feeder:feeder,
       jsonIntervenirElementoMapa:{name:'jsonIntervenirElementoMapa', value: document.getElementById("jsonElementoIntervenirMapa").innerText } 
     }
-    console.log(elemento.jsonIntervenirElementoMapa);
+    
     this.dataElementos.push(elemento);
     this.getElementoMapa();
 
@@ -607,6 +614,7 @@ export class ConsignaNewComponent implements OnInit {
     this.jsonMapa = '';
     document.getElementById("jsonDataMapa").textContent = '';
     document.getElementById("jsonElementoIntervenirMapa").textContent ="";
+    document.getElementById("jsonMapaTipo").textContent="";
 
     this.formElementos.tipoElemento.value = null;
     this.formElementos.elemento.value = null;
@@ -1053,11 +1061,14 @@ export class ConsignaNewComponent implements OnInit {
           const response = await apiLocal.get(`${environment.apiBackend}/integracion-mapa/get/${key}`);
           if(response.success){
 
-            jsonLocal =JSON.stringify({url: JSON.parse( response.data ).url });//  JSON.stringify(response.data.url);
-            jsonIntervenirElementoMapa=JSON.stringify( JSON.parse( response.data ).json );
+            var objJson=JSON.parse( response.data );
+
+            jsonLocal =JSON.stringify({url: objJson.url });// JSON.stringify(response.data.url);
+            jsonIntervenirElementoMapa=JSON.stringify( objJson.json );
 
             document.getElementById("jsonElementoIntervenirMapa").textContent = jsonIntervenirElementoMapa;
             document.getElementById("jsonDataMapa").textContent = jsonLocal;
+            document.getElementById("jsonMapaTipo").textContent = objJson.tipo;
 
             botonVerMapaSelec.style.visibility = "visible";
             clearInterval(timer);
@@ -1104,13 +1115,30 @@ export class ConsignaNewComponent implements OnInit {
       return (b.feeder==elemento)
     });
     if(data.length>0 || this.formElementos.afectaUsuarios.value==0 ){
-     // console.log(this.areaAFectada[0].persona);
-     // console.log(this.areaAFectada[0]);
       return;
     }
 
-    this.logAreaAFectada.push({feeder:elemento});
+   
 
+    var padre="";
+
+    if( document.getElementById("jsonMapaTipo").innerText=="getAbrir" ){
+     JSON.parse(document.getElementById("jsonElementoIntervenirMapa").innerText).TRANSFOR.forEach(element => {
+       if (padre == "") {
+         padre = padre + element.CODE;
+       } else {
+         padre = padre + "|" + element.CODE +"|";
+       }
+       this.logAreaAFectada.push({feeder: element.CODE});
+     });
+     elemento="transf/"+padre;
+    }else{
+       this.logAreaAFectada.push({feeder:elemento});
+       elemento="feeder/"+elemento;
+    }
+    
+    
+ 
     var response = await this.api.get(
       `${environment.apiBackend}/consigna/getAreaAfectada/${elemento}`
     );
@@ -1119,43 +1147,46 @@ export class ConsignaNewComponent implements OnInit {
     var objSector=[];
     var objCliente=[];
     
-    if (response.message == null) {
+    if (response.message == null || response.message=="") {
       
       var municipio="inicio";
     
-      response.data.barrioAfectado.forEach(element => {
+      if(response.data.barrioAfectado!=undefined)
+      {
+        response.data.barrioAfectado.forEach(element => {
          
-         if (municipio == "inicio") {
-            municipio = element.nombre_muni;
-            obj.push(this.crearJsonBarrio(municipio, response.data.barrioAfectado));
-            objSector.push(this.crearJsonSector(municipio, response.data.barrioAfectado));
-         }
-
-         if (municipio != element.nombre_muni) {
-            municipio = element.nombre_muni;
-            obj.push(this.crearJsonBarrio(municipio, response.data.barrioAfectado));
-            objSector.push(this.crearJsonSector(municipio, response.data.barrioAfectado));
-         }
-
-
-      });
-      
-
-      response.data.clieteAfectado.forEach(element => {
-
-        objCliente.push({
-          nombre: element.nombre_completo,
-          cuenta:element.code,
-          emails: this.splitCorreo(element.correos),
-          tipo:element.tipo_usuario
-        });
-      });
+          if (municipio == "inicio") {
+             municipio = element.nombre_muni;
+             obj.push(this.crearJsonBarrio(municipio, response.data.barrioAfectado));
+             objSector.push(this.crearJsonSector(municipio, response.data.barrioAfectado));
+          }
  
+          if (municipio != element.nombre_muni) {
+             municipio = element.nombre_muni;
+             obj.push(this.crearJsonBarrio(municipio, response.data.barrioAfectado));
+             objSector.push(this.crearJsonSector(municipio, response.data.barrioAfectado));
+          }
+
+       });
+
+      }
+      
+      
+      if( response.data.clieteAfectado!=undefined)
+      {
+        response.data.clieteAfectado.forEach(element => {
+          objCliente.push({
+            nombre: element.nombre_completo,
+            cuenta:element.code,
+            emails: this.splitCorreo(element.correos),
+            tipo:element.tipo_usuario
+          });
+        });
+      }
+      
     }
 
-   // this.interrupcionesTrabajo.barrios.value=barrio;
-   // this.interrupcionesTrabajo.clientesNoRegulados.value=cliente;
-
+    
     this.areaAFectada.push({area:[obj,objSector],persona:objCliente});
     
 
@@ -1163,12 +1194,19 @@ export class ConsignaNewComponent implements OnInit {
 
   crearJsonBarrio(municipio,element){
      var barrario=[];
+     var varBarrio="";
      element.filter(b => {
       return (b.nombre_muni == municipio)
      }).forEach(elemen => {
-       barrario.push(elemen.barrio);
-     });
 
+       if(varBarrio!=elemen.barrio)
+       {
+         barrario.push(elemen.barrio);
+         varBarrio=elemen.barrio;
+       }
+       
+     });
+     
      return {municipio:municipio,barrio:barrario};
   }
 
@@ -1209,12 +1247,15 @@ export class ConsignaNewComponent implements OnInit {
 
   escribrirAreaAfectada() {
 
-     if (this.formElementos.afectaUsuarios.value == 0 ) {//|| this.areaAFectada.length==0
+     if (this.formElementos.afectaUsuarios.value == 0 ) {
        return;
      }
 
       var barrio = "";
       var cliente = "";
+      this.numeroAreaAfectada.barrios=0;
+      this.numeroAreaAfectada.clienteRegulado=0;
+      this.numeroAreaAfectada.clienteNoRegulado=0;
 
       this.dataElementos.forEach(element => {
 
@@ -1222,9 +1263,11 @@ export class ConsignaNewComponent implements OnInit {
         if (element.jsonAreaAfectada.value !="") {
           var data = JSON.parse(element.jsonAreaAfectada.value)[0];
           if(data!=undefined){
+            
           if (data.length > 0) {
             data[0].barrio.forEach(elemen => {
               barrio += elemen + "\r";
+              this.numeroAreaAfectada.barrios++;
             });
           }}
         }
@@ -1234,7 +1277,10 @@ export class ConsignaNewComponent implements OnInit {
           if(data!=undefined){
           data.forEach(element => {
             if (element.tipo == "No regulado") { //
-              cliente += element.nombre + "\r";
+              cliente += element.nombre +  "\r";
+              this.numeroAreaAfectada.clienteNoRegulado++;
+            }else{
+              this.numeroAreaAfectada.clienteRegulado++;
             }
           })};
         }
@@ -1426,5 +1472,10 @@ export class ConsignaNewComponent implements OnInit {
     this.formElementos.fechaFinal.value = this.form.fechaSolicitud.value;
   }
 
+  unique(value, index, self) { 
+    return self.indexOf(value) === index;
+  }
+
+  
   
 }
