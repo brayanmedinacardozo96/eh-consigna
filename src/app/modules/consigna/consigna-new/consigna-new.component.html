@@ -344,7 +344,7 @@
                         <mat-icon>map</mat-icon>
                     </button></td>
                     <td>
-                        <button (click)="removeListElement(i)" mat-icon-button matTooltip="Eliminar" matTooltipClass="custom-tooltip">
+                        <button *ngIf="value.eliminar == undefined" (click)="removeListElement(i)" mat-icon-button matTooltip="Eliminar" matTooltipClass="custom-tooltip">
                             <mat-icon>delete_forever</mat-icon>
                         </button>
                     </td>
