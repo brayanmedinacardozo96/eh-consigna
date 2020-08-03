@@ -13,6 +13,7 @@ import * as moment from "moment";
 export class BitacoraSubelementosComponent implements OnInit {
 
   data: any;
+  horasPadre: any;
   env = environment;
   selectAllSwitch = false;
   selectAllSwitches = false;
@@ -25,8 +26,8 @@ export class BitacoraSubelementosComponent implements OnInit {
               @Inject(MAT_DIALOG_DATA) data) {
     this.data = data.data;
 
-    const horas = data.horas;
-    this.updateHours(horas.hora_inicio, horas.hora_fin);
+    this.horasPadre = data.horas;
+    this.updateHours(this.horasPadre.hora_inicio, this.horasPadre.hora_fin);
 
   }
 
@@ -83,11 +84,24 @@ export class BitacoraSubelementosComponent implements OnInit {
     if (horaInicioFormat != null && horaFinFormat != null) {
       let horaInicio = moment(horaInicioFormat, 'h:mm a');
       let horaFinal = moment(horaFinFormat, 'h:mm a');
+      let horaInicioPadre = moment(this.horasPadre.hora_inicio, 'h:mm a');
+      let horaFinPadre = moment(this.horasPadre.hora_fin, 'h:mm a');
 
       if (horaInicio > horaFinal) {
         this.notifier.notify('error', '¡La hora inicio es mayor a la hora fin!');
         return false;
       }
+
+      if (!(horaInicio >= horaInicioPadre && horaInicio <= horaFinPadre)) {
+        this.notifier.notify('error', `¡La hora inicio debe estar entre ${this.horasPadre.hora_inicio} y ${this.horasPadre.hora_fin}!`);
+        return false;
+      }
+
+      if (!(horaFinal >= horaInicioPadre && horaFinal <= horaFinPadre)) {
+        this.notifier.notify('error', `¡La hora final debe estar entre ${this.horasPadre.hora_inicio} y ${this.horasPadre.hora_fin}!`);
+        return false;
+      }
+
     }
     return true;
   }

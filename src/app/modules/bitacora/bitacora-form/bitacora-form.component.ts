@@ -30,6 +30,7 @@ export class BitacoraFormComponent implements OnInit {
   inputFile: any;
   cerrarBitacora = false;
   selectAllElementos = false;
+  action = '';
 
   form = {
     numeroConsigna: {
@@ -87,8 +88,10 @@ export class BitacoraFormComponent implements OnInit {
       if (params.id !== undefined && params.id !== null) {
         this.form.numeroConsigna.value = params.id;
         this.load().then();
+        this.action = 'edit';
       } else {
         this.loadControls().then();
+        this.action = 'new';
       }
 
     });
