@@ -96,7 +96,8 @@ export class ConsignaUserComponent implements OnInit {
     //  const response = await this.api.get(`${environment.apiBackend}/tipo-elemento/update-spard`);
     // const response = await this.api.get(`${environment.apiBackend}/elemento/update-spard`);
     // const response = await this.api.get(`${environment.apiBackend}/parametro/update-division-area-siec`);
-    this.dateValidation.validateDateRequest();
+    // const response = await this.api.get(`${environment.apiBackend}/usuario-aplicacion/update-info/${environment.keyTransverseSecurity}`);
+    // this.dateValidation.validateDateRequest();
   }
 
   async consignaAprobar()

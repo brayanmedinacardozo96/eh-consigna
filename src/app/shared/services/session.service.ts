@@ -34,10 +34,10 @@ export class SessionService {
 
   async getUsuario()
   {
-    const response = await this.api.get(`${environment.apiTransverseSecurity}/user/get-by-aplication?key=${environment.keyTransverseSecurity}`);
+    const response = await this.api.get(`${environment.apiBackend}/usuario-aplicacion/update-info/${environment.keyTransverseSecurity}`);
     if(response.success)
     {
-       window.sessionStorage.setItem('usuario',JSON.stringify(response.data));
+       window.sessionStorage.setItem('usuario',JSON.stringify(response.data.personSeguridadTransversal));
     }
 
   }

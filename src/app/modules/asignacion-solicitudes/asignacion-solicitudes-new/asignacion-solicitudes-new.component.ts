@@ -6,6 +6,8 @@ import { environment } from 'src/environments/environment';
 import { SessionService } from './../../../shared/services/session.service';
 import { ValidationService } from './../../../shared/services/validations.service';
 import { SnackBarService } from './../../../shared/services/snack-bar.service';
+import { Router, ActivatedRoute } from '@angular/router';
+
 
 @Component({
   selector: 'app-asignacion-solicitudes-new',
@@ -48,6 +50,9 @@ export class AsignacionSolicitudesNewComponent implements OnInit {
     tipoAsignacionUsuario: [],
   };
   form = {
+    id:{
+      value: null
+    },
     usuario: {
       label: 'Usuario',
       name: 'usuario',
@@ -74,27 +79,41 @@ export class AsignacionSolicitudesNewComponent implements OnInit {
   constructor(private api: ApiService,
               private session: SessionService,
               private validations: ValidationService,
-              private snackBar: SnackBarService
-            ) { }
+              private snackBar: SnackBarService,
+              private activeRoute: ActivatedRoute
+            ) { 
+              this.activeRoute.params.subscribe(params => {
+                if (params.iduser !== undefined && params.iduser !== null && params.rol !== undefined && params.rol !== null) {
+                    this.form.usuario.value = parseInt(params.iduser);
+                    this.form.tipoAsignacion.value = parseInt(params.rol);
+                    this.getUsuariosAsignados();
+
+                }
+              });
+            }
 
   ngOnInit(): void {
     this.getDataSelectConsigna();
   }
 
   async select(){
-    var dataResponse = null;
     if(this.validations.validateEmptyFields(this.form).success){
-      const response = await this.api.post(`${environment.apiBackend}/asignacion-usuario/get-usuarios-asignados`,this.form);
+      this.getUsuariosAsignados();      
+    }
+  }
+
+  async getUsuariosAsignados(){
+    var dataResponse = null;
+    const response = await this.api.post(`${environment.apiBackend}/asignacion-usuario/get-usuarios-asignados`,this.form);
       if(response.success){
         dataResponse =  response.data;
+        console.log(dataResponse);
         for(let i in dataResponse){
           dataResponse[i].estado = dataResponse[i].estado == 1 ? true : false 
         }
         this.dataConsigna.tipoZona = dataResponse;
         console.log(this.dataConsigna);
       }
-      
-    }
   }
 
   setCumplioCompleto() {
@@ -152,7 +171,7 @@ export class AsignacionSolicitudesNewComponent implements OnInit {
   }
 
   setSelect(){
-    this.dataControls.tipoAsignacionUsuario = this.session.getItem('rolUsuarioConsignacion');
+    this.dataControls.tipoAsignacionUsuario = this.session.getItem('tipoAsignacionUsuario');
     this.dataControls.usuario = this.session.getPersona();
   }
 

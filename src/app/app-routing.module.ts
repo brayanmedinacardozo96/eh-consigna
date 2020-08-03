@@ -42,6 +42,7 @@ const routes: Routes = [
   , {path: 'bitacora/edit/:id', component: BitacoraFormComponent, canActivate: [AuthGuard]}
   , {path: 'asignacion-solicitudes', component: AsignacionSolicitudesComponent, canActivate: [AuthGuard]}
   , {path: 'asignacion-solicitudes/new', component: AsignacionSolicitudesNewComponent, canActivate: [AuthGuard]}
+  , {path: 'asignacion-solicitudes/editar/:iduser/:rol', component: AsignacionSolicitudesNewComponent, canActivate: [AuthGuard]}
 
   , {path: '404', component: NotFoundComponent}
   , {path: '**', redirectTo: '/404'}

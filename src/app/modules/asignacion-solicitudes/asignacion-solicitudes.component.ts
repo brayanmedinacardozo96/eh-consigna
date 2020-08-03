@@ -4,6 +4,7 @@ import { ValidationService } from './../../shared/services/validations.service';
 import { SnackBarService } from './../../shared/services/snack-bar.service';
 import { SessionService } from './../../shared/services/session.service';
 import { environment } from 'src/environments/environment';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-asignacion-solicitudes',
@@ -18,6 +19,7 @@ export class AsignacionSolicitudesComponent implements OnInit {
     tipoZona:[],
     usuario: [],
     tipoAsignacionUsuario: [],
+    estado: [{nombre: 'Activo', id: 1},{nombre:'Inactivo', id:0}],
   };
   form = {
     usuario: {
@@ -41,11 +43,19 @@ export class AsignacionSolicitudesComponent implements OnInit {
       messages: null,
       required: false,
     },
+    estado: {
+      label: 'Estado',
+      name: 'estado',
+      value: null,
+      messages: null,
+      required: false,
+    },
   }
   constructor(private api: ApiService,
             private validations: ValidationService,
             private snackBar: SnackBarService,
-            private session: SessionService) { }
+            private session: SessionService,
+            private router: Router) { }
 
   ngOnInit(): void {
     this.getDataSelectConsigna();
@@ -57,7 +67,7 @@ export class AsignacionSolicitudesComponent implements OnInit {
       const response = await this.session.getDataSelectConsigna();
       if(response.success){
         if(this.session.getItem('usuario') == null){
-          this.setSelect();
+          this.updateUsuariosAplicacion();
         }else{
           this.setSelect();
         }
@@ -84,16 +94,31 @@ export class AsignacionSolicitudesComponent implements OnInit {
   }
 
   async search(){
-    const response = await this.api.post(`${environment.apiBackend}/asignacion-usuario/get-list-usuarios-asignados`, this.form);
-    if(response.success){
-      this.data = response.data;
-    }else{
-      this.snackBar.alert('Ocurrió un error, por favor vuelva a intentarlo', 5000);
+    const responseValidate = this.validations.validateACompleteField(this.form);
+    if(responseValidate.success){
+      this.data = [];
+      const response = await this.api.post(`${environment.apiBackend}/asignacion-usuario/get-list-usuarios-asignados`, this.form);
+      if(response.success){
+        this.data = response.data;
+        if(this.data.length < 1){
+          this.snackBar.alert('No se encontraron registros con los parámetros consultados.', 5000);
+        }
+      }else{
+        this.snackBar.alert('Ocurrió un error, por favor vuelva a intentarlo', 5000);
+      }
     }
   }
 
+  cleanFields(){
+    this.validations.cleanFields(this.form);
+    this.data = [];
+  }
+
   editarAsignacion(id){
-    console.log(id);
+    var dataConsigna = this.data.filter(b => {
+      return (b.id == id)
+    });
+    this.router.navigateByUrl('asignacion-solicitudes/editar/'+dataConsigna[0].usuario_id+'/'+dataConsigna[0].tipo_asignacion_id);
   }
 
 }
