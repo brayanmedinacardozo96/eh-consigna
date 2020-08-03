@@ -157,7 +157,7 @@ export class AsignacionSolicitudesNewComponent implements OnInit {
   }
 
   async updateUsuariosAplicacion(){
-    const response = await this.api.get(`${environment.apiBackend}/usuario-aplicacion/update-info/${environment.keyTransverseSecurity}`);
+    const response = await this.api.get(`${environment.apiBackend}/usuario-aplicacion/update-info?key=${environment.keyTransverseSecurity}`);
     var usuario = [];
     let success = response.success;
     if(success){
