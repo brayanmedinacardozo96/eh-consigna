@@ -46,7 +46,8 @@
                 [style]="'width: 100px;'"
                 [value]="value?.form?.hora_inicio?.value"
                 [name]="value?.form?.hora_inicio?.name"
-                (valueChange)="setDinamicData('SWITCH', value?.form?.hora_inicio?.name, $event, i);">
+                (valueChange)="setDinamicData('SWITCH', value?.form?.hora_inicio?.name, $event, i);
+                validateRangeHour(value?.form?.hora_inicio?.value, value?.form?.hora_fin?.value)">
               </app-date-time-picker>
             </td>
             <td>
@@ -55,7 +56,8 @@
                 [style]="'width: 100px;'"
                 [value]="value?.form?.hora_fin?.value"
                 [name]="value?.form?.hora_fin?.name"
-                (valueChange)="setDinamicData('SWITCH', value?.form?.hora_fin?.name, $event, i);">
+                (valueChange)="setDinamicData('SWITCH', value?.form?.hora_fin?.name, $event, i);
+                validateRangeHour(value?.form?.hora_inicio?.value, value?.form?.hora_fin?.value)">
               </app-date-time-picker>
             </td>
           </tr>
@@ -98,7 +100,8 @@
                 [style]="'width: 100px;'"
                 [value]="value?.form?.hora_inicio?.value"
                 [name]="value?.form?.hora_inicio?.name"
-                (valueChange)="setDinamicData('SWITCHES', value?.form?.hora_inicio?.name, $event, i);">
+                (valueChange)="setDinamicData('SWITCHES', value?.form?.hora_inicio?.name, $event, i);
+                validateRangeHour(value?.form?.hora_inicio?.value, value?.form?.hora_fin?.value)">
               </app-date-time-picker>
             </td>
             <td>
@@ -107,7 +110,8 @@
                 [style]="'width: 100px;'"
                 [value]="value?.form?.hora_fin?.value"
                 [name]="value?.form?.hora_fin?.name"
-                (valueChange)="setDinamicData('SWITCHES', value?.form?.hora_fin?.name, $event, i);">
+                (valueChange)="setDinamicData('SWITCHES', value?.form?.hora_fin?.name, $event, i);
+                validateRangeHour(value?.form?.hora_inicio?.value, value?.form?.hora_fin?.value)">
               </app-date-time-picker>
             </td>
           </tr>
@@ -149,7 +153,8 @@
                 [style]="'width: 100px;'"
                 [value]="value?.form?.hora_inicio?.value"
                 [name]="value?.form?.hora_inicio?.name"
-                (valueChange)="setDinamicData('TRANSFOR', value?.form?.hora_inicio?.name, $event, i);">
+                (valueChange)="setDinamicData('TRANSFOR', value?.form?.hora_inicio?.name, $event, i);
+                validateRangeHour(value?.form?.hora_inicio?.value, value?.form?.hora_fin?.value)">
               </app-date-time-picker>
             </td>
             <td>
@@ -158,7 +163,8 @@
                 [style]="'width: 100px;'"
                 [value]="value?.form?.hora_fin?.value"
                 [name]="value?.form?.hora_fin?.name"
-                (valueChange)="setDinamicData('TRANSFOR', value?.form?.hora_fin?.name, $event, i);">
+                (valueChange)="setDinamicData('TRANSFOR', value?.form?.hora_fin?.name, $event, i);
+                validateRangeHour(value?.form?.hora_inicio?.value, value?.form?.hora_fin?.value)">
               </app-date-time-picker>
             </td>
           </tr>
@@ -200,7 +206,8 @@
                 [style]="'width: 100px;'"
                 [value]="value?.form?.hora_inicio?.value"
                 [name]="value?.form?.hora_inicio?.name"
-                (valueChange)="setDinamicData('RECLOSER', value?.form?.hora_inicio?.name, $event, i);">
+                (valueChange)="setDinamicData('RECLOSER', value?.form?.hora_inicio?.name, $event, i);
+                validateRangeHour(value?.form?.hora_inicio?.value, value?.form?.hora_fin?.value)">
               </app-date-time-picker>
             </td>
             <td>
@@ -209,7 +216,8 @@
                 [style]="'width: 100px;'"
                 [value]="value?.form?.hora_fin?.value"
                 [name]="value?.form?.hora_fin?.name"
-                (valueChange)="setDinamicData('RECLOSER', value?.form?.hora_fin?.name, $event, i);">
+                (valueChange)="setDinamicData('RECLOSER', value?.form?.hora_fin?.name, $event, i);
+                validateRangeHour(value?.form?.hora_inicio?.value, value?.form?.hora_fin?.value)">
               </app-date-time-picker>
             </td>
           </tr>
