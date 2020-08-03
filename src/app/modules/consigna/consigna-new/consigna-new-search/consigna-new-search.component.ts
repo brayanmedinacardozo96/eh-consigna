@@ -103,7 +103,8 @@ export class ConsignaNewSearchComponent implements OnInit {
               jsonAreaAfectada: {name:'jsonAreaAfectada',                                                       value: value.json_area  },
               jsonPersona:      {name:'jsonPersona',                                                            value: response.data[0].json_persona},
               jsonElementoMapa: {name:'jsonElementoMapa',                                                       value: value.json_elemento_mapa},
-              eliminar:{name:'eliminar',velue:false}
+              eliminar:{name:'eliminar',velue:false},
+              jsonIntervenirElementoMapa:{name:'jsonIntervenirElementoMapa', value: value.json_elemento_intervenir } ,
             }
             this.listaElemento.push(elemento);
           }
