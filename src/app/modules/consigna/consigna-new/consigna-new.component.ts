@@ -599,7 +599,7 @@ export class ConsignaNewComponent implements OnInit {
       jsonPersona:{name:'jsonPersona',value: jsonPersona},
       jsonElementoMapa:{name:'jsonElementoMapa', value: this.jsonMapa},
       feeder:feeder,
-      jsonIntervenirElementoMapa:{name:'jsonIntervenirElementoMapa', value: document.getElementById("jsonElementoIntervenirMapa").innerText } 
+      jsonIntervenirElementoMapa:{name:'jsonIntervenirElementoMapa', value: document.getElementById("jsonElementoIntervenirMapa").innerText } ,
     }
     
     this.dataElementos.push(elemento);
@@ -631,13 +631,12 @@ export class ConsignaNewComponent implements OnInit {
     this.form.urlMapa.value = [];
     for(let value of this.dataElementos){
       if(value.jsonElementoMapa != '' && value.jsonElementoMapa != undefined && value.jsonElementoMapa != null){
-       if(value.jsonElementoMapa.value!="")
-       {
-        var dataJson =  JSON.parse(value.jsonElementoMapa.value);
-        if(typeof dataJson == 'string'){
-          dataJson =  JSON.parse(dataJson);
-        }
-        this.form.urlMapa.value.push(dataJson.url);
+       if (value.jsonElementoMapa.value != "" && value.jsonElementoMapa.value != null) {
+         var dataJson = JSON.parse(value.jsonElementoMapa.value);
+         if (typeof dataJson == 'string') {
+           dataJson = JSON.parse(dataJson);
+         }
+         this.form.urlMapa.value.push(dataJson.url);
        }
       }
     }

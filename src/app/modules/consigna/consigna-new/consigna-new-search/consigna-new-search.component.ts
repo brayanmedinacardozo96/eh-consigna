@@ -31,6 +31,9 @@ export class ConsignaNewSearchComponent implements OnInit {
     },
     consigna_padre_id: {
       value: 'null'
+    },
+     formatoHija:{
+      value:""
     }
   }
   data = [];
@@ -64,9 +67,11 @@ export class ConsignaNewSearchComponent implements OnInit {
 
   async search(){
     //identificar si es una consigna hija o trabajo de oportunidad
+    //CH consigna hija
     if(this.codigoTipoFormato == 'CH'){
       this.form.codigoEstadoConsigna.value = 'E';
       this.form.ejecutadoCompletamente.value = 0;
+      this.form.formatoHija.value="CH";
     }else{
       this.form.codigoEstadoConsigna.value = 'S';
       this.form.ejecutadoCompletamente.value = null;
@@ -97,7 +102,8 @@ export class ConsignaNewSearchComponent implements OnInit {
               horaFinal:        {name: value.hora_final_prog,                                                   value: value.hora_final_prog},
               jsonAreaAfectada: {name:'jsonAreaAfectada',                                                       value: value.json_area  },
               jsonPersona:      {name:'jsonPersona',                                                            value: response.data[0].json_persona},
-              jsonElementoMapa: {name:'jsonElementoMapa',                                                       value: value.json_elemento_mapa}
+              jsonElementoMapa: {name:'jsonElementoMapa',                                                       value: value.json_elemento_mapa},
+              eliminar:{name:'eliminar',velue:false}
             }
             this.listaElemento.push(elemento);
           }
