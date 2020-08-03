@@ -9,6 +9,7 @@ import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
 import {Location} from "@angular/common";
 import {ActivatedRoute} from "@angular/router";
 import {BitacoraSubelementosComponent} from "../bitacora-subelementos/bitacora-subelementos.component";
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-bitacora-form',
@@ -276,18 +277,76 @@ export class BitacoraFormComponent implements OnInit {
     return true;
   }
 
+  validateRangeHour(horaInicioFormat, horaFinFormat, elemento = null) {
+    if (horaInicioFormat != null && horaFinFormat != null) {
+      let horaInicio = moment(horaInicioFormat, 'h:mm a');
+      let horaFinal = moment(horaFinFormat, 'h:mm a');
+
+      if (horaInicio > horaFinal) {
+        const message = elemento != null ? `¡Hora inicio es mayor a la hora fin del elemento ${elemento}!` : '¡La hora inicio es mayor a la hora fin!'
+        this.notifier.notify('error', message);
+        return false;
+      }
+    }
+    return true;
+  }
+
+  validarHorasIntermedias(horaInicioFormat, horaFinFormat, horaIntermediaFormat, nombreHora, elemento = null) {
+    let horaInicio = moment(horaInicioFormat, 'h:mm a');
+    let horaFinal = moment(horaFinFormat, 'h:mm a');
+    let horaIntermedio = moment(horaIntermediaFormat, 'h:mm a');
+
+    if (!(horaIntermedio >= horaInicio && horaIntermedio <= horaFinal)) {
+      const commonMessage = `La ${nombreHora} debe estar entre ${horaInicioFormat} y ${horaFinFormat}`;
+      const message = elemento != null ? `${commonMessage} para el elemento: ${elemento}` : commonMessage;
+      this.notifier.notify('error', message);
+      return false;
+    }
+    return true;
+  }
+
   validateHorasElementos() {
     let response = true;
     if (this.cerrarBitacora) { // Solo se valida cuando se cierre la bitacora
       for (let value of this.dataConsigna.bitacora_elementos) {
         const obj = value.form;
         if (obj.completado) { // Solo se valida para los elementos seleccionados
+
+          // Valida que no hayan campos vacios
           if (obj.hora_inicio.value == null || obj.hora_entrega.value == null || obj.hora_devolucion.value == null ||
             obj.hora_maniobra.value == null || obj.hora_fin.value == null) {
             this.notifier.notify('error', 'Debe diligenciar las horas para el elemento: ' + value.elemento);
             response = false;
             break;
           }
+
+          // Valida que la hora final sea mayor a la inicial
+          if (!this.validateRangeHour(obj.hora_inicio.value, obj.hora_fin.value, value.elemento)) {
+            response = false;
+            break;
+          }
+
+          // Valida que la hora se encuentre en el rango de hora inicio y hora fin
+          if (!this.validarHorasIntermedias(obj.hora_inicio.value, obj.hora_fin.value, obj.hora_entrega.value,
+            'Hora de entrega' ,value.elemento)) {
+            response = false;
+            break;
+          }
+
+          // Valida que la hora se encuentre en el rango de hora inicio y hora fin
+          if (!this.validarHorasIntermedias(obj.hora_inicio.value, obj.hora_fin.value, obj.hora_devolucion.value,
+            'Hora de devolución', value.elemento)) {
+            response = false;
+            break;
+          }
+
+          // Valida que la hora se encuentre en el rango de hora inicio y hora fin
+          if (!this.validarHorasIntermedias(obj.hora_inicio.value, obj.hora_fin.value, obj.hora_maniobra.value,
+            'Hora de maniobra', value.elemento)) {
+            response = false;
+            break;
+          }
+
         }
       }
     }
@@ -317,7 +376,13 @@ export class BitacoraFormComponent implements OnInit {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = 500;
     dialogConfig.minHeight = 650;
-    dialogConfig.data = obj.json_elemento_mapa;
+    dialogConfig.data = {
+      data: obj.json_elemento_mapa,
+      horas: {
+        hora_inicio: obj.form.hora_inicio.value,
+        hora_fin: obj.form.hora_fin.value,
+      },
+    };
     this.dialog.open(BitacoraSubelementosComponent, dialogConfig);
   }
 

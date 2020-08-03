@@ -1195,6 +1195,7 @@ export class ConsignaNewComponent implements OnInit {
   crearJsonBarrio(municipio,element){
      var barrario=[];
      var varBarrio="";
+     var varDepartamento="";
      element.filter(b => {
       return (b.nombre_muni == municipio)
      }).forEach(elemen => {
@@ -1203,11 +1204,12 @@ export class ConsignaNewComponent implements OnInit {
        {
          barrario.push(elemen.barrio);
          varBarrio=elemen.barrio;
+         varDepartamento=elemen.nombre_depto;
        }
        
      });
      
-     return {municipio:municipio,barrio:barrario};
+     return {departamento:varDepartamento,municipio:municipio,barrio:barrario};
   }
 
   splitCorreo(correo) {
@@ -1226,16 +1228,18 @@ export class ConsignaNewComponent implements OnInit {
   crearJsonSector(municipio, element) {
     var sector = [];
     var name = "";
+    var varDepartamento="";
     element.filter(b => {
       return (b.nombre_muni == municipio)
     }).forEach(elemen => {
       if (name != elemen.nombre_sector) {
         sector.push(elemen.nombre_sector);
         name = elemen.nombre_sector;
+        varDepartamento=elemen.nombre_depto;
       }
     });
 
-    return { municipio: municipio,sector: sector};
+    return {departamento:varDepartamento, municipio: municipio,sector: sector};
   }
 
   getFeederElemento(id) {

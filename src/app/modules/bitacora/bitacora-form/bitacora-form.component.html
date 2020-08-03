@@ -87,11 +87,14 @@
           </tbody>
           <tbody *ngIf="dataConsigna?.bitacora_elementos?.length > 0">
           <tr *ngFor="let value of dataConsigna?.bitacora_elementos; let i = index;">
-            <td><mat-checkbox [(ngModel)]="value.form.completado" (ngModelChange)="setCumplioCompleto()"></mat-checkbox></td>
+            <td>
+              <mat-checkbox [(ngModel)]="value.form.completado" (ngModelChange)="setCumplioCompleto()"></mat-checkbox>
+            </td>
             <td>{{value?.tipo_elemento}}</td>
             <td>
               {{value?.elemento}}
-              <mat-icon color="accent"
+              <mat-icon *ngIf="value.form.completado == 1"
+                        color="accent"
                         matTooltip="Abrir elementos afectados"
                         (click)="abrirSubelementos(value)"
                         style="cursor: pointer;">offline_bolt
@@ -104,7 +107,8 @@
                 [style]="'width: 100px;'"
                 [value]="value?.form?.hora_inicio?.value"
                 [name]="value?.form?.hora_inicio?.name"
-                (valueChange)="setDinamicData(value?.form?.hora_inicio?.name, $event, i);">
+                (valueChange)="setDinamicData(value?.form?.hora_inicio?.name, $event, i);
+                validateRangeHour(value?.form?.hora_inicio?.value, value?.form?.hora_fin?.value)">
               </app-date-time-picker>
             </td>
             <td>
@@ -113,7 +117,9 @@
                 [style]="'width: 100px;'"
                 [value]="value?.form?.hora_entrega?.value"
                 [name]="value?.form?.hora_entrega?.name"
-                (valueChange)="setDinamicData(value?.form?.hora_entrega?.name, $event, i);">
+                (valueChange)="setDinamicData(value?.form?.hora_entrega?.name, $event, i);
+                validarHorasIntermedias(value?.form?.hora_inicio?.value, value?.form?.hora_fin?.value, value?.form?.hora_entrega?.value,
+                'Hora de entrega')">
               </app-date-time-picker>
             </td>
             <td>
@@ -122,7 +128,9 @@
                 [style]="'width: 100px;'"
                 [value]="value?.form?.hora_devolucion?.value"
                 [name]="value?.form?.hora_devolucion?.name"
-                (valueChange)="setDinamicData(value?.form?.hora_devolucion?.name, $event, i);">
+                (valueChange)="setDinamicData(value?.form?.hora_devolucion?.name, $event, i);
+                validarHorasIntermedias(value?.form?.hora_inicio?.value, value?.form?.hora_fin?.value, value?.form?.hora_devolucion?.value,
+                'Hora de devolución')">
               </app-date-time-picker>
             </td>
             <td>
@@ -131,7 +139,9 @@
                 [style]="'width: 100px;'"
                 [value]="value?.form?.hora_maniobra?.value"
                 [name]="value?.form?.hora_maniobra?.name"
-                (valueChange)="setDinamicData(value?.form?.hora_maniobra?.name, $event, i);">
+                (valueChange)="setDinamicData(value?.form?.hora_maniobra?.name, $event, i);
+                validarHorasIntermedias(value?.form?.hora_inicio?.value, value?.form?.hora_fin?.value, value?.form?.hora_maniobra?.value,
+                'Hora de maniobra')">
               </app-date-time-picker>
             </td>
             <td>
@@ -140,7 +150,8 @@
                 [style]="'width: 100px;'"
                 [value]="value?.form?.hora_fin?.value"
                 [name]="value?.form?.hora_fin?.name"
-                (valueChange)="setDinamicData(value?.form?.hora_fin?.name, $event, i);">
+                (valueChange)="setDinamicData(value?.form?.hora_fin?.name, $event, i);
+                validateRangeHour(value?.form?.hora_inicio?.value, value?.form?.hora_fin?.value)">
               </app-date-time-picker>
             </td>
             <td>{{value?.hora_final_prog}}</td>
