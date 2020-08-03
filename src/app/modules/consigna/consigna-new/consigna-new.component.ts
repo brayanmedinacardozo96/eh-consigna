@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, Output, EventEmitter, ɵConsole } from '@angular/core';
 import {ApiService} from '../../../shared/services/api.service';
 import {ValidationService} from '../../../shared/services/validations.service';
 import {DateValidationervice} from '../../../shared/services/date-validations.service';
@@ -17,7 +17,7 @@ import { ModalConfirmComponent } from './../../../ui/forms/modal-confirm/modal-c
 import { Mensaje } from './../../../ui/forms/m-dialog/dialog';
 import { ConsignaNewSearchComponent } from './consigna-new-search/consigna-new-search.component';
 import * as moment from 'moment';
-import { element } from 'protractor';
+
 
 @Component({
   selector: 'app-consigna-new',
@@ -599,7 +599,7 @@ export class ConsignaNewComponent implements OnInit {
       jsonPersona:{name:'jsonPersona',value: jsonPersona},
       jsonElementoMapa:{name:'jsonElementoMapa', value: this.jsonMapa},
       feeder:feeder,
-      jsonIntervenirElementoMapa:{name:'jsonIntervenirElementoMapa', value: document.getElementById("jsonElementoIntervenirMapa").innerText } 
+      jsonIntervenirElementoMapa:{name:'jsonIntervenirElementoMapa', value: document.getElementById("jsonElementoIntervenirMapa").innerText } ,
     }
     
     this.dataElementos.push(elemento);
@@ -631,13 +631,12 @@ export class ConsignaNewComponent implements OnInit {
     this.form.urlMapa.value = [];
     for(let value of this.dataElementos){
       if(value.jsonElementoMapa != '' && value.jsonElementoMapa != undefined && value.jsonElementoMapa != null){
-       if(value.jsonElementoMapa.value!="")
-       {
-        var dataJson =  JSON.parse(value.jsonElementoMapa.value);
-        if(typeof dataJson == 'string'){
-          dataJson =  JSON.parse(dataJson);
-        }
-        this.form.urlMapa.value.push(dataJson.url);
+       if (value.jsonElementoMapa.value != "" && value.jsonElementoMapa.value != null) {
+         var dataJson = JSON.parse(value.jsonElementoMapa.value);
+         if (typeof dataJson == 'string') {
+           dataJson = JSON.parse(dataJson);
+         }
+         this.form.urlMapa.value.push(dataJson.url);
        }
       }
     }
@@ -1366,6 +1365,8 @@ export class ConsignaNewComponent implements OnInit {
   }
 
   setDataFormAndDisable(data){
+    
+    
     this.consignaPadreId = data.consignacion_id;
     this.form.divisionArea.value = parseInt(data.division_area_id);
     this.form.tipoZona.value = parseInt(data.zona_id);
@@ -1379,6 +1380,16 @@ export class ConsignaNewComponent implements OnInit {
     this.form.estadoEquipo.value = parseInt(data.estado_equipo_id);
     this.form.subestacion.value = parseInt(data.subestacion_id);
     this.form.tipoMantenimiento.value = parseInt(data.tipo_mantenimiento_id);
+
+    if (this.form.tipoFormatoConsigna.value == "CH") {
+      if (data.estado_consigna == "Ejecutada") {
+        var estadoConsigna = this.session.getItem("estadoConsigna").filter(b => {
+          return (b.codigo == "S")
+        });
+        this.form.estadoConsigna.value = parseInt(estadoConsigna[0].id);
+      }
+    }
+
     this.getTipoElementos();
     this.setElementoFechaSolicitud();
 
