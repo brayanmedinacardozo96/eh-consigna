@@ -43,7 +43,7 @@ export class AutorizarComponent implements OnInit {
     });
    }
 
-  urlAutoComletar=`${environment.apiBackend}/consigna/getAutoCompletarConsigna/S/null`;
+  urlAutoComletar=`${environment.apiBackend}/consigna/getAutoCompletarConsigna/S|R/null`;
 
   form = {
     id:{
@@ -259,7 +259,9 @@ export class AutorizarComponent implements OnInit {
       usuario_id:this.form.usuario.id,
       usurioNombre:this.form.usuario.value,
       observacion:this.form.observacion.value,
-      estado_actual:this.form.estado_actual.value
+      estado_actual:this.form.estado_actual.value,
+      fechaSolicitud: moment(this.form.fechaSolicitud.value).format("YYYY/MM/DD"),
+      fechaSolicitudActual:moment(this.form.numeroConsigna.fechaSolicitud).format("YYYY/MM/DD")
     }
     const response = await this.api.post(`${environment.apiBackend}/consigna/putActualizarEstado`, params);
     if(response.message==null)

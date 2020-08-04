@@ -71,7 +71,7 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Acciones</th>
         <td mat-cell *matCellDef="let row">
           <ul style="text-align: left;">
-            <mat-icon [style.display]=" (isVisible && row?.estado_consigna=='Solicitada') ? 'visible' : 'none' "
+            <mat-icon [style.display]=" (isVisible && (row?.estado_consigna=='Solicitada' || row?.estado_consigna=='Reprogramada') ) ? 'visible' : 'none' "
                       (click)="aprobarConsigna(row?.consignacion_id)" style="cursor: pointer;color: #4caf50;"
                       matTooltip="Aprobar"
                       matTooltipClass="custom-tooltip">fact_check
