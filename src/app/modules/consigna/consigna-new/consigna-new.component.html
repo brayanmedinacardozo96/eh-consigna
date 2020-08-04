@@ -164,6 +164,18 @@
                 [disable] ="true">
                 </app-input-text>
             </mat-grid-tile>
+
+            <mat-grid-tile >
+                <mat-form-field>
+                    <mat-label>{{form.solicitadaTercero.required ? form.solicitadaTercero.label+' *' : form.solicitadaTercero.label}}</mat-label>
+                    <mat-select [disabled]="form.solicitadaTercero.disabled" [(ngModel)]="form.solicitadaTercero.value" style="padding-top: 5px;padding-bottom: 5px;">
+                        <mat-option *ngFor="let value of dataControls?.solicitadaTercero;" [value]="value.id">
+                            {{ value.nombre }}
+                        </mat-option>
+                    </mat-select>
+                    <mat-hint style="color: red" *ngIf="form.solicitadaTercero.messages">{{form.solicitadaTercero.messages}}</mat-hint>
+                </mat-form-field>
+            </mat-grid-tile>
             
         </mat-grid-list>   
         

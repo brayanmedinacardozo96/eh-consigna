@@ -59,6 +59,10 @@ export class ConsignaNewComponent implements OnInit {
     redElectrica:[
       {nombre:'Si',value:'1'},
       {nombre:'No',value:'0'}
+    ],
+    solicitadaTercero:[ 
+      {id: "1",nombre: "Si"},
+      {id: "0", nombre: "No"}
     ]
   };
 
@@ -240,6 +244,14 @@ export class ConsignaNewComponent implements OnInit {
       value: [],
       messages: null,
       required: false,
+    },
+    solicitadaTercero: {
+      label: 'Solicitada por un tercero',
+      name: 'solicitadaTercero',
+      value:null,
+      messages: null,
+      required: true,
+      disabled: false
     }
   };
 
@@ -424,6 +436,11 @@ export class ConsignaNewComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.getDataSelectConsigna();
+    this. valoresPorDefecto();
+  }
+
+  valoresPorDefecto(){
+    this.form.solicitadaTercero.value=false;
   }
 
   getDataSolicitante(){
