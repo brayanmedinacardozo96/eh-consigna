@@ -107,6 +107,7 @@ export class AutorizarComponent implements OnInit {
   data = [];
   permitir=true;
   tipo_solicitud="";
+  
 
   ngOnInit(): void {
 
@@ -191,10 +192,10 @@ export class AutorizarComponent implements OnInit {
   async buscarConsigna(params){
 
     this.limpiar();
-
+   
     const response = await this.api.post(`${environment.apiBackend}/consigna/get-list-aprobar`, params);
     if(response.success && response.data.length>0){
-
+      this.permitir=true;
       this.viewList = true;
       this.data = response.data;
       this.form.numeroConsigna.value=this.data[0].codigo;
@@ -202,6 +203,11 @@ export class AutorizarComponent implements OnInit {
       this.form.estado_actual.value= this.data[0].estado_id;
       this.form.numeroConsigna.fechaSolicitud=this.data[0].fecha_solicitud;
       this.tipo_solicitud=this.data[0].tipo_solicitud;
+
+      if(this.data[0].estado_consigna!="Solicitada" && this.data[0].estado_consigna!="Reprogramada" )
+      {
+        this.permitir=false;
+      }
 
     }
 
