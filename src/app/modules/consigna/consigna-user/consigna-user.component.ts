@@ -108,7 +108,7 @@ export class ConsignaUserComponent implements OnInit {
     if(result.length>0)
     {
       this.isVisible=true;
-      const response = await this.api.get(`${environment.apiBackend}/consigna/getEstadoConsigna/S`);
+      const response = await this.api.get(`${environment.apiBackend}/consigna/getEstadoConsigna/S|R`);
       if(response.message==null && response.data.length>0){
         let data = response.data;
         this.total.totalAprobar =data[0].numero;
@@ -158,7 +158,7 @@ export class ConsignaUserComponent implements OnInit {
     this.viewListEstado=false;
     this.viewListBitacora=false;
     let params = {
-      codigoEstadoConsigna:{value:'S'}
+      codigoEstadoConsigna:{value:'S|R'}
     }
     const response = await this.api.post(`${environment.apiBackend}/consigna/get-list-aprobar`, params);
     if(response.success){
