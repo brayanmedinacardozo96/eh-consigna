@@ -7,6 +7,7 @@ import {NotFoundComponent} from './ui/not-found/not-found.component';
 import {ConsignaComponent} from './modules/consigna/consigna.component';
 import {ManiobraComponent} from './modules/maniobra/maniobra.component';
 import {AutorizarComponent}  from './modules/autorizar/autorizar.component'
+import { AutorizarJefeZonaComponent } from './modules/autorizar/autorizar-jefe-zona/autorizar-jefe-zona.component';
 import { ConsignaTabsComponent } from './modules/consigna/consigna-tabs/consigna-tabs.component';
 import { ConsignaUserComponent } from './modules/consigna/consigna-user/consigna-user.component';
 import {ParametrosComponent} from './modules/parametros/parametros.component';
@@ -31,6 +32,8 @@ const routes: Routes = [
   , {path: 'maniobra', component: ManiobraComponent, canActivate: [AuthGuard]}
   , {path: 'autorizar/:id', component: AutorizarComponent, canActivate: [AuthGuard]}
   , {path: 'autorizar', component: AutorizarComponent, canActivate: [AuthGuard]}
+  , {path: 'jefe-zona/autorizar', component: AutorizarJefeZonaComponent, canActivate: [AuthGuard]}
+  , {path: 'jefe-zona/autorizar/:id', component: AutorizarJefeZonaComponent, canActivate: [AuthGuard]}
   , {path: 'parametros', component: ParametrosComponent, canActivate: [AuthGuard]}
   , {path: 'comunicado-prensa', component: ComunicadoPrensaComponent, canActivate: [AuthGuard]}
   , {path: 'comunicado-prensa/new', component: ComunicadoPrensaFormComponent, canActivate: [AuthGuard]}

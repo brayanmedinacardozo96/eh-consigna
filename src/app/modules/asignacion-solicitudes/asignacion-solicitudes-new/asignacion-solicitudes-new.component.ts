@@ -5,8 +5,9 @@ import { ApiService } from './../../../shared/services/api.service';
 import { environment } from 'src/environments/environment';
 import { SessionService } from './../../../shared/services/session.service';
 import { ValidationService } from './../../../shared/services/validations.service';
-import { SnackBarService } from './../../../shared/services/snack-bar.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { SnackBarClass } from './../../../ui/snack-bar/snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Component({
@@ -79,7 +80,7 @@ export class AsignacionSolicitudesNewComponent implements OnInit {
   constructor(private api: ApiService,
               private session: SessionService,
               private validations: ValidationService,
-              private snackBar: SnackBarService,
+              private snackBar: MatSnackBar,
               private activeRoute: ActivatedRoute
             ) { 
               this.activeRoute.params.subscribe(params => {
@@ -178,9 +179,9 @@ export class AsignacionSolicitudesNewComponent implements OnInit {
   async guardar(){
     const response = await this.api.post(`${environment.apiBackend}/asignacion-usuario/save`, this.dataConsigna.tipoZona);
     if(response.success){
-      this.snackBar.alert(response.message, 5000);
+      new SnackBarClass(this.snackBar, response.message,  "btn-success", 2500).openSnackBar();
     }else{
-      this.snackBar.alert('Ocurrió un error, por favor vuelva a intentarlo', 5000);
+      new SnackBarClass(this.snackBar, 'Ocurrió un error, por favor vuelva a intentarlo', "btn-warning", 2500).openSnackBar();
     }
   }
 
