@@ -135,7 +135,7 @@ export class ConsignaNewSearchComponent implements OnInit {
         {
           
           this.observacion=`Esta consigna ya tiene asignada una consigna hija ${response.data_hija[0].codigo}`;
-          //this.visible=false;
+          this.visible=false;
         }
       }
 
