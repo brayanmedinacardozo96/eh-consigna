@@ -22,7 +22,7 @@
                   </div>
             </mat-grid-tile>
         </mat-grid-list>
-
+        <p style="text-align: center; color: #e37222;">{{ observacion }}</p>
         <div *ngIf="data.length > 0">
             <table class="custom-table">
                 <thead>
@@ -56,6 +56,6 @@
   </div>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-  <button mat-button [disabled]="data.length < 0"
+  <button *ngIf="visible" mat-button [disabled]="data.length < 0"
   [mat-dialog-close]="true" cdkFocusInitial (click)="okClick()">Aceptar</button>
 </mat-dialog-actions>
