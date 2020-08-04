@@ -89,7 +89,7 @@
         <td>{{value?.usuario.document_number}}</td>
         <td>{{value?.usuario.first_name}} {{value?.usuario.second_name}} {{value?.usuario.first_lastname}} {{value?.usuario.second_lastname}}</td>
         <td>{{value?.zona.nombre}}</td>
-        <td>{{value?.estado == 1 ? 'Activo' : 'Inactivo'}}</td>
+        <td>{{value?.estado == 1 ? 'Activo' : 'Inactivo'}} {{value?.flag == '1' ? '*' : ''}}</td>
         <td>{{value?.tipo_asignacion.nombre}}</td>
         <td>
             <ng-container>
