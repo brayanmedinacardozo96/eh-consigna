@@ -17,9 +17,15 @@ import {MatTableModule} from '@angular/material/table';
 import {TableElementoCalidadComponent} from './table-elemento-calidad/table-elemento-calidad.component';
 import {ConsignaModule} from '../consigna/consigna.module';
 import {TableAprobarConsignaComponent} from './table-aprobar-consigna/table-aprobar-consigna.component';
+import { AutorizarJefeZonaComponent } from './autorizar-jefe-zona/autorizar-jefe-zona.component';
 
 @NgModule({
-  declarations: [AutorizarComponent, TableElementoCalidadComponent,TableAprobarConsignaComponent],
+  declarations: [
+    AutorizarComponent, 
+    TableElementoCalidadComponent,
+    TableAprobarConsignaComponent, 
+    AutorizarJefeZonaComponent
+  ],
   imports: [
     CommonModule,
     MatCardModule,

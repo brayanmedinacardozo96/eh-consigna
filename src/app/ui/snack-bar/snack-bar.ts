@@ -11,7 +11,7 @@ export class SnackBarClass {
  private verticalPosition: MatSnackBarVerticalPosition = 'top';
 
 
-  constructor(private _snackBar: MatSnackBar, private mensaje:string,private panelClass:string) {
+  constructor(private _snackBar: MatSnackBar, private mensaje:string,private panelClass:string, private duration = 1500) {
 
    }
 
@@ -21,7 +21,7 @@ export class SnackBarClass {
   openSnackBar() {
 
     this._snackBar.open(this.mensaje, 'X', {
-      duration: 1500,
+      duration: this.duration,
       horizontalPosition: this.horizontalPosition,
       verticalPosition: this.verticalPosition,
       panelClass: [this.panelClass]
