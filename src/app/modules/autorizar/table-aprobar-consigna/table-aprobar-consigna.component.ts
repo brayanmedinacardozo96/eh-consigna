@@ -18,7 +18,11 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 })
 export class TableAprobarConsignaComponent implements OnInit {
 
+<<<<<<< HEAD
   displayedColumns: string[] = ['fecha_solicitud','numeroConsigna', 'consecutivoSnc', 'tipoZona', 'estadoConsigna','estadoEquipo', 'elementosConsignados', 'maniobras','html_documento'];
+=======
+  displayedColumns: string[] = ['fecha_solicitud','numeroConsigna', 'consecutivoSnc', 'tipoZona', 'estadoConsigna','estadoEquipo', 'elementosConsignados', 'maniobras','html_documento'];//, 'trabajosOportunidad'
+>>>>>>> 4904287421d16c7b2cf7390835873e66df31a4c8
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;

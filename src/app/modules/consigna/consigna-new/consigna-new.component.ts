@@ -394,6 +394,8 @@ export class ConsignaNewComponent implements OnInit {
     clienteRegulado:0,
     clienteNoRegulado:0
   };
+  mostrarPanelElemento=true;
+  elementUpdateID=null;
   
   
   constructor(private api: ApiService,
@@ -683,6 +685,59 @@ export class ConsignaNewComponent implements OnInit {
     });    
   }
 
+  selectListElement(id)
+  {
+    if(id==null)
+    {
+      this.mostrarPanelElemento=true;
+      this.elementUpdateID=null;
+      this.validacionUpdate("");
+      
+    }else{
+      this.elementUpdateID=id;
+      this.mostrarPanelElemento=false;
+    }
+    
+  }
+
+  updateElement()
+  {
+
+    if(this.formElementos.fechaInicio.value==null || this.formElementos.fechaFinal.value==null ||
+       this.formElementos.horaInicio.value==null || this.formElementos.horaFinal.value==null )
+    {
+      this.validacionUpdate("Este campo es requerido.");
+       return;
+    }
+    var elemento=this.dataElementos[this.elementUpdateID];
+    var fechaInicio = this.dateValidation.getYearMounthDay(this.formElementos.fechaInicio.value);
+    var horaInicio = this.formElementos.horaInicio.value;
+    var fechaFinal = this.dateValidation.getYearMounthDay(this.formElementos.fechaFinal.value);
+    var horaFinal = this.formElementos.horaFinal.value;
+    elemento.fechaInicio.name=fechaInicio;
+    elemento.fechaInicio.value=fechaInicio;
+    elemento.horaInicio.name=horaInicio;
+    elemento.horaInicio.value=horaInicio;
+    elemento.fechaFinal.name=fechaFinal;
+    elemento.fechaFinal.value=fechaFinal;
+    elemento.horaFinal.name=horaFinal;
+    elemento.horaFinal.value=horaFinal;
+    this.dataElementos[this.elementUpdateID]=elemento;
+    this.validacionUpdate("");
+    this.selectListElement(null);
+    
+  }
+
+  validacionUpdate(mensaje)
+  {
+    this.formElementos.fechaInicio.messages=mensaje;
+    this.formElementos.fechaFinal.messages=mensaje;
+    this.formElementos.horaInicio.messages=mensaje;
+    this.formElementos.horaFinal.messages=mensaje;
+    this.form.fechaSolicitud.messages=mensaje;
+  }
+
+
   guardarConsigna(){
     let response = {
       formData: new FormData(),
@@ -706,7 +761,8 @@ export class ConsignaNewComponent implements OnInit {
     //   this.fileUpload = this.fileValidation.fileUp(this.inputFile);
     // }
     // if( this.validateEmptyFields() && this.fileUpload.success){
-    if( this.validateEmptyFields() && inputFile.success && inputFileMultiple.success){
+
+    if( this.validateEmptyFields() && inputFile.success && inputFileMultiple.success && this.validarTiempoElmento()){
 
       response.formData = inputFile.files;
       //adjuntar los documentos(anexos)
@@ -757,6 +813,19 @@ export class ConsignaNewComponent implements OnInit {
 
     return response;
 
+  }
+
+  validarTiempoElmento() {
+    var valido = true;
+    if (this.form.tipoFormatoConsigna.value == "CH") {
+      this.dataElementos.forEach(element => {
+        if (element.fechaFinal.name == null || element.horaInicio.name == null ||
+          element.fechaFinal.name == null || element.horaFinal.name == null) {
+          valido = false;
+        }
+      });
+    }
+    return valido;
   }
 
   setInput(event){
@@ -904,9 +973,9 @@ export class ConsignaNewComponent implements OnInit {
         fechaSolicitudFinal:{
           value: fechaFinal
         },
-        codigoTipoFormato:{
+        /*codigoTipoFormato:{
           value: this.form.tipoFormatoConsigna.value
-        }
+        }*/
       }
       const response = await this.api.post(`${environment.apiBackend}/consigna/get-list`, request);
       if(response.success){
@@ -1351,6 +1420,7 @@ export class ConsignaNewComponent implements OnInit {
           this.setDataFormAndDisable(data);
 
           if(this.form.tipoFormatoConsigna.value == 'CH'){
+            console.log( result.listaElemento);
             this.dataElementos = result.listaElemento;
           }
         }
@@ -1366,7 +1436,6 @@ export class ConsignaNewComponent implements OnInit {
 
   setDataFormAndDisable(data){
     
-    
     this.consignaPadreId = data.consignacion_id;
     this.form.divisionArea.value = parseInt(data.division_area_id);
     this.form.tipoZona.value = parseInt(data.zona_id);
@@ -1381,19 +1450,23 @@ export class ConsignaNewComponent implements OnInit {
     this.form.subestacion.value = parseInt(data.subestacion_id);
     this.form.tipoMantenimiento.value = parseInt(data.tipo_mantenimiento_id);
 
+    this.getTipoElementos();
+    this.setElementoFechaSolicitud();
+    this.setDisableForm(this.form,true);
+
     if (this.form.tipoFormatoConsigna.value == "CH") {
       if (data.estado_consigna == "Ejecutada") {
         var estadoConsigna = this.session.getItem("estadoConsigna").filter(b => {
           return (b.codigo == "S")
         });
         this.form.estadoConsigna.value = parseInt(estadoConsigna[0].id);
+        this.form.fechaSolicitud.disabled=false;
+        this.form.fechaSolicitud.value=null;
+        this.formElementos.fechaInicio.value=null;
+        this.formElementos.fechaFinal.value=null;
       }
     }
 
-    this.getTipoElementos();
-    this.setElementoFechaSolicitud();
-
-    this.setDisableForm(this.form,true);
   }
 
   limpiarForm(){

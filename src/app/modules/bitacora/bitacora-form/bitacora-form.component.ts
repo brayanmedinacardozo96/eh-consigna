@@ -30,6 +30,7 @@ export class BitacoraFormComponent implements OnInit {
   inputFile: any;
   cerrarBitacora = false;
   selectAllElementos = false;
+  action = '';
 
   form = {
     numeroConsigna: {
@@ -87,8 +88,10 @@ export class BitacoraFormComponent implements OnInit {
       if (params.id !== undefined && params.id !== null) {
         this.form.numeroConsigna.value = params.id;
         this.load().then();
+        this.action = 'edit';
       } else {
         this.loadControls().then();
+        this.action = 'new';
       }
 
     });
@@ -328,7 +331,7 @@ export class BitacoraFormComponent implements OnInit {
 
           // Valida que la hora se encuentre en el rango de hora inicio y hora fin
           if (!this.validarHorasIntermedias(obj.hora_inicio.value, obj.hora_fin.value, obj.hora_entrega.value,
-            'Hora de entrega' ,value.elemento)) {
+            'Hora de entrega', value.elemento)) {
             response = false;
             break;
           }
@@ -347,9 +350,108 @@ export class BitacoraFormComponent implements OnInit {
             break;
           }
 
+          // ---- Valida los sub-elementos ----
+          if (!this.validarMinimoIntervenirSubelemento(value, ['SWITCH', 'SWITCHES', 'TRANSFOR', 'RECLOSER'])) {
+            response = false;
+            break;
+          }
+
+          let responseValid = this.validarHorasSubElementos(value, 'SWITCH', obj.hora_inicio.value, obj.hora_fin.value);
+          if (!responseValid.success) {
+            this.notifier.notify('error', responseValid.message);
+            response = false;
+            break;
+          }
+
+          responseValid = this.validarHorasSubElementos(value, 'SWITCHES', obj.hora_inicio.value, obj.hora_fin.value);
+          if (!responseValid.success) {
+            this.notifier.notify('error', responseValid.message);
+            response = false;
+            break;
+          }
+
+          responseValid = this.validarHorasSubElementos(value, 'TRANSFOR', obj.hora_inicio.value, obj.hora_fin.value);
+          if (!responseValid.success) {
+            this.notifier.notify('error', responseValid.message);
+            response = false;
+            break;
+          }
+
+          responseValid = this.validarHorasSubElementos(value, 'RECLOSER', obj.hora_inicio.value, obj.hora_fin.value);
+          if (!responseValid.success) {
+            this.notifier.notify('error', responseValid.message);
+            response = false;
+            break;
+          }
+
         }
       }
     }
+    return response;
+  }
+
+  validarHorasSubElementos(data, grupo, horaInicioFormat, horaFinFormat) {
+    let response = {success: true, message: null};
+
+    if (!data.json_elemento_mapa) {
+      return response;
+    }
+
+    const elements = data.json_elemento_mapa[grupo];
+
+    if (!Array.isArray(elements)) {
+      return response;
+    }
+
+    const horaInicioPadre = moment(horaInicioFormat, 'h:mm a');
+    const horaFinPadre = moment(horaFinFormat, 'h:mm a');
+
+    for (let value of elements) {
+
+      const horaInicio = moment(value.form.hora_inicio.value, 'h:mm a');
+      const horaFin = moment(value.form.hora_fin.value, 'h:mm a');
+
+      if (!(horaInicio >= horaInicioPadre && horaInicio <= horaFinPadre)) {
+        response.message = `¡La hora inicio debe estar entre ${horaInicioFormat} y ${horaFinFormat} para el subelemento ${value.CODE} que pertenece al elemento ${data.elemento}!`;
+        response.success = false;
+        break;
+      }
+
+      if (!(horaFin >= horaInicioPadre && horaFin <= horaFinPadre)) {
+        response.message = `¡La hora final debe estar entre ${horaInicioFormat} y ${horaFinFormat} para el subelemento ${value.CODE} que pertenece al elemento ${data.elemento}!`;
+        response.success = false;
+        break;
+      }
+
+    }
+
+    return response;
+
+  }
+
+  validarMinimoIntervenirSubelemento(data, grupos) {
+    let response = true;
+    let totalIntervenidos = 0;
+    if (!data.json_elemento_mapa) {
+      return response;
+    }
+
+    for (let grupo of grupos) {
+      const elementos = data.json_elemento_mapa[grupo];
+      if (Array.isArray(elementos)) {
+        for (let elemento of elementos) {
+          if (elemento.form.completado) {
+            totalIntervenidos++;
+          }
+        }
+      }
+    }
+
+    if (totalIntervenidos === 0) {
+      this.notifier.notify('error', `¡Debe intervenir al menos un subelemento para el elemento ${data.elemento}!`);
+      response = false;
+    }
+
     return response;
   }
 
@@ -373,6 +475,12 @@ export class BitacoraFormComponent implements OnInit {
   }
 
   abrirSubelementos(obj) {
+
+    if (!obj.json_elemento_mapa) {
+      this.notifier.notify('error', 'El elemento seleccionado no contiene subelementos.');
+      return false;
+    }
+
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = 500;
     dialogConfig.minHeight = 650;

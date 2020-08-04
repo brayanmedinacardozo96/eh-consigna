@@ -11,6 +11,7 @@
 
           <app-input-text
             class="input"
+            [disable]="action === 'edit'"
             (keyup.enter)="searchConsigna()"
             [name]="form.numeroConsigna.name"
             [value]="form.numeroConsigna.value"
