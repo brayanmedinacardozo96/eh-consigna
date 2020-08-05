@@ -248,7 +248,7 @@ export class ConsignaNewComponent implements OnInit {
     solicitadaTercero: {
       label: 'Solicitada por un tercero',
       name: 'solicitadaTercero',
-      value:null,
+      value: null,
       messages: null,
       required: true,
       disabled: false
@@ -440,7 +440,7 @@ export class ConsignaNewComponent implements OnInit {
   }
 
   valoresPorDefecto(){
-    this.form.solicitadaTercero.value=false;
+    this.form.solicitadaTercero.value = "0";
   }
 
   getDataSolicitante(){

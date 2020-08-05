@@ -153,18 +153,6 @@
                 </mat-form-field>
             </mat-grid-tile>
 
-
-            <mat-grid-tile [colspan]="2">
-                <app-input-text style="width: 90%;"
-                class="input"
-                [label]="form.solicitante.label"
-                [value]="form.solicitante.value"
-                [name]="form.solicitante.value"
-                [messages]="form.solicitante.messages"
-                [disable] ="true">
-                </app-input-text>
-            </mat-grid-tile>
-
             <mat-grid-tile >
                 <mat-form-field>
                     <mat-label>{{form.solicitadaTercero.required ? form.solicitadaTercero.label+' *' : form.solicitadaTercero.label}}</mat-label>
@@ -176,9 +164,21 @@
                     <mat-hint style="color: red" *ngIf="form.solicitadaTercero.messages">{{form.solicitadaTercero.messages}}</mat-hint>
                 </mat-form-field>
             </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="2">
+                <app-input-text style="width: 90%;"
+                class="input"
+                [label]="form.solicitante.label"
+                [value]="form.solicitante.value"
+                [name]="form.solicitante.value"
+                [messages]="form.solicitante.messages"
+                [disable] ="true">
+                </app-input-text>
+            </mat-grid-tile>
             
         </mat-grid-list>   
         
+        <br>
         <!-- Listado elementos a consignar -->
         <fieldset>
             <legend style="text-align: left;">Listado de Elementos a Consignar</legend>
