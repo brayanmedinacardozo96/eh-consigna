@@ -2,6 +2,10 @@ import { Component, OnInit,ViewChild,Output,EventEmitter,Input } from '@angular/
 import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
+import {environment} from '../../../../../environments/environment';
+import {SnackBarClass} from '../../../../ui/snack-bar/snack-bar';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import { ApiService } from '../../../../shared/services/api.service';
 
 @Component({
   selector: 'app-table-seguimiento-consigna',
@@ -10,9 +14,12 @@ import {MatSort} from '@angular/material/sort';
 })
 export class TableSeguimientoConsignaComponent implements OnInit {
 
-  constructor() { }
+  constructor( 
+    private snackBar: MatSnackBar,
+    private api: ApiService
+    ) { }
   
-  displayedColumns: string[] = ['fecha', 'usuario', 'observacion'];
+  displayedColumns: string[] = ['fecha', 'usuario', 'observacion','html'];
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
@@ -39,5 +46,21 @@ export class TableSeguimientoConsignaComponent implements OnInit {
        this.dataSource.paginator.firstPage();
      }
    }
+
+   generatePdf(html)
+  {
+    this.showPdf(html);
+  }
+
+  async showPdf(html){
+    const response = await this.api.post(`${environment.apiBackend}/file/generate-pdf`, {html: html} );
+      let success = response.success;
+      let message = response.message;
+      if(success){
+        window.open(`${environment.urlFiles}/${response.path}`);
+      }else{
+        new SnackBarClass(this.snackBar,'Ocurrió un error, por favor vuelva a intentarlo o contáctese con el administrador.', 'btn-warning').openSnackBar();
+      }
+  }
 
 }
