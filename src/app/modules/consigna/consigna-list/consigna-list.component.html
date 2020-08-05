@@ -19,6 +19,11 @@
         <td mat-cell *matCellDef="let row"> {{row?.codigo_snc}} </td>
       </ng-container>
 
+      <ng-container matColumnDef="fecha_solicitud">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha solicitud</th>
+        <td mat-cell *matCellDef="let row"> {{row?.fecha_solicitud | date: 'yyyy/MM/dd'}} </td>
+      </ng-container>
+
       <!-- Zona -->
       <ng-container matColumnDef="tipoZona">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Zona</th>
