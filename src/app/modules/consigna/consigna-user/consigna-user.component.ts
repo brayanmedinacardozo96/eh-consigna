@@ -111,10 +111,11 @@ export class ConsignaUserComponent implements OnInit {
       const response = await this.api.get(`${environment.apiBackend}/consigna/getEstadoConsigna/S|R`);
       if(response.message==null && response.data.length>0){
         let data = response.data;
-        this.total.totalAprobar =data[0].numero;
-
+        for (let index = 0; index < data.length; index++) {
+          const element = data[index];
+          this.total.totalAprobar += parseInt(element.numero);
+        }
       }
-
     }
 
   }
