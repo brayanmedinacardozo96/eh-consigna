@@ -113,4 +113,16 @@ export class InputFileDynamicComponent implements OnInit {
     }
     return response;
   }
+
+  cleanFiles(){
+    let files = $('#documents input[type=file]');
+    let size = files.length;
+
+    for(let i = 0;i<size; i++){
+      let file = files[i]
+      let idFile = file['id'];
+      $('#' + idFile).val('');
+      this.dataInputFile[i].fileName = '';
+    }
+  }
 }

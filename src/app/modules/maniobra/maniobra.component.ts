@@ -327,4 +327,10 @@ export class ManiobraComponent implements OnInit {
     this.tableTrabajoManiobra.init(this.registroManiobra);
   }
 
+  cleanAllFields(){
+    this.registroManiobra = [];
+    this.tableTrabajoManiobra.init(this.registroManiobra);
+    this.limpiar();
+  }
+
 }

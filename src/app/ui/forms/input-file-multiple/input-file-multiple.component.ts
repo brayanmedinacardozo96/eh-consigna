@@ -98,4 +98,9 @@ export class InputFileMultipleComponent implements OnInit {
     return this.files;
   }
 
+  cleanFiles(){
+    $('#file-multiple').val('');
+    this.fileName = '';
+  }
+
 }

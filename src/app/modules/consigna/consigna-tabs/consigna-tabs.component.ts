@@ -231,6 +231,9 @@ export class ConsignaTabsComponent implements OnInit {
 
         if(!responseManiobra.success){
           this.snackBar.alert('Ocurrió un error guardando el registro de maniobra');
+        }else{
+          this.registroManiobra = [];
+          this.maniobra.cleanAllFields();
         }
         this.showDialog(response);
       }else{

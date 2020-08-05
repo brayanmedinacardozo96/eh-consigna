@@ -938,6 +938,12 @@ export class ConsignaNewComponent implements OnInit {
     this.fileValidation.fileUp(this.inputFile);
     this.dataElementos = [];
     this.getDataSolicitante();
+    this.setSelect();
+    this.numeroAreaAfectada.barrios = 0;
+    this.numeroAreaAfectada.clienteRegulado = 0;
+    this.numeroAreaAfectada.clienteNoRegulado = 0;
+    this.inputFileDynamic.cleanFiles();
+    this.inputFileMultiple.cleanFiles();
   }
 
   async getSubestaciones(event){
