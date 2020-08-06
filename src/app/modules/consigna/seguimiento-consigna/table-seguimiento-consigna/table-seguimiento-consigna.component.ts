@@ -19,7 +19,7 @@ export class TableSeguimientoConsignaComponent implements OnInit {
     private api: ApiService
     ) { }
   
-  displayedColumns: string[] = ['fecha', 'usuario', 'observacion','html'];
+  displayedColumns: string[] = ['codigo','fecha_solicitud','fecha', 'usuario', 'observacion','html'];
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
