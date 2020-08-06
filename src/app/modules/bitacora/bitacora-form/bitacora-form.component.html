@@ -28,6 +28,20 @@
 
         </ng-container>
 
+        <ng-container *ngIf="dataConsigna?.consigna_code_tipo_solicitud == 'E'">
+          <p class="mensaje-jefe-zona">El jefe de zona
+            {{dataConsigna?.consigna_jefe_zona?.first_name}} {{dataConsigna?.consigna_jefe_zona?.second_name}}
+            {{dataConsigna?.consigna_jefe_zona?.first_lastname}} {{dataConsigna?.consigna_jefe_zona?.second_lastname}}
+
+            <ng-container [ngSwitch]="dataConsigna?.consigna_jefe_zona_aprobo">
+              <ng-container *ngSwitchCase="null"><span>no ha revisado esta consignación.</span></ng-container>
+              <ng-container *ngSwitchCase="true"><span style="color: green;">aprobó esta consignación.</span></ng-container>
+              <ng-container *ngSwitchCase="false"><span style="color: red;">NO aprobó esta consignación.</span></ng-container>
+            </ng-container>
+
+          </p>
+        </ng-container>
+
         <table class="custom-table">
           <tbody>
           <tr>
