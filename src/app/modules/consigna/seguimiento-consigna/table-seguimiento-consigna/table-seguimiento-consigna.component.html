@@ -7,8 +7,18 @@
     <div style="text-align: center !important; width: 100%; overflow-x: auto; ">
       <table mat-table [dataSource]="dataSource" matSort class="custom-table">
   
+        <ng-container matColumnDef="codigo">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Consigna</th>
+          <td mat-cell style="text-align:left" *matCellDef="let row"> {{ row?.codigo }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="fecha_solicitud">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha solicitud</th>
+          <td mat-cell style="text-align:left" *matCellDef="let row"> {{row?.fecha_solicitud |  date:'yyyy/MM/dd' }} </td>
+        </ng-container>
+
         <ng-container matColumnDef="fecha">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha modificación</th>
           <td mat-cell style="text-align:left" *matCellDef="let row"> {{row?.created_at |  date:'yyyy/MM/dd h:mm:ss a' }} </td>
         </ng-container>
   
