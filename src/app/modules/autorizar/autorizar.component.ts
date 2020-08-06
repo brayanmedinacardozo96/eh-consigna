@@ -90,7 +90,7 @@ export class AutorizarComponent implements OnInit {
       label: 'Fecha de solicitud',
       name: 'fechaSolicitud',
       value: null,
-      messages: null,
+      messages: "",
       required: false,
     },
   }
@@ -130,6 +130,16 @@ export class AutorizarComponent implements OnInit {
 
   setData(name, event) {
     this.form[name].value = event;
+
+    if (this.form[name].name == "fechaSolicitud") {
+      var plazo = moment(event);
+      var fecha = moment();
+      if (plazo < fecha) {
+        this.form[name].messages = "Fecha es menor a la actual"
+      } else {
+        this.form[name].messages = "";
+      }
+    }
   }
 
   setDataEstado(name, event) {
@@ -191,7 +201,7 @@ export class AutorizarComponent implements OnInit {
 
   async buscarConsigna(params){
 
-    this.limpiar();
+    this.data=null;
    
     const response = await this.api.post(`${environment.apiBackend}/consigna/get-list-aprobar`, params);
     if(response.success && response.data.length>0){
@@ -224,6 +234,10 @@ export class AutorizarComponent implements OnInit {
     if(textEstado=="Reprogramada")
     {
       this.form.fechaSolicitud.required=true;
+      if( this.form.fechaSolicitud.messages!="")
+      {
+         return;
+      }
     }
 
     if (this.validateEmptyFields()) {
