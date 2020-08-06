@@ -542,15 +542,16 @@
 
             <!-- telefono jefe trabajo -->
             <mat-grid-tile>
-                <app-input-text style="width: 100%;"
+                <app-input-number style="width: 100%;"
                     class="input"
+                    [id]="'form_consigna-tel_jefe_trabajo'"
                     [label]="form.telefonoJefeTrabajo.label"
                     [value]="form.telefonoJefeTrabajo.value"
                     [name]="form.telefonoJefeTrabajo.name"
                     [messages]="form.telefonoJefeTrabajo.messages"
                     [required]="form.telefonoJefeTrabajo.required"
                     (valueChange)="setData(form.telefonoJefeTrabajo.name, $event)">
-                </app-input-text>
+                </app-input-number>
             </mat-grid-tile>
 
             <!-- jefe de trabajo contratista -->
@@ -568,15 +569,17 @@
 
             <!-- telefono jefe trabajo contratista -->
             <mat-grid-tile>
-                <app-input-text style="width: 100%;"
+                <app-input-number style="width: 100%;"
                     class="input"
+                    [id]="'form_consigna-tel_jefe_contratista'"
                     [label]="form.telJefeTrabajoContratista.label"
                     [value]="form.telJefeTrabajoContratista.value"
                     [name]="form.telJefeTrabajoContratista.name"
                     [messages]="form.telJefeTrabajoContratista.messages"
                     [required]="form.telJefeTrabajoContratista.required"
-                    (valueChange)="setData(form.telJefeTrabajoContratista.name, $event)">
-                </app-input-text>
+                    (valueChange)="setData(form.telJefeTrabajoContratista.name, $event)"
+                >
+                </app-input-number>
             </mat-grid-tile>
             
             <!-- moviles -->

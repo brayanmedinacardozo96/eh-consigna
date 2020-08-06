@@ -131,11 +131,13 @@ export class ConsignaNewSearchComponent implements OnInit {
           }
         }
 
-        if(response.data_hija.length>0)
-        {
-          
-          this.observacion=`Esta consigna ya tiene asignada una consigna hija ${response.data_hija[0].codigo}`;
-          this.visible=false;
+        if(this.codigoTipoFormato == 'CH'){
+          if(response.data_hija.length>0)
+          {
+            
+            this.observacion=`Esta consigna ya tiene asignada una consigna hija ${response.data_hija[0].codigo}`;
+            this.visible=false;
+          }
         }
       }
 
