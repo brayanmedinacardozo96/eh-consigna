@@ -10,6 +10,7 @@ import {MatDialog} from "@angular/material/dialog";
 import { ValidationService } from './../../../shared/services/validations.service';
 import {ModalConfirmComponent} from "../../../ui/forms/modal-confirm/modal-confirm.component";
 import {Mensaje} from '../../../ui/forms/modal-confirm/mensaje';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-autorizar-jefe-zona',
@@ -20,6 +21,8 @@ export class AutorizarJefeZonaComponent implements OnInit {
 
   user: User = Auth.getUserDataPerson();
   data = [];
+  validationDate = 0;
+  message = '';
 
   constructor(
     private activeRoute: ActivatedRoute,
@@ -82,10 +85,28 @@ export class AutorizarJefeZonaComponent implements OnInit {
   ngOnInit(): void {
     this.form.usuario.id=this.user.id;
     this.form.usuario.value = `${this.user.first_name} ${this.user.second_name} ${this.user.first_lastname} ${this.user.second_lastname}`;
+    this.getlistParametros();
+  }
+
+  async getlistParametros(){
+    let params = {
+      tipoParametroCodigo:{value:'VDF'},
+      parametroCodigo:{value:'AJZCE'}
+    };
+    const response = await this.api.post(`${environment.apiBackend}/parametro/get-list-parametros`, params);
+    if(response.success){
+      for(let value of response.data){
+        this.validationDate = parseInt(value.valor);
+      }
+    }
   }
 
   async buscarConsigna(params){
     var estado = true;
+    let fechaSolicitud = null;
+    let fechaActual = moment();
+    let difHoras = 0;
+    this.message = '';
     const response = await this.api.post(`${environment.apiBackend}/consigna/get-list`, params);
 
     if(response.success && response.data.length > 0){
@@ -94,23 +115,32 @@ export class AutorizarJefeZonaComponent implements OnInit {
 
       if(this.data[0].tipo_solicitud_codigo != 'E' ){
         estado = false;
-        new SnackBarClass(this.snackBar,'No se encontraron registros.', 'btn-warning', 5000).openSnackBar();
+        this.message = 'No se encontraron registros.';
       }
       if(this.data[0].jefe_zona_aprobo != null){
         estado = false;
-        new SnackBarClass(this.snackBar,'La consignación fue aprobada por el jefe de zona.', 'btn-warning', 5000).openSnackBar();
+        this.message = 'La consignación fue aprobada por el jefe de zona.';
       }
       
       if(parseInt(this.data[0].jefe_zona_id) != parseInt(this.user.id)){
         estado = false;
-        new SnackBarClass(this.snackBar, 'Solamente el jefe de zona asignado puede aprobar la consigna', 'btn-warning', 5000).openSnackBar();
+        this.message = 'Solamente el jefe de zona asignado puede aprobar la consigna';
+      }
+
+      fechaSolicitud = moment(this.data[0].fecha_solicitud);
+      difHoras = (fechaSolicitud.diff(fechaActual, 'minutes')) / 60;
+
+      if(estado && this.validationDate > difHoras){
+        estado = false;
+        this.message = 'No se puede guardar la información debido a que el límite de tiempo para realizarlo era de '+this.validationDate+' Horas ';
+        this.message += 'con referencia a la fecha de solicitud('+fechaSolicitud.format('YYYY/MM/DD')+') de la consigna '+this.form.numeroConsigna.value;
       }
 
       if(estado){
         this.form.id.value = this.data[0].consignacion_id;
-        console.log(this.form);
       }else{
         this.data = [];
+        new SnackBarClass(this.snackBar, this.message, 'btn-warning', 5000).openSnackBar();
       }
     }
 
