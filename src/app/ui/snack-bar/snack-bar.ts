@@ -11,7 +11,7 @@ export class SnackBarClass {
  private verticalPosition: MatSnackBarVerticalPosition = 'top';
 
 
-  constructor(private _snackBar: MatSnackBar, private mensaje:string,private panelClass:string, private duration = 1500) {
+  constructor(private _snackBar: MatSnackBar, private mensaje:string,private panelClass:string, private duration = 2000) {
 
    }
 
