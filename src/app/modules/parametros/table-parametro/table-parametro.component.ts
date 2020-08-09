@@ -30,7 +30,7 @@ export class TableParametroComponent implements OnInit {
   }
 
   init(data) {
-
+    
     this.dataSource = new MatTableDataSource(data);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
@@ -44,7 +44,6 @@ export class TableParametroComponent implements OnInit {
       this.dataSource.paginator.firstPage();
     }
   }
-
 
   seleccionar(row)
   {

@@ -62,7 +62,8 @@ export class ParametrosRegistroComponent implements OnInit {
       value: null,
       messages: null,
       required: true,
-      length: 10
+      length: 10,
+      disabled: false
     },
     valor: {
       label: 'Valor',
@@ -118,6 +119,7 @@ export class ParametrosRegistroComponent implements OnInit {
       this.form.tipo.value=parseInt( event[1].tp_id );
       this.boton.color = "btn-success";
       this.boton.value = "Actualizar";
+      this.form.codigo.disabled=true;
       new Scroll("0");
     }
 
@@ -162,6 +164,7 @@ export class ParametrosRegistroComponent implements OnInit {
     this.form.codigo.messages="";
     this.form.valor.value="";
     this.form.valor.messages="";
+    this.form.codigo.disabled=false;
     new Scroll("0");
 
   }
@@ -185,13 +188,26 @@ export class ParametrosRegistroComponent implements OnInit {
       if (this.boton.value == "Guardar") {
         response = await this.apiService.post(`${environment.apiBackend}/parametro/postParametro`, obj);
         mensaje = ["Guardado con éxito", "btn-primary"];
+
+        if(response.message!=null)
+        {
+          var codigo = response.message.split('-');
+          if (codigo[0] == "961202") {
+            response.message=null;
+            mensaje[0] = codigo[1];
+            mensaje[1]="btn-danger";
+          }
+        }
+        
+
       } else {
 
         response = await this.apiService.post(`${environment.apiBackend}/parametro/putParametro`, obj);
         mensaje = ["Registro actualizado", "btn-success"];
+  
       }
 
-      this.evaluar(response, mensaje);
+      this.evaluar(response.data, mensaje);
     }
 
   }
@@ -226,7 +242,7 @@ export class ParametrosRegistroComponent implements OnInit {
 
     mensaje = ["Registro eliminado", "btn-default"];
 
-    this.evaluar(response, mensaje);
+    this.evaluar(response.data, mensaje);
 
   }
 
@@ -239,12 +255,11 @@ export class ParametrosRegistroComponent implements OnInit {
       this.limpiar();
 
     } else {
-
-      mensaje = ["Algo ha ocurrido", "btn-danger"];
+        mensaje = ["Algo ha ocurrido", "btn-danger"];
     }
 
     new SnackBarClass(this.snackBar, mensaje[0], mensaje[1]).openSnackBar();
-    this.select();
+    
   }
 
   validateEmptyFields() {
