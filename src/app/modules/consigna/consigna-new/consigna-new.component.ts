@@ -560,8 +560,8 @@ export class ConsignaNewComponent implements OnInit {
     if (!respValidateHours.success) {
       return false;
     }
-
-    if(this.jsonMapa != null && this.jsonMapa != '' && this.jsonMapa != undefined){
+    
+    if( (this.jsonMapa != null && this.jsonMapa != '' && this.jsonMapa != undefined) || this.formElementos.redElectrica.value){
       this.addListElements();
     }else{
       this.dialogo
