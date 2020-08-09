@@ -47,7 +47,8 @@ export class TipoParametrosComponent implements OnInit {
       value: null,
       messages: null,
       required: true,
-      length: 5
+      length: 5,
+      disabled: false
     }
 
   }
@@ -82,6 +83,7 @@ export class TipoParametrosComponent implements OnInit {
       this.form.id = event[1].id;
       this.boton.color = "btn-success";
       this.boton.value = "Actualizar";
+      this.form.codigo.disabled=true;
       new Scroll("0");
     }
 
@@ -113,6 +115,7 @@ export class TipoParametrosComponent implements OnInit {
     this.form.descripcion.messages="";
     this.form.codigo.value = "";
     this.form.codigo.messages="";
+    this.form.codigo.disabled=false;
     new Scroll("0");
   }
 
@@ -179,6 +182,14 @@ export class TipoParametrosComponent implements OnInit {
     } else {
 
       mensaje = ["Algo ha ocurrido", "btn-danger"];
+      var codigo = response.message.split('-');
+      if (codigo[0] == "2292") {
+        mensaje = ["Debe eliminar todos los parámetros asociados a este tipo de parámetro.", "btn-danger"];
+      }
+      if (codigo[0] == "961202") {
+        mensaje[0] = codigo[1];
+      }
+      
     }
 
     new SnackBarClass(this.snackBar, mensaje[0], mensaje[1]).openSnackBar();

@@ -34,7 +34,7 @@
       <mat-grid-tile [colspan]="2">
 
         <app-input-text style="width: 98%;" [required]="form.codigo.required" [label]="form.codigo.label" [value]="form.codigo.value"
-          [name]="form.codigo.name" [messages]="form.codigo.messages" [length]="form.codigo.length"
+          [name]="form.codigo.name" [disable]="form.codigo.disabled" [messages]="form.codigo.messages" [length]="form.codigo.length"
           (valueChange)="setData(form.codigo.name, $event)">
         </app-input-text>
 
