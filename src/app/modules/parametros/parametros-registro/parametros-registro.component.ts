@@ -191,7 +191,7 @@ export class ParametrosRegistroComponent implements OnInit {
         mensaje = ["Registro actualizado", "btn-success"];
       }
 
-      this.evaluar(response, mensaje);
+      this.evaluar(response.data, mensaje);
     }
 
   }
@@ -226,7 +226,7 @@ export class ParametrosRegistroComponent implements OnInit {
 
     mensaje = ["Registro eliminado", "btn-default"];
 
-    this.evaluar(response, mensaje);
+    this.evaluar(response.data, mensaje);
 
   }
 
