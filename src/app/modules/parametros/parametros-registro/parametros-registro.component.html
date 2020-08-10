@@ -59,6 +59,11 @@
           (valueChange)="setData(form.valor.name, $event)">
         </app-input-text>
 
+        <app-input-text style="width: 98%;" [required]="form.abreviatura.required" [label]="form.abreviatura.label" [value]="form.abreviatura.value"
+          [name]="form.abreviatura.name" [messages]="form.abreviatura.messages" 
+          (valueChange)="setData(form.abreviatura.name, $event)">
+        </app-input-text>
+
       </mat-grid-tile>
 
 
