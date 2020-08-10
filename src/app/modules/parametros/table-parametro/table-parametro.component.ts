@@ -2,6 +2,8 @@ import { Component, OnInit,ViewChild,Input,Output,EventEmitter } from '@angular/
 import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
+import {SnackBarClass} from '../../../ui/snack-bar/snack-bar';
+import {MatSnackBar} from '@angular/material/snack-bar';
 import {ApiService} from '../../../shared/services/api.service';
 import {environment} from 'src/environments/environment';
 
@@ -12,7 +14,7 @@ import {environment} from 'src/environments/environment';
 })
 export class TableParametroComponent implements OnInit {
 
-  displayedColumns: string[] = ['tp_nombre','codigo','nombre', 'descripcion','valor','estado','acciones'];
+  displayedColumns: string[] = ['tp_nombre','codigo','nombre', 'descripcion','valor','abreviatura','estado','acciones'];
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
@@ -23,6 +25,7 @@ export class TableParametroComponent implements OnInit {
 
   constructor(
     private apiService: ApiService,
+    private snackBar: MatSnackBar,
   ) { }
 
 
@@ -60,6 +63,12 @@ export class TableParametroComponent implements OnInit {
       }
 
       var response = await this.apiService.post(`${environment.apiBackend}/parametro/putUpdateEstado`, obj);
+      if(response.success){
+        new SnackBarClass(this.snackBar, response.message, "btn-success", 5000).openSnackBar();
+      }else{
+        new SnackBarClass(this.snackBar, "¡Ocurrió un error, por favor vuelva a intentarlo!", "btn-warning", 5000).openSnackBar();
+      }
+
   }
 
   eliminar(row)

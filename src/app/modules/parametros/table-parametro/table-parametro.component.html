@@ -33,6 +33,11 @@
         <td style="text-align:left" mat-cell *matCellDef="let row">{{row?.valor}}</td>
       </ng-container>
 
+      <ng-container matColumnDef="abreviatura">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Abreviatura</th>
+        <td style="text-align:left" mat-cell *matCellDef="let row">{{row?.abreviatura}}</td>
+      </ng-container>
+
       <ng-container matColumnDef="estado">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado</th>
         <td style="text-align:left" mat-cell *matCellDef="let row">

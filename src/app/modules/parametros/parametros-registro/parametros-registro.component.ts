@@ -71,6 +71,13 @@ export class ParametrosRegistroComponent implements OnInit {
       value: null,
       messages: null,
       required: false,
+    },
+    abreviatura: {
+      label: 'Abreviatura',
+      name: 'abreviatura',
+      value: null,
+      messages: null,
+      required: false,
     }
 
   }
@@ -87,6 +94,7 @@ export class ParametrosRegistroComponent implements OnInit {
       codigo: "",
       descripcion: "",
       valor:"",
+      abreviatura:"",
     }]
   }
 
@@ -117,6 +125,7 @@ export class ParametrosRegistroComponent implements OnInit {
       this.form.codigo.value=event[1].codigo;
       this.form.valor.value=event[1].valor;
       this.form.tipo.value=parseInt( event[1].tp_id );
+      this.form.abreviatura.value = event[1].abreviatura;
       this.boton.color = "btn-success";
       this.boton.value = "Actualizar";
       this.form.codigo.disabled=true;
@@ -164,6 +173,8 @@ export class ParametrosRegistroComponent implements OnInit {
     this.form.codigo.messages="";
     this.form.valor.value="";
     this.form.valor.messages="";
+    this.form.abreviatura.messages="";
+    this.form.abreviatura.value="";
     this.form.codigo.disabled=false;
     new Scroll("0");
 
@@ -179,7 +190,8 @@ export class ParametrosRegistroComponent implements OnInit {
         descripcion: this.form.descripcion.value,
         tipo_parametro_id: this.form.tipo.id,
         codigo: this.form.codigo.value,
-        valor:this.form.valor.value
+        valor:this.form.valor.value,
+        abreviatura:this.form.abreviatura.value
       }
 
       var response;
