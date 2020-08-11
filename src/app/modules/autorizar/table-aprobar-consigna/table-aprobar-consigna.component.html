@@ -78,7 +78,7 @@
          <ng-container matColumnDef="html_documento">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>archivo</th>
           <td mat-cell *matCellDef="let row">
-            <mat-icon *ngIf="row?.html_documento" (click)="generatePdf(row?.html_documento)" style="cursor: pointer;"
+            <mat-icon *ngIf="row?.html_documento" (click)="generatePdf(row?.consignacion_id)" style="cursor: pointer;"
              matTooltip="Imprimir" matTooltipClass="custom-tooltip"
             color="basic">print
             </mat-icon>

@@ -47,13 +47,13 @@ export class TableSeguimientoConsignaComponent implements OnInit {
      }
    }
 
-   generatePdf(html)
+  generatePdf(id)
   {
-    this.showPdf(html);
+    this.showPdf(id);
   }
 
-  async showPdf(html){
-    const response = await this.api.post(`${environment.apiBackend}/file/generate-pdf`, {html: html} );
+  async showPdf(id){
+    const response = await this.api.post(`${environment.apiBackend}/file/generate-pdf`, {consignacionId: id} );
       let success = response.success;
       let message = response.message;
       if(success){

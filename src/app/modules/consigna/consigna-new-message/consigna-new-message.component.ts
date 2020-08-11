@@ -14,6 +14,7 @@ export class ConsignaNewMessageComponent implements OnInit {
 
   message = '';
   html = '';
+  consignacionId = '';
   constructor(private api: ApiService,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
     private snackBar: SnackBarService) { 
@@ -25,11 +26,11 @@ export class ConsignaNewMessageComponent implements OnInit {
 
   init(data) {
     this.message = data.response.message;
-    this.html = data.response.html != null ? data.response.html : '';
+    this.consignacionId = data.response.consignacion_id;
   }
 
   async generatePdf(){
-    const response = await this.api.post(`${environment.apiBackend}/file/generate-pdf`, {html: this.html} );
+    const response = await this.api.post(`${environment.apiBackend}/file/generate-pdf`, {consignacionId: this.consignacionId} );
       let success = response.success;
       let message = response.message;
       if(success){

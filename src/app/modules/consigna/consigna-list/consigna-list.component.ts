@@ -92,7 +92,7 @@ export class ConsignaListComponent implements OnInit {
     });
   }
 
-  generatePdf(html){
+  generatePdf(id){
      this.dialog
       .open(ModalConfirmComponent, {
         data: new Mensaje("Imprimir:","Desea imprimir la consigna ")
@@ -100,7 +100,7 @@ export class ConsignaListComponent implements OnInit {
       .afterClosed()
       .subscribe((confirmado: Boolean) => {
         if (confirmado) {
-            this.showPdf(html);
+            this.showPdf(id);
         }
       });
 
@@ -110,8 +110,8 @@ export class ConsignaListComponent implements OnInit {
     this.router.navigateByUrl('consigna/editar/'+id);
   }
 
-  async showPdf(html){
-    const response = await this.api.post(`${environment.apiBackend}/file/generate-pdf`, {html: html} );
+  async showPdf(id){
+    const response = await this.api.post(`${environment.apiBackend}/file/generate-pdf`, {consignacionId: id} );
       let success = response.success;
       let message = response.message;
       if(success){
