@@ -90,7 +90,7 @@ export class ConsignaUserComponent implements OnInit {
   }
 
   async testFile(){
-    // const response = await this.api.get(`${environment.apiBackend}/test-file/57`);
+    // const response = await this.api.get(`${environment.apiBackend}/test-file/46`);
     //const response = await this.api.get(`${environment.apiBackend}/subestacion/update-spard`);
     // const response = await this.api.get(`${environment.apiBackend}/cliente/update-spard`,null);
     //  const response = await this.api.get(`${environment.apiBackend}/tipo-elemento/update-spard`);
