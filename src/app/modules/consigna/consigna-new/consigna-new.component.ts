@@ -901,14 +901,8 @@ export class ConsignaNewComponent implements OnInit {
 
   //Llena los selects del formulario
   async getDataSelectConsigna(){
-    if(this.session.getItem('divisionArea') == null  || this.session.getItem('tipoZona') == null || this.session.getItem('tipoSolicitud') == null
-        || this.session.getItem('tipoConsignacion') == null
-    ){
-      const response = await this.session.getDataSelectConsigna();
-      if(response.success){
-        this.setSelect();
-      }
-    }else{
+    const response = await this.session.getDataSelectConsigna();
+    if(response.success){
       this.setSelect();
     }
   }
