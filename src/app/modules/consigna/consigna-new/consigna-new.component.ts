@@ -1360,9 +1360,11 @@ export class ConsignaNewComponent implements OnInit {
           if(data!=undefined){
             
           if (data.length > 0) {
-            data[0].barrio.forEach(elemen => {
-              barrio += elemen + "\r";
-              this.numeroAreaAfectada.barrios++;
+            data.forEach(elemen => {
+              elemen.barrio.forEach(element => {
+                barrio += element + "\r";
+                this.numeroAreaAfectada.barrios++;
+              });
             });
           }}
         }
