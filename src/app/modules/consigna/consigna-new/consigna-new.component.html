@@ -549,6 +549,7 @@
                     [value]="form.telefonoJefeTrabajo.value"
                     [name]="form.telefonoJefeTrabajo.name"
                     [messages]="form.telefonoJefeTrabajo.messages"
+                    [maxLength]="form.telefonoJefeTrabajo.maxLength"
                     [required]="form.telefonoJefeTrabajo.required"
                     (valueChange)="setData(form.telefonoJefeTrabajo.name, $event)">
                 </app-input-number>
@@ -576,6 +577,7 @@
                     [value]="form.telJefeTrabajoContratista.value"
                     [name]="form.telJefeTrabajoContratista.name"
                     [messages]="form.telJefeTrabajoContratista.messages"
+                    [maxLength]="form.telefonoJefeTrabajo.maxLength"
                     [required]="form.telJefeTrabajoContratista.required"
                     (valueChange)="setData(form.telJefeTrabajoContratista.name, $event)"
                 >

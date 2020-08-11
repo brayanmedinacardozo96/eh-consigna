@@ -215,6 +215,7 @@ export class ConsignaNewComponent implements OnInit {
       name: 'telefonoJefeTrabajo',
       value: null,
       messages: null,
+      maxLength: 20,
       required: true,
     },
     jefeTrabajoContratista: {
@@ -229,6 +230,7 @@ export class ConsignaNewComponent implements OnInit {
       name: 'telJefeTrabajoContratista',
       value: null,
       messages: null,
+      maxLength: 20,
       required: true,
     },
     moviles: {

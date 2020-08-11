@@ -14,6 +14,7 @@ export class InputNumberComponent implements OnInit {
   @Input() name;
   @Input() messages;
   @Input() style;
+  @Input() maxLength = null;
   @Input() required;
   @Output() valueChange = new EventEmitter();
 
@@ -26,10 +27,18 @@ export class InputNumberComponent implements OnInit {
   checkPattern(event){    
     var re = /^[0-9]+$/;
     var text = '';
+    var count = 0
 
     for(let value in event){
+      count += 1;
       if(re.test(event[value])){
-        text += event[value];
+        if(this.maxLength != null){
+          if(count <= this.maxLength){
+            text += event[value];
+          }
+        }else{
+          text += event[value];
+        }
       }
     }
 
