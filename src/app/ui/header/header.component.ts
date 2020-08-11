@@ -45,4 +45,10 @@ export class HeaderComponent implements OnInit {
     this.numero=response.numero;
   }
 
+  clickNotificacion()
+  {
+    this.notificacion();
+    this.router.navigate(['/mis-consignas']);
+  }
+
 }

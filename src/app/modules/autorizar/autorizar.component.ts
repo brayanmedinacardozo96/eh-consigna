@@ -86,6 +86,14 @@ export class AutorizarComponent implements OnInit {
       required: true,
       valor:null
     },
+    causalEstado: {
+      label: 'Causa',
+      name: 'causalEstado',
+      value: null,
+      messages: null,
+      required: true,
+      valor:null
+    },
     fechaSolicitud: {
       label: 'Fecha de solicitud',
       name: 'fechaSolicitud',
@@ -96,7 +104,8 @@ export class AutorizarComponent implements OnInit {
   }
 
   dataControls={
-    estadoConsigna:[]
+    estadoConsigna:[],
+    causalEstado:[]
   }
 
   dataElementoCalidad=[
@@ -107,6 +116,7 @@ export class AutorizarComponent implements OnInit {
   data = [];
   permitir=true;
   tipo_solicitud="";
+  causal=false;
   
 
   ngOnInit(): void {
@@ -130,7 +140,7 @@ export class AutorizarComponent implements OnInit {
 
   setData(name, event) {
     this.form[name].value = event;
-
+    
     if (this.form[name].name == "fechaSolicitud") {
       var plazo = moment(event);
       var fecha = moment();
@@ -142,13 +152,36 @@ export class AutorizarComponent implements OnInit {
     }
   }
 
+  async getCausal()
+  {
+    const response = await this.api.get(`${environment.apiBackend}/consigna/getCausal`);
+    if(response.message==null)
+    {
+      this.dataControls.causalEstado=response.data;
+    }
+    
+  }
+  
+
+
   setDataEstado(name, event) {
     
     this.form[name].value = event;
+
     var estado=this.dataControls.estadoConsigna.filter(b=>{  return (b.id==event) });
     this.valor=estado[0].valor;
-  
     this.validarEstados(estado);
+
+    this.causal=false;
+    if(estado[0].nombre=="Cancelada")
+    {
+      this.causal=true;
+      this.getCausal();
+    }
+
+  }
+
+  setDataEstadoCausal(name, event){
 
   }
 
@@ -281,7 +314,8 @@ export class AutorizarComponent implements OnInit {
       observacion:this.form.observacion.value,
       estado_actual:this.form.estado_actual.value,
       fechaSolicitud: moment(this.form.fechaSolicitud.value).format("YYYY/MM/DD"),
-      fechaSolicitudActual:moment(this.form.numeroConsigna.fechaSolicitud).format("YYYY/MM/DD")
+      fechaSolicitudActual:moment(this.form.numeroConsigna.fechaSolicitud).format("YYYY/MM/DD"),
+      causal:this.form.causalEstado.value
     }
     const response = await this.api.post(`${environment.apiBackend}/consigna/putActualizarEstado`, params);
     if(response.message==null)

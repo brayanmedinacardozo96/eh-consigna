@@ -14,8 +14,8 @@
 
       <div *ngIf="auth.getLogin()" class="container-right">
         <span class="name-user">{{auth.getNameUser()}}</span>
-
-        <span  [routerLink]="['/mis-consignas']" matTooltip="Consignas"  class="material-icons btn-right btn-change-password" matBadgeSize="small" matBadgeColor="accent" matBadge="{{numero}}" matBadgePosition="above before" >
+        <!--[routerLink]="['/mis-consignas']"-->
+        <span  matTooltip="Consignas" (click)="clickNotificacion()"  class="material-icons btn-right btn-change-password" matBadgeSize="small" matBadgeColor="accent" matBadge="{{numero}}" matBadgePosition="above before" >
           notifications
         </span>
 
