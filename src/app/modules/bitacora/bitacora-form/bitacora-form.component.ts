@@ -270,7 +270,7 @@ export class BitacoraFormComponent implements OnInit {
       return false;
     }
 
-    if (this.formCompletado.completado.value === 0) {
+    if (this.formCompletado.completado.value === 0 && this.cerrarBitacora) {
       if (!this.formCompletado.causalIncumplimiento.value) {
         this.notifier.notify('error', 'Debe indicar la razón del incumplimiento.');
         return false;
@@ -432,6 +432,8 @@ export class BitacoraFormComponent implements OnInit {
   validarMinimoIntervenirSubelemento(data, grupos) {
     let response = true;
     let totalIntervenidos = 0;
+    let totalSubelementos = 0;
+
     if (!data.json_elemento_mapa) {
       return response;
     }
@@ -440,16 +442,22 @@ export class BitacoraFormComponent implements OnInit {
       const elementos = data.json_elemento_mapa[grupo];
       if (Array.isArray(elementos)) {
         for (let elemento of elementos) {
+
+          totalSubelementos++;
+
           if (elemento.form.completado) {
             totalIntervenidos++;
           }
+
         }
       }
     }
 
-    if (totalIntervenidos === 0) {
-      this.notifier.notify('error', `¡Debe intervenir al menos un subelemento para el elemento ${data.elemento}!`);
-      response = false;
+    if (totalSubelementos > 0) {
+      if (totalIntervenidos === 0) {
+        this.notifier.notify('error', `¡Debe intervenir al menos un subelemento para el elemento ${data.elemento}!`);
+        response = false;
+      }
     }
 
     return response;
