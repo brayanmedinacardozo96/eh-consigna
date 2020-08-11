@@ -7,6 +7,8 @@ import {Helpers} from "../../../shared/helpers";
 import {Auth} from "../../../shared/auth";
 import {Location} from '@angular/common';
 import {ActivatedRoute} from "@angular/router";
+import {ConfirmDialogComponent, ConfirmDialogModel} from "../../../ui/confirm-dialog/confirm-dialog.component";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-comunicado-prensa-form',
@@ -69,7 +71,8 @@ export class ComunicadoPrensaFormComponent implements OnInit {
   constructor(private api: ApiService,
               private notifier: NotifierService,
               private location: Location,
-              private activeRoute: ActivatedRoute,) {
+              private activeRoute: ActivatedRoute,
+              private dialogConfirm: MatDialog,) {
 
     this.activeRoute.params.subscribe(params => {
 
@@ -143,6 +146,8 @@ export class ComunicadoPrensaFormComponent implements OnInit {
       this.consignaID = this.data.id;
     }
 
+    this.contenidoComunicadoPrensa = null;
+
   }
 
   async searchConsignaByDates() {
@@ -162,6 +167,8 @@ export class ComunicadoPrensaFormComponent implements OnInit {
       this.notifier.notify('info', '¡No se encontraron consignaciones aprobadas en ese rango de fechas!');
     }
 
+    this.contenidoComunicadoPrensa = null;
+
   }
 
   async generar() {
@@ -177,6 +184,29 @@ export class ComunicadoPrensaFormComponent implements OnInit {
 
     this.setConsignacionesID();
 
+    if (!this.contenidoComunicadoPrensa) { // Si no ha ingresado nada en el contenido 'editor de texto'
+
+      this.generarComunicadoAPI().then();
+
+    } else { // Si ya hay texto en el editor, se valida si desea continuar
+
+      const dialogData = new ConfirmDialogModel('Confirmar', `Los cambios realizados en el editor de texto se perderán ¿desea continuar?`);
+      const dialogRef = this.dialogConfirm.open(ConfirmDialogComponent, {
+        maxWidth: '400px',
+        data: dialogData
+      });
+
+      dialogRef.afterClosed().subscribe(async (result) => {
+        if (result) {
+          this.generarComunicadoAPI().then();
+        }
+      });
+
+    }
+
+  }
+
+  async generarComunicadoAPI() {
     const params = {
       consignaciones_id: this.consignacionesID,
       plantilla: this.plantillaSelected.contenido,
@@ -246,7 +276,7 @@ export class ComunicadoPrensaFormComponent implements OnInit {
 
     if (response.success) {
       this.notifier.notify('success', response.message);
-      this.cancel();
+      this.back();
     } else {
       this.notifier.notify('error', response.message);
     }
@@ -300,6 +330,22 @@ export class ComunicadoPrensaFormComponent implements OnInit {
   }
 
   cancel() {
+
+    const dialogData = new ConfirmDialogModel('Confirmar', `¿Está seguro(a) de cancelar el comunicado de prensa?`);
+    const dialogRef = this.dialogConfirm.open(ConfirmDialogComponent, {
+      maxWidth: '400px',
+      data: dialogData
+    });
+
+    dialogRef.afterClosed().subscribe(async (result) => {
+      if (result) {
+        this.back();
+      }
+    });
+
+  }
+
+  back(){
     this.location.back();
   }
 
