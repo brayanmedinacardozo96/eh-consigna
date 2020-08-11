@@ -20,11 +20,7 @@
   <tr *ngFor="let value of data;">
     <td>{{value?.consigna?.codigo}}</td>
     <td>{{value?.completado === '1' ? 'SI' : 'NO'}}</td>
-    <td>
-      <ng-container *ngIf="value?.completado === '0'">
-        {{value?.causal_incumplimiento?.nombre}}
-      </ng-container>
-    </td>
+    <td>{{value?.causal_incumplimiento?.nombre}}</td>
     <td>
       <ng-container *ngIf="value?.completado === '0'">
         {{value?.obser_causal_incum}}

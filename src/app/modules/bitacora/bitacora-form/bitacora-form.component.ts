@@ -202,7 +202,7 @@ export class BitacoraFormComponent implements OnInit {
     const response = await this.api.post(`${environment.apiBackend}/bitacora/save`, data);
     if (response.success) {
       this.notifier.notify('success', response.message);
-      this.cancel();
+      this.back();
     } else {
       this.notifier.notify('error', response.message);
     }
@@ -464,6 +464,22 @@ export class BitacoraFormComponent implements OnInit {
   }
 
   cancel() {
+
+    const dialogData = new ConfirmDialogModel('Confirmar', `¿Está seguro(a) de cancelar la bitácora?`);
+    const dialogRef = this.dialogConfirm.open(ConfirmDialogComponent, {
+      maxWidth: '400px',
+      data: dialogData
+    });
+
+    dialogRef.afterClosed().subscribe(async (result) => {
+      if (result) {
+        this.back();
+      }
+    });
+
+  }
+
+  back() {
     this.location.back();
   }
 
