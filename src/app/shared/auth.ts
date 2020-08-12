@@ -1,3 +1,5 @@
+import {environment} from "../../environments/environment";
+
 export class Auth {
 
   public static login(token) {
@@ -6,7 +8,16 @@ export class Auth {
 
   public static getLogin() {
     const token = localStorage.getItem('token');
-    return JSON.parse(token);
+    let tokenParse = JSON.parse(token);
+
+    if (tokenParse) {
+      if (tokenParse.key === environment.keyTransverseSecurity) {
+        return tokenParse;
+      }
+    }
+
+    return null;
+
   }
 
   public static getNameUser() {
@@ -35,7 +46,7 @@ export class Auth {
     localStorage.clear();
   }
 
-  public static getUserDataPerson(){
+  public static getUserDataPerson() {
     const token = this.getLogin();
     const person = token.user_data.person;
     return person;
