@@ -32,6 +32,7 @@ export class TipoParametrosComponent implements OnInit {
       name: 'nombre',
       value: null,
       messages: null,
+      length: 100,
       required: true,
     },
     descripcion: {
@@ -39,6 +40,7 @@ export class TipoParametrosComponent implements OnInit {
       name: 'descripcion',
       value: null,
       messages: null,
+      length: 1000,
       required: true,
     },
     codigo: {

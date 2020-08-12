@@ -26,7 +26,7 @@
       <mat-grid-tile [colspan]="2">
 
         <app-input-text style="width: 98%;" [required]="form.nombre.required" [label]="form.nombre.label" [value]="form.nombre.value"
-          [name]="form.nombre.name" [messages]="form.nombre.messages" (valueChange)="setData(form.nombre.name, $event)">
+          [name]="form.nombre.name" [length]="form.nombre.length" [messages]="form.nombre.messages" (valueChange)="setData(form.nombre.name, $event)">
         </app-input-text>
 
       </mat-grid-tile>
@@ -46,6 +46,7 @@
 
         <app-input-text-area style="width: 98%;" [required]="form.descripcion.required" class="input" [label]="form.descripcion.label"
           [value]="form.descripcion.value" [name]="form.descripcion.name" [messages]="form.descripcion.messages"
+          [length]="form.descripcion.length"
           (valueChange)="setData(form.descripcion.name, $event)">
         </app-input-text-area>
 
@@ -55,12 +56,12 @@
       <mat-grid-tile [colspan]="2">
 
         <app-input-text style="width: 98%;" [required]="form.valor.required" [label]="form.valor.label" [value]="form.valor.value"
-          [name]="form.valor.name" [messages]="form.valor.messages" 
+          [name]="form.valor.name" [messages]="form.valor.messages" [length]="form.valor.length" 
           (valueChange)="setData(form.valor.name, $event)">
         </app-input-text>
 
         <app-input-text style="width: 98%;" [required]="form.abreviatura.required" [label]="form.abreviatura.label" [value]="form.abreviatura.value"
-          [name]="form.abreviatura.name" [messages]="form.abreviatura.messages" 
+          [name]="form.abreviatura.name" [messages]="form.abreviatura.messages" [length]="form.abreviatura.length"
           (valueChange)="setData(form.abreviatura.name, $event)">
         </app-input-text>
 

@@ -6,7 +6,7 @@
       <mat-grid-tile [colspan]="2">
 
         <app-input-text style="width: 98%;" [required]="form.nombre.required" [label]="form.nombre.label" [value]="form.nombre.value"
-          [name]="form.nombre.name" [messages]="form.nombre.messages"
+          [name]="form.nombre.name" [messages]="form.nombre.messages" [length]="form.nombre.length"
           (valueChange)="setData(form.nombre.name, $event)">
         </app-input-text>
 
@@ -17,6 +17,7 @@
 
         <app-input-text-area style="width: 98%;" [required]="form.descripcion.required" class="input" [label]="form.descripcion.label"
           [value]="form.descripcion.value" [name]="form.descripcion.name" [messages]="form.descripcion.messages"
+          [length]="form.descripcion.length"
           (valueChange)="setData(form.descripcion.name, $event)">
         </app-input-text-area>
 

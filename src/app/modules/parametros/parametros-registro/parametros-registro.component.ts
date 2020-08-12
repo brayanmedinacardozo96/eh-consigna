@@ -41,6 +41,7 @@ export class ParametrosRegistroComponent implements OnInit {
       name: 'nombre',
       value: null,
       messages: null,
+      length: 100,
       required: true,
     },
     descripcion: {
@@ -48,6 +49,7 @@ export class ParametrosRegistroComponent implements OnInit {
       name: 'descripcion',
       value: null,
       messages: null,
+      length: 1000,
       required: true,
     },tipo: {
       id:null,
@@ -70,6 +72,7 @@ export class ParametrosRegistroComponent implements OnInit {
       name: 'valor',
       value: null,
       messages: null,
+      length: 20,
       required: false,
     },
     abreviatura: {
@@ -77,6 +80,7 @@ export class ParametrosRegistroComponent implements OnInit {
       name: 'abreviatura',
       value: null,
       messages: null,
+      length: 20,
       required: false,
     }
 
