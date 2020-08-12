@@ -98,6 +98,7 @@
                     [messages]="form.consecutivoSnc.messages"
                     [required]="form.consecutivoSnc.required"
                     [disable]="form.consecutivoSnc.disabled"
+                    [length]="form.consecutivoSnc.length"
                     (valueChange)="setData(form.consecutivoSnc.name, $event)">
                 </app-input-text>
             </mat-grid-tile> 
@@ -390,6 +391,7 @@
                     [name]="form.trabajoEfectuar.name"
                     [messages]="form.trabajoEfectuar.messages"
                     [required]="form.trabajoEfectuar.required"
+                    [length]="form.trabajoEfectuar.length"
                     (valueChange)="setData(form.trabajoEfectuar.name, $event)">
                 </app-input-text-area>
             </mat-grid-tile>
@@ -402,6 +404,7 @@
                     [name]="form.justificacion.name"
                     [messages]="form.justificacion.messages"
                     [required]="form.justificacion.required"
+                    [length]="form.justificacion.length"
                     (valueChange)="setData(form.justificacion.name, $event)">
                 </app-input-text-area>
             </mat-grid-tile>
@@ -414,6 +417,7 @@
                     [name]="form.observacionOpeyman.name"
                     [messages]="form.observacionOpeyman.messages"
                     [required]="form.observacionOpeyman.required"
+                    [length]="form.observacionOpeyman.length"
                     (valueChange)="setData(form.observacionOpeyman.name, $event)">
                 </app-input-text-area>
             </mat-grid-tile>
@@ -507,6 +511,7 @@
                     [name]="form.consignaOperativa.name"
                     [messages]="form.consignaOperativa.messages"
                     [required]="form.consignaOperativa.required"
+                    [length]="form.consignaOperativa.length"
                     (valueChange)="setData(form.consignaOperativa.name, $event)">
                 </app-input-text-area>
             </mat-grid-tile>
@@ -520,6 +525,7 @@
                     [name]="form.medidasSeguiridad.name"
                     [messages]="form.medidasSeguiridad.messages"
                     [required]="form.medidasSeguiridad.required"
+                    [length]="form.medidasSeguiridad.length"
                     (valueChange)="setData(form.medidasSeguiridad.name, $event)">
                 </app-input-text-area>
             </mat-grid-tile>

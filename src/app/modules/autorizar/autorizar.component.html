@@ -64,6 +64,7 @@
 
         <app-input-text-area style="width: 98%;" class="input" [label]="form.observacion.label"
           [value]="form.observacion.value" [name]="form.observacion.name" [messages]="form.observacion.messages"
+          [length]="form.observacion.length"
           (valueChange)="setData(form.observacion.name, $event)">
         </app-input-text-area>
 

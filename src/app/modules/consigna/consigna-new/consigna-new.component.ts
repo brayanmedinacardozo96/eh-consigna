@@ -95,6 +95,7 @@ export class ConsignaNewComponent implements OnInit {
       value: null,
       messages: null,
       required: false,
+      length: 50,
       disabled: false
     },
     tipoZona: {
@@ -173,6 +174,7 @@ export class ConsignaNewComponent implements OnInit {
       name: 'trabajoEfectuar',
       value: null,
       messages: null,
+      length: 500,
       required: true,
     },
     justificacion: {
@@ -180,6 +182,7 @@ export class ConsignaNewComponent implements OnInit {
       name: 'justificacion',
       value: null,
       messages: null,
+      length: 500,
       required: true,
     },
     observacionOpeyman: {
@@ -187,6 +190,7 @@ export class ConsignaNewComponent implements OnInit {
       name: 'observacionOpeyman',
       value: null,
       messages: null,
+      length: 500,
       required: true,
     },
     consignaOperativa: {
@@ -194,6 +198,7 @@ export class ConsignaNewComponent implements OnInit {
       name: 'consignaOperativa',
       value: null,
       messages: null,
+      length: 500,
       required: true,
     },
     medidasSeguiridad: {
@@ -201,6 +206,7 @@ export class ConsignaNewComponent implements OnInit {
       name: 'medidasSeguiridad',
       value: null,
       messages: null,
+      length: 500,
       required: true,
     },
     jefeTrabajo: {

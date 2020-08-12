@@ -76,6 +76,7 @@ export class AutorizarComponent implements OnInit {
       value: null,
       messages: null,
       required: true,
+      length: 1000,
       disable:true,
     },
     estadoConsigna: {

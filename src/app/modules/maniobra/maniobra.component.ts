@@ -44,6 +44,7 @@ export class ManiobraComponent implements OnInit {
       name: 'descripcion',
       value: null,
       messages: null,
+      length: 500,
       required: true,
     },
     url_documento:{

@@ -48,6 +48,7 @@ export class BitacoraFormComponent implements OnInit {
       name: 'observacion',
       value: '',
       messages: null,
+      length: 500,
       required: false,
     },
   };

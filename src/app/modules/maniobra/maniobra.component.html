@@ -3,28 +3,25 @@
     <h1>Maniobras</h1>
     <mat-grid-list class="row" cols="2" rowHeight="103px">
 
-
       <mat-grid-tile [colspan]="2">
 
         <app-input-text-area style="width: 98%;" class="input" [label]="form.descripcion.label"
           [value]="form.descripcion.value" [name]="form.descripcion.name" [messages]="form.descripcion.messages"
+          [length]="form.descripcion.length"
           (valueChange)="setData(form.descripcion.name, $event)">
         </app-input-text-area>
 
-
       </mat-grid-tile>
-
 
     </mat-grid-list>
 
     <app-input-file [style.visibility]="isDivVisible ? 'visible' : 'hidden'" [placeholder]="'Adjuntar documento *'"
-    [typeExtension]="['pdf','xlsx','xls']" [maxSize]="'5'"
-    (valueChange)="setInput($event)"
-    [fileName]="fileName"
-    [messages] = "fileUpload.message"
+      [typeExtension]="['pdf','xlsx','xls']" [maxSize]="'5'"
+      (valueChange)="setInput($event)"
+      [fileName]="fileName"
+      [messages] = "fileUpload.message"
     >
-
-</app-input-file>
+    </app-input-file>
 
     <button mat-raised-button class="{{boton.color}}" (click)="adicionar()" style="margin-left: 20px; margin-top: 10px;">
       <span style="color: #FFF">{{boton.value}}</span>
@@ -35,9 +32,9 @@
     </button> -->
 
     <button mat-flat-button class="btn-default" (click)="limpiar()"
-      style="margin-left: 20px; margin-top: 10px;">Limpiar</button>
-
-
+      style="margin-left: 20px; margin-top: 10px;">
+      Limpiar
+    </button>
 
     <div style="padding: 10px;">
       <app-table-maniobra (valueChange)="setDataTable(dataManiobra, $event)" [data]="dataManiobra"></app-table-maniobra>

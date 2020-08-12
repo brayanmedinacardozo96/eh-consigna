@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   appName: 'Sistema Local de Consignas',
   companyName: 'Electrohuila S.A. - E.S.P.',
-  apiTransverseSecurity: 'http://localhost/back-transverse-security/public/api', //'http://192.9.200.44/back-transverse-security/public/api',
+  apiTransverseSecurity: 'http://192.9.200.44/back-transverse-security/public/api',//'http://localhost/back-transverse-security/public/api',
   keyTransverseSecurity: '$2y$10$OjsZGz0JqaUiFvvLHBt1I.sv5oW3bcZTOTavMOqwfAT2TxYhZa1HS',
   apiBackend: 'http://localhost/back-consigna/public/api',
   urlFiles: 'http://localhost/back-consigna/',
