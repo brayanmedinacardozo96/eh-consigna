@@ -171,7 +171,7 @@ export class ParametrosRegistroComponent implements OnInit {
     this.form.nombre.messages = "";
     this.form.descripcion.value = "";
     this.form.descripcion.messages="";
-    this.form.tipo.id=null;
+  //  this.form.tipo.id=null;
     this.form.tipo.messages="";
     this.form.codigo.value="";
     this.form.codigo.messages="";
@@ -253,7 +253,8 @@ export class ParametrosRegistroComponent implements OnInit {
     var mensaje = [];
 
     var response = await this.apiService.post(`${environment.apiBackend}/parametro/deleteParametro`, {
-      id: key.id
+      id: key.id,
+      tipo_parametro_id:key.tp_id
     });
 
     mensaje = ["Registro eliminado", "btn-default"];
