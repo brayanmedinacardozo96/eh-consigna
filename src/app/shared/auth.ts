@@ -8,7 +8,7 @@ export class Auth {
 
   public static getLogin() {
     const token = localStorage.getItem('token');
-    let tokenParse = JSON.parse(token);
+    const tokenParse = JSON.parse(token);
 
     if (tokenParse) {
       if (tokenParse.key === environment.keyTransverseSecurity) {
