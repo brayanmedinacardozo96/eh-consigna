@@ -569,7 +569,27 @@ export class ConsignaNewComponent implements OnInit {
       return false;
     }
     
-    if( (this.jsonMapa != null && this.jsonMapa != '' && this.jsonMapa != undefined) || this.formElementos.redElectrica.value){
+    const respValidateListElemRepetido = this.validateListaElemetoRepetido();
+    if(!respValidateListElemRepetido.success){
+      this.dialogo
+            .open(ModalConfirmComponent, {
+            data: new Mensaje("Mensaje:",respValidateListElemRepetido.message)
+          })
+          .afterClosed()
+          .subscribe((confirmado: Boolean) => {
+            if(confirmado) {
+              this.validateJsonMapa();
+            }else{
+              this.validateJsonMapa();
+            }
+          });  
+    }else{
+      this.validateJsonMapa();
+    }   
+  }
+
+  validateJsonMapa(){
+    if( (this.jsonMapa != null && this.jsonMapa != '' && this.jsonMapa != undefined)){
       this.addListElements();
     }else{
       this.dialogo
@@ -583,7 +603,21 @@ export class ConsignaNewComponent implements OnInit {
         }
       });    
     }
-    
+  }
+
+  validateListaElemetoRepetido(){
+    let response = {
+      success: true,
+      message: '¡Existe un tipo de elemento y elemento previamente guardado! ¿Desea guardarlo?'
+    }
+    for(let value of this.dataElementos ){
+      if(this.formElementos.tipoElemento.value == value.tipoElemento.value 
+        && this.formElementos.elemento.value == value.elemento.value ){
+          response.success = false;
+          return response;
+      }
+    }
+    return response;
   }
 
   async addListElements(){
