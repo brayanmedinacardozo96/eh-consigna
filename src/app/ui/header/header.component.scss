@@ -32,13 +32,22 @@
   vertical-align: middle;
 }
 
-.btn-logout {
+.btn-right {
   cursor: pointer;
   color: white;
-  font-size: 30px;
+  /*font-size: 30px;*/
   vertical-align: middle;
 }
 
 .custom-tooltip {
   font-size: 16px;
+}
+
+.mat-badge-accent .mat-badge-content{
+
+  color : white
+}
+
+.btn-change-password{
+  margin-right: 15px;
 }

@@ -14,7 +14,6 @@ import {Auth} from '../../shared/auth';
 export class LoginComponent implements OnInit {
 
   message: null;
-
   form = {
     user: {
       label: 'Usuario',
@@ -35,8 +34,8 @@ export class LoginComponent implements OnInit {
   constructor(private api: ApiService,
               private router: Router) {
     const dataUser = Auth.getLogin();
-    if(dataUser != null){
-      if(dataUser.user_data.id != null){
+    if (dataUser != null) {
+      if (dataUser.user_data.id != null) {
         this.router.navigate(['/dashboard']);
       }
     }
@@ -69,6 +68,11 @@ export class LoginComponent implements OnInit {
     Auth.login(response.token);
     this.router.navigate(['/mis-consignas']);
 
+  }
+
+  openRecoverPassword() {
+    const url = environment.urlFrontendST + '/recover-password';
+    window.open(url);
   }
 
 }

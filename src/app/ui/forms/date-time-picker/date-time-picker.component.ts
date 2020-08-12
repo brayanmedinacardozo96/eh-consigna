@@ -21,7 +21,10 @@ export class DateTimePickerComponent implements OnInit {
   }
 
   change(){
-    console.log(this.value);
+  }
+
+  setValue(data){
+    this.value = data;
   }
 
 }

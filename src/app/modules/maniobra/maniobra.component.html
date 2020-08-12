@@ -5,42 +5,40 @@
 
       <mat-grid-tile [colspan]="2">
 
-        <app-input-autocomplete style="width: 96%;" [label]="form.numeroConsigna.label"
-          [value]="form.numeroConsigna.value" [name]="form.numeroConsigna.name"
-          [messages]="form.numeroConsigna.messages" (valueChange)="setData(form.numeroConsigna.name, $event)"
-          [urlApi]="form.numeroConsigna.url">
-        </app-input-autocomplete>
-        <div style="padding-bottom:20px">
-          <button mat-mini-fab color="accent" (click)="dialogConsigna()" matTooltip="Consultar"
-            matTooltipClass="custom-tooltip">
-            <mat-icon style="color: #FFFFFF">search</mat-icon>
-          </button>
-        </div>
-
-      </mat-grid-tile>
-
-
-      <mat-grid-tile [colspan]="2">
-
         <app-input-text-area style="width: 98%;" class="input" [label]="form.descripcion.label"
           [value]="form.descripcion.value" [name]="form.descripcion.name" [messages]="form.descripcion.messages"
+          [length]="form.descripcion.length"
           (valueChange)="setData(form.descripcion.name, $event)">
         </app-input-text-area>
 
-
       </mat-grid-tile>
 
-    
     </mat-grid-list>
-  
 
-    <app-input-file  [placeholder]="'Adjuntar documento'" [typeExtension]="['pdf','png']"
-      [maxSize]="'5'">
+    <app-input-file [style.visibility]="isDivVisible ? 'visible' : 'hidden'" [placeholder]="'Adjuntar documento *'"
+      [typeExtension]="['pdf','xlsx','xls']" [maxSize]="'5'"
+      (valueChange)="setInput($event)"
+      [fileName]="fileName"
+      [messages] = "fileUpload.message"
+    >
     </app-input-file>
 
-    <button  mat-raised-button color="primary" style="margin-left: 20px; margin-top: 10px;">
-      <span style="color: #FFF">Guardar</span>
+    <button mat-raised-button class="{{boton.color}}" (click)="adicionar()" style="margin-left: 20px; margin-top: 10px;">
+      <span style="color: #FFF">{{boton.value}}</span>
     </button>
+    
+    <!-- <button mat-raised-button class="{{boton.color}}" (click)="testManiobra()" style="margin-left: 20px; margin-top: 10px;">
+      <span style="color: #FFF">test</span>
+    </button> -->
+
+    <button mat-flat-button class="btn-default" (click)="limpiar()"
+      style="margin-left: 20px; margin-top: 10px;">
+      Limpiar
+    </button>
+
+    <div style="padding: 10px;">
+      <app-table-maniobra (valueChange)="setDataTable(dataManiobra, $event)" [data]="dataManiobra"></app-table-maniobra>
+    </div>
 
   </mat-card-content>
 </mat-card>

@@ -1,0 +1,61 @@
+<h2 mat-dialog-title style="text-align: center;">Ingrese El Consecutivo de la Consigna {{ nombreTipoFormato | titlecase}}</h2>
+<mat-dialog-content class="mat-typography">
+  <p style="text-align: center; color: #e37222;">{{ descripcion }}</p>
+  <div style="width: 100%">
+  
+    <div style="text-align: center !important; width: 100%; overflow-x: auto; ">
+        <mat-grid-list class="row" cols="1" rowHeight="80px">
+            <mat-grid-tile>
+                <app-input-text style="width: 50%;"
+                  class="input"
+                  [label]="form.numeroConsigna.label"
+                  [value]="form.numeroConsigna.value"
+                  [name]="form.numeroConsigna.name"
+                  [messages]="form.numeroConsigna.messages"
+                  (valueChange)="setData(form.numeroConsigna.name, $event)">
+                </app-input-text>
+
+                <div style="padding-bottom:20px">
+                    <button mat-mini-fab color="accent" (click)="search()"  matTooltip="Consultar">
+                      <mat-icon style="color: #FFFFFF">search</mat-icon>
+                    </button>
+                  </div>
+            </mat-grid-tile>
+        </mat-grid-list>
+        <p style="text-align: center; color: #e37222;">{{ observacion }}</p>
+        <div *ngIf="data.length > 0">
+            <table class="custom-table">
+                <thead>
+                    <tr>
+                        <th>Consecutivo</th>
+                        <th>División Area</th>
+                        <th>Zona</th>
+                        <th>Tipo Solicitud</th>
+                        <th>Fecha Solicitud</th>
+                        <th>Tipo Consignación</th>
+                        <th>Estado Consignación</th>
+                        <th>Tipo Mantenimiento</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let value of data">
+                        <td>{{value.codigo}}</td>
+                        <td>{{value.division_area}}</td>
+                        <td>{{value.codigo_zona}}</td>
+                        <td>{{value.tipo_solicitud}}</td>
+                        <td>{{value.fecha_solicitud}}</td>
+                        <td>{{value.tipo_consignacion}}</td>
+                        <td>{{value.estado_consigna}}</td>
+                        <td>{{value.tipo_mantenimiento}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+  
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button *ngIf="visible" mat-button [disabled]="data.length < 0"
+  [mat-dialog-close]="true" cdkFocusInitial (click)="okClick()">Aceptar</button>
+</mat-dialog-actions>

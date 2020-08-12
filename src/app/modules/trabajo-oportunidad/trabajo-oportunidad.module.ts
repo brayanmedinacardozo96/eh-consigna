@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TrabajoOportunidadComponent } from './trabajo-oportunidad.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatInputModule } from '@angular/material/input';
@@ -11,12 +10,16 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
-import { TableTrabajoOportunidadComponent } from './table-trabajo-oportunidad/table-trabajo-oportunidad.component';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatTableModule} from '@angular/material/table';
+import { TrabajoOportunidadComponent } from './trabajo-oportunidad.component';
+import { TableTrabajoOportunidadComponent } from './table-trabajo-oportunidad/table-trabajo-oportunidad.component';
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    TrabajoOportunidadComponent,
+    TableTrabajoOportunidadComponent
+  ],
   imports: [
     CommonModule,
     MatCardModule,
@@ -31,6 +34,10 @@ import {MatTableModule} from '@angular/material/table';
     MatIconModule,
     MatPaginatorModule,
     MatTableModule
+  ],
+  exports: [
+    TrabajoOportunidadComponent,
+    TableTrabajoOportunidadComponent
   ]
 })
 export class TrabajoOportunidadModule { }

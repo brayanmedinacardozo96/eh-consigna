@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ManiobraComponent } from './maniobra.component';
+import { TableManiobraComponent } from './table-maniobra/table-maniobra.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatInputModule } from '@angular/material/input';
@@ -11,12 +12,15 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
-//import {InputFileComponent}  from '../../ui/forms/input-file/input-file.component';
-
+import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatTableModule} from '@angular/material/table';
 
 
 @NgModule({
-  declarations: [ManiobraComponent],
+  declarations: [
+    ManiobraComponent,
+    TableManiobraComponent,
+  ],
   imports: [
     CommonModule,
     MatCardModule,
@@ -29,7 +33,13 @@ import {MatIconModule} from '@angular/material/icon';
     MatButtonToggleModule,
     MatButtonModule,
     MatIconModule,
+    MatPaginatorModule,
+    MatTableModule,
     //InputFileComponent,
+  ],
+  exports:[
+    ManiobraComponent,
+    TableManiobraComponent
   ]
 })
 export class ManiobraModule { }

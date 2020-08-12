@@ -1,0 +1,231 @@
+<div>
+  <h2 style="text-align: center;">Elementos afectados
+    <button (click)="close()"
+            mat-mini-fab color="accent"
+            style="float: right;" matTooltip="Cerrar">
+      <mat-icon style="color: #FFFFFF;">close</mat-icon>
+    </button>
+  </h2>
+
+</div>
+
+<div>
+
+  <mat-tab-group>
+
+    <mat-tab label="Switch principal">
+      <div class="container">
+        <table class="custom-table" style="text-align: center;">
+          <thead>
+          <tr>
+            <th class="fixed-row">
+              <mat-checkbox [(ngModel)]="selectAllSwitch"
+                            (ngModelChange)="checkAll('SWITCH', selectAllSwitch)"></mat-checkbox>
+            </th>
+            <th class="fixed-row">Código</th>
+            <th class="fixed-row">Descripción</th>
+            <th class="fixed-row">Hora Inicio</th>
+            <th class="fixed-row">Hora Fin</th>
+          </tr>
+          </thead>
+          <tbody *ngIf="data?.SWITCH?.length === 0">
+          <tr>
+            <td colspan="5">No hay registros...</td>
+          </tr>
+          </tbody>
+          <tbody *ngIf="data?.SWITCH?.length > 0">
+          <tr *ngFor="let value of data?.SWITCH; let i = index;">
+            <td>
+              <mat-checkbox [(ngModel)]="value.form.completado"></mat-checkbox>
+            </td>
+            <td>{{value?.CODE}}</td>
+            <td>{{value?.DESCRIPTIO}}</td>
+            <td>
+              <app-date-time-picker
+                [disable]="value.form.completado == 1 ? false : true"
+                [style]="'width: 100px;'"
+                [value]="value?.form?.hora_inicio?.value"
+                [name]="value?.form?.hora_inicio?.name"
+                (valueChange)="setDinamicData('SWITCH', value?.form?.hora_inicio?.name, $event, i);
+                validateRangeHour(value?.form?.hora_inicio?.value, value?.form?.hora_fin?.value)">
+              </app-date-time-picker>
+            </td>
+            <td>
+              <app-date-time-picker
+                [disable]="value.form.completado == 1 ? false : true"
+                [style]="'width: 100px;'"
+                [value]="value?.form?.hora_fin?.value"
+                [name]="value?.form?.hora_fin?.name"
+                (valueChange)="setDinamicData('SWITCH', value?.form?.hora_fin?.name, $event, i);
+                validateRangeHour(value?.form?.hora_inicio?.value, value?.form?.hora_fin?.value)">
+              </app-date-time-picker>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </mat-tab>
+
+    <mat-tab label="Switches">
+      <div class="container">
+        <table class="custom-table" style="text-align: center;">
+          <thead>
+          <tr>
+            <th class="fixed-row">
+              <mat-checkbox [(ngModel)]="selectAllSwitches"
+                            (ngModelChange)="checkAll('SWITCHES', selectAllSwitches)"></mat-checkbox>
+            </th>
+            <th class="fixed-row">Código</th>
+            <th class="fixed-row">Descripción</th>
+            <th class="fixed-row">Hora Inicio</th>
+            <th class="fixed-row">Hora Fin</th>
+          </tr>
+          </thead>
+          <tbody *ngIf="data?.SWITCHES?.length === 0">
+          <tr>
+            <td colspan="5">No hay registros...</td>
+          </tr>
+          </tbody>
+          <tbody *ngIf="data?.SWITCHES?.length > 0">
+          <tr *ngFor="let value of data?.SWITCHES; let i = index;">
+            <td>
+              <mat-checkbox [(ngModel)]="value.form.completado"></mat-checkbox>
+            </td>
+            <td>{{value?.CODE}}</td>
+            <td>{{value?.DESCRIPTIO}}</td>
+            <td>
+              <app-date-time-picker
+                [disable]="value.form.completado == 1 ? false : true"
+                [style]="'width: 100px;'"
+                [value]="value?.form?.hora_inicio?.value"
+                [name]="value?.form?.hora_inicio?.name"
+                (valueChange)="setDinamicData('SWITCHES', value?.form?.hora_inicio?.name, $event, i);
+                validateRangeHour(value?.form?.hora_inicio?.value, value?.form?.hora_fin?.value)">
+              </app-date-time-picker>
+            </td>
+            <td>
+              <app-date-time-picker
+                [disable]="value.form.completado == 1 ? false : true"
+                [style]="'width: 100px;'"
+                [value]="value?.form?.hora_fin?.value"
+                [name]="value?.form?.hora_fin?.name"
+                (valueChange)="setDinamicData('SWITCHES', value?.form?.hora_fin?.name, $event, i);
+                validateRangeHour(value?.form?.hora_inicio?.value, value?.form?.hora_fin?.value)">
+              </app-date-time-picker>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </mat-tab>
+
+    <mat-tab label="Transformadores">
+      <div class="container">
+        <table class="custom-table" style="text-align: center;">
+          <thead>
+          <tr>
+            <th class="fixed-row">
+              <mat-checkbox [(ngModel)]="selectAllTransfor"
+                            (ngModelChange)="checkAll('TRANSFOR', selectAllTransfor)"></mat-checkbox>
+            </th>
+            <th class="fixed-row">Código</th>
+            <th class="fixed-row">Descripción</th>
+            <th class="fixed-row">Hora Inicio</th>
+            <th class="fixed-row">Hora Fin</th>
+          </tr>
+          </thead>
+          <tbody *ngIf="data?.TRANSFOR?.length === 0">
+          <tr>
+            <td colspan="5">No hay registros...</td>
+          </tr>
+          </tbody>
+          <tbody *ngIf="data?.TRANSFOR?.length > 0">
+          <tr *ngFor="let value of data?.TRANSFOR; let i = index;">
+            <td>
+              <mat-checkbox [(ngModel)]="value.form.completado"></mat-checkbox>
+            </td>
+            <td>{{value?.CODE}}</td>
+            <td>{{value?.DESCRIPTIO}}</td>
+            <td>
+              <app-date-time-picker
+                [disable]="value.form.completado == 1 ? false : true"
+                [style]="'width: 100px;'"
+                [value]="value?.form?.hora_inicio?.value"
+                [name]="value?.form?.hora_inicio?.name"
+                (valueChange)="setDinamicData('TRANSFOR', value?.form?.hora_inicio?.name, $event, i);
+                validateRangeHour(value?.form?.hora_inicio?.value, value?.form?.hora_fin?.value)">
+              </app-date-time-picker>
+            </td>
+            <td>
+              <app-date-time-picker
+                [disable]="value.form.completado == 1 ? false : true"
+                [style]="'width: 100px;'"
+                [value]="value?.form?.hora_fin?.value"
+                [name]="value?.form?.hora_fin?.name"
+                (valueChange)="setDinamicData('TRANSFOR', value?.form?.hora_fin?.name, $event, i);
+                validateRangeHour(value?.form?.hora_inicio?.value, value?.form?.hora_fin?.value)">
+              </app-date-time-picker>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </mat-tab>
+
+    <mat-tab label="Recloser">
+      <div class="container">
+        <table class="custom-table" style="text-align: center;">
+          <thead>
+          <tr>
+            <th class="fixed-row">
+              <mat-checkbox [(ngModel)]="selectAllRecloser"
+                            (ngModelChange)="checkAll('RECLOSER', selectAllRecloser)"></mat-checkbox>
+            </th>
+            <th class="fixed-row">Código</th>
+            <th class="fixed-row">Descripción</th>
+            <th class="fixed-row">Hora Inicio</th>
+            <th class="fixed-row">Hora Fin</th>
+          </tr>
+          </thead>
+          <tbody *ngIf="data?.RECLOSER?.length === 0">
+          <tr>
+            <td colspan="5">No hay registros...</td>
+          </tr>
+          </tbody>
+          <tbody *ngIf="data?.RECLOSER?.length > 0">
+          <tr *ngFor="let value of data?.RECLOSER; let i = index;">
+            <td>
+              <mat-checkbox [(ngModel)]="value.form.completado"></mat-checkbox>
+            </td>
+            <td>{{value?.CODE}}</td>
+            <td>{{value?.DESCRIPTIO}}</td>
+            <td>
+              <app-date-time-picker
+                [disable]="value.form.completado == 1 ? false : true"
+                [style]="'width: 100px;'"
+                [value]="value?.form?.hora_inicio?.value"
+                [name]="value?.form?.hora_inicio?.name"
+                (valueChange)="setDinamicData('RECLOSER', value?.form?.hora_inicio?.name, $event, i);
+                validateRangeHour(value?.form?.hora_inicio?.value, value?.form?.hora_fin?.value)">
+              </app-date-time-picker>
+            </td>
+            <td>
+              <app-date-time-picker
+                [disable]="value.form.completado == 1 ? false : true"
+                [style]="'width: 100px;'"
+                [value]="value?.form?.hora_fin?.value"
+                [name]="value?.form?.hora_fin?.name"
+                (valueChange)="setDinamicData('RECLOSER', value?.form?.hora_fin?.name, $event, i);
+                validateRangeHour(value?.form?.hora_inicio?.value, value?.form?.hora_fin?.value)">
+              </app-date-time-picker>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </mat-tab>
+
+  </mat-tab-group>
+
+</div>

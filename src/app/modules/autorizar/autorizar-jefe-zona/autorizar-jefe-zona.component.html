@@ -1,0 +1,56 @@
+<mat-card class="container">
+    <mat-card-content>
+        <h1>Jefe de Zona </h1> 
+        <h1>Aprobación Consignas de Emergencia</h1>
+    
+        <div style="padding-left:20px;text-align: left;width: 98%;">
+            <strong>Autorizador: </strong><label>{{form.usuario.value}}</label>
+        </div>
+        <mat-grid-list class="row" cols="2" rowHeight="104px">
+            <mat-grid-tile [colspan]="2">
+                <app-input-text style="width: 96%;"
+                    class="input"
+                    [label]="form.numeroConsigna.label"
+                    [value]="form.numeroConsigna.value"
+                    [name]="form.numeroConsigna.name"
+                    [messages]="form.numeroConsigna.messages"
+                    [disable] = false
+                    (valueChange)="setData(form.numeroConsigna.name, $event)">
+                </app-input-text>
+
+                <div style="padding-bottom:20px">
+                    <button mat-mini-fab color="accent" (click)="buscar()" matTooltip="Consultar" matTooltipClass="custom-tooltip">
+                    <mat-icon style="color: #FFFFFF">search</mat-icon>
+                    </button>
+                </div>    
+            </mat-grid-tile>
+        </mat-grid-list>
+        <mat-grid-list *ngIf="data.length > 0" class="row" cols="1" rowHeight="104px">
+            <mat-form-field>
+                <mat-label>{{form.aprobo.required ? form.aprobo.label+' *':form.aprobo.label}}</mat-label>
+                <mat-select [disabled]="form.aprobo.disabled" [(ngModel)]="form.aprobo.value" style="padding-top: 5px;padding-bottom: 5px;">
+                    <mat-option *ngFor="let value of dataControls?.aprobo;" [value]="value.id">
+                        {{value.nombre}}
+                    </mat-option>
+                </mat-select>
+                <mat-hint style="color: red" *ngIf="form.aprobo.messages">{{form.aprobo.messages}}</mat-hint>
+            </mat-form-field>
+        </mat-grid-list>
+
+    <div><p style="text-align: center; color: #e37222;">{{ message }}</p></div>
+
+    <div style="padding: 10px;"  *ngIf="data.length > 0">
+        <table-aprobar-consigna [data]="data"></table-aprobar-consigna>
+    </div>
+
+    <button *ngIf="data.length > 0" mat-raised-button color="primary" (click)="guardar()" style="margin-left: 20px; margin-top: 10px;">
+        <span style="color: #FFF">Guardar</span>
+    </button>
+  
+    <button *ngIf="data.length > 0" mat-raised-button (click)="limpiar()"
+        style="background-color:lightslategrey;margin-left: 20px; margin-top: 10px;">
+        <span style="color: #FFF">Limpiar</span>
+    </button>
+
+    </mat-card-content>
+</mat-card>

@@ -1,14 +1,39 @@
 <mat-card class="container">
     <mat-card-content>
-        <h1>Nueva Consigna</h1>
+        <h1>{{action | titlecase}} {{ tipoFormato | titlecase}}</h1>
         <br>
         <mat-grid-list class="row" cols="4" rowHeight="80px">
             
             <mat-grid-tile>
                 <mat-form-field>
+                    <mat-label>{{ form.tipoFormatoConsigna.required ? form.tipoFormatoConsigna.label+' *' : form.tipoFormatoConsigna.label}}</mat-label>
+                    <mat-select id="form_consigna-tipo_formato" [(ngModel)]="form.tipoFormatoConsigna.value" 
+                        (ngModelChange)="validateTipoFormato($event)" style="padding-top: 5px;padding-bottom: 5px;">
+                        <mat-option *ngFor="let value of dataControls?.tipoFormatoConsigna;" [value]="value.codigo">
+                            {{value.nombre}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-hint style="color: red" *ngIf="form.tipoFormatoConsigna.messages">{{form.tipoFormatoConsigna.messages}}</mat-hint>
+                </mat-form-field>
+            </mat-grid-tile>
+
+            <mat-grid-tile>
+                <mat-form-field>
+                    <mat-label>{{ form.divisionArea.required ? form.divisionArea.label+' *' : form.divisionArea.label}}</mat-label>
+                    <mat-select [disabled]="form.divisionArea.disabled" [(ngModel)]="form.divisionArea.value" style="padding-top: 5px;padding-bottom: 5px;">
+                        <mat-option *ngFor="let value of dataControls?.divisionArea;" [value]="value.id">
+                            {{value.nombre}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-hint style="color: red" *ngIf="form.divisionArea.messages">{{form.divisionArea.messages}}</mat-hint>
+                </mat-form-field>
+            </mat-grid-tile>
+
+            <mat-grid-tile>
+                <mat-form-field>
                     <mat-label>{{ form.tipoZona.required ? form.tipoZona.label+' *' : form.tipoZona.label}}</mat-label>
-                    <mat-select [(ngModel)]="form.tipoZona.value" style="padding-top: 5px;padding-bottom: 5px;">
-                        <mat-option *ngFor="let value of dataControls?.tipoZona;" [value]="value.codigo">
+                    <mat-select [disabled]="form.tipoZona.disabled" [(ngModel)]="form.tipoZona.value" (ngModelChange)="setConsecutivo(2,dataControls?.tipoZona,form.tipoZona.value)" style="padding-top: 5px;padding-bottom: 5px;">
+                        <mat-option *ngFor="let value of dataControls?.tipoZona;" [value]="value.id">
                             {{value.nombre}}
                         </mat-option>
                     </mat-select>
@@ -19,8 +44,8 @@
             <mat-grid-tile>
                 <mat-form-field>
                     <mat-label>{{form.tipoSolicitud.required ? form.tipoSolicitud.label+' *' : form.tipoSolicitud.label}}</mat-label>
-                    <mat-select [(ngModel)]="form.tipoSolicitud.value" style="padding-top: 5px;padding-bottom: 5px;">
-                        <mat-option *ngFor="let value of dataControls?.tipoSolicitud;" [value]="value.codigo">
+                    <mat-select [disabled]="form.tipoSolicitud.disabled" [(ngModel)]="form.tipoSolicitud.value" (ngModelChange)="setConsecutivo(1,dataControls?.tipoSolicitud,form.tipoSolicitud.value); validateFechaSolicitud()" style="padding-top: 5px;padding-bottom: 5px;">
+                        <mat-option *ngFor="let value of dataControls?.tipoSolicitud;" [value]="value.id">
                             {{value.nombre}}
                         </mat-option>
                     </mat-select>
@@ -34,16 +59,17 @@
                 [value]="form.fechaSolicitud.value"
                 [name]="form.fechaSolicitud.name" 
                 [messages]="form.fechaSolicitud.messages"
-                    [required]="form.fechaSolicitud.required"
-                    (valueChange)="setData(form.fechaSolicitud.name, $event)"
-                    ></app-datepicker>
+                [required]="form.fechaSolicitud.required"
+                [disabled]="form.fechaSolicitud.disabled"
+                (valueChange)="setData(form.fechaSolicitud.name, $event); validateFechaSolicitud()"
+                ></app-datepicker>
             </mat-grid-tile>
             
             <mat-grid-tile>
                 <mat-form-field>
                     <mat-label>{{form.tipoConsignacion.required ? form.tipoConsignacion.label+' *' : form.tipoConsignacion.label}}</mat-label>
-                    <mat-select [(ngModel)]="form.tipoConsignacion.value" style="padding-top: 5px;padding-bottom: 5px;">
-                        <mat-option *ngFor="let value of dataControls?.tipoConsignacion;" [value]="value.codigo">
+                    <mat-select [disabled]="form.tipoConsignacion.disabled" [(ngModel)]="form.tipoConsignacion.value" (ngModelChange)="setConsecutivo(0,dataControls?.tipoConsignacion,form.tipoConsignacion.value)" style="padding-top: 5px;padding-bottom: 5px;">
+                        <mat-option *ngFor="let value of dataControls?.tipoConsignacion;" [value]="value.id">
                             {{value.nombre}}
                         </mat-option>
                     </mat-select>
@@ -58,7 +84,7 @@
                     [value]="form.numeroConsigna.value"
                     [name]="form.numeroConsigna.name"
                     [messages]="form.numeroConsigna.messages"
-                    [disable] = "'True'"
+                    [disable] = true
                     (valueChange)="setData(form.numeroConsigna.name, $event)">
                 </app-input-text>
             </mat-grid-tile>
@@ -71,6 +97,8 @@
                     [name]="form.consecutivoSnc.name"
                     [messages]="form.consecutivoSnc.messages"
                     [required]="form.consecutivoSnc.required"
+                    [disable]="form.consecutivoSnc.disabled"
+                    [length]="form.consecutivoSnc.length"
                     (valueChange)="setData(form.consecutivoSnc.name, $event)">
                 </app-input-text>
             </mat-grid-tile> 
@@ -78,8 +106,8 @@
             <mat-grid-tile>
                 <mat-form-field>
                     <mat-label>{{form.estadoConsigna.required ? form.estadoConsigna.label+' *':form.estadoConsigna.label}}</mat-label>
-                    <mat-select [(ngModel)]="form.estadoConsigna.value" style="padding-top: 5px;padding-bottom: 5px;">
-                        <mat-option *ngFor="let value of dataControls?.estadoConsigna;" [value]="value.codigo">
+                    <mat-select [disabled]="form.estadoConsigna.disabled" [(ngModel)]="form.estadoConsigna.value" style="padding-top: 5px;padding-bottom: 5px;">
+                        <mat-option *ngFor="let value of dataControls?.estadoConsigna;" [value]="value.id">
                             {{value.nombre}}
                         </mat-option>
                     </mat-select>
@@ -90,8 +118,8 @@
             <mat-grid-tile>
                 <mat-form-field>
                     <mat-label>{{form.estadoEquipo.required ? form.estadoEquipo.label+' *' : form.estadoEquipo.label}}</mat-label>
-                    <mat-select [(ngModel)]="form.estadoEquipo.value" style="padding-top: 5px;padding-bottom: 5px;">
-                        <mat-option *ngFor="let value of dataControls?.estadoEquipo;" [value]="value.codigo">
+                    <mat-select [disabled]="form.estadoEquipo.disabled" [(ngModel)]="form.estadoEquipo.value" style="padding-top: 5px;padding-bottom: 5px;">
+                        <mat-option *ngFor="let value of dataControls?.estadoEquipo;" [value]="value.id">
                             {{value.nombre}}
                         </mat-option>
                     </mat-select>
@@ -103,9 +131,11 @@
             <mat-grid-tile>
                 <mat-form-field>
                     <mat-label>{{form.subestacion.required ? form.subestacion.label+' *' : form.subestacion.label}}</mat-label>
-                    <mat-select [(ngModel)]="form.subestacion.value" style="padding-top: 5px;padding-bottom: 5px;">
-                        <mat-option *ngFor="let value of dataControls?.subestacion;" [value]="value.codigo">
-                            {{ value.nombre }}
+                    <mat-select [disabled]="(dataControls?.subestacion.length > 0 ? false: true) || form.subestacion.disabled" 
+                        [(ngModel)]="form.subestacion.value" (ngModelChange)="validateSubestacion()"
+                        style="padding-top: 5px;padding-bottom: 5px;">
+                        <mat-option *ngFor="let value of dataControls?.subestacion;" [value]="value.id">
+                            {{ value.codigo }}
                         </mat-option>
                     </mat-select>
                     <mat-hint style="color: red" *ngIf="form.subestacion.messages">{{form.subestacion.messages}}</mat-hint>
@@ -115,8 +145,8 @@
             <mat-grid-tile>
                 <mat-form-field>
                     <mat-label>{{form.tipoMantenimiento.required ? form.tipoMantenimiento.label+' *' : form.tipoMantenimiento.label}}</mat-label>
-                    <mat-select [(ngModel)]="form.tipoMantenimiento.value" style="padding-top: 5px;padding-bottom: 5px;">
-                        <mat-option *ngFor="let value of dataControls?.tipoMantenimiento;" [value]="value.valor">
+                    <mat-select [disabled]="form.tipoMantenimiento.disabled" [(ngModel)]="form.tipoMantenimiento.value" style="padding-top: 5px;padding-bottom: 5px;">
+                        <mat-option *ngFor="let value of dataControls?.tipoMantenimiento;" [value]="value.id">
                             {{ value.nombre }}
                         </mat-option>
                     </mat-select>
@@ -124,6 +154,17 @@
                 </mat-form-field>
             </mat-grid-tile>
 
+            <mat-grid-tile >
+                <mat-form-field>
+                    <mat-label>{{form.solicitadaTercero.required ? form.solicitadaTercero.label+' *' : form.solicitadaTercero.label}}</mat-label>
+                    <mat-select [disabled]="form.solicitadaTercero.disabled" [(ngModel)]="form.solicitadaTercero.value" style="padding-top: 5px;padding-bottom: 5px;">
+                        <mat-option *ngFor="let value of dataControls?.solicitadaTercero;" [value]="value.id">
+                            {{ value.nombre }}
+                        </mat-option>
+                    </mat-select>
+                    <mat-hint style="color: red" *ngIf="form.solicitadaTercero.messages">{{form.solicitadaTercero.messages}}</mat-hint>
+                </mat-form-field>
+            </mat-grid-tile>
 
             <mat-grid-tile [colspan]="2">
                 <app-input-text style="width: 90%;"
@@ -135,31 +176,48 @@
                 [disable] ="true">
                 </app-input-text>
             </mat-grid-tile>
-            
+
         </mat-grid-list>   
         
+        <br>
         <!-- Listado elementos a consignar -->
         <fieldset>
             <legend style="text-align: left;">Listado de Elementos a Consignar</legend>
             
-            <mat-grid-list class="row" cols="4" rowHeight="80px">
+            <mat-grid-list *ngIf="mostrarPanelElemento"  class="row" cols="4" rowHeight="80px">
+                <mat-grid-tile>
+                    <mat-form-field>
+                        <mat-label>{{formElementos.redElectrica.required ? formElementos.redElectrica.label+' *' :formElementos.redElectrica.label}}</mat-label>
+                        <mat-select id="form_consigna-red_electrica" [(ngModel)]="formElementos.redElectrica.value"
+                        (ngModelChange)="getTipoElementos()" style="padding-top: 5px;padding-bottom: 5px;">
+                            <mat-option *ngFor="let value of dataControls?.redElectrica;" [value]="value.value">
+                                {{ value.nombre }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-hint style="color: red" *ngIf="formElementos.redElectrica.messages">{{formElementos.redElectrica.messages}}</mat-hint>
+                    </mat-form-field>
+                </mat-grid-tile>
+
                 <mat-grid-tile>
                     <mat-form-field>
                         <mat-label>{{formElementos.tipoElemento.required ? formElementos.tipoElemento.label+' *' :formElementos.tipoElemento.label}}</mat-label>
-                        <mat-select id="form_consigna-tipo_elemento" [(ngModel)]="formElementos.tipoElemento.value" style="padding-top: 5px;padding-bottom: 5px;">
-                            <mat-option *ngFor="let value of dataControls?.tipoElemento;" [value]="value.codigo">
+                        <mat-select id="form_consigna-tipo_elemento" [disabled]="dataControls?.tipoElemento.length > 0 ? false: true" [(ngModel)]="formElementos.tipoElemento.value"
+                        (ngModelChange)="getElementos($event)" style="padding-top: 5px;padding-bottom: 5px;">
+                            <mat-option *ngFor="let value of dataControls?.tipoElemento;" [value]="value.id">
                                 {{ value.nombre }}
                             </mat-option>
                         </mat-select>
                         <mat-hint style="color: red" *ngIf="formElementos.tipoElemento.messages">{{formElementos.tipoElemento.messages}}</mat-hint>
                     </mat-form-field>
+                    
                 </mat-grid-tile>
                 
                 <mat-grid-tile>
                     <mat-form-field>
                         <mat-label>{{formElementos.elemento.required? formElementos.elemento.label+' *':formElementos.elemento.label}}</mat-label>
-                        <mat-select id="form_consigna-elemento" [(ngModel)]="formElementos.elemento.value" style="padding-top: 5px;padding-bottom: 5px;">
-                            <mat-option *ngFor="let value of dataControls?.elemento;" [value]="value.codigo">
+                        <mat-select [disabled]="dataControls?.elemento.length > 0 ? false: true" id="form_consigna-elemento" [(ngModel)]="formElementos.elemento.value" 
+                            (ngModelChange)="validateElementos($event,'E')" style="padding-top: 5px;padding-bottom: 5px;">
+                            <mat-option *ngFor="let value of dataControls?.elemento;" [value]="value.id">
                                 {{ value.nombre }}
                             </mat-option>
                         </mat-select>
@@ -178,6 +236,18 @@
                         <mat-hint style="color: red" *ngIf="formElementos.ramal.messages">{{formElementos.ramal.messages}}</mat-hint>
                     </mat-form-field>
                 </mat-grid-tile>
+                
+                <mat-grid-tile>
+                    <mat-form-field>
+                        <mat-label>{{formElementos.afectaUsuarios.required ? formElementos.afectaUsuarios.label+' *' : formElementos.afectaUsuarios.label}}</mat-label>
+                        <mat-select id="form_consigna-afecta-usuarios" [(ngModel)]="formElementos.afectaUsuarios.value"  style="padding-top: 5px;padding-bottom: 5px;">
+                            <mat-option *ngFor="let value of dataControls?.ramal;" [value]="value.value">
+                                {{ value.nombre }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-hint style="color: red" *ngIf="formElementos.afectaUsuarios.messages">{{formElementos.afectaUsuarios.messages}}</mat-hint>
+                    </mat-form-field>
+                </mat-grid-tile>
             </mat-grid-list>
 
             <mat-grid-list class="row" cols="4" rowHeight="80px">
@@ -188,8 +258,9 @@
                         [name]="formElementos.fechaInicio.name" 
                         [messages]="formElementos.fechaInicio.messages"
                         [required]="formElementos.fechaInicio.required"
+                        [disabled]="true"
                         [id]="'mat-prueba'"
-                        (valueChange)="setData(formElementos.fechaInicio.name, $event,this.formElementos)"
+                        (valueChange)="setListElementoFecha(formElementos.fechaInicio.name, $event,this.formElementos)"
                     >                        
                     </app-datepicker>
                     
@@ -202,7 +273,7 @@
                         [name]="formElementos.horaInicio.name"
                         [messages]="formElementos.horaInicio.messages"
                         [required]="formElementos.horaInicio.required"
-                        (valueChange)="setData(formElementos.horaInicio.name, $event,this.formElementos)">
+                        (valueChange)="setData(formElementos.horaInicio.name, $event,this.formElementos); validateHours()">
                     </app-date-time-picker>
                 </mat-grid-tile>
                 
@@ -213,8 +284,9 @@
                         [name]="formElementos.fechaFinal.name" 
                         [messages]="formElementos.fechaFinal.messages"
                         [required]="formElementos.fechaFinal.required"
+                        [disabled]="true"
                         [id]="'mat-prueba'"
-                        (valueChange)="setData(formElementos.fechaFinal.name, $event,this.formElementos)"
+                        (valueChange)="setListElementoFecha(formElementos.fechaFinal.name, $event,this.formElementos)"
                     >                        
                     </app-datepicker>
                 </mat-grid-tile>
@@ -226,17 +298,48 @@
                         [name]="formElementos.horaFinal.name"
                         [messages]="formElementos.horaFinal.messages"
                         [required]="formElementos.horaFinal.required"
-                        (valueChange)="setData(formElementos.horaFinal.name, $event,this.formElementos)">
+                        (valueChange)="setData(formElementos.horaFinal.name, $event,this.formElementos); validateHours()">
                     </app-date-time-picker>
                 </mat-grid-tile>
             </mat-grid-list>
 
-            <button (click)="addListElements()" mat-mini-fab color="success" 
-                style="margin-left: 20px; margin-bottom:20px;"
-                matTooltip="Adicionar Elemento" matTooltipClass="custom-tooltip"
-            >
-                <mat-icon style="color: #FFF;">add</mat-icon>
-            </button>
+             <div *ngIf="mostrarPanelElemento">
+               <button (click)="validateListElements()" mat-mini-fab color="success"
+                 style="margin-left: 20px; margin-bottom:20px;" matTooltip="Adicionar Elemento"
+                 matTooltipClass="custom-tooltip">
+                 <mat-icon style="color: #FFF;">add</mat-icon>
+               </button>
+
+               <button (click)="getJsonMapa()" mat-mini-fab color="primary"
+                 style="margin-left: 20px; margin-bottom:20px;" matTooltip="Ver mapa" matTooltipClass="custom-tooltip">
+                 <mat-icon style="color: #FFF;">public</mat-icon>
+               </button>
+
+               <span>
+                 <button id="botonVerMapaSelec" (click)="verMapaGuardado()" mat-mini-fab
+                   style="visibility: hidden; margin-left: 20px; margin-bottom:20px; background-color: rgb(227, 114, 34);"
+                   matTooltip="Ver mapa guardado" matTooltipClass="custom-tooltip">
+                   <mat-icon style="color: #FFF;">where_to_vote</mat-icon>
+                 </button>
+                 <!-- para ver obtener de manera temporar la data del mapa -->
+                 <span style="display: none;" id="jsonDataMapa"></span>
+                 <span style="display: none;" id="jsonElementoIntervenirMapa"></span>
+                 <span style="display: none;" id="jsonMapaTipo"></span>
+               </span>
+             </div>
+
+              <div *ngIf="!mostrarPanelElemento">
+                <button (click)="updateElement()" mat-mini-fab color="success"
+                  style="margin-left: 20px; margin-bottom:20px;" matTooltip="Modificar Elemento"
+                  matTooltipClass="custom-tooltip">
+                  <mat-icon style="color: #FFF;">add</mat-icon>
+                </button>
+                <button (click)="selectListElement(null)" mat-mini-fab color="accent"
+                  style="margin-left: 20px; margin-bottom:20px;" matTooltip="Limpiar"
+                  matTooltipClass="custom-tooltip">
+                  <mat-icon style="color: #FFF;">brush</mat-icon>
+                </button>
+              </div>
 
             <table class="custom-table">
                 <thead>
@@ -244,21 +347,32 @@
                   <th>Tipo elemento</th>
                   <th>Elemento</th>
                   <th>Ramal</th>
+                  <th>Afecta Usuarios</th>
                   <th>Fecha y hora inicio</th>
                   <th>Fecha y hora final</th>
+                  <th>Mapa</th>
                   <th>Acciones</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr *ngFor="let value of dataElementos; let i=index">
-                    <td>{{ value.tipoElemento.nombre }}</td>
-                    <td>{{ value.elemento.nombre }}</td>
-                    <td>{{ value.ramal.nombre }}</td>
-                    <td>{{ value.fechaInicio.nombre }} - {{ value.horaInicio.nombre }}</td>
-                    <td>{{ value.fechaFinal.nombre }} - {{ value.horaFinal.nombre }}</td>
+                    <td>{{ value.tipoElemento.name }}</td>
+                    <td>{{ value.elemento.name }}</td>
+                    <td>{{ value.ramal.name }}</td>
+                    <td>{{ value.afectaUsuarios.name }}</td>
+                    <td [ngClass]="{'mal': value.fechaInicio.name==null}">{{ value.fechaInicio.name }} - {{ value.horaInicio.name }}</td>
+                    <td [ngClass]="{'mal': value.fechaFinal.name==null }">{{ value.fechaFinal.name }} - {{ value.horaFinal.name }}</td>
+                    <td><button *ngIf="value.jsonElementoMapa.value != undefined && value.jsonElementoMapa.value != '' && value.jsonElementoMapa.value != null " 
+                        color="primary"
+                        (click)="openMap(value.jsonElementoMapa.value)" mat-icon-button matTooltip="Ver en mapa" matTooltipClass="custom-tooltip">
+                        <mat-icon>map</mat-icon>
+                    </button></td>
                     <td>
-                        <button (click)="removeListElement(i)" mat-icon-button matTooltip="Eliminar" matTooltipClass="custom-tooltip">
+                        <button *ngIf="value.eliminar == undefined" (click)="removeListElement(i)" mat-icon-button matTooltip="Eliminar" matTooltipClass="custom-tooltip">
                             <mat-icon>delete_forever</mat-icon>
+                        </button>
+                        <button *ngIf="value.eliminar != undefined" style="cursor: pointer;color: #92D400;" (click)="selectListElement(i)" mat-icon-button matTooltip="Eliminar" matTooltipClass="custom-tooltip">
+                            <mat-icon>edit</mat-icon>
                         </button>
                     </td>
                 </tr>
@@ -277,6 +391,7 @@
                     [name]="form.trabajoEfectuar.name"
                     [messages]="form.trabajoEfectuar.messages"
                     [required]="form.trabajoEfectuar.required"
+                    [length]="form.trabajoEfectuar.length"
                     (valueChange)="setData(form.trabajoEfectuar.name, $event)">
                 </app-input-text-area>
             </mat-grid-tile>
@@ -289,6 +404,7 @@
                     [name]="form.justificacion.name"
                     [messages]="form.justificacion.messages"
                     [required]="form.justificacion.required"
+                    [length]="form.justificacion.length"
                     (valueChange)="setData(form.justificacion.name, $event)">
                 </app-input-text-area>
             </mat-grid-tile>
@@ -301,6 +417,7 @@
                     [name]="form.observacionOpeyman.name"
                     [messages]="form.observacionOpeyman.messages"
                     [required]="form.observacionOpeyman.required"
+                    [length]="form.observacionOpeyman.length"
                     (valueChange)="setData(form.observacionOpeyman.name, $event)">
                 </app-input-text-area>
             </mat-grid-tile>
@@ -308,17 +425,27 @@
         </mat-grid-list>
 
         <!-- adjuntar archivo -->
-        <app-input-file [placeholder]="'Ingrese el documento a adjuntar en la consigna *'"
+        <!-- <app-input-file [placeholder]="'Ingrese el documento a adjuntar la topología de inicio *'"
             [typeExtension]="['pdf','png']" [maxSize]="'5'"
             (valueChange)="setInput($event)"
             [messages] = "fileUpload.message"
+            [fileName] = "fileName"
+            [fileUrl] = "fileUrl"
         >                    
-        </app-input-file>
+        </app-input-file> -->
+        <app-input-file-dynamic
+            [dataInputFile]="dataInputFile"
+            [package]="'topologia'"
+        >
+
+        </app-input-file-dynamic>
+
 
         <!-- areas afectadas -->
         <fieldset>
-            <legend style="text-align: left;">Areas Afectadas</legend>
-            <h3 style="text-align: left;">Interrupciones Mietras Dura el Trabajo</h3>
+            <legend style="text-align: left;">Areas Afectadas - <em>Barrios:{{numeroAreaAfectada.barrios}}, Clientes regulados:{{numeroAreaAfectada.clienteRegulado}} ,Clientes no regulados:{{numeroAreaAfectada.clienteNoRegulado}}</em> </legend>
+            
+            <h3 style="text-align: left;">Interrupciones Mientras Dura el Trabajo</h3>
             <mat-grid-list class="row" cols="2" rowHeight="110px">
 
                 <mat-grid-tile>
@@ -332,6 +459,7 @@
                     </app-input-text-area>
                 </mat-grid-tile>
                 
+
                 <mat-grid-tile>
                     <app-input-text-area style="width: 100%;"
                         class="input"
@@ -383,6 +511,7 @@
                     [name]="form.consignaOperativa.name"
                     [messages]="form.consignaOperativa.messages"
                     [required]="form.consignaOperativa.required"
+                    [length]="form.consignaOperativa.length"
                     (valueChange)="setData(form.consignaOperativa.name, $event)">
                 </app-input-text-area>
             </mat-grid-tile>
@@ -396,6 +525,7 @@
                     [name]="form.medidasSeguiridad.name"
                     [messages]="form.medidasSeguiridad.messages"
                     [required]="form.medidasSeguiridad.required"
+                    [length]="form.medidasSeguiridad.length"
                     (valueChange)="setData(form.medidasSeguiridad.name, $event)">
                 </app-input-text-area>
             </mat-grid-tile>
@@ -418,15 +548,17 @@
 
             <!-- telefono jefe trabajo -->
             <mat-grid-tile>
-                <app-input-text style="width: 100%;"
+                <app-input-number style="width: 100%;"
                     class="input"
+                    [id]="'form_consigna-tel_jefe_trabajo'"
                     [label]="form.telefonoJefeTrabajo.label"
                     [value]="form.telefonoJefeTrabajo.value"
                     [name]="form.telefonoJefeTrabajo.name"
                     [messages]="form.telefonoJefeTrabajo.messages"
+                    [maxLength]="form.telefonoJefeTrabajo.maxLength"
                     [required]="form.telefonoJefeTrabajo.required"
                     (valueChange)="setData(form.telefonoJefeTrabajo.name, $event)">
-                </app-input-text>
+                </app-input-number>
             </mat-grid-tile>
 
             <!-- jefe de trabajo contratista -->
@@ -444,15 +576,18 @@
 
             <!-- telefono jefe trabajo contratista -->
             <mat-grid-tile>
-                <app-input-text style="width: 100%;"
+                <app-input-number style="width: 100%;"
                     class="input"
+                    [id]="'form_consigna-tel_jefe_contratista'"
                     [label]="form.telJefeTrabajoContratista.label"
                     [value]="form.telJefeTrabajoContratista.value"
                     [name]="form.telJefeTrabajoContratista.name"
                     [messages]="form.telJefeTrabajoContratista.messages"
+                    [maxLength]="form.telefonoJefeTrabajo.maxLength"
                     [required]="form.telJefeTrabajoContratista.required"
-                    (valueChange)="setData(form.telJefeTrabajoContratista.name, $event)">
-                </app-input-text>
+                    (valueChange)="setData(form.telJefeTrabajoContratista.name, $event)"
+                >
+                </app-input-number>
             </mat-grid-tile>
             
             <!-- moviles -->
@@ -469,9 +604,26 @@
             </mat-grid-tile>
 
         </mat-grid-list>
-    <button (click)="guardarConsigna()" mat-raised-button color="primary" style="margin-left: 20px; margin-top: 10px;">
-        <span style="color: #FFF">Guardar</span>
-    </button>
-  
+
+        <fieldset>
+            <legend style="text-align: left;">Anexos</legend>
+            <app-input-file-multiple 
+                [placeholder]   = "fileAnexos.placeholder"
+                [typeExtension] = "fileAnexos.typeExtension" 
+                [maxSize]       = "fileAnexos.maxSize"
+                [messages]      = "fileAnexos.messages"
+                [fileName]      = "fileAnexos.fileName"
+                [fileUrl]       = "fileAnexos.fileUrl"
+                [required]      = "fileAnexos.required"
+                [package]       = "fileAnexos.package"
+            >                    
+            </app-input-file-multiple>
+        </fieldset>
+
+        
+        <!-- <button id="the-button" (click)="cleanAllFields()" mat-raised-button color="primary" style="margin-left: 20px; margin-top: 10px;">
+            <span style="color: #FFF">{{action}}</span>
+        </button>-->
+        
     </mat-card-content>
   </mat-card>

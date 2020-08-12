@@ -12,7 +12,7 @@ import {MatSort} from '@angular/material/sort';
 })
 export class TableTrabajoOportunidadComponent implements OnInit {
 
-  displayedColumns: string[] = ['elemento', 'trabajo', 'medidaSeguridad', 'jefeTrabajo', 'telefono','acciones'];
+  displayedColumns: string[] = ['elemento', 'trabajo', 'medida_seguridad', 'jefe_trabajo', 'telefono','acciones'];
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
@@ -24,11 +24,10 @@ export class TableTrabajoOportunidadComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-      console.log(this.valueChange);
+
   }
 
   init(data) {
-    console.log(data);
     this.dataSource = new MatTableDataSource(data);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
@@ -44,15 +43,18 @@ export class TableTrabajoOportunidadComponent implements OnInit {
   }
 
   imprimir(data){
-    console.log(data)
+    // console.log(data)
   }
 
   seleccionar(row)
   {
-    
-    this.valueChange.emit(row);
-
+    this.valueChange.emit(["select",row]);
   }
-  
+
+  eliminar(row)
+  {
+    this.valueChange.emit(["delete",row]);
+  }
+
 
 }

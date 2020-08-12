@@ -1,0 +1,51 @@
+<mat-card class="container">
+  <mat-card-content>
+    <h2>Tipo parametros</h2>
+    <mat-grid-list class="row" cols="2" rowHeight="103px">
+
+      <mat-grid-tile [colspan]="2">
+
+        <app-input-text style="width: 98%;" [required]="form.nombre.required" [label]="form.nombre.label" [value]="form.nombre.value"
+          [name]="form.nombre.name" [messages]="form.nombre.messages" [length]="form.nombre.length"
+          (valueChange)="setData(form.nombre.name, $event)">
+        </app-input-text>
+
+      </mat-grid-tile>
+
+
+      <mat-grid-tile [colspan]="2">
+
+        <app-input-text-area style="width: 98%;" [required]="form.descripcion.required" class="input" [label]="form.descripcion.label"
+          [value]="form.descripcion.value" [name]="form.descripcion.name" [messages]="form.descripcion.messages"
+          [length]="form.descripcion.length"
+          (valueChange)="setData(form.descripcion.name, $event)">
+        </app-input-text-area>
+
+
+      </mat-grid-tile>
+
+      <mat-grid-tile [colspan]="2">
+
+        <app-input-text style="width: 98%;" [required]="form.codigo.required" [label]="form.codigo.label" [value]="form.codigo.value"
+          [name]="form.codigo.name" [disable]="form.codigo.disabled" [messages]="form.codigo.messages" [length]="form.codigo.length"
+          (valueChange)="setData(form.codigo.name, $event)">
+        </app-input-text>
+
+      </mat-grid-tile>
+
+
+    </mat-grid-list>
+
+
+    <button  mat-raised-button class="{{boton.color}}" (click)="guardar()" style="margin-left: 20px; margin-top: 10px;">
+      <span style="color: #FFF">{{boton.value}}</span>
+    </button>
+
+    <button mat-flat-button class="btn-default" (click)="limpiar()" style="margin-left: 20px; margin-top: 10px;">Limpiar</button>
+
+    <app-table-tipo-parametro style="width: 98%;" (valueChange)="setDataTable(data, $event)" [data]="data"></app-table-tipo-parametro>
+
+  </mat-card-content>
+</mat-card>
+
+

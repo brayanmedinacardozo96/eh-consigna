@@ -43,11 +43,21 @@ export class ValidationService {
     }
 
     if(snackBar && !response.success){
-      this.snackBarService.alert('Ingrese al menos un valor en los campos para realizar la consulta.',5000)
+      this.snackBarService.alert('Ingrese al menos un valor en cualquiera de los campos para realizar la consulta.',5000)
     }
 
     response.data = form;
     return response;
+  }
+
+  cleanFields(form){    
+    for (const key in form) {
+      if (form.hasOwnProperty(key)) {
+        form[key].value = null;
+        form[key].messages = null;
+      }
+    }
+    return form;
   }
 
 }

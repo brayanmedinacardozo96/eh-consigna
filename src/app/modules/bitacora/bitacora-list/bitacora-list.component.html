@@ -1,0 +1,61 @@
+<table class="custom-table" style="text-align: center;">
+  <thead>
+  <tr>
+    <th>Número de consigna</th>
+    <th>Completado</th>
+    <th>Causal de incumplimiento</th>
+    <th>Observación</th>
+    <th>Bitácora cerrada</th>
+    <th>Fecha cierre</th>
+    <th>Fecha creación</th>
+    <th colspan="3">Acciones</th>
+  </tr>
+  </thead>
+  <tbody *ngIf="data.length === 0">
+  <tr>
+    <td colspan="10">No hay registros...</td>
+  </tr>
+  </tbody>
+  <tbody *ngIf="data.length > 0">
+  <tr *ngFor="let value of data;">
+    <td>{{value?.consigna?.codigo}}</td>
+    <td>{{value?.completado === '1' ? 'SI' : 'NO'}}</td>
+    <td>{{value?.causal_incumplimiento?.nombre}}</td>
+    <td>
+      <ng-container *ngIf="value?.completado === '0'">
+        {{value?.obser_causal_incum}}
+      </ng-container>
+    </td>
+    <td>{{value?.cerrado === '1' ? 'SI' : 'NO'}}</td>
+    <td>{{value?.fecha_cierre | date:'medium'}}</td>
+    <td>{{value?.created_at | date:'medium'}}</td>
+
+    <td>
+      <mat-icon color="accent"
+                matTooltip="Ver elementos"
+                (click)="verElementos(value)"
+                style="cursor: pointer;">assignment
+      </mat-icon>
+    </td>
+
+    <td>
+      <mat-icon color="accent"
+                matTooltip="Ver documentos adjuntos"
+                (click)="verDocumentos(value)"
+                style="cursor: pointer;">attachment
+      </mat-icon>
+    </td>
+
+    <td>
+      <ng-container *ngIf="value?.cerrado === '0'">
+        <mat-icon color="accent"
+                  matTooltip="Editar"
+                  [routerLink]="['/bitacora/edit/'+value?.consigna?.codigo]"
+                  style="cursor: pointer;">edit
+        </mat-icon>
+      </ng-container>
+    </td>
+  </tr>
+  </tbody>
+</table>
+

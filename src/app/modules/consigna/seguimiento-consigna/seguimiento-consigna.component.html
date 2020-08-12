@@ -1,0 +1,60 @@
+<mat-card class="container">
+    <mat-card-content>
+      <h1>Seguimiento consigna</h1>
+       <mat-grid-list class="row" cols="2" rowHeight="80px"> 
+
+            <mat-grid-tile [colspan]="2">
+
+             <app-input-autocomplete style="width: 96%;" [label]="form.numeroConsigna.label"
+               [value]="form.numeroConsigna.value" [name]="form.numeroConsigna.name"
+               [messages]="form.numeroConsigna.messages" (valueChange)="setData(form.numeroConsigna.name, $event)"
+               [urlApi]="form.numeroConsigna.url">
+             </app-input-autocomplete>
+
+             <div style="padding-bottom:20px">
+               <button mat-mini-fab color="accent" (click)="buscar()" matTooltip="Consultar" matTooltipClass="custom-tooltip">
+                 <mat-icon style="color: #FFFFFF">search</mat-icon>
+               </button>
+              </div>
+    
+            </mat-grid-tile >
+
+            
+            <mat-grid-tile  [colspan]="2">
+
+              <mat-form-field  class="text-inside-grid">
+                <mat-label>{{form.estadoConsigna.required ? form.estadoConsigna.label+' *':form.estadoConsigna.label}}</mat-label>
+                <mat-select id="ddlEstadoConsigna" (valueChange)="setData(form.estadoConsigna.name, $event)" [(ngModel)]="form.estadoConsigna.value" style="padding-top: 5px;padding-bottom: 5px;">
+                    <mat-option *ngFor="let value of dataControls?.estadoConsigna;" [value]="value.id">
+                        {{value.nombre}}
+                    </mat-option>
+                </mat-select>
+                <mat-hint style="color: red" *ngIf="form.estadoConsigna.messages">{{form.estadoConsigna.messages}}</mat-hint>
+            </mat-form-field>
+
+              <app-datepicker    [label]="form.fechaInicio.label"
+                [value]="form.fechaInicio.value" [name]="form.fechaInicio.name" [messages]="form.fechaInicio.messages"
+                [id]="form.fechaInicio.name" (valueChange)="setData(form.fechaInicio.name, $event)"></app-datepicker>
+
+              <app-datepicker   [label]="form.fechaFin.label" [value]="form.fechaFin.value"
+                [name]="form.fechaFin.name" [messages]="form.fechaFin.messages" [id]="form.fechaFin.name"
+                (valueChange)="setData(form.fechaFin.name, $event)"></app-datepicker>
+            </mat-grid-tile>
+
+       </mat-grid-list>
+
+       <button  mat-raised-button color="primary" (click)="Consultar()" style="margin-left: 20px; margin-top: 10px;">
+        <span style="color: #FFF">Buscar</span>
+      </button>
+
+      <button mat-raised-button (click)="limpiar()"
+       style="background-color:lightslategrey;margin-left: 20px; margin-top: 10px;">
+       <span style="color: #FFF">Limpiar</span>
+     </button>
+
+       <div style="padding: 10px;">
+        <app-table-seguimiento-consigna [data]="dataSeguimiento"></app-table-seguimiento-consigna>
+      </div>
+
+    </mat-card-content>
+</mat-card>

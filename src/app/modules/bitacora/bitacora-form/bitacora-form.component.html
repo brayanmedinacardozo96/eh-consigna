@@ -1,0 +1,337 @@
+<div style="min-height: 520px;">
+  <mat-card class="container">
+    <mat-card-content>
+
+      <h1>Bitácora</h1>
+
+      <fieldset>
+        <legend style="text-align: left;">Buscar consignación por número</legend>
+
+        <ng-container>
+
+          <app-input-text
+            class="input"
+            [disable]="action === 'edit'"
+            (keyup.enter)="searchConsigna()"
+            [name]="form.numeroConsigna.name"
+            [value]="form.numeroConsigna.value"
+            [label]="form.numeroConsigna.label"
+            [messages]="form.numeroConsigna.messages"
+            (valueChange)="setData(form, form.numeroConsigna.name, $event)"
+            [style]="'width: 300px'"
+          ></app-input-text>
+
+          <button (click)="searchConsigna()" mat-raised-button color="primary" style="margin-left: 20px;"
+                  matTooltip="Buscar consigna a partir del código">
+            <mat-icon style="color: #FFFFFF">search</mat-icon>
+          </button>
+
+        </ng-container>
+
+        <ng-container *ngIf="dataConsigna?.consigna_code_tipo_solicitud == 'E'">
+          <p class="mensaje-jefe-zona">El jefe de zona
+            {{dataConsigna?.consigna_jefe_zona?.first_name}} {{dataConsigna?.consigna_jefe_zona?.second_name}}
+            {{dataConsigna?.consigna_jefe_zona?.first_lastname}} {{dataConsigna?.consigna_jefe_zona?.second_lastname}}
+
+            <ng-container [ngSwitch]="dataConsigna?.consigna_jefe_zona_aprobo">
+              <ng-container *ngSwitchCase="null"><span>no ha revisado esta consignación.</span></ng-container>
+              <ng-container *ngSwitchCase="true"><span style="color: green;">aprobó esta consignación.</span></ng-container>
+              <ng-container *ngSwitchCase="false"><span style="color: red;">NO aprobó esta consignación.</span></ng-container>
+            </ng-container>
+
+          </p>
+        </ng-container>
+
+        <table class="custom-table">
+          <tbody>
+          <tr>
+            <th style="width: 15%;">Consigna No.</th>
+            <td style="width: 15%;">{{dataConsigna?.consigna_codigo}}</td>
+            <th style="width: 15%;">Zona</th>
+            <td style="width: 15%;">{{dataConsigna?.consigna_zona}}</td>
+            <th style="width: 15%;">Tipo Solicitud</th>
+            <td style="width: 15%;">{{dataConsigna?.consigna_tipo_solicitud}}</td>
+          </tr>
+          <tr>
+            <th>Fecha solicitud</th>
+            <td>{{dataConsigna?.consigna_fecha_solicitud | date}}
+            <th>Tipo Consignación</th>
+            <td>{{dataConsigna?.consigna_tipo_consignacion}}</td>
+            <th>Estado consignación</th>
+            <td>{{dataConsigna?.consigna_estado_consignacion}}</td>
+          </tr>
+          <tr>
+            <th>Trabajo a efectuar</th>
+            <td colspan="5">{{dataConsigna?.consigna_trabajo_efectuar}}</td>
+          </tr>
+          <tr>
+            <th>Justificación</th>
+            <td colspan="5">{{dataConsigna?.consigna_justificacion}}</td>
+          </tr>
+          </tbody>
+        </table>
+
+      </fieldset>
+
+
+      <fieldset>
+        <legend style="text-align: left;">Elementos</legend>
+
+        <table class="custom-table">
+          <thead>
+          <tr>
+            <th>
+              <mat-checkbox [(ngModel)]="selectAllElementos" (ngModelChange)="checkAll()"></mat-checkbox>
+            </th>
+            <th>Tipo elemento</th>
+            <th>Elemento</th>
+            <th>Hora inicio programada</th>
+            <th>Hora inicio</th>
+            <th>Hora entrega</th>
+            <th>Hora devolución</th>
+            <th>Hora maniobra</th>
+            <th>Hora fin</th>
+            <th>Hora fin programada</th>
+            <th>Comentario</th>
+          </tr>
+          </thead>
+          <tbody *ngIf="!dataConsigna?.bitacora_elementos">
+          <tr>
+            <td colspan="10">No hay registros...</td>
+          </tr>
+          </tbody>
+          <tbody *ngIf="dataConsigna?.bitacora_elementos?.length > 0">
+          <tr *ngFor="let value of dataConsigna?.bitacora_elementos; let i = index;">
+            <td>
+              <mat-checkbox [(ngModel)]="value.form.completado" (ngModelChange)="setCumplioCompleto()"></mat-checkbox>
+            </td>
+            <td>{{value?.tipo_elemento}}</td>
+            <td>
+              {{value?.elemento}}
+              <mat-icon *ngIf="value.form.completado == 1"
+                        color="accent"
+                        matTooltip="Abrir elementos afectados"
+                        (click)="abrirSubelementos(value)"
+                        style="cursor: pointer;">offline_bolt
+              </mat-icon>
+            </td>
+            <td>{{value?.hora_inicio_prog}}</td>
+            <td>
+              <app-date-time-picker
+                [disable]="value.form.completado == 1 ? false : true"
+                [style]="'width: 100px;'"
+                [value]="value?.form?.hora_inicio?.value"
+                [name]="value?.form?.hora_inicio?.name"
+                (valueChange)="setDinamicData(value?.form?.hora_inicio?.name, $event, i);
+                validateRangeHour(value?.form?.hora_inicio?.value, value?.form?.hora_fin?.value)">
+              </app-date-time-picker>
+            </td>
+            <td>
+              <app-date-time-picker
+                [disable]="value.form.completado == 1 ? false : true"
+                [style]="'width: 100px;'"
+                [value]="value?.form?.hora_entrega?.value"
+                [name]="value?.form?.hora_entrega?.name"
+                (valueChange)="setDinamicData(value?.form?.hora_entrega?.name, $event, i);
+                validarHorasIntermedias(value?.form?.hora_inicio?.value, value?.form?.hora_fin?.value, value?.form?.hora_entrega?.value,
+                'Hora de entrega')">
+              </app-date-time-picker>
+            </td>
+            <td>
+              <app-date-time-picker
+                [disable]="value.form.completado == 1 ? false : true"
+                [style]="'width: 100px;'"
+                [value]="value?.form?.hora_devolucion?.value"
+                [name]="value?.form?.hora_devolucion?.name"
+                (valueChange)="setDinamicData(value?.form?.hora_devolucion?.name, $event, i);
+                validarHorasIntermedias(value?.form?.hora_inicio?.value, value?.form?.hora_fin?.value, value?.form?.hora_devolucion?.value,
+                'Hora de devolución')">
+              </app-date-time-picker>
+            </td>
+            <td>
+              <app-date-time-picker
+                [disable]="value.form.completado == 1 ? false : true"
+                [style]="'width: 100px;'"
+                [value]="value?.form?.hora_maniobra?.value"
+                [name]="value?.form?.hora_maniobra?.name"
+                (valueChange)="setDinamicData(value?.form?.hora_maniobra?.name, $event, i);
+                validarHorasIntermedias(value?.form?.hora_inicio?.value, value?.form?.hora_fin?.value, value?.form?.hora_maniobra?.value,
+                'Hora de maniobra')">
+              </app-date-time-picker>
+            </td>
+            <td>
+              <app-date-time-picker
+                [disable]="value.form.completado == 1 ? false : true"
+                [style]="'width: 100px;'"
+                [value]="value?.form?.hora_fin?.value"
+                [name]="value?.form?.hora_fin?.name"
+                (valueChange)="setDinamicData(value?.form?.hora_fin?.name, $event, i);
+                validateRangeHour(value?.form?.hora_inicio?.value, value?.form?.hora_fin?.value)">
+              </app-date-time-picker>
+            </td>
+            <td>{{value?.hora_final_prog}}</td>
+            <td>
+              <app-input-text-area
+                [disable]="value.form.completado == 1 ? false : true"
+                class="input"
+                [value]="value?.form?.comentario?.value"
+                [name]="value?.form?.comentario?.name"
+                (valueChange)="setDinamicData(value?.form?.comentario?.name, $event, i);">
+              </app-input-text-area>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+
+      </fieldset>
+
+      <fieldset>
+        <legend style="text-align: left;">Documentos</legend>
+
+        <table style="width: 100%">
+          <tr>
+            <td style="width: 40%">
+              <app-input-file
+                [style]="'width: 100%;'"
+                [placeholder]="'Seleccione un documento *'"
+                [typeExtension]="['pdf','png', 'jpg', 'jpeg']"
+                [maxSize]="'5'"
+                (valueChange)="setInput($event)"
+                [messages]="''">
+              </app-input-file>
+            </td>
+            <td style="width: 50%">
+              <app-input-text-area
+                class="input"
+                [style]="'width: 100%;'"
+                [label]="formDocumentos.observacion.label"
+                [value]="formDocumentos.observacion.value"
+                [name]="formDocumentos.observacion.name"
+                [messages]="formDocumentos.observacion.messages"
+                [required]="formDocumentos.observacion.required"
+                [length]="formDocumentos.observacion.length"
+                (valueChange)="setData(formDocumentos, formDocumentos.observacion.name, $event)">
+              </app-input-text-area>
+            </td>
+            <td>
+              <button (click)="addDocumento()" mat-mini-fab color="accent" matTooltip="Nuevo documento"
+                      style="margin-left: 10px;">
+                <mat-icon style="color: #FFFFFF">add</mat-icon>
+              </button>
+            </td>
+          </tr>
+        </table>
+
+        <table class="custom-table">
+          <thead>
+          <tr>
+            <th>Archivo</th>
+            <th>Observación</th>
+            <th>Borrar</th>
+          </tr>
+          </thead>
+          <tbody *ngIf="dataDocumentos.length === 0">
+          <tr>
+            <td colspan="3">No hay registros...</td>
+          </tr>
+          </tbody>
+          <tbody *ngIf="dataDocumentos.length > 0">
+          <tr *ngFor="let value of dataDocumentos; let i = index;">
+            <td>
+
+              <ng-container *ngIf="value.url">
+                <a [href]="env.urlPublicFiles + value.url" target="_blank">{{value?.name}}</a>
+              </ng-container>
+
+              <ng-container *ngIf="!value.url">
+                {{value?.name}}
+              </ng-container>
+
+            </td>
+            <td>{{value?.observacion}}</td>
+            <td>
+              <mat-icon style="cursor: pointer;" (click)="deleteDocumento(value, i)" matTooltip="Borrar documento"
+                        color="accent">
+                delete
+              </mat-icon>
+            </td>
+          </tr>
+        </table>
+
+      </fieldset>
+
+      <fieldset style="text-align: left;">
+        <legend>Finalizar Bitácora</legend>
+
+        <div style="width: 100%; text-align: center;">
+
+          <mat-form-field style="width: 300px; margin-right: 10px;" appearance="outline">
+            <mat-label>{{formCompletado.completado.label}}
+              <ng-container *ngIf="formCompletado.completado.required">*</ng-container>
+            </mat-label>
+            <mat-select [disabled]="true" [(ngModel)]="formCompletado.completado.value"
+                        (ngModelChange)="setData(formCompletado, formCompletado.completado.name, $event)">
+              <mat-option [value]="1">SI</mat-option>
+              <mat-option [value]="0">NO</mat-option>
+            </mat-select>
+            <mat-hint style="color: red"
+                      *ngIf="formCompletado.completado.messages">{{formCompletado.completado.messages}}</mat-hint>
+          </mat-form-field>
+
+          <ng-container *ngIf="this.formCompletado.completado.value === 0">
+
+            <mat-form-field style="width: 300px; margin-right: 10px;" appearance="outline">
+              <mat-label>{{formCompletado.causalIncumplimiento.label}}
+                <ng-container *ngIf="formCompletado.causalIncumplimiento.required">*</ng-container>
+              </mat-label>
+              <mat-select [(ngModel)]="formCompletado.causalIncumplimiento.value"
+                          (ngModelChange)="setData(formCompletado, formCompletado.causalIncumplimiento.name, $event)">
+                <mat-option *ngFor="let value of dataControls?.causales_incumplimiento;"
+                            [value]="value?.id">{{value?.nombre}}</mat-option>
+              </mat-select>
+              <mat-hint style="color: red"
+                        *ngIf="formCompletado.causalIncumplimiento.messages">{{formCompletado.causalIncumplimiento.messages}}</mat-hint>
+            </mat-form-field>
+
+
+            <app-input-text-area
+              class="input"
+              [style]="'width: 50%;'"
+              [label]="formCompletado.observacionCausalIncumplimiento.label"
+              [value]="formCompletado.observacionCausalIncumplimiento.value"
+              [name]="formCompletado.observacionCausalIncumplimiento.name"
+              [messages]="formCompletado.observacionCausalIncumplimiento.messages"
+              [required]="formCompletado.observacionCausalIncumplimiento.required"
+              (valueChange)="setData(formCompletado, formCompletado.observacionCausalIncumplimiento.name, $event)">
+            </app-input-text-area>
+
+          </ng-container>
+
+        </div>
+
+        <div style="width: 100%; text-align: center;">
+          <div class="cerrar-bitacora">
+            <mat-checkbox [(ngModel)]="cerrarBitacora">Cerrar bitácora
+            </mat-checkbox>
+            <span style="font-weight: normal; font-size: 12px; font-style: italic;"><br/>
+              (Si selecciona cerrar bitácora, no podrá realizar más cambios y la consigna pasa al estado: Ejecutada.)
+            </span>
+          </div>
+        </div>
+
+      </fieldset>
+
+      <div style="text-align: center;">
+        <button (click)="guardar()" mat-raised-button color="accent" class="button"
+                style="color: #FFFFFF; margin: 5px;">
+          GUARDAR
+        </button>
+        <button (click)="cancel()" mat-raised-button color="accent" class="button" style="color: #FFFFFF; margin: 5px;">
+          CANCELAR
+        </button>
+      </div>
+
+
+    </mat-card-content>
+  </mat-card>
+</div>
