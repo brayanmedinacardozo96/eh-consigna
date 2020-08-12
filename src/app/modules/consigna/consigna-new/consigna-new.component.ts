@@ -1142,10 +1142,12 @@ export class ConsignaNewComponent implements OnInit {
       var apiLocal = this.api;
       var jsonLocal = '';
       var jsonIntervenirElementoMapa='';
+      var intentos = 0;
       var timer = setInterval(async function () {
         if (child.closed) {
           // Se realiza el llamado del api que obtiene la data del mapa a partir del key
           const response = await apiLocal.get(`${environment.apiBackend}/integracion-mapa/get/${key}`);
+          intentos += 1;
           if(response.success){
 
             var objJson=JSON.parse( response.data );
@@ -1161,7 +1163,9 @@ export class ConsignaNewComponent implements OnInit {
             clearInterval(timer);
             
           }else{
-            snackBar.alert('No se encontró registro de mapa para guardar!',5000);
+            if(intentos <= 1){
+              snackBar.alert('No se encontró registro de mapa para guardar!',5000);
+            }
           }
           clearInterval(timer);
         }
