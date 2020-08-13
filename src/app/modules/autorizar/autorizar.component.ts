@@ -92,7 +92,7 @@ export class AutorizarComponent implements OnInit {
       name: 'causalEstado',
       value: null,
       messages: null,
-      required: true,
+      required: false,
       valor:null
     },
     fechaSolicitud: {
@@ -174,8 +174,10 @@ export class AutorizarComponent implements OnInit {
     this.validarEstados(estado);
 
     this.causal=false;
+    this.form.causalEstado.required=false;
     if(estado[0].nombre=="Cancelada")
     {
+      this.form.causalEstado.required=true;
       this.causal=true;
       this.getCausal();
     }
