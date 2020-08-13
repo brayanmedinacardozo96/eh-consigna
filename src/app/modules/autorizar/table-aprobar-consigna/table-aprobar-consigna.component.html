@@ -79,7 +79,7 @@
         <td mat-cell *matCellDef="let row">
 
           <ng-container *appUserCan="['consignas-modulo-principal-consigna-editar']">
-            <mat-icon (click)="editarElemento(row?.consignacion_id)"
+            <mat-icon *ngIf="number(row?.permite_editar) === 1" (click)="editarElemento(row?.consignacion_id)"
                       style="cursor: pointer;"
                       matTooltip="Editar" matTooltipClass="custom-tooltip"
                       color="accent">edit
