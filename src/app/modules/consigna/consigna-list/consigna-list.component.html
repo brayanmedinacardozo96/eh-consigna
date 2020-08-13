@@ -48,6 +48,12 @@
         <td mat-cell *matCellDef="let row">{{row?.estado_equipo_codigo}}</td>
       </ng-container>
 
+      <!--Consigna Padre -->
+      <ng-container matColumnDef="consignaPadre">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Consigna Padre</th>
+        <td mat-cell *matCellDef="let row">{{row?.consigna_padre_codigo}}</td>
+      </ng-container>
+
       <!-- Elemento Consignado -->
       <ng-container matColumnDef="elementosConsignados">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Elemento Consignado</th>
