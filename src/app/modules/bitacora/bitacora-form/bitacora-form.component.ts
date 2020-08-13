@@ -10,6 +10,7 @@ import {Location} from "@angular/common";
 import {ActivatedRoute} from "@angular/router";
 import {BitacoraSubelementosComponent} from "../bitacora-subelementos/bitacora-subelementos.component";
 import * as moment from 'moment';
+import {Auth} from "../../../shared/auth";
 
 @Component({
   selector: 'app-bitacora-form',
@@ -172,6 +173,9 @@ export class BitacoraFormComponent implements OnInit {
   }
 
   getSendData() {
+
+    const dataLogin = Auth.getLogin();
+
     let formData = new FormData();
     formData.append('bitacora_id', this.bitacoraID);
     formData.append('consignacion_id', this.consignaID);
@@ -181,6 +185,7 @@ export class BitacoraFormComponent implements OnInit {
     formData.append('cerrado', this.cerrarBitacora ? '1' : '0');
     formData.append('elementos', JSON.stringify(this.dataConsigna.bitacora_elementos));
     formData.append('documentos_eliminados', JSON.stringify(this.documentosEliminados));
+    formData.append('usuario', JSON.stringify(dataLogin.user_data));
 
     for (let i = 0; i < this.dataDocumentos.length; i++) {
       const obj = this.dataDocumentos[i];

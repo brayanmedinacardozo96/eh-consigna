@@ -10,6 +10,7 @@ import { ConsignaManiobraListComponent } from '../../consigna/consigna-maniobra-
 import { ApiService } from 'src/app/shared/services/api.service';
 import {SnackBarClass} from '../../../ui/snack-bar/snack-bar';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'table-aprobar-consigna',
@@ -18,6 +19,7 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 })
 export class TableAprobarConsignaComponent implements OnInit {
 
+  number = Number;
   displayedColumns: string[] = ['fecha_solicitud','numeroConsigna', 'consecutivoSnc', 'tipoZona', 'estadoConsigna','estadoEquipo', 'elementosConsignados', 'maniobras','html_documento'];
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
@@ -32,6 +34,7 @@ export class TableAprobarConsignaComponent implements OnInit {
   constructor(private api: ApiService,
               public dialog: MatDialog,
               private snackBar: MatSnackBar,
+              private router: Router,
              ) { }
 
   ngOnInit() {
@@ -75,6 +78,10 @@ export class TableAprobarConsignaComponent implements OnInit {
   showUrl(url)
   {
     window.open(`${environment.urlFiles}/public/${url}`);
+  }
+
+  editarElemento(id){
+    this.router.navigateByUrl('consigna/editar/'+id);
   }
 
   generatePdf(id)

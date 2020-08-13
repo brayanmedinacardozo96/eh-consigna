@@ -18,12 +18,15 @@ import {TableElementoCalidadComponent} from './table-elemento-calidad/table-elem
 import {ConsignaModule} from '../consigna/consigna.module';
 import {TableAprobarConsignaComponent} from './table-aprobar-consigna/table-aprobar-consigna.component';
 import { AutorizarJefeZonaComponent } from './autorizar-jefe-zona/autorizar-jefe-zona.component';
+import {DirectivesModule} from "../../shared/directives/directives.module";
+import {MatSortModule} from "@angular/material/sort";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 @NgModule({
   declarations: [
-    AutorizarComponent, 
+    AutorizarComponent,
     TableElementoCalidadComponent,
-    TableAprobarConsignaComponent, 
+    TableAprobarConsignaComponent,
     AutorizarJefeZonaComponent
   ],
   imports: [
@@ -42,6 +45,9 @@ import { AutorizarJefeZonaComponent } from './autorizar-jefe-zona/autorizar-jefe
     MatTableModule,
     MatListModule,
     ConsignaModule,
+    DirectivesModule,
+    MatSortModule,
+    MatTooltipModule,
 
   ]
 })
