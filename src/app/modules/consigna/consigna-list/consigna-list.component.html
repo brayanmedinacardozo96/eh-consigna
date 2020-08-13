@@ -103,7 +103,7 @@
                       matTooltipClass="custom-tooltip">attach_file
             </mat-icon>
 
-            <mat-icon *ngIf="row?.html_documento" (click)="generatePdf(row?.consignacion_id)" style="cursor: pointer;"
+            <mat-icon (click)="generatePdf(row?.consignacion_id)" style="cursor: pointer;"
                       matTooltip="Imprimir" matTooltipClass="custom-tooltip"
                       color="basic">print
             </mat-icon>
