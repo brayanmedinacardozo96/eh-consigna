@@ -28,12 +28,28 @@ export class TableSeguimientoConsignaComponent implements OnInit {
     this.init(data);
   }
 
+  color="";
+
   ngOnInit(): void {
   }
 
   init(data) {
-    // console.log(data);
-     this.dataSource = new MatTableDataSource(data);
+     
+     var codigo="";
+     var newData=[];
+     data.forEach(element => {
+       var clase = "";
+       if (codigo != element.codigo) {
+         codigo = element.codigo;
+         clase = "color";
+       }
+       Object.assign(element, {
+         'clase': clase
+       });
+       newData.push(element)
+     });
+   
+     this.dataSource = new MatTableDataSource(newData);
      this.dataSource.paginator = this.paginator;
      this.dataSource.sort = this.sort;
    }
