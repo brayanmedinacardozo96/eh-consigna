@@ -5,8 +5,6 @@ import {SnackBarClass} from '../../../ui/snack-bar/snack-bar';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { SessionService } from '../../../shared/services/session.service';
 import * as moment from 'moment';
-import { ThrowStmt } from '@angular/compiler';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-seguimiento-consigna',
@@ -16,6 +14,7 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 export class SeguimientoConsignaComponent implements OnInit {
   
   urlAutoComletar=`${environment.apiBackend}/consigna/getAutoCompletarConsigna/null/null`;
+  
 
   constructor(
     private api: ApiService,
@@ -65,6 +64,8 @@ export class SeguimientoConsignaComponent implements OnInit {
   }
 
   fechaInicio=null;
+
+  panelOpenState = false;
 
   ngOnInit(): void {
     this.getDataSelectConsigna();
@@ -126,31 +127,34 @@ export class SeguimientoConsignaComponent implements OnInit {
 
   }
 
-  async Consultar()
-  {
-      
+  async Consultar() {
 
-       if(this.form.estadoConsigna.value==null && this.form.fechaInicio.value==null)
-       {
-         new SnackBarClass(this.snackBar, 'Seleccione un filtro.',"btn-warning").openSnackBar();
-         return;
-       }
+    if (this.panelOpenState) {
 
-       if (moment(this.form.fechaFin.value) < moment(this.form.fechaInicio.value)) {
-         this.form.fechaFin.messages = "Fecha no puede ser menor a la inicial";
-       } else {
+      if (this.form.estadoConsigna.value == null && this.form.fechaInicio.value == null) {
+        new SnackBarClass(this.snackBar, 'Seleccione un filtro.', "btn-warning").openSnackBar();
+        return;
+      }
 
-         this.form.numeroConsigna.value=null;
-         this.form.fechaFin.messages="";
-         var fechaIni=this.form.fechaInicio.value == null ? null : moment(this.form.fechaInicio.value).format("YYYY-MM-DD");
-         var fechaFinal= this.form.fechaFin.value == null ? null : moment(this.form.fechaFin.value).format("YYYY-MM-DD");
-         
-         var parametro = '{ "estado" : "'+this.form.estadoConsigna.value+'"';
-         parametro += ' ,"fechaInicioSolcitud" : "'+fechaIni+'"';
-         parametro += ' ,"fechaFinSolcitud" : "'+fechaFinal+'"}';
-         this.buscarConsigna(parametro);
-         
-       }
+      if (moment(this.form.fechaFin.value) < moment(this.form.fechaInicio.value)) {
+        this.form.fechaFin.messages = "Fecha no puede ser menor a la inicial";
+      } else {
+
+        this.form.numeroConsigna.value = null;
+        this.form.fechaFin.messages = "";
+        var fechaIni = this.form.fechaInicio.value == null ? null : moment(this.form.fechaInicio.value).format("YYYY-MM-DD");
+        var fechaFinal = this.form.fechaFin.value == null ? null : moment(this.form.fechaFin.value).format("YYYY-MM-DD");
+
+        var parametro = '{ "estado" : "' + this.form.estadoConsigna.value + '"';
+        parametro += ' ,"fechaInicioSolcitud" : "' + fechaIni + '"';
+        parametro += ' ,"fechaFinSolcitud" : "' + fechaFinal + '"}';
+        this.buscarConsigna(parametro);
+
+      }
+
+    } else {
+      this.buscar();
+    }
   }
 
   setSelect()
@@ -177,6 +181,8 @@ export class SeguimientoConsignaComponent implements OnInit {
     this.form.estadoConsigna.value=null;
     this.dataSeguimiento=[];
     this.form.fechaFin.messages="";
+    this.panelOpenState=false;
+    
   }
 
 }
