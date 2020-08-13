@@ -23,7 +23,7 @@ import {Aprobar} from '../../autorizar/aprobar';
 export class ConsignaListComponent implements OnInit {
   number = Number;
 
-  displayedColumns: string[] = ['numeroConsigna', 'consecutivoSnc','fecha_solicitud', 'tipoFormato', 'tipoZona', 'estadoConsigna','estadoEquipo', 'elementosConsignados', 'maniobras', 'acciones'];
+  displayedColumns: string[] = ['numeroConsigna', 'consecutivoSnc','fecha_solicitud', 'tipoFormato', 'tipoZona', 'estadoConsigna','estadoEquipo','consignaPadre', 'elementosConsignados', 'maniobras', 'acciones'];
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
