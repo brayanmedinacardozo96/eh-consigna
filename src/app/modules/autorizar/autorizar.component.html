@@ -27,7 +27,7 @@
       <mat-grid-tile [colspan]="2">
         <mat-form-field class="input" style="width: 95%;">
             <mat-label>{{form.estadoConsigna.required ? form.estadoConsigna.label+' *':form.estadoConsigna.label}}</mat-label>
-            <mat-select id="ddlEstadoConsigna" (valueChange)="setDataEstado(form.estadoConsigna.name, $event)" [(ngModel)]="form.estadoConsigna.value" style="padding-top: 5px;padding-bottom: 5px;">
+            <mat-select [disabled]="form.estadoConsigna.disabled" id="ddlEstadoConsigna" (valueChange)="setDataEstado(form.estadoConsigna.name, $event)" [(ngModel)]="form.estadoConsigna.value" style="padding-top: 5px;padding-bottom: 5px;">
                 <mat-option *ngFor="let value of dataControls?.estadoConsigna;" [value]="value.id">
                     {{value.nombre}}
                 </mat-option>
@@ -39,7 +39,7 @@
      <mat-grid-tile *ngIf="causal" [colspan]="2">
       <mat-form-field class="input" style="width: 95%;">
           <mat-label>{{form.causalEstado.required ? form.causalEstado.label+' *':form.causalEstado.label}}</mat-label>
-          <mat-select id="ddlCausalEstado" (valueChange)="setDataEstadoCausal(form.causalEstado.name, $event)" [(ngModel)]="form.causalEstado.value" style="padding-top: 5px;padding-bottom: 5px;">
+          <mat-select id="ddlCausalEstado"  [(ngModel)]="form.causalEstado.value" style="padding-top: 5px;padding-bottom: 5px;">
               <mat-option *ngFor="let value of dataControls?.causalEstado;" [value]="value.id">
                   {{value.nombre}}
               </mat-option>
