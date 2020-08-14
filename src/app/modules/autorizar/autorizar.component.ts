@@ -85,7 +85,8 @@ export class AutorizarComponent implements OnInit {
       value: null,
       messages: null,
       required: true,
-      valor: null
+      valor: null,
+      disabled: false,
     },
     causalEstado: {
       label: 'Causa',
@@ -118,6 +119,7 @@ export class AutorizarComponent implements OnInit {
   permitir = true;
   tipo_solicitud = "";
   causal = false;
+  plazoReprogramar=null;
 
 
   ngOnInit(): void {
@@ -125,39 +127,63 @@ export class AutorizarComponent implements OnInit {
     this.form.usuario.id = this.user.id;
     this.form.usuario.value = `${this.user.first_name} ${this.user.second_name} ${this.user.first_lastname} ${this.user.second_lastname}`;
     this.getDataSelectConsigna();
+    this.session.remove('estadoConsigna');
 
   }
 
   limpiar() {
-    this.data = null;
+    this.data = [];
     this.form.numeroConsigna.value = null;
     this.form.observacion.value = null;
     this.form.estadoConsigna.value = null;
     this.form.estadoConsigna.messages = null;
     this.form.observacion.messages = null;
+    this.form.estadoConsigna.disabled=false;
+    this.causal=false;
+    this.dataControls.causalEstado=[];
 
   }
 
   setData(name, event) {
     this.form[name].value = event;
+    this.validarFecha( this.form[name],event);
 
-    if (this.form[name].name == "fechaSolicitud") {
-      var plazo = moment(event);
-      var fecha = moment();
+  }
+
+  validarFecha(item,event)
+  {
+    var t=moment().format('YYYY-MM-DD');
+    var fecha = moment(t);
+    var plazo = moment(event, 'YYYY-MM-DD');
+
+    if (item.name == "fechaSolicitud") {
       if (plazo < fecha) {
-        this.form[name].messages = "Fecha es menor a la actual"
+        item.messages = "Fecha es menor a la actual"
       } else {
-        this.form[name].messages = "";
+        item.messages = "";
+      }
+
+      if (this.plazoReprogramar != null) {
+        var fe = fecha.year() + '-0' + (fecha.month() + 1) + '-' + this.plazoReprogramar;
+        if (plazo > moment(fe)) {
+          item.messages = "Fecha límite para reprogramar es " + fe;
+        }
       }
     }
   }
 
   async getCausal() {
     const response = await this.api.get(`${environment.apiBackend}/consigna/getCausal`);
-    if (response.message == null) {
+    if (response.message == null && response.data!=null) {
       this.dataControls.causalEstado = response.data;
     }
+  }
 
+  async getPlazoReprogramada(){
+    const response = await this.api.get(`${environment.apiBackend}/parametro/getPlazoReprogramada`);
+    if (response.message == null  && response.data!=null) {
+       this.plazoReprogramar = response.data;
+    }
   }
 
 
@@ -168,6 +194,7 @@ export class AutorizarComponent implements OnInit {
     var estado = this.dataControls.estadoConsigna.filter(b => {
       return (b.id == event)
     });
+    
     this.valor = estado[0].valor;
     this.validarEstados(estado);
 
@@ -179,12 +206,14 @@ export class AutorizarComponent implements OnInit {
       this.getCausal();
     }
 
+    if(estado[0].nombre == "Reprogramada")
+    {
+      this.getPlazoReprogramada();
+    }
+
   }
 
-  setDataEstadoCausal(name, event) {
-
-  }
-
+  
   validarEstados(estado) {
 
     this.permitir = true;
@@ -192,7 +221,7 @@ export class AutorizarComponent implements OnInit {
     if (this.tipo_solicitud == "Emergencia") {
       return;
     }
-
+   
     if (this.valor != null) {
       var plazo = moment(this.form.numeroConsigna.fechaSolicitud).add(-this.valor, 'days');
       var fecha = moment();
@@ -231,25 +260,32 @@ export class AutorizarComponent implements OnInit {
     this.data = null;
 
     const response = await this.api.post(`${environment.apiBackend}/consigna/get-list-aprobar`, params);
-    if (response.success && response.data.length > 0) {
-      this.permitir = true;
-      this.viewList = true;
-      this.data = response.data;
-      this.form.numeroConsigna.value = this.data[0].codigo;
-      this.form.id.value = this.data[0].consignacion_id;
-      this.form.estado_actual.value = this.data[0].estado_id;
-      this.form.numeroConsigna.fechaSolicitud = this.data[0].fecha_solicitud;
-      this.tipo_solicitud = this.data[0].tipo_solicitud;
+    if (response.data != null) {
+      if (response.success && response.data.length > 0) {
+        this.permitir = true;
+        this.viewList = true;
+        this.data = response.data;
+        this.form.numeroConsigna.value = this.data[0].codigo;
+        this.form.id.value = this.data[0].consignacion_id;
+        this.form.estado_actual.value = this.data[0].estado_id;
+        this.form.numeroConsigna.fechaSolicitud = this.data[0].fecha_solicitud;
+        this.tipo_solicitud = this.data[0].tipo_solicitud;
 
-      if (this.data[0].estado_consigna != "Solicitada" && this.data[0].estado_consigna != "Reprogramada") {
-        this.permitir = false;
+        if (this.data[0].estado_consigna != "Solicitada" && this.data[0].estado_consigna != "Reprogramada") {
+          this.permitir = false;
+          this.form.estadoConsigna.disabled=true;
+          new SnackBarClass(this.snackBar, 'Acción no permitida para esta consigna.', 'btn-warning').openSnackBar();
+        }
+
       }
 
-    }
-
-    if (response.data.length < 1) {
+      if (response.data.length < 1) {
+        new SnackBarClass(this.snackBar, 'No se encontraron registros.', 'btn-warning').openSnackBar();
+      }
+    } else {
       new SnackBarClass(this.snackBar, 'No se encontraron registros.', 'btn-warning').openSnackBar();
     }
+    
 
   }
 
@@ -258,9 +294,9 @@ export class AutorizarComponent implements OnInit {
 
     if (textEstado == "Reprogramada") {
       this.form.fechaSolicitud.required = true;
-      //if (this.form.fechaSolicitud.messages != "") {
-      //  return;
-      //}
+      if (this.form.fechaSolicitud.messages != "") {
+        return;
+      }
     }
 
     if (this.validateEmptyFields()) {
@@ -268,7 +304,7 @@ export class AutorizarComponent implements OnInit {
 
       this.dialogo
         .open(ModalConfirmComponent, {
-          data: new Mensaje("Consigna #" + this.form.numeroConsigna.value, "Cambiar a: " + textEstado)
+          data: new Mensaje("Consigna # " + this.form.numeroConsigna.value, "Cambiar el estado a: " + textEstado)
         })
         .afterClosed()
         .subscribe((confirmado: Boolean) => {
