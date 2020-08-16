@@ -43,9 +43,11 @@ export class TableAprobarConsignaComponent implements OnInit {
 
 
   init(data) {
-    this.dataSource = new MatTableDataSource(data);
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    if (data != null) {
+      this.dataSource = new MatTableDataSource(data);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    } 
   }
 
   async showElementoConsignado(id){

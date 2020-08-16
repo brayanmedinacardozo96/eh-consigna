@@ -1,22 +1,22 @@
-<h2 mat-dialog-title style="text-align: center;">Listado Registro de Maniobras</h2>
+<h2 mat-dialog-title style="text-align: center;">Listado documentos adjuntos</h2>
 <mat-dialog-content class="mat-typography">
   <div style="width: 100%">
-  
+
     <div style="text-align: center !important; width: 100%; overflow-x: auto; ">
       <table mat-table [dataSource]="dataSource" matSort class="custom-table">
-  
+
         <!-- # consecutivo Column -->
         <ng-container matColumnDef="consecutivo">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo</th>
           <td mat-cell *matCellDef="let row"> {{row?.type}} </td>
         </ng-container>
-  
+
         <!-- descripcion Column -->
         <ng-container matColumnDef="descripcion">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre Documento</th>
           <td mat-cell *matCellDef="let row">{{row?.nameFile}}</td>
         </ng-container>
-  
+
         <!-- acciones Column -->
         <ng-container matColumnDef="url">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Acción</th>
@@ -28,14 +28,14 @@
             </mat-icon>
           </td>
         </ng-container>
-  
+
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
-  
+
       <mat-paginator [pageSizeOptions]="[10]"></mat-paginator>
     </div>
-  
+
   </div>
 </mat-dialog-content>
 <mat-dialog-actions align="end">

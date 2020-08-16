@@ -23,7 +23,7 @@ import {Aprobar} from '../../autorizar/aprobar';
 export class ConsignaListComponent implements OnInit {
   number = Number;
 
-  displayedColumns: string[] = ['numeroConsigna', 'consecutivoSnc','fecha_solicitud', 'tipoFormato', 'tipoZona', 'estadoConsigna','estadoEquipo','consignaPadre', 'elementosConsignados', 'maniobras', 'acciones'];
+  displayedColumns: string[] = ['numeroConsigna', 'consecutivoSnc','fecha_solicitud', 'tipoFormato', 'tipoZona', 'estadoConsigna','estadoEquipo', 'tipo_consignacion', 'solicitante', 'consignaPadre', 'elementosConsignados', 'maniobras', 'acciones'];
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
@@ -152,7 +152,7 @@ export class ConsignaListComponent implements OnInit {
         if(value.includes('url') && value.toLowerCase() != 'url_mapa'){
           if(dataResponse[value] !=  null && dataResponse[value] != undefined){
             if(dataResponse[value].includes('[') && dataResponse[value].includes('[')){
-              dataUrl = JSON.parse(dataResponse[value]);        
+              dataUrl = JSON.parse(dataResponse[value]);
               for(let url of dataUrl){
                 dataListUrl.push(this.getListUrl(url,value));
               }
@@ -184,7 +184,7 @@ export class ConsignaListComponent implements OnInit {
   }
 
   recorrerUrl(){
-    
+
   }
 
   getListUrl(data, type){
@@ -195,7 +195,7 @@ export class ConsignaListComponent implements OnInit {
       nameFile:'',
       url:''
     }
-    
+
     let listUrl = data.split('/');
     response.nameFile = listUrl[listUrl.length-1];
     response.url = data;
