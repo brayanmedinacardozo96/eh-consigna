@@ -57,14 +57,18 @@
 
        </mat-accordion>
 
-       <button  mat-raised-button color="primary" (click)="Consultar()" style="margin-left: 20px; margin-top: 10px;">
+      <button  mat-raised-button color="primary" (click)="Consultar()" style="margin-left: 20px; margin-top: 10px;">
         <span style="color: #FFF">Buscar</span>
       </button>
 
       <button mat-raised-button (click)="limpiar()"
        style="background-color:lightslategrey;margin-left: 20px; margin-top: 10px;">
        <span style="color: #FFF">Limpiar</span>
-     </button>
+      </button>
+
+      <div style="margin-left: 95%; margin-top: 10px;">
+          <app-generate-excel [data]="dataSeguimiento" [dataHeader]="dataHeader" [nameDocument]="'Seguimiento consigna'"></app-generate-excel>
+      </div>
 
        <div style="padding: 10px;">
         <app-table-seguimiento-consigna [data]="dataSeguimiento"></app-table-seguimiento-consigna>

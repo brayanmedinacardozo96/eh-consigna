@@ -14,6 +14,16 @@ export class BitacoraComponent implements OnInit {
 
   helpers = new Helpers();
   data = [];
+  dataHeader = [
+    {name:'Número de consigna', nameColumn:'codigo'},
+    {name:'Completado', nameColumn:'completado'},
+    {name:'Causal de incumplimiento', nameColumn:'nombre'},
+    {name:'Observación', nameColumn:'obser_causal_incum'},
+    {name:'Bitácora cerrada', nameColumn:'cerrado'},
+    {name:'Fecha cierre', nameColumn:'fecha_cierre'},
+    {name:'Fecha creación', nameColumn:'created_at'}
+  ];
+  dataExcel = [];
   form = {
     numeroConsigna: {
       label: 'Consigna No.',
@@ -77,6 +87,7 @@ export class BitacoraComponent implements OnInit {
     const params = this.getParams();
     const response = await this.api.get(`${environment.apiBackend}/bitacora/get-all?params=${params}`);
     this.data = response.data;
+    this.setDataExcel();
     if (this.data.length === 0) {
       this.notifier.notify('info', 'No se encontraron registros...');
     }
@@ -90,6 +101,22 @@ export class BitacoraComponent implements OnInit {
   cleanFields() {
     this.validations.cleanFields(this.form);
     this.data = [];
+    this.setDataExcel();
+  }
+
+  setDataExcel(){
+    this.dataExcel = [];
+    for(let value of this.data){
+      this.dataExcel.push({
+        codigo: value.consigna.codigo,
+        completado: value.completado === '1' ? 'SI' : 'NO',
+        nombre: value.causal_incumplimiento.nombre,
+        obser_causal_incum: value.completado === '0' ? value.obser_causal_incum : '',
+        cerrado: value.cerrado === '1' ? 'SI' : 'NO',
+        fecha_cierre: value.fecha_cierre,
+        created_at: value.created_at
+      })
+    }
   }
 
 }

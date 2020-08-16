@@ -137,6 +137,9 @@
                 <button (click)="search()" mat-raised-button color="primary" style="margin-left: 20px;" matTooltip="Consultar" matTooltipClass="custom-tooltip">
                     <mat-icon style="color: #FFFFFF">search</mat-icon>
                 </button>
+                <div style="margin-left: 20px;">
+                    <app-generate-excel [data]="data" [dataHeader]="dataHeader" [nameDocument]="'Consulta de Consignas'"></app-generate-excel>
+                </div>
             </mat-grid-tile>
         </mat-grid-list>
       </fieldset>
