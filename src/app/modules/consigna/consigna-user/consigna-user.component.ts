@@ -35,7 +35,7 @@ export class ConsignaUserComponent implements OnInit {
     totalReprogramadas: 0,
     totalAprobar:0,
     totalBitacora:0,
-
+    totalJefeZona:0,
   };
   data = [];
   dataEstado=[];
@@ -181,6 +181,33 @@ export class ConsignaUserComponent implements OnInit {
       if(this.dataEstado.length < 1){
         this.snackBar.alert('No se encontraron registros con los parámetros consultados.',5000);
       }
+    }
+  }
+
+  async verListaJefeZona(){
+    let params = {
+      tipoSolicitudCodigo:{value: 'E'},
+      tipoParametro:{value: 1},
+      jefeZonaAprobo:{value: 'null'},
+      usuarioJefeZona:{value: this.user.id},
+    }
+    var tempData = [];
+    const response = await this.api.post(`${environment.apiBackend}/consigna/get-list`, params);
+    if(response.success){
+      this.data = response.data;
+      this.viewListBitacora=false;
+      this.viewList=true;
+      this.viewListEstado=false;
+      if(this.data.length < 1){
+        this.snackBar.alert('No se encontraron registros con los parámetros consultados.',5000);
+      }
+
+      for(let value of this.data){
+        value.verFormVistoJefeZona = true;
+        tempData.push(value);
+      }
+      this.data = tempData;
+      console.log(this.data);
     }
   }
  

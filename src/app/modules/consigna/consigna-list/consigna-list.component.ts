@@ -203,4 +203,8 @@ export class ConsignaListComponent implements OnInit {
     return response;
   }
 
+  viewFormJefeZona(codigo){
+    this.router.navigateByUrl('jefe-zona/autorizar/'+codigo);
+  }
+
 }

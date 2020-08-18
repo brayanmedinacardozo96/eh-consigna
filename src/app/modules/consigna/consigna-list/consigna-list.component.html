@@ -120,6 +120,11 @@
                       matTooltip="Imprimir" matTooltipClass="custom-tooltip"
                       color="basic">print
             </mat-icon>
+            <!-- ir al ormulario de aprobar consigna -->
+            <mat-icon *ngIf="row?.verFormVistoJefeZona != undefined" 
+              (click)="viewFormJefeZona(row?.codigo)" style="cursor: pointer;color: #4caf50;"
+              matTooltip="Dar Visto Bueno" matTooltipClass="custom-tooltip">add_task
+            </mat-icon>
           </ul>
         </td>
       </ng-container>

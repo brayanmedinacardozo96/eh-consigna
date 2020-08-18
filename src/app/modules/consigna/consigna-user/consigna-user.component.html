@@ -69,6 +69,14 @@
         </div>
       </mat-grid-tile>
 
+      <mat-grid-tile *ngIf="total.totalJefeZona > 0"  class="item" (click)="verListaJefeZona()" matTooltip="Ver por dar visto bueno" matTooltipClass="custom-tooltip">
+        <mat-icon style="transform: scale(2); color: #0371d881;">add_task</mat-icon>
+        <div style="margin-left: 10px;">Visto Bueno (Jefe de Zona)
+            <br>
+            {{ total.totalJefeZona }}
+        </div>
+      </mat-grid-tile>
+
     </mat-grid-list>
   </mat-card-content>
 </mat-card>
