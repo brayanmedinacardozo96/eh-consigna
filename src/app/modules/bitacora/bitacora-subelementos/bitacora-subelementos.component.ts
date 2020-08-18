@@ -81,7 +81,8 @@ export class BitacoraSubelementosComponent implements OnInit {
   }
 
   validateRangeHour(horaInicioFormat, horaFinFormat) {
-    if (horaInicioFormat != null && horaFinFormat != null) {
+    if (horaInicioFormat != null && horaFinFormat != null
+      && this.horasPadre.hora_inicio != null && this.horasPadre.hora_fin != null) {
       let horaInicio = moment(horaInicioFormat, 'h:mm a');
       let horaFinal = moment(horaFinFormat, 'h:mm a');
       let horaInicioPadre = moment(this.horasPadre.hora_inicio, 'h:mm a');

@@ -365,28 +365,28 @@ export class BitacoraFormComponent implements OnInit {
             break;
           }
 
-          let responseValid = this.validarHorasSubElementos(value, 'SWITCH', obj.hora_inicio.value, obj.hora_fin.value);
+          let responseValid = this.validarHorasSubElementos(value, 'SWITCH', obj.hora_entrega.value, obj.hora_devolucion.value);
           if (!responseValid.success) {
             this.notifier.notify('error', responseValid.message);
             response = false;
             break;
           }
 
-          responseValid = this.validarHorasSubElementos(value, 'SWITCHES', obj.hora_inicio.value, obj.hora_fin.value);
+          responseValid = this.validarHorasSubElementos(value, 'SWITCHES', obj.hora_entrega.value, obj.hora_devolucion.value);
           if (!responseValid.success) {
             this.notifier.notify('error', responseValid.message);
             response = false;
             break;
           }
 
-          responseValid = this.validarHorasSubElementos(value, 'TRANSFOR', obj.hora_inicio.value, obj.hora_fin.value);
+          responseValid = this.validarHorasSubElementos(value, 'TRANSFOR', obj.hora_entrega.value, obj.hora_devolucion.value);
           if (!responseValid.success) {
             this.notifier.notify('error', responseValid.message);
             response = false;
             break;
           }
 
-          responseValid = this.validarHorasSubElementos(value, 'RECLOSER', obj.hora_inicio.value, obj.hora_fin.value);
+          responseValid = this.validarHorasSubElementos(value, 'RECLOSER', obj.hora_entrega.value, obj.hora_devolucion.value);
           if (!responseValid.success) {
             this.notifier.notify('error', responseValid.message);
             response = false;
@@ -520,8 +520,8 @@ export class BitacoraFormComponent implements OnInit {
     dialogConfig.data = {
       data: obj.json_elemento_mapa,
       horas: {
-        hora_inicio: obj.form.hora_inicio.value,
-        hora_fin: obj.form.hora_fin.value,
+        hora_inicio: obj.form.hora_entrega.value,
+        hora_fin: obj.form.hora_devolucion.value,
       },
     };
     this.dialog.open(BitacoraSubelementosComponent, dialogConfig);

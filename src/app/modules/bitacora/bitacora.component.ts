@@ -110,7 +110,7 @@ export class BitacoraComponent implements OnInit {
       this.dataExcel.push({
         codigo: value.consigna.codigo,
         completado: value.completado === '1' ? 'SI' : 'NO',
-        nombre: value.causal_incumplimiento.nombre,
+        nombre: value.causal_incumplimiento != null ? value.causal_incumplimiento.nombre : '',
         obser_causal_incum: value.completado === '0' ? value.obser_causal_incum : '',
         cerrado: value.cerrado === '1' ? 'SI' : 'NO',
         fecha_cierre: value.fecha_cierre,
