@@ -1386,19 +1386,24 @@ export class ConsignaNewComponent implements OnInit {
        return;
      }
 
-      var barrio = "";
-      var cliente = "";
-      this.numeroAreaAfectada.barrios=0;
-      this.numeroAreaAfectada.clienteRegulado=0;
-      this.numeroAreaAfectada.clienteNoRegulado=0;
+     this.recorrerAreafectada();
+      
+  }
 
-      this.dataElementos.forEach(element => {
+  recorrerAreafectada() {
+    var barrio = "";
+    var cliente = "";
+    this.numeroAreaAfectada.barrios = 0;
+    this.numeroAreaAfectada.clienteRegulado = 0;
+    this.numeroAreaAfectada.clienteNoRegulado = 0;
+console.log(this.dataElementos);
+    this.dataElementos.forEach(element => {
 
-        
-        if (element.jsonAreaAfectada.value !="") {
-          var data = JSON.parse(element.jsonAreaAfectada.value)[0];
-          if(data!=undefined){
-            
+
+      if (element.jsonAreaAfectada.value != "") {
+        var data = JSON.parse(element.jsonAreaAfectada.value)[0];
+        if (data != undefined) {
+
           if (data.length > 0) {
             data.forEach(elemen => {
               elemen.barrio.forEach(element => {
@@ -1406,26 +1411,28 @@ export class ConsignaNewComponent implements OnInit {
                 this.numeroAreaAfectada.barrios++;
               });
             });
-          }}
+          }
         }
+      }
 
-        if (element.jsonPersona.value !="") {
-          data = JSON.parse(element.jsonPersona.value);
-          if(data!=undefined){
+      if (element.jsonPersona.value != "") {
+        data = JSON.parse(element.jsonPersona.value);
+        if (data != undefined) {
           data.forEach(element => {
             if (element.tipo == "No regulado") { //
-              cliente += element.nombre +  "\r";
+              cliente += element.nombre + "\r";
               this.numeroAreaAfectada.clienteNoRegulado++;
-            }else{
+            } else {
               this.numeroAreaAfectada.clienteRegulado++;
             }
-          })};
-        }
-      });
+          })
+        };
+      }
+    });
 
 
-    this.interrupcionesTrabajo.barrios.value=barrio;
-    this.interrupcionesTrabajo.clientesNoRegulados.value=cliente;
+    this.interrupcionesTrabajo.barrios.value = barrio;
+    this.interrupcionesTrabajo.clientesNoRegulados.value = cliente;
   }
 
   utf8_to_b64( str ) {
@@ -1485,7 +1492,7 @@ export class ConsignaNewComponent implements OnInit {
           this.setDataFormAndDisable(data);
 
           if(this.form.tipoFormatoConsigna.value == 'CH'){
-            console.log( result.listaElemento);
+            
             this.dataElementos = result.listaElemento;
           }
         }
