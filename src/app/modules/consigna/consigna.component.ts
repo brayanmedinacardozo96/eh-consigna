@@ -99,6 +99,17 @@ export class ConsignaComponent implements OnInit {
       required: false,
     }
   };
+
+  dataHeader = [
+    {name:'# Consignación', nameColumn:'codigo'},
+    {name:'Consecutivo SNC', nameColumn:'codigo_snc'},
+    {name:'Fecha solicitud', nameColumn:'fecha_solicitud'},
+    {name:'Zona', nameColumn:'codigo_zona'},
+    {name:'Tipo Formato', nameColumn:'tipo_formato'},
+    {name:'Estado Equipo', nameColumn:'estado_equipo_codigo'},
+    {name:'Estado Equipo', nameColumn:'estado_equipo_codigo'},
+  ];
+
   constructor(private api: ApiService,
               private validations: ValidationService,
               private dateValidation: DateValidationervice,

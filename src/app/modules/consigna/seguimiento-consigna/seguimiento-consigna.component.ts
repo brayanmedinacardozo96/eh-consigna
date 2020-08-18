@@ -56,7 +56,15 @@ export class SeguimientoConsignaComponent implements OnInit {
   }
 
   dataSeguimiento=[
-    {created_at:"", usuario:"", observacion:""}
+    // {created_at:"", usuario:"", observacion:""}
+  ]
+  
+  dataHeader=[
+    {name:'Consigna', nameColumn:'codigo'},
+    {name:'Fecha solicitud', nameColumn:'fecha_solicitud'},
+    {name:'Fecha modificación', nameColumn:'created_at'},
+    {name:'Usuario', nameColumn:'usuario'},
+    {name:'Observacion', nameColumn:'observacion'}
   ]
 
   dataControls={
