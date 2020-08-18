@@ -23,6 +23,7 @@ export class BitacoraFormComponent implements OnInit {
   env = environment;
 
   dataControls: any;
+  validaciones = [];
   consignaID = null;
   bitacoraID = null;
   dataConsigna = null;
@@ -134,6 +135,7 @@ export class BitacoraFormComponent implements OnInit {
       this.dataConsigna = null;
       this.consignaID = null;
       this.bitacoraID = null;
+      this.validaciones = [];
       return false;
     }
 
@@ -141,6 +143,7 @@ export class BitacoraFormComponent implements OnInit {
       this.dataConsigna = response.data;
       this.consignaID = this.dataConsigna.consigna_id;
       this.bitacoraID = this.dataConsigna.bitacora_id;
+      this.validaciones = response.validaciones;
 
       if (this.bitacoraID) {
         this.loadDataBitacora(this.dataConsigna);
