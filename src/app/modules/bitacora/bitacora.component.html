@@ -54,9 +54,11 @@
 
     </mat-card-content>
   </mat-card>
-
+  <div style="margin-left: 95%;">
+    <app-generate-excel [dataHeader]="dataHeader" [data]="dataExcel" [nameDocument]="'Bitácoras'"></app-generate-excel>
+  </div>
   <div style="padding: 10px;">
-    <app-bitacora-list [data]="data"></app-bitacora-list>
+    <app-bitacora-list [data]="data" ></app-bitacora-list>
   </div>
 
   <button mat-fab color="accent"

@@ -73,7 +73,7 @@ export class AutorizarJefeZonaComponent implements OnInit {
       disable:true,
     },
     aprobo: {
-      label: '¿Aprueba la consigna?',
+      label: '¿Desea confirmar el conocimiento de la consigna relacionada?',
       name: 'aprobo',
       disabled: false,
       value: null,

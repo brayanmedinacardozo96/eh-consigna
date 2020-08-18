@@ -13,7 +13,7 @@
 
   <mat-tab-group>
 
-    <mat-tab label="Switch principal">
+    <mat-tab [label]="'Switch principal (' + data?.SWITCH?.length + ')'">
       <div class="container">
         <table class="custom-table" style="text-align: center;">
           <thead>
@@ -67,7 +67,7 @@
 
     </mat-tab>
 
-    <mat-tab label="Switches">
+    <mat-tab [label]="'Switches (' + data?.SWITCHES?.length + ')'">
       <div class="container">
         <table class="custom-table" style="text-align: center;">
           <thead>
@@ -120,7 +120,7 @@
       </div>
     </mat-tab>
 
-    <mat-tab label="Transformadores">
+    <mat-tab [label]="'Transformadores (' + data?.TRANSFOR?.length + ')'">
       <div class="container">
         <table class="custom-table" style="text-align: center;">
           <thead>
@@ -173,7 +173,7 @@
       </div>
     </mat-tab>
 
-    <mat-tab label="Recloser">
+    <mat-tab [label]="'Recloser (' + data?.RECLOSER?.length + ')'">
       <div class="container">
         <table class="custom-table" style="text-align: center;">
           <thead>

@@ -30,7 +30,8 @@ import {MatTableModule} from '@angular/material/table';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import { InputFileDynamicComponent } from './input-file-dynamic/input-file-dynamic.component';
 import { InputFileMultipleComponent } from './input-file-multiple/input-file-multiple.component';
-import { TableInputFileMultipleComponent } from './input-file-multiple/table-input-file-multiple/table-input-file-multiple.component'
+import { TableInputFileMultipleComponent } from './input-file-multiple/table-input-file-multiple/table-input-file-multiple.component';
+import { GenerateExcelComponent } from './generate-excel/generate-excel.component'
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { TableInputFileMultipleComponent } from './input-file-multiple/table-inp
     ModalConfirmComponent,
     InputFileDynamicComponent,
     InputFileMultipleComponent,
-    TableInputFileMultipleComponent
+    TableInputFileMultipleComponent,
+    GenerateExcelComponent
   ],
   imports: [
     CommonModule,
@@ -82,7 +84,8 @@ import { TableInputFileMultipleComponent } from './input-file-multiple/table-inp
     DateTimePickerComponent,
     ModalConfirmComponent,
     InputFileDynamicComponent,
-    InputFileMultipleComponent
+    InputFileMultipleComponent,
+    GenerateExcelComponent
   ]
 })
 export class CustomFormsModule {

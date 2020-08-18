@@ -35,12 +35,19 @@
 
             <ng-container [ngSwitch]="dataConsigna?.consigna_jefe_zona_aprobo">
               <ng-container *ngSwitchCase="null"><span>no ha revisado esta consignación.</span></ng-container>
-              <ng-container *ngSwitchCase="true"><span style="color: green;">aprobó esta consignación.</span></ng-container>
-              <ng-container *ngSwitchCase="false"><span style="color: red;">NO aprobó esta consignación.</span></ng-container>
+              <ng-container *ngSwitchCase="true"><span style="color: green;">aprobó esta consignación.</span>
+              </ng-container>
+              <ng-container *ngSwitchCase="false"><span style="color: red;">NO aprobó esta consignación.</span>
+              </ng-container>
             </ng-container>
 
           </p>
         </ng-container>
+
+        <div *ngIf="validaciones.length > 0" class="validaciones">
+          <span class="material-icons" style="font-size: 40px;">report</span><br>
+          <span *ngFor="let validacion of validaciones;">* {{validacion}}<br></span>
+        </div>
 
         <table class="custom-table">
           <tbody>
@@ -323,7 +330,7 @@
 
       <div style="text-align: center;">
         <button (click)="guardar()" mat-raised-button color="accent" class="button"
-                style="color: #FFFFFF; margin: 5px;">
+                style="color: #FFFFFF; margin: 5px;" [disabled]="validaciones.length > 0">
           GUARDAR
         </button>
         <button (click)="cancel()" mat-raised-button color="accent" class="button" style="color: #FFFFFF; margin: 5px;">
