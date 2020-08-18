@@ -11,6 +11,7 @@ import { ConsignaNewMessageComponent } from './../consigna-new-message/consigna-
 import { SnackBarService } from './../../../shared/services/snack-bar.service';
 import { SessionService } from './../../../shared/services/session.service';
 import { ValueConverter } from '@angular/compiler/src/render3/view/template';
+import { ThrowStmt } from '@angular/compiler';
 
 
 @Component({
@@ -130,6 +131,7 @@ export class ConsignaTabsComponent implements OnInit {
       for(let value of dataResponse.lista_elemento){
         const elemento = {
           id:               {value: value.id},
+          redElectrica:     {name: 'redElectrica',  value: value.red_electrica},
           tipoElemento:     {name: value.elemento.tipo_elemento.nombre,                                     value: value.elemento.tipo_elemento.id},
           elemento:         {name: value.elemento.nombre,                                                   value: value.elemento.id},
           ramal:            {name: value.ramal == '1' ? 'Si' : 'No',                                        value: value.ramal},
@@ -140,7 +142,8 @@ export class ConsignaTabsComponent implements OnInit {
           horaFinal:        {name: value.hora_final_prog,                                                   value: value.hora_final_prog},
           jsonAreaAfectada: {name:'jsonAreaAfectada',                                                       value: value.json_area  },
           jsonPersona:      {name:'jsonPersona',                                                            value: dataResponse.json_persona},
-          jsonElementoMapa: {name:'jsonElementoMapa',                                                       value: value.json_elemento_mapa}
+          jsonElementoMapa: {name:'jsonElementoMapa',                                                       value: value.json_elemento_mapa},
+          jsonIntervenirElementoMapa:{name:'jsonIntervenirElementoMapa', value: value.json_elemento_intervenir } ,
         }
         
         this.consigna.dataElementos.push(elemento);
@@ -164,6 +167,9 @@ export class ConsignaTabsComponent implements OnInit {
         } */
 
       }
+
+      this.consigna.recorrerAreafectada();
+      this.consigna.getElementoMapa();
 
       // this.trabajoOportunidad.setDataTrabajosOportunidad(this.trabajosOportunidad);
 
