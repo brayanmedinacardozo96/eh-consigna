@@ -7,7 +7,12 @@ export class Auth {
   }
 
   public static getLogin() {
+     
     const token = localStorage.getItem('token');
+    if(token==null)
+    {
+      return null;
+    }
     const tokenParse = JSON.parse(token);
 
     if (tokenParse) {
@@ -48,8 +53,12 @@ export class Auth {
 
   public static getUserDataPerson() {
     const token = this.getLogin();
-    const person = token.user_data.person;
-    return person;
+    if(token!=null)
+    {
+      const person = token.user_data.person;
+      return person;
+    }
+    
   }
 
 }

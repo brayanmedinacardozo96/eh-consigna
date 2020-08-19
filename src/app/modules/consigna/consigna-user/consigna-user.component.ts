@@ -1,12 +1,11 @@
-import { Component, OnInit,Input } from '@angular/core';
+import { Component, OnInit,ViewChild } from '@angular/core';
 import {environment} from '../../../../environments/environment';
 import { ApiService } from './../../../shared/services/api.service';
 import { User } from './../../../shared/models/user';
 import { Auth } from './../../../shared/auth';
 import { SnackBarService } from './../../../shared/services/snack-bar.service';
 import {Aprobar} from '../../autorizar/aprobar';
-import { DateValidationervice } from './../../../shared/services/date-validations.service';
-
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-consigna-user',
@@ -45,18 +44,41 @@ export class ConsignaUserComponent implements OnInit {
   viewListEstado=false;
   viewListBitacora=false;
   isVisible=false;
+  panel=true;
 
+ 
   constructor(private api: ApiService,
+              private activeRoute: ActivatedRoute,
               private snackBar: SnackBarService,
               private aprobar:Aprobar,
-              private dateValidation: DateValidationervice) {
+              ) {
     this.viewList = false;
+    this.activeRoute.params.subscribe(params => {
+      if (params.id !== undefined && params.id !== null && params.id != "") {
+        if (params.id == "visto") {
+          this.verListaJefeZona();
+          this.panel=false;
+        }else{
+          this.panel=true;
+          this.search();
+          this.consignaAprobar();
+          this.bitacora();
+        }
+      }
+    });
+    
    }
 
   ngOnInit(): void {
-    this.search();
-    this.consignaAprobar();
-    this.bitacora();
+
+   /* if(this.panel)
+    {
+      this.search();
+      this.consignaAprobar();
+      this.bitacora();
+    }*/
+    
+
   }
 
   async buscarConsigna(codigoEstado){
@@ -191,6 +213,7 @@ export class ConsignaUserComponent implements OnInit {
       jefeZonaAprobo:{value: 'null'},
       usuarioJefeZona:{value: this.user.id},
     }
+
     var tempData = [];
     const response = await this.api.post(`${environment.apiBackend}/consigna/get-list`, params);
     if(response.success){
@@ -207,7 +230,6 @@ export class ConsignaUserComponent implements OnInit {
         tempData.push(value);
       }
       this.data = tempData;
-      console.log(this.data);
     }
   }
  
