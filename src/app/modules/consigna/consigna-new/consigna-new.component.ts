@@ -214,6 +214,7 @@ export class ConsignaNewComponent implements OnInit {
       name: 'jefeTrabajo',
       value: null,
       messages: null,
+      length: 70,
       required: true,
     },
     telefonoJefeTrabajo: {
@@ -229,6 +230,7 @@ export class ConsignaNewComponent implements OnInit {
       name: 'jefeTrabajoContratista',
       value: null,
       messages: null,
+      length: 70,
       required: true,
     },
     telJefeTrabajoContratista: {
@@ -244,6 +246,7 @@ export class ConsignaNewComponent implements OnInit {
       name: 'moviles',
       value: null,
       messages: null,
+      length: 70,
       required: true,
     },
     urlMapa: {
