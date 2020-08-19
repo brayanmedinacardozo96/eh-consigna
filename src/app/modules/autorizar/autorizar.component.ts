@@ -223,13 +223,17 @@ export class AutorizarComponent implements OnInit {
     }
    
     if (this.valor != null) {
-      var plazo = moment(this.form.numeroConsigna.fechaSolicitud).add(-this.valor, 'days');
-      var fecha = moment();
-      if (fecha > plazo) {
+
+      var plazo = moment(this.form.numeroConsigna.fechaSolicitud).add(-this.valor, 'days').format('YYY-MM-DD');
+      var fecha = moment().format('YYYY-MM-DD');
+
+       var tfecha = moment(fecha);
+       var tplazo = moment(plazo);
+      if (tfecha > tplazo) {
         this.permitir = false;
         this.dialogo
           .open(MDialogComponent, {
-            data: new Mensaje("Consigna", `El tiempo para el estado ${estado[0].nombre} ha terminado. Plazo máximo era hasta ${plazo.format("YYYY/MM/DD")} `)
+            data: new Mensaje("Consigna", `El tiempo para el estado ${estado[0].nombre} ha terminado. Plazo máximo era hasta ${plazo} `)
           });
       }
     }

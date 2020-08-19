@@ -3,7 +3,7 @@ import {environment} from '../../../environments/environment';
 import {Auth} from '../../shared/auth';
 import {Router} from '@angular/router';
 import { ApiService } from '../../shared/services/api.service';
-import { TOUCH_BUFFER_MS } from '@angular/cdk/a11y';
+import { User } from '../../shared/models/user';
 
 @Component({
   selector: 'app-header',
@@ -15,8 +15,9 @@ export class HeaderComponent implements OnInit {
 
   appName = null;
   auth = Auth;
-  numero=0;
-
+  numero=null;
+  numeroVisto=0;
+  user: User = Auth.getUserDataPerson();
   constructor(
     private router: Router,
     private api: ApiService,
@@ -25,7 +26,6 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.notificacion();
   }
 
   changePassword() {
@@ -41,14 +41,20 @@ export class HeaderComponent implements OnInit {
 
   async notificacion() 
   {
-    const response = await this.api.get(`${environment.apiBackend}/consigna/getSolicitada`);
-    this.numero=response.numero;
+    if(this.user!=undefined)
+    {
+      const response = await this.api.get(`${environment.apiBackend}/consigna/getNotificacion/${this.user.id}`);
+      this.numero=response.numeroSolicitud;
+      this.numeroVisto=response.numeroVisto;
+
+    }
+    
   }
 
-  clickNotificacion()
+  clickNotificacion(tipo)
   {
     this.notificacion();
-    this.router.navigate(['/mis-consignas']);
+    this.router.navigate([`/mis-consignas/${tipo}`]);
   }
 
 }
