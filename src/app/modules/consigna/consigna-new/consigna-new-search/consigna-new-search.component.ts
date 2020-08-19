@@ -110,7 +110,7 @@ export class ConsignaNewSearchComponent implements OnInit {
               vfech_final_prog=null;
 
             }
-            console.log( value.elemento);
+            
             const elemento = {
               id:               {value: value.id},
               redElectrica:     {name: 'redElectrica',  value:value.elemento.tipo_elemento.red_electrica },
@@ -129,7 +129,7 @@ export class ConsignaNewSearchComponent implements OnInit {
               jsonIntervenirElementoMapa:{name:'jsonIntervenirElementoMapa', value: value.json_elemento_intervenir } , 
             }
             this.listaElemento.push(elemento);
-            console.log( this.listaElemento);
+            
           }
         }
 
