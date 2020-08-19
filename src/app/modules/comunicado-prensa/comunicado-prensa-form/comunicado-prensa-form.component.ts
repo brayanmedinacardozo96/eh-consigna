@@ -253,6 +253,7 @@ export class ComunicadoPrensaFormComponent implements OnInit {
       consignacion_id: this.consignaID,
       contenido: this.contenidoComunicadoPrensa,
       usuario_id: user.user_data.id,
+      usuario: user.user_data,
       publicado: this.publicado,
       plantilla_id: this.formPlantilla.plantilla.value,
       tipo_id: this.tipoId,
