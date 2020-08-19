@@ -21,7 +21,8 @@ export class ConsignaNewSearchComponent implements OnInit {
       name: 'numeroConsigna',
       value: null,
       messages: null,
-      required: false,
+      length: 10,
+      required: true,
     },
     codigoEstadoConsigna:{ //consultar unicamente las solicitadas
       value: 'S'
@@ -64,7 +65,7 @@ export class ConsignaNewSearchComponent implements OnInit {
   }
 
   setData(name, event) {
-    this.form[name].value = event;
+    this.form[name].value = event.toUpperCase();
   }
 
   async search(){
@@ -81,68 +82,73 @@ export class ConsignaNewSearchComponent implements OnInit {
 
     const responseValidate = this.validations.validateACompleteField(this.form);
     if(responseValidate.success){
-      this.listaElemento = [];
-      this.data = [];
-      const response = await this.api.post(`${environment.apiBackend}/consigna/get-list`, this.form);
-      if(response.success){
-        this.data = response.data;
-        if(this.data.length < 1){
-          this.snackBar.alert('No se encontraron registros con los parámetros consultados.',5000);
-        }
 
-        if(response.lista_elemento != undefined){
-          for(let value of response.lista_elemento){
-             
-            var fech_inicio_prog=value.fech_inicio_prog;
-            var hora_inicio_prog= value.hora_inicio_prog;
-            var fech_final_prog= value.fech_final_prog;
-            var hora_final_prog=value.hora_final_prog;
-            var vfech_inicio_prog=this.dateValidation.getYearMounthDay(new Date(value.fech_inicio_prog));
-            var vfech_final_prog=this.dateValidation.getYearMounthDay(new Date(value.fech_final_prog));
+      const validateFields = this.validations.validateEmptyFields(this.form);
+      if(validateFields.success){
 
-            if(this.codigoTipoFormato == 'CH')
+        this.listaElemento = [];
+        this.data = [];
+        const response = await this.api.post(`${environment.apiBackend}/consigna/get-list`, this.form);
+        if(response.success){
+          this.data = response.data;
+          if(this.data.length < 1){
+            this.snackBar.alert('No se encontraron registros con los parámetros consultados.',5000);
+          }
+
+          if(response.lista_elemento != undefined){
+            for(let value of response.lista_elemento){
+              
+              var fech_inicio_prog=value.fech_inicio_prog;
+              var hora_inicio_prog= value.hora_inicio_prog;
+              var fech_final_prog= value.fech_final_prog;
+              var hora_final_prog=value.hora_final_prog;
+              var vfech_inicio_prog=this.dateValidation.getYearMounthDay(new Date(value.fech_inicio_prog));
+              var vfech_final_prog=this.dateValidation.getYearMounthDay(new Date(value.fech_final_prog));
+
+              if(this.codigoTipoFormato == 'CH')
+              {
+                fech_inicio_prog=null;
+                hora_inicio_prog=null;
+                fech_final_prog=null;
+                hora_final_prog=null;
+                vfech_inicio_prog=null;
+                vfech_final_prog=null;
+
+              }
+              
+              const elemento = {
+                id:               {value: value.id},
+                redElectrica:     {name: 'redElectrica',  value:value.elemento.tipo_elemento.red_electrica },
+                tipoElemento:     {name: value.elemento.tipo_elemento.nombre,                                     value: value.elemento.tipo_elemento.id},
+                elemento:         {name: value.elemento.nombre,                                                   value: value.elemento.id},
+                ramal:            {name: value.ramal == '1' ? 'Si' : 'No',                                        value: value.ramal},
+                afectaUsuarios:   {name: value.afecta_usuarios == '1' ? 'Si' : 'No',                              value: value.afecta_usuarios},
+                fechaInicio:      {name: vfech_inicio_prog,                                                       value: fech_inicio_prog },
+                horaInicio:       {name: hora_inicio_prog,                                                        value: hora_inicio_prog },
+                fechaFinal:       {name: vfech_final_prog,                                                        value: fech_final_prog},
+                horaFinal:        {name: hora_final_prog,                                                         value: hora_final_prog},
+                jsonAreaAfectada: {name:'jsonAreaAfectada',                                                       value: value.json_area  },
+                jsonPersona:      {name:'jsonPersona',                                                            value: response.data[0].json_persona},
+                jsonElementoMapa: {name:'jsonElementoMapa',                                                       value: value.json_elemento_mapa},
+                eliminar:{name:'eliminar',velue:false},
+                jsonIntervenirElementoMapa:{name:'jsonIntervenirElementoMapa', value: value.json_elemento_intervenir } , 
+              }
+              this.listaElemento.push(elemento);
+              
+            }
+          }
+
+          if(this.codigoTipoFormato == 'CH'){
+            if(response.data_hija.length>0)
             {
-              fech_inicio_prog=null;
-              hora_inicio_prog=null;
-              fech_final_prog=null;
-              hora_final_prog=null;
-              vfech_inicio_prog=null;
-              vfech_final_prog=null;
-
+              
+              this.observacion=`Esta consigna ya tiene asignada una consigna hija ${response.data_hija[0].codigo}`;
+              this.visible=false;
             }
-            
-            const elemento = {
-              id:               {value: value.id},
-              redElectrica:     {name: 'redElectrica',  value:value.elemento.tipo_elemento.red_electrica },
-              tipoElemento:     {name: value.elemento.tipo_elemento.nombre,                                     value: value.elemento.tipo_elemento.id},
-              elemento:         {name: value.elemento.nombre,                                                   value: value.elemento.id},
-              ramal:            {name: value.ramal == '1' ? 'Si' : 'No',                                        value: value.ramal},
-              afectaUsuarios:   {name: value.afecta_usuarios == '1' ? 'Si' : 'No',                              value: value.afecta_usuarios},
-              fechaInicio:      {name: vfech_inicio_prog,                                                       value: fech_inicio_prog },
-              horaInicio:       {name: hora_inicio_prog,                                                        value: hora_inicio_prog },
-              fechaFinal:       {name: vfech_final_prog,                                                        value: fech_final_prog},
-              horaFinal:        {name: hora_final_prog,                                                         value: hora_final_prog},
-              jsonAreaAfectada: {name:'jsonAreaAfectada',                                                       value: value.json_area  },
-              jsonPersona:      {name:'jsonPersona',                                                            value: response.data[0].json_persona},
-              jsonElementoMapa: {name:'jsonElementoMapa',                                                       value: value.json_elemento_mapa},
-              eliminar:{name:'eliminar',velue:false},
-              jsonIntervenirElementoMapa:{name:'jsonIntervenirElementoMapa', value: value.json_elemento_intervenir } , 
-            }
-            this.listaElemento.push(elemento);
-            
           }
         }
 
-        if(this.codigoTipoFormato == 'CH'){
-          if(response.data_hija.length>0)
-          {
-            
-            this.observacion=`Esta consigna ya tiene asignada una consigna hija ${response.data_hija[0].codigo}`;
-            this.visible=false;
-          }
-        }
       }
-
     }
   }
 
@@ -157,6 +163,12 @@ export class ConsignaNewSearchComponent implements OnInit {
         this.descripcion = value.descripcion;
         this.nombreTipoFormato = 'Para '+value.nombre;
       }
+    }
+  }
+
+  handleKeyDown(e){
+    if (e.keyCode === 13 && !e.shiftKey) {
+      this.search();
     }
   }
 
