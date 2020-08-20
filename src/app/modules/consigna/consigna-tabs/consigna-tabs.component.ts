@@ -116,6 +116,9 @@ export class ConsignaTabsComponent implements OnInit {
       this.consigna.form.moviles.value = dataResponse.movil;
       this.consigna.form.urlMapa.value = (dataResponse.url_mapa != null && dataResponse.url_mapa != undefined && dataResponse.url_mapa != '')
        ? JSON.parse(dataResponse.url_mapa) : [];
+
+      this.consigna.interrupcionesCortoTiempo.barrios.value = dataResponse.ct_barrio;
+      this.consigna.interrupcionesCortoTiempo.clientesNoRegulados.value = dataResponse.ct_cliente_no_regulado;
       //file Anexos
       if(dataResponse.url_anexos != null && dataResponse.url_anexos != undefined){
         this.consigna.fileAnexos.fileUrl = 

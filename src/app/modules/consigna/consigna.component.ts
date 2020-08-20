@@ -104,10 +104,13 @@ export class ConsignaComponent implements OnInit {
     {name:'# Consignación', nameColumn:'codigo'},
     {name:'Consecutivo SNC', nameColumn:'codigo_snc'},
     {name:'Fecha solicitud', nameColumn:'fecha_solicitud'},
-    {name:'Zona', nameColumn:'codigo_zona'},
     {name:'Tipo Formato', nameColumn:'tipo_formato'},
+    {name:'Zona', nameColumn:'codigo_zona'},
+    {name:'Estado Consignación', nameColumn:'estado_consigna'},
     {name:'Estado Equipo', nameColumn:'estado_equipo_codigo'},
-    {name:'Estado Equipo', nameColumn:'estado_equipo_codigo'},
+    {name:'Tipo Consignación', nameColumn:'tipo_consignacion'},
+    {name:'Solicitante', nameColumn:'usuario_nombre_completo'},
+    {name:'Consigna Padre', nameColumn:'consigna_padre_codigo'}
   ];
 
   constructor(private api: ApiService,
