@@ -80,7 +80,7 @@
             [name]="formRangoFecha.fechaInicio.name"
             [messages]="formRangoFecha.fechaInicio.messages"
             [id]="formRangoFecha.fechaInicio.name"
-            (valueChange)="setDataFormRangoFechas(formRangoFecha.fechaInicio.name, $event)"
+            (valueChange)="setDataFormRangoFechas(formRangoFecha.fechaInicio.name, $event);"
           ></app-datepicker>
 
           <app-datepicker
@@ -90,7 +90,7 @@
             [name]="formRangoFecha.fechaFin.name"
             [messages]="formRangoFecha.fechaFin.messages"
             [id]="formRangoFecha.fechaFin.name"
-            (valueChange)="setDataFormRangoFechas(formRangoFecha.fechaFin.name, $event)"
+            (valueChange)="setDataFormRangoFechas(formRangoFecha.fechaFin.name, $event);"
           ></app-datepicker>
 
           <button (click)="searchConsignaByDates()" mat-raised-button color="primary" style="margin-left: 20px;"

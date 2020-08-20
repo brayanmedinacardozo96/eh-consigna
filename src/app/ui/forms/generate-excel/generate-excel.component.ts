@@ -40,13 +40,15 @@ export class GenerateExcelComponent implements OnInit {
      
     })();
 
+    
+    let colspan = this.dataHeader.length < 7 ? 4 :(this.dataHeader.length - 3)
     let element = document.createElement('a');    
     let dateFormat = moment().format('YYYY/MM/DD h:mm a');
     let siteUrl = 'http://www.electrohuila.com.co/Portals/0/logo.png';
     let htmlHeader = '<img src="'+siteUrl+'" width="25%">';
     htmlHeader += '<table>';
-    htmlHeader += '<tr><td></td><td></td><td></td><td colspan="6"><h1>'+this.nameDocument+'</h1></td></tr>';
-    htmlHeader += '<tr><td></td><td></td><td></td><td colspan="6"><h3> Fecha de generación: ' + dateFormat + '</h3></td></tr>';
+    htmlHeader += '<tr><td></td><td></td><td></td><td colspan="'+colspan+'"><h1>'+this.nameDocument+'</h1></td></tr>';
+    htmlHeader += '<tr><td></td><td></td><td></td><td colspan="'+colspan+'"><h3> Fecha de generación: ' + dateFormat + '</h3></td></tr>';
     htmlHeader += '</table>';
 
     this.nameDocument = normalize(this.nameDocument);

@@ -1,6 +1,8 @@
 <mat-form-field appearance="outline" class="input" [style]="style">
     <mat-label>{{required ? label+' *' : label}}</mat-label>
-    <textarea matInput #message [(ngModel)]="value" maxlength="{{length}}" (ngModelChange)="valueChange.emit($event)" disabled="{{ disable ? disable : 'false' }}"> </textarea>
+    <textarea matInput #message [(ngModel)]="value" maxlength="{{length}}" (ngModelChange)="valueChange.emit($event)" disabled="{{ disable ? disable : 'false' }}"
+        matTextareaAutosize matAutosizeMinRows=3 matAutosizeMaxRows=3
+    > </textarea>
     <mat-hint align="start" style="color: red" *ngIf="messages">{{messages}}</mat-hint>
     <mat-hint align="end">{{message.value.length}}{{ length != undefined ? ' / '+length : '' }}</mat-hint>
 </mat-form-field>

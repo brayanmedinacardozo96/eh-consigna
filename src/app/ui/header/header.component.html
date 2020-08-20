@@ -3,6 +3,7 @@
     <div class="title">
       <div class="container-left" *ngIf="auth.getLogin()">
         <span class="material-icons btn-logout"
+          style="cursor: pointer;"
           matTooltip="Inicio"
           (click)="notificacion()"
           matTooltipClass="custom-tooltip"

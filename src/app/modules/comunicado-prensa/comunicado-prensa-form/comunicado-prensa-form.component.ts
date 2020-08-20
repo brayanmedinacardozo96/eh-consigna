@@ -161,6 +161,12 @@ export class ComunicadoPrensaFormComponent implements OnInit {
 
     const params = `fecha_inicio=${fechaInicio}&fecha_fin=${fechaFin}`;
     const response = await this.api.get(`${environment.apiBackend}/comunicado-prensa/get-consigna-by-dates?${params}`);
+
+    if (!response.success) {
+      this.notifier.notify('error', response.message);
+      return false;
+    }
+
     this.dataPorFechas = response.data;
 
     if (response.data.length === 0) {
@@ -346,7 +352,7 @@ export class ComunicadoPrensaFormComponent implements OnInit {
 
   }
 
-  back(){
+  back() {
     this.location.back();
   }
 
