@@ -1343,9 +1343,12 @@ export class ConsignaNewComponent implements OnInit {
 
        if(varBarrio!=elemen.barrio)
        {
-         barrario.push(elemen.barrio);
-         varBarrio=elemen.barrio;
-         varDepartamento=elemen.nombre_depto;
+         if (elemen.barrio != null) {
+           barrario.push(elemen.barrio);
+           varBarrio = elemen.barrio;
+           varDepartamento = elemen.nombre_depto;
+         }
+       
        }
        
      });
@@ -1416,8 +1419,11 @@ export class ConsignaNewComponent implements OnInit {
           if (data.length > 0) {
             data.forEach(elemen => {
               elemen.barrio.forEach(element => {
-                barrio += element + "\r";
-                this.numeroAreaAfectada.barrios++;
+                if(barrio!=null)
+                {
+                  barrio += element + "\r";
+                  this.numeroAreaAfectada.barrios++;
+                }
               });
             });
           }
