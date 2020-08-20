@@ -32,6 +32,8 @@ export class BitacoraListComponent implements OnInit {
     }
 
     const dialogConfig = new MatDialogConfig();
+    dialogConfig.minWidth = 1300;
+    dialogConfig.minHeight = 500;
     dialogConfig.data = data;
     this.dialog.open(BitacoraElementosComponent, dialogConfig);
 
@@ -41,8 +43,8 @@ export class BitacoraListComponent implements OnInit {
     const jsonFiles = JSON.parse(obj.json_files);
 
     const dialogConfig = new MatDialogConfig();
-    dialogConfig.minWidth = 500;
-    dialogConfig.minHeight = 300;
+    dialogConfig.minWidth = 800;
+    dialogConfig.minHeight = 500;
     dialogConfig.data = jsonFiles;
     this.dialog.open(BitacoraDocumentosComponent, dialogConfig);
 

@@ -30,6 +30,7 @@ export class ComunicadoPrensaFormComponent implements OnInit {
   contenidoComunicadoPrensa: string;
   publicado = null;
   helpers = new Helpers();
+  selectAllConsignas = true;
 
   form = {
     numeroConsigna: {
@@ -230,7 +231,9 @@ export class ComunicadoPrensaFormComponent implements OnInit {
       this.consignacionesID.push(this.consignaID);
     } else {
       for (const obj of this.dataPorFechas) {
-        this.consignacionesID.push(obj.id);
+        if (obj.selected) {
+          this.consignacionesID.push(obj.id);
+        }
       }
     }
   }
@@ -321,11 +324,28 @@ export class ComunicadoPrensaFormComponent implements OnInit {
       this.notifier.notify('error', '¡Debe seleccionar una consigna!');
       return false;
     }
-    if (this.tipoComunicadoSelected === 'PRF' && this.dataPorFechas.length === 0) {
-      this.notifier.notify('error', '¡Debe realizar la búsqueda de las consignas por rango de fechas!');
-      return false;
+    if (this.tipoComunicadoSelected === 'PRF') {
+      if (this.dataPorFechas.length === 0) {
+        this.notifier.notify('error', '¡Debe realizar la búsqueda de las consignas por rango de fechas!');
+        return false;
+      }
+      if (!this.validarSeleccioneConsigna()) {
+        this.notifier.notify('error', '¡Debe seleccionar al menos una consigna para generar el comunicado!');
+        return false;
+      }
     }
     return true;
+  }
+
+  validarSeleccioneConsigna() {
+    let selecciono = false;
+    for (let obj of this.dataPorFechas) {
+      if (obj.selected) {
+        selecciono = true;
+        return selecciono;
+      }
+    }
+    return selecciono;
   }
 
   setData(name, event) {
@@ -334,6 +354,14 @@ export class ComunicadoPrensaFormComponent implements OnInit {
 
   setDataFormRangoFechas(name, event) {
     this.formRangoFecha[name].value = event;
+  }
+
+  checkAll() {
+    if (this.dataPorFechas.length > 0) {
+      for (let obj of this.dataPorFechas) {
+        obj.selected = this.selectAllConsignas;
+      }
+    }
   }
 
   cancel() {
