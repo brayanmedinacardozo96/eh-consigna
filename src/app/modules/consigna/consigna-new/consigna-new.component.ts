@@ -419,6 +419,7 @@ export class ConsignaNewComponent implements OnInit {
   };
   mostrarPanelElemento=true;
   elementUpdateID=null;
+  esRedElectrica=true;
   
   
   constructor(private api: ApiService,
@@ -592,19 +593,24 @@ export class ConsignaNewComponent implements OnInit {
   }
 
   validateJsonMapa(){
-    if( (this.jsonMapa != null && this.jsonMapa != '' && this.jsonMapa != undefined)){
+
+    if ((this.jsonMapa != null && this.jsonMapa != '' && this.jsonMapa != undefined)) {
       this.addListElements();
-    }else{
-      this.dialogo
-        .open(ModalConfirmComponent, {
-        data: new Mensaje("Mensaje:","No ha guardado mapa para el elemento seleccionado. ¿Está seguro de guardar el registro?")
-      })
-      .afterClosed()
-      .subscribe((confirmado: Boolean) => {
-        if(confirmado) {
-          this.addListElements();
-        }
-      });    
+    } else {
+      if (this.esRedElectrica) {
+        this.dialogo
+          .open(ModalConfirmComponent, {
+            data: new Mensaje("Mensaje:", "No ha guardado mapa para el elemento seleccionado. ¿Está seguro de guardar el registro?")
+          })
+          .afterClosed()
+          .subscribe((confirmado: Boolean) => {
+            if (confirmado) {
+              this.addListElements();
+            }
+          });
+      } else {
+        this.addListElements();
+      }
     }
   }
 
@@ -1099,6 +1105,7 @@ export class ConsignaNewComponent implements OnInit {
 
     if(this.form.subestacion.value != null && this.form.subestacion.value != undefined){
       if(this.formElementos.redElectrica.value != null && this.formElementos.redElectrica.value != undefined){
+        this.esRedElectrica=this.formElementos.redElectrica.value=="1"?true:false;
         if(this.formElementos.redElectrica.value == '1'){
           let request = {
             subestacion_id: event
@@ -1399,7 +1406,6 @@ export class ConsignaNewComponent implements OnInit {
     this.numeroAreaAfectada.barrios = 0;
     this.numeroAreaAfectada.clienteRegulado = 0;
     this.numeroAreaAfectada.clienteNoRegulado = 0;
-console.log(this.dataElementos);
     this.dataElementos.forEach(element => {
 
 
