@@ -4,19 +4,24 @@
       <div class="container-left" *ngIf="auth.getLogin()">
         <span class="material-icons btn-logout"
           matTooltip="Inicio"
+          (click)="notificacion()"
           matTooltipClass="custom-tooltip"
           [routerLink]="['/dashboard']"
           >home</span>
       </div>
       <div>
-        <a [routerLink]="['/dashboard']" style="cursor: pointer; text-decoration: none; color: #FFFFFF;">{{appName}}</a>
+        <a (click)="notificacion()" [routerLink]="['/dashboard']" style="cursor: pointer; text-decoration: none; color: #FFFFFF;">{{appName}}</a>
       </div>
 
       <div *ngIf="auth.getLogin()" class="container-right">
         <span class="name-user">{{auth.getNameUser()}}</span>
-        <!--[routerLink]="['/mis-consignas']"-->
-        <span  matTooltip="Consignas" (click)="clickNotificacion()"  class="material-icons btn-right btn-change-password" matBadgeSize="small" matBadgeColor="accent" matBadge="{{numero}}" matBadgePosition="above before" >
+        
+        <span  matTooltip="Consignas" (click)="clickNotificacion('info')"  class="material-icons btn-right btn-change-password" matBadgeSize="small" matBadgeColor="accent" matBadge="{{numero}}" matBadgePosition="above before" >
           notifications
+        </span>
+
+        <span *ngIf="numeroVisto>0" matTooltip="Visto bueno" (click)="clickNotificacion('visto')"  class="material-icons btn-right btn-change-password parpadea" matBadgeSize="small" matBadgeColor="accent" matBadge="{{numeroVisto}}" matBadgePosition="above before" >
+          add_task
         </span>
 
         <span (click)="logout()" class="material-icons btn-logout"></span>
