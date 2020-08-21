@@ -103,6 +103,9 @@
         <table class="custom-table">
           <thead>
           <tr>
+            <th>
+              <mat-checkbox [(ngModel)]="selectAllConsignas" (ngModelChange)="checkAll()"></mat-checkbox>
+            </th>
             <th>Número consigna</th>
             <th>Zona</th>
             <th>Fecha de solicitud</th>
@@ -114,11 +117,14 @@
           </thead>
           <tbody *ngIf="dataPorFechas.length === 0">
           <tr>
-            <td colspan="7">Sin registros...</td>
+            <td colspan="8">Sin registros...</td>
           </tr>
           </tbody>
           <tbody *ngIf="dataPorFechas.length > 0">
           <tr *ngFor="let data of dataPorFechas;">
+            <td>
+              <mat-checkbox [(ngModel)]="data.selected"></mat-checkbox>
+            </td>
             <td>{{data?.codigo}}</td>
             <td>{{data?.zona?.nombre}}</td>
             <td>{{data?.fecha_solicitud | date}}</td>

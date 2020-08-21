@@ -183,6 +183,7 @@
                 class="input"
                 [value]="value?.form?.comentario?.value"
                 [name]="value?.form?.comentario?.name"
+                [length]="500"
                 (valueChange)="setDinamicData(value?.form?.comentario?.name, $event, i);">
               </app-input-text-area>
             </td>
@@ -232,9 +233,9 @@
         <table class="custom-table">
           <thead>
           <tr>
-            <th>Archivo</th>
-            <th>Observación</th>
-            <th>Borrar</th>
+            <th style="width: 15%">Archivo</th>
+            <th style="width: 80%">Observación</th>
+            <th style="width: 5%">Borrar</th>
           </tr>
           </thead>
           <tbody *ngIf="dataDocumentos.length === 0">
@@ -255,7 +256,8 @@
               </ng-container>
 
             </td>
-            <td>{{value?.observacion}}</td>
+            <td style="width: 80%">
+              <div style="overflow-x:auto; width:900px">{{value?.observacion}}</div>
             <td>
               <mat-icon style="cursor: pointer;" (click)="deleteDocumento(value, i)" matTooltip="Borrar documento"
                         color="accent">
