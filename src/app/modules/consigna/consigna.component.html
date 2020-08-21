@@ -32,14 +32,14 @@
 
             <mat-grid-tile>
                 <mat-form-field>
-                    <mat-label>{{ form.tipoFormatoConsigna.required ? form.tipoFormatoConsigna.label+' *' : form.tipoFormatoConsigna.label}}</mat-label>
-                    <mat-select id="form_consigna-tipo_formato" [(ngModel)]="form.tipoFormatoConsigna.value" 
+                    <mat-label>{{ form.codigoTipoFormato.required ? form.codigoTipoFormato.label+' *' : form.codigoTipoFormato.label}}</mat-label>
+                    <mat-select id="form_consigna-tipo_formato" [(ngModel)]="form.codigoTipoFormato.value" 
                          style="padding-top: 5px;padding-bottom: 5px;">
                         <mat-option *ngFor="let value of dataControls?.tipoFormatoConsigna;" [value]="value.codigo">
                             {{value.nombre}}
                         </mat-option>
                     </mat-select>
-                    <mat-hint style="color: red" *ngIf="form.tipoFormatoConsigna.messages">{{form.tipoFormatoConsigna.messages}}</mat-hint>
+                    <mat-hint style="color: red" *ngIf="form.codigoTipoFormato.messages">{{form.codigoTipoFormato.messages}}</mat-hint>
                 </mat-form-field>
             </mat-grid-tile>
 
