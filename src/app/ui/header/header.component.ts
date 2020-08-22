@@ -17,7 +17,7 @@ export class HeaderComponent implements OnInit {
   auth = Auth;
   numero=null;
   numeroVisto=0;
-  user: User = Auth.getUserDataPerson();
+  
   constructor(
     private router: Router,
     private api: ApiService,
@@ -35,15 +35,17 @@ export class HeaderComponent implements OnInit {
   }
 
   logout() {
+    this.numeroVisto = 0;
     this.auth.logout();
     this.router.navigate(['/login']);
   }
 
   async notificacion() 
   {
-    if(this.user!=undefined)
+    const user: User = Auth.getUserDataPerson();
+    if(user!=undefined)
     {
-      const response = await this.api.get(`${environment.apiBackend}/consigna/getNotificacion/${this.user.id}`);
+      const response = await this.api.get(`${environment.apiBackend}/consigna/getNotificacion/${user.id}`);
       this.numero=response.numeroSolicitud;
       this.numeroVisto=response.numeroVisto;
 

@@ -212,6 +212,7 @@ export class ConsignaUserComponent implements OnInit {
       tipoParametro:{value: 1},
       jefeZonaAprobo:{value: 'null'},
       usuarioJefeZona:{value: this.user.id},
+      codigoEstadoConsigna: {value: 'A'}
     }
 
     var tempData = [];
