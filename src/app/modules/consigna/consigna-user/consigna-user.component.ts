@@ -13,7 +13,7 @@ import {ActivatedRoute} from '@angular/router';
   styleUrls: ['./consigna-user.component.scss']
 })
 export class ConsignaUserComponent implements OnInit {
-  
+
 
   user: User = Auth.getUserDataPerson();
   request = {
@@ -45,8 +45,9 @@ export class ConsignaUserComponent implements OnInit {
   viewListBitacora=false;
   isVisible=false;
   panel=true;
+  consignasSinComunicado = [];
 
- 
+
   constructor(private api: ApiService,
               private activeRoute: ActivatedRoute,
               private snackBar: SnackBarService,
@@ -66,7 +67,7 @@ export class ConsignaUserComponent implements OnInit {
         }
       }
     });
-    
+
    }
 
   ngOnInit(): void {
@@ -77,7 +78,7 @@ export class ConsignaUserComponent implements OnInit {
       this.consignaAprobar();
       this.bitacora();
     }*/
-    
+
 
   }
 
@@ -106,8 +107,11 @@ export class ConsignaUserComponent implements OnInit {
       for(let obj in data){
         if(data.hasOwnProperty(obj)){
           this.total[obj] = data[obj];
-        } 
+        }
       }
+
+      this.consignasSinComunicado = response.consignasSinComunicado;
+
     }
   }
 
@@ -173,7 +177,7 @@ export class ConsignaUserComponent implements OnInit {
     }
   }
 
-  
+
 
   async buscarConsignaAprobar()
   {
@@ -233,7 +237,7 @@ export class ConsignaUserComponent implements OnInit {
       this.data = tempData;
     }
   }
- 
+
 }
 
 
