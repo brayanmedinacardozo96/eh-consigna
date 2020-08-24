@@ -58,6 +58,7 @@ export class AsignacionSolicitudesComponent implements OnInit {
             private router: Router) { }
 
   ngOnInit(): void {
+    this.updateUsuariosAplicacion();
     this.getDataSelectConsigna();
   }
 
@@ -66,11 +67,7 @@ export class AsignacionSolicitudesComponent implements OnInit {
     if(this.session.getItem('tipoZona') == null || this.session.getItem('tipoAsignacionUsuario') == null){
       const response = await this.session.getDataSelectConsigna();
       if(response.success){
-        if(this.session.getItem('usuario') == null){
-          this.updateUsuariosAplicacion();
-        }else{
-          this.setSelect();
-        }
+        this.setSelect();
       }
     }else{
       this.setSelect();
@@ -83,14 +80,13 @@ export class AsignacionSolicitudesComponent implements OnInit {
     let success = response.success;
     if(success){
       this.session.setItem('usuario',response.data.personSeguridadTransversal);
-      this.setSelect();
+      this.dataControls.usuario = this.session.getPersona();
     }
   }
 
   setSelect(){
     this.dataControls.tipoZona = this.session.getItem('tipoZona');
     this.dataControls.tipoAsignacionUsuario = this.session.getItem('tipoAsignacionUsuario');
-    this.dataControls.usuario = this.session.getPersona();
   }
 
   async search(){

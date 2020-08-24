@@ -13,7 +13,7 @@ import {ActivatedRoute} from '@angular/router';
   styleUrls: ['./consigna-user.component.scss']
 })
 export class ConsignaUserComponent implements OnInit {
-  
+
 
   user: User = Auth.getUserDataPerson();
   request = {
@@ -45,8 +45,9 @@ export class ConsignaUserComponent implements OnInit {
   viewListBitacora=false;
   isVisible=false;
   panel=true;
+  consignasSinComunicado = [];
 
- 
+
   constructor(private api: ApiService,
               private activeRoute: ActivatedRoute,
               private snackBar: SnackBarService,
@@ -66,7 +67,7 @@ export class ConsignaUserComponent implements OnInit {
         }
       }
     });
-    
+
    }
 
   ngOnInit(): void {
@@ -77,7 +78,7 @@ export class ConsignaUserComponent implements OnInit {
       this.consignaAprobar();
       this.bitacora();
     }*/
-    
+
 
   }
 
@@ -106,15 +107,18 @@ export class ConsignaUserComponent implements OnInit {
       for(let obj in data){
         if(data.hasOwnProperty(obj)){
           this.total[obj] = data[obj];
-        } 
+        }
       }
+
+      this.consignasSinComunicado = response.consignasSinComunicado;
+
     }
   }
 
   async testFile(){
     // const response = await this.api.get(`${environment.apiBackend}/test-file/46`);
-    // const response = await this.api.get(`${environment.apiBackend}/subestacion/update-spard`);
     // const response = await this.api.get(`${environment.apiBackend}/cliente/update-spard`);
+    // const response = await this.api.get(`${environment.apiBackend}/subestacion/update-spard`);
     // const response = await this.api.get(`${environment.apiBackend}/tipo-elemento/update-spard`);
     // const response = await this.api.get(`${environment.apiBackend}/elemento/update-spard`);
     // const response = await this.api.get(`${environment.apiBackend}/parametro/update-division-area-siec`);
@@ -174,7 +178,7 @@ export class ConsignaUserComponent implements OnInit {
     }
   }
 
-  
+
 
   async buscarConsignaAprobar()
   {
@@ -213,6 +217,7 @@ export class ConsignaUserComponent implements OnInit {
       tipoParametro:{value: 1},
       jefeZonaAprobo:{value: 'null'},
       usuarioJefeZona:{value: this.user.id},
+      codigoEstadoConsigna: {value: 'A'}
     }
 
     var tempData = [];
@@ -233,7 +238,7 @@ export class ConsignaUserComponent implements OnInit {
       this.data = tempData;
     }
   }
- 
+
 }
 
 

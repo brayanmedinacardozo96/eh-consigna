@@ -21,30 +21,32 @@ import {MatInputModule} from "@angular/material/input";
 import {MatTableModule} from "@angular/material/table";
 import {MatSortModule} from "@angular/material/sort";
 import {MatPaginatorModule} from "@angular/material/paginator";
+import {MatCheckboxModule} from "@angular/material/checkbox";
 
 
 
 @NgModule({
   declarations: [ComunicadoPrensaFormComponent, ComunicadoPrensaComponent, ComunicadoPrensaListComponent, ClientesAfectadosComponent],
-  imports: [
-    CommonModule,
-    MatCardModule,
-    CustomFormsModule,
-    MatIconModule,
-    MatButtonModule,
-    MatTooltipModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    FormsModule,
-    CKEditorModule,
-    RouterModule,
-    MatExpansionModule,
-    MatRadioModule,
-    MatDialogModule,
-    MatInputModule,
-    MatTableModule,
-    MatSortModule,
-    MatPaginatorModule
-  ]
+    imports: [
+        CommonModule,
+        MatCardModule,
+        CustomFormsModule,
+        MatIconModule,
+        MatButtonModule,
+        MatTooltipModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        FormsModule,
+        CKEditorModule,
+        RouterModule,
+        MatExpansionModule,
+        MatRadioModule,
+        MatDialogModule,
+        MatInputModule,
+        MatTableModule,
+        MatSortModule,
+        MatPaginatorModule,
+        MatCheckboxModule
+    ]
 })
 export class ComunicadoPrensaModule { }

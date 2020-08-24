@@ -42,9 +42,9 @@ export class ConsignaComponent implements OnInit {
       messages: null,
       required: false,
     },
-    tipoFormatoConsigna:{
+    codigoTipoFormato:{
       label: 'Tipo de Formato',
-      name: 'tipoFormatoConsigna',
+      name: 'codigoTipoFormato',
       value: null,
       messages: null,
       required: true,

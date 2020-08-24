@@ -21,7 +21,7 @@ export class AutorizarJefeZonaComponent implements OnInit {
 
   user: User = Auth.getUserDataPerson();
   data = [];
-  validationDate = 0;
+  validationDate = null;
   message = '';
 
   constructor(
@@ -85,9 +85,10 @@ export class AutorizarJefeZonaComponent implements OnInit {
   ngOnInit(): void {
     this.form.usuario.id=this.user.id;
     this.form.usuario.value = `${this.user.first_name} ${this.user.second_name} ${this.user.first_lastname} ${this.user.second_lastname}`;
-    this.getlistParametros();
+    // this.getlistParametros();
   }
 
+  //obtiene los parametros para validar el tiempo limite de VoBo
   async getlistParametros(){
     let params = {
       tipoParametroCodigo:{value:'VDF'},
@@ -96,7 +97,10 @@ export class AutorizarJefeZonaComponent implements OnInit {
     const response = await this.api.post(`${environment.apiBackend}/parametro/get-list-parametros`, params);
     if(response.success){
       for(let value of response.data){
-        this.validationDate = parseInt(value.valor);
+        console.log(value);
+        if(value.estado == '1'){
+          this.validationDate = parseInt(value.valor);
+        }
       }
     }
   }
@@ -127,14 +131,15 @@ export class AutorizarJefeZonaComponent implements OnInit {
         this.message = 'Solamente el jefe de zona asignado puede aprobar la consigna';
       }
 
-      fechaSolicitud = moment(this.data[0].fecha_solicitud);
-      difHoras = (fechaSolicitud.diff(fechaActual, 'minutes')) / 60;
-
-      if(estado && this.validationDate > difHoras){
-        estado = false;
-        this.message = 'No se puede guardar la información debido a que el límite de tiempo para realizarlo era de '+this.validationDate+' Horas ';
-        this.message += 'con referencia a la fecha de solicitud('+fechaSolicitud.format('YYYY/MM/DD')+') de la consigna '+this.form.numeroConsigna.value;
-      }
+      /* if(this.validationDate != null){
+        fechaSolicitud = moment(this.data[0].fecha_solicitud);
+        difHoras = (fechaSolicitud.diff(fechaActual, 'minutes')) / 60;  
+        if(estado && this.validationDate > difHoras){
+          estado = false;
+          this.message = 'No se puede guardar la información debido a que el límite de tiempo para realizarlo era de '+this.validationDate+' Horas ';
+          this.message += 'con referencia a la fecha de solicitud('+fechaSolicitud.format('YYYY/MM/DD')+') de la consigna '+this.form.numeroConsigna.value;
+        }
+      } */
 
       if(estado){
         this.form.id.value = this.data[0].consignacion_id;
