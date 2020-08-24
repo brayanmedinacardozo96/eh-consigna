@@ -793,6 +793,7 @@ export class ConsignaNewComponent implements OnInit {
     this.dataElementos[this.elementUpdateID]=elemento;
     this.validacionUpdate("");
     this.selectListElement(null);
+    this.escribrirAreaAfectada();
     
   }
 

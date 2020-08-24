@@ -275,7 +275,7 @@ export class AutorizarComponent implements OnInit {
         this.form.numeroConsigna.fechaSolicitud = this.data[0].fecha_solicitud;
         this.tipo_solicitud = this.data[0].tipo_solicitud;
 
-        if (this.data[0].estado_consigna != "Solicitada" && this.data[0].estado_consigna != "Reprogramada") {
+        if (this.data[0].estado_consigna != "Solicitada" && this.data[0].estado_consigna != "Reprogramada" &&  this.data[0].estado_consigna != "Aprobada") {
           this.permitir = false;
           this.form.estadoConsigna.disabled=true;
           new SnackBarClass(this.snackBar, 'Acción no permitida para esta consigna.', 'btn-warning').openSnackBar();

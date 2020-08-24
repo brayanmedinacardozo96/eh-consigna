@@ -134,6 +134,7 @@ export class ConsignaUserComponent implements OnInit {
     if(result.length>0)
     {
       this.isVisible=true;
+      this.total.totalAprobar=0;
       const response = await this.api.get(`${environment.apiBackend}/consigna/getEstadoConsigna/S|R`);
       if(response.message==null && response.data.length>0){
         let data = response.data;
