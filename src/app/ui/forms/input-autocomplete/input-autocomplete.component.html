@@ -1,6 +1,6 @@
 <mat-form-field appearance="outline" class="input" [style]="style">
   <mat-label>{{label}}</mat-label>
-  <input [(ngModel)]="value" (ngModelChange)="valueChange.emit($event)" (keypress)="setUrl( urlApi )" type="text" placeholder="{{label}}" aria-label="Number" matInput [formControl]="myControl"
+  <input [(ngModel)]="value" (ngModelChange)="checkPattern($event)" (keypress)="setUrl( urlApi )" type="text" placeholder="{{label}}" aria-label="Number" matInput [formControl]="myControl"
     [matAutocomplete]="auto">
   <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
     <mat-option *ngFor="let option of filteredOptions | async" [value]="option.name">

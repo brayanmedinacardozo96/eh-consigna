@@ -23,6 +23,7 @@ export class InputAutocompleteComponent implements OnInit {
 @Input() disable;
 @Input() urlApi;
 @Input() display;
+@Input() upperCase = false;
 @Output() valueChange = new EventEmitter();
 
   url:"";
@@ -78,6 +79,13 @@ export class InputAutocompleteComponent implements OnInit {
       this.http.get<any>(urlApi).pipe(tap(data => this.opt = data));
      // return this.apiService.get("https://jsonplaceholder.typicode.com/users");
 
+  }
+
+  checkPattern(event){
+    if(this.upperCase){
+      this.value = this.value.toUpperCase();
+    }
+    this.valueChange.emit(this.value);
   }
 
 }
