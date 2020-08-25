@@ -1507,6 +1507,7 @@ export class ConsignaNewComponent implements OnInit {
           this.setDataFormAndDisable(data);
 
           if(this.form.tipoFormatoConsigna.value == 'CH'){
+            console.log(result.listaElemento);
             
             this.dataElementos = result.listaElemento;
           }

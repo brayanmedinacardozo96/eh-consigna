@@ -108,12 +108,10 @@ export class AsignacionSolicitudesNewComponent implements OnInit {
     const response = await this.api.post(`${environment.apiBackend}/asignacion-usuario/get-usuarios-asignados`,this.form);
       if(response.success){
         dataResponse =  response.data;
-        console.log(dataResponse);
         for(let i in dataResponse){
           dataResponse[i].estado = dataResponse[i].estado == 1 ? true : false 
         }
         this.dataConsigna.tipoZona = dataResponse;
-        console.log(this.dataConsigna);
       }
   }
 

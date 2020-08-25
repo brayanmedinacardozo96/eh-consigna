@@ -26,7 +26,7 @@
             </mat-grid-tile>
         </mat-grid-list>
         <mat-grid-list *ngIf="data.length > 0" class="row" cols="1" rowHeight="104px">
-            <mat-form-field>
+            <mat-form-field style="width: 60%;">
                 <mat-label>{{form.aprobo.required ? form.aprobo.label+' *':form.aprobo.label}}</mat-label>
                 <mat-select [disabled]="form.aprobo.disabled" [(ngModel)]="form.aprobo.value" style="padding-top: 5px;padding-bottom: 5px;">
                     <mat-option *ngFor="let value of dataControls?.aprobo;" [value]="value.id">
