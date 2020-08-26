@@ -43,6 +43,7 @@ import { ConsignaSolicitudEstadoComponent } from './consigna-solicitud-estado/co
 import { BitacoraListComponent } from './bitacora-list/bitacora-list.component';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatSidenavModule} from "@angular/material/sidenav";
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner'; 
 
 @NgModule({
   declarations: [
@@ -93,8 +94,8 @@ import {MatSidenavModule} from "@angular/material/sidenav";
         ManiobraModule,
         DirectivesModule,
         MatExpansionModule,
-        MatSidenavModule
-
+        MatSidenavModule,
+        MatProgressSpinnerModule
     ],
 
 })

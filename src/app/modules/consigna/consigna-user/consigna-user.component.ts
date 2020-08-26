@@ -46,6 +46,7 @@ export class ConsignaUserComponent implements OnInit {
   isVisible=false;
   panel=true;
   consignasSinComunicado = [];
+  viewVistoSnipper = false;
 
 
   constructor(private api: ApiService,
@@ -57,6 +58,7 @@ export class ConsignaUserComponent implements OnInit {
     this.activeRoute.params.subscribe(params => {
       if (params.id !== undefined && params.id !== null && params.id != "") {
         if (params.id == "visto") {
+          this.viewVistoSnipper = true;
           this.verListaJefeZona();
           this.panel=false;
         }else{
@@ -212,6 +214,8 @@ export class ConsignaUserComponent implements OnInit {
   }
 
   async verListaJefeZona(){
+    this.data = [];
+    this.viewList = false;
     let params = {
       tipoSolicitudCodigo:{value: 'E'},
       tipoParametro:{value: 1},
@@ -227,6 +231,7 @@ export class ConsignaUserComponent implements OnInit {
       this.viewListBitacora=false;
       this.viewList=true;
       this.viewListEstado=false;
+      this.viewVistoSnipper = false;
       if(this.data.length < 1){
         this.snackBar.alert('No se encontraron registros con los parámetros consultados.',5000);
       }
