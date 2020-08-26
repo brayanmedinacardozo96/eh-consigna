@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
-import {CanActivate, Router} from '@angular/router';
+import {CanActivate, Router, NavigationEnd} from '@angular/router';
+import { SessionService } from './services/session.service';
 import {Auth} from './auth';
 
 @Injectable({
@@ -7,14 +8,25 @@ import {Auth} from './auth';
 })
 export class AuthGuardService implements CanActivate {
 
-  constructor(public router: Router) {
+  private currentUrl : string = undefined;
+
+  constructor(public router: Router, 
+    private session: SessionService) {
   }
 
   canActivate(): boolean {
-    if (!Auth.getLogin()) {
-      this.router.navigate(['/login']);
-      return false;
-    }
+    this.currentUrl = this.router.url;
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {        
+        this.currentUrl = event.url;
+        this.session.setLinkRutaPrevia(this.currentUrl);               
+        if (!Auth.getLogin()) {
+          this.router.navigate(['/login']);
+          return false;
+        }
+      };
+    });
+
     return true;
   }
 }

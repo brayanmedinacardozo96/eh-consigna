@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from 'src/app/shared/services/api.service';
 import { environment } from 'src/environments/environment';
+import {Router} from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SessionService {
 
-  constructor(private api: ApiService) { }
+  constructor(private api: ApiService,private router: Router) { }
 
   setItem(name,value){
     window.sessionStorage.setItem(name,JSON.stringify(value));
@@ -76,5 +77,23 @@ export class SessionService {
     return response;
   }
 
+  setLinkRutaPrevia(url){
+    let urlArray = ['autorizar','jefe-zona'];
+    for(let value of urlArray){
+      if(url.includes(value)){
+        sessionStorage.setItem('linkRutaPrevia',url);
+      }
+    }
+  }
+
+  validarLinkRutaPrevia(){
+    if(sessionStorage.getItem('linkRutaPrevia') != undefined){
+      console.log(sessionStorage.getItem('linkRutaPrevia'))
+      this.router.navigate([sessionStorage.getItem('linkRutaPrevia')]);
+      sessionStorage.removeItem('linkRutaPrevia');
+    }else{
+      this.router.navigate(['/mis-consignas/info']);
+    }
+  }
 
 }

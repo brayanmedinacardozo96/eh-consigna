@@ -10,11 +10,13 @@
             <mat-grid-tile [colspan]="2">
                 <app-input-text style="width: 96%;"
                     class="input"
+                    (keyup.enter)="buscar()"
                     [label]="form.numeroConsigna.label"
                     [value]="form.numeroConsigna.value"
                     [name]="form.numeroConsigna.name"
                     [messages]="form.numeroConsigna.messages"
                     [disable] = false
+                    [upperCase]="true"
                     (valueChange)="setData(form.numeroConsigna.name, $event)">
                 </app-input-text>
 

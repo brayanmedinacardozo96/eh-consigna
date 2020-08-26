@@ -65,7 +65,7 @@ export class ConsignaNewSearchComponent implements OnInit {
   }
 
   setData(name, event) {
-    this.form[name].value = event.toUpperCase();
+    this.form[name].value = event;
   }
 
   async search(){
@@ -165,12 +165,5 @@ export class ConsignaNewSearchComponent implements OnInit {
       }
     }
   }
-
-  handleKeyDown(e){
-    if (e.keyCode === 13 && !e.shiftKey) {
-      this.search();
-    }
-  }
-
 
 }

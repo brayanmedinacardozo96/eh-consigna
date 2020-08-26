@@ -10,6 +10,7 @@
             <mat-grid-tile>
                 <app-input-text style="width: 95%;"
                   class="input"
+                  (keyup.enter)="search()"
                   [label]="form.numeroConsigna.label"
                   [value]="form.numeroConsigna.value"
                   [name]="form.numeroConsigna.name"
