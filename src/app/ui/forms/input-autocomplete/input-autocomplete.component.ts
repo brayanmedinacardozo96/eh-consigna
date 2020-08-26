@@ -82,7 +82,7 @@ export class InputAutocompleteComponent implements OnInit {
   }
 
   checkPattern(event){
-    if(this.upperCase){
+    if(this.upperCase && this.value != null){
       this.value = this.value.toUpperCase();
     }
     this.valueChange.emit(this.value);
