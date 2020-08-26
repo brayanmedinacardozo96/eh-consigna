@@ -18,33 +18,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class AsignacionSolicitudesNewComponent implements OnInit {
   
   selectAllElementos = false;
+  messageValidation = '';
   dataConsigna = {
     tipoZona: []
   };
   data = [];
-  formCompletado = {
-    completado: {
-      label: '¿La consigna se cumplió por completo?',
-      name: 'completado',
-      value: null,
-      messages: null,
-      required: false,
-    },
-    causalIncumplimiento: {
-      label: 'Seleccione la razón del incumplimiento',
-      name: 'causalIncumplimiento',
-      value: null,
-      messages: null,
-      required: false,
-    },
-    observacionCausalIncumplimiento: {
-      label: 'Observación',
-      name: 'observacionCausalIncumplimiento',
-      value: null,
-      messages: null,
-      required: false,
-    },
-  };
 
   dataControls = {
     usuario: [],
@@ -97,7 +75,8 @@ export class AsignacionSolicitudesNewComponent implements OnInit {
     this.getDataSelectConsigna();
   }
 
-  async select(){
+  async consultar(){
+    this.messageValidation = ''
     if(this.validations.validateEmptyFields(this.form).success){
       this.getUsuariosAsignados();      
     }
@@ -116,7 +95,6 @@ export class AsignacionSolicitudesNewComponent implements OnInit {
   }
 
   setCumplioCompleto() {
-
     const totalElementos = this.dataConsigna.tipoZona.length;
     let elementosSeleccionados = 0;
     for (let obj of this.dataConsigna.tipoZona) {
@@ -125,10 +103,39 @@ export class AsignacionSolicitudesNewComponent implements OnInit {
       }
     }
 
-    if (totalElementos == elementosSeleccionados) {
-      this.formCompletado.completado.value = 1;
-    } else {
-      this.formCompletado.completado.value = 0;
+    this.validateJefeZonaAsignado()
+  }
+
+  async validateJefeZonaAsignado(){
+    //valida que solo sea un jefe de zona por zona
+    let codeRolUsuario = '';
+    for(let value of this.dataControls.tipoAsignacionUsuario){
+      if(parseInt(value.id) == parseInt(this.form.tipoAsignacion.value)){
+        codeRolUsuario = value.codigo;
+      }
+    }
+    
+    //se valida que el select seleccionado sea jefe de zona(JDZ)
+    if(codeRolUsuario == 'JDZ'){
+      this.messageValidation = '';
+      var request = {
+        estado: 1,
+        tipoAsignacionCodigo: 'JDZ',
+        diferenteUsuario: this.form.usuario.value
+      };
+      const response = await this.api.post(`${environment.apiBackend}/asignacion-usuario/get-list-jefe-zona`,request);
+      if(response.success){
+        for(let tipoZona of this.dataConsigna.tipoZona){
+          if(tipoZona.estado){
+            for(let dataValidacion of response.data){
+              if(tipoZona.zona_id == dataValidacion.zona_id && dataValidacion.estado == '1'){
+                this.messageValidation += 'No se puede activar para la <b>'+dataValidacion.zona_nombre+'</b> debido a que ya se encuentra activa para el usuario <b>'+dataValidacion.usuario_nombre_completo+'</b><br>';
+                tipoZona.estado = false;
+              }
+            }
+          }
+        }
+      }
     }
 
   }

@@ -28,13 +28,15 @@
                     <mat-hint style="color: red" *ngIf="form.tipoAsignacion.messages">{{form.tipoAsignacion.messages}}</mat-hint>
                 </mat-form-field>
                 <div style="padding-bottom:20px">
-                    <button mat-mini-fab color="accent" (click)="select()"  matTooltip="Consultar" matTooltipClass="custom-tooltip">
+                    <button mat-mini-fab color="accent" (click)="consultar()"  matTooltip="Consultar" matTooltipClass="custom-tooltip">
                         <mat-icon style="color: #FFFFFF">search</mat-icon>
                     </button>
                 </div>
             </mat-grid-tile>
 
         </mat-grid-list>   
+        
+        <p style="text-align: center; color: #e37222;" [innerHTML]="messageValidation"></p>
 
     </mat-card-content>
 </mat-card>
