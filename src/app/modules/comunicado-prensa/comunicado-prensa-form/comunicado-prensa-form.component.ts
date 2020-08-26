@@ -75,13 +75,28 @@ export class ComunicadoPrensaFormComponent implements OnInit {
               private activeRoute: ActivatedRoute,
               private dialogConfirm: MatDialog,) {
 
-    this.activeRoute.params.subscribe(params => {
+    this.activeRoute.params.subscribe(async params => {
 
-      if (params.id !== undefined && params.id !== null) {
-        this.id = params.id;
-        this.load().then();
-      } else {
-        this.loadControlsForm().then();
+      // ------ SI VIENE CODIGO DE LA CONSIGNA ---
+      if (params.codigo !== undefined && params.codigo !== null && params.codigo !== 'null') {
+        const response = await this.api.get(`${environment.apiBackend}/comunicado-prensa/get-id-by-consigna/${params.codigo}`);
+        if (response.success) {
+          if (response.id) {
+            this.id = response.id;
+            this.load().then();
+          } else {
+            this.loadControlsForm().then();
+            this.form.numeroConsigna.value = params.codigo;
+            this.searchConsigna().then();
+          }
+        }
+      } else { // ---- SI NO VIENE CODIGO DE LA CONSIGNA ----
+        if (params.id !== undefined && params.id !== null && params.id !== 'null') {
+          this.id = params.id;
+          this.load().then();
+        } else {
+          this.loadControlsForm().then();
+        }
       }
 
     });

@@ -115,7 +115,8 @@
             </mat-expansion-panel-header>
 
             <div class="recordatorio-container">
-                <div class="recordatorio-card" *ngFor="let value of consignasSinComunicado;">
+                <div class="recordatorio-card" *ngFor="let value of consignasSinComunicado;"
+                     [routerLink]="['/comunicado-prensa/recordatorio/null/'+value?.codigo]">
                   <span class="recordatorio-card-title">Código: </span> <span class="recordatorio-codigo">{{value?.codigo}}</span> <br>
                   <span class="recordatorio-card-title">Fecha de solicitud: </span><span>{{value?.fecha_solicitud}}</span> <br>
                   <span class="recordatorio-card-title">Solicitante: </span> <span>{{value?.solicitante}}</span> <br>
