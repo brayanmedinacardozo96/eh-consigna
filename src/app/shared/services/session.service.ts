@@ -88,7 +88,6 @@ export class SessionService {
 
   validarLinkRutaPrevia(){
     if(sessionStorage.getItem('linkRutaPrevia') != undefined){
-      console.log(sessionStorage.getItem('linkRutaPrevia'))
       this.router.navigate([sessionStorage.getItem('linkRutaPrevia')]);
       sessionStorage.removeItem('linkRutaPrevia');
     }else{
