@@ -13,7 +13,7 @@
         </ng-container>
 
         <ng-container matColumnDef="fecha_solicitud">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha solicitud</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha ejecución</th>
           <td mat-cell [ngClass]="{'color': row.clase!='' }" style="text-align:left" *matCellDef="let row"> {{row?.fecha_solicitud |  date:'yyyy/MM/dd' }} </td>
         </ng-container>
 

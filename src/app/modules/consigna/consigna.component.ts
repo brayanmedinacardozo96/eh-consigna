@@ -71,7 +71,7 @@ export class ConsignaComponent implements OnInit {
       required: false,
     },
     fechaSolicitud: {
-      label: 'Fecha de solicitud',
+      label: 'Fecha ejecución',
       name: 'fechaSolicitud',
       value: null,
       messages: null,
