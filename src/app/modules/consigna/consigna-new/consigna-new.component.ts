@@ -123,7 +123,7 @@ export class ConsignaNewComponent implements OnInit {
       disabled: false
     },
     fechaSolicitud: {
-      label: 'Fecha de solicitud',
+      label: 'Fecha ejecución',
       name: 'fechaSolicitud',
       value: null,
       messages: null,
@@ -1052,7 +1052,7 @@ export class ConsignaNewComponent implements OnInit {
         if(tipoSelect == 'S'){ 
           for(let value of response.data){
             if(event == parseInt(value.subestacion_id)){
-              var message = "Existe una solicitud con la subestación seleccionada en estado pendiente para la fecha de solicitud "+moment(value.fecha_solicitud).format('YYYY/MM/DD')+" ¿desea crear la solicitud como trabajo de oportunidad?"
+              var message = "Existe una solicitud con la subestación seleccionada en estado pendiente para la fecha ejecución "+moment(value.fecha_solicitud).format('YYYY/MM/DD')+" ¿desea crear la solicitud como trabajo de oportunidad?"
               this.dialogo
                 .open(ModalConfirmComponent, {
                 data: new Mensaje("Atención:", message)
@@ -1075,7 +1075,7 @@ export class ConsignaNewComponent implements OnInit {
           for(let value of response.lista_elemento){
             if(parseInt(value.subestacion_id) == this.form.subestacion.value && 
               parseInt(value.elemento_id) == event){
-                var message = "Existe una solicitud con la subestación y elemento seleccionado en estado pendiente para la fecha de solicitud "+moment(value.fecha_solicitud).format('YYYY/MM/DD')+" ¿desea crear la solicitud como trabajo de oportunidad?"
+                var message = "Existe una solicitud con la subestación y elemento seleccionado en estado pendiente para la fecha ejecución "+moment(value.fecha_solicitud).format('YYYY/MM/DD')+" ¿desea crear la solicitud como trabajo de oportunidad?"
                 this.dialogo
                   .open(ModalConfirmComponent, {
                   data: new Mensaje("Atención:", message)
