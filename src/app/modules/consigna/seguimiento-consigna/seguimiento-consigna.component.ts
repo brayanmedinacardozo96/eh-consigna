@@ -32,14 +32,14 @@ export class SeguimientoConsignaComponent implements OnInit {
       url: this.urlAutoComletar
     },
     fechaInicio: {
-      label: 'Fecha inicio solicitud',
+      label: 'Fecha inicio ejecución',
       name: 'fechaInicio',
       value: null,
       messages: null,
       required: true,
     },
     fechaFin: {
-      label: 'Fecha fin solicitud',
+      label: 'Fecha fin ejecución',
       name: 'fechaFin',
       value: null,
       messages: null,
