@@ -49,6 +49,7 @@ export class Auth {
   public static logout() {
     localStorage.removeItem('token');
     localStorage.clear();
+    sessionStorage.clear();
   }
 
   public static getUserDataPerson() {

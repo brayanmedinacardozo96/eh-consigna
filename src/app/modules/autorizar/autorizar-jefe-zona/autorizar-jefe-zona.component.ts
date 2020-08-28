@@ -34,12 +34,11 @@ export class AutorizarJefeZonaComponent implements OnInit {
       this.activeRoute.params.subscribe(params => {
 
         if (params.id !== undefined && params.id !== null && params.id!="") {
-          console.log(params.id);
           if(isNaN(parseInt(params.id))){
-            this.buscarConsigna(  {numeroConsigna:{value: params.id}, codigoEstadoConsigna: { value: 'A'}} );
+            this.buscarConsigna(  {numeroConsigna:{value: params.id}, codigoEstadoConsigna: { value:  ['A','E','EP']}} );
             this.form.numeroConsigna.value = params.id;
           }else{
-            this.buscarConsigna(  {consignacion_id:{value: params.id}, codigoEstadoConsigna: { value: 'A'}} );
+            this.buscarConsigna(  {consignacion_id:{value: params.id}, codigoEstadoConsigna: { value:  ['A','E','EP']}} );
           }
         }
       });
@@ -97,7 +96,6 @@ export class AutorizarJefeZonaComponent implements OnInit {
     const response = await this.api.post(`${environment.apiBackend}/parametro/get-list-parametros`, params);
     if(response.success){
       for(let value of response.data){
-        console.log(value);
         if(value.estado == '1'){
           this.validationDate = parseInt(value.valor);
         }
@@ -162,7 +160,7 @@ export class AutorizarJefeZonaComponent implements OnInit {
   async buscar()
   {    
     if (this.form.numeroConsigna.value  !== undefined && this.form.numeroConsigna.value  !== null && this.form.numeroConsigna.value !="") {
-      this.buscarConsigna(  { numeroConsigna:{value: this.form.numeroConsigna.value }, codigoEstadoConsigna: { value: 'A'}} );
+      this.buscarConsigna(  { numeroConsigna:{value: this.form.numeroConsigna.value }, codigoEstadoConsigna: { value:  ['A','E','EP']}} );
     }
   }
 

@@ -260,37 +260,29 @@ export class AutorizarComponent implements OnInit {
   }
 
   async buscarConsigna(params) {
-
-    this.data = null;
+    this.data = [];
 
     const response = await this.api.post(`${environment.apiBackend}/consigna/get-list-aprobar`, params);
-    if (response.data != null) {
-      if (response.success && response.data.length > 0) {
-        this.permitir = true;
-        this.viewList = true;
-        this.data = response.data;
-        this.form.numeroConsigna.value = this.data[0].codigo;
-        this.form.id.value = this.data[0].consignacion_id;
-        this.form.estado_actual.value = this.data[0].estado_id;
-        this.form.numeroConsigna.fechaSolicitud = this.data[0].fecha_solicitud;
-        this.tipo_solicitud = this.data[0].tipo_solicitud;
+    if (response.success && response.data.length > 0) {
+      this.permitir = true;
+      this.viewList = true;
+      this.data = response.data;
+      this.form.numeroConsigna.value = this.data[0].codigo;
+      this.form.id.value = this.data[0].consignacion_id;
+      this.form.estado_actual.value = this.data[0].estado_id;
+      this.form.numeroConsigna.fechaSolicitud = this.data[0].fecha_solicitud;
+      this.tipo_solicitud = this.data[0].tipo_solicitud;
+      this.form.estadoConsigna.disabled = false;
 
-        if (this.data[0].estado_consigna != "Solicitada" && this.data[0].estado_consigna != "Reprogramada" &&  this.data[0].estado_consigna != "Aprobada") {
-          this.permitir = false;
-          this.form.estadoConsigna.disabled=true;
-          new SnackBarClass(this.snackBar, 'Acción no permitida para esta consigna.', 'btn-warning').openSnackBar();
-        }
-
+      if (this.data[0].estado_consigna != "Solicitada" && this.data[0].estado_consigna != "Reprogramada" &&  this.data[0].estado_consigna != "Aprobada") {
+        this.permitir = false;
+        this.form.estadoConsigna.disabled=true;
+        new SnackBarClass(this.snackBar, 'Acción no permitida para esta consigna.', 'btn-warning').openSnackBar();
       }
 
-      if (response.data.length < 1) {
-        new SnackBarClass(this.snackBar, 'No se encontraron registros.', 'btn-warning').openSnackBar();
-      }
-    } else {
+    }else{
       new SnackBarClass(this.snackBar, 'No se encontraron registros.', 'btn-warning').openSnackBar();
     }
-    
-
   }
 
   guardar() {

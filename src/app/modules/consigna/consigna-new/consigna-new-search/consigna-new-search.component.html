@@ -7,13 +7,14 @@
         <mat-grid-list class="row" cols="1" rowHeight="80px">
             <mat-grid-tile>
                 <app-input-text style="width: 50%;"
-                  (keydown)="handleKeyDown($event)"
+                  (keyup.enter)="search()"
                   class="input"
                   [label]="form.numeroConsigna.label"
                   [value]="form.numeroConsigna.value"
                   [name]="form.numeroConsigna.name"
                   [messages]="form.numeroConsigna.messages"
                   [length]="form.numeroConsigna.length"
+                  [upperCase]="true"
                   (valueChange)="setData(form.numeroConsigna.name, $event)">
                 </app-input-text>
 

@@ -27,6 +27,7 @@
             [label]="form.numeroConsigna.label"
             [messages]="form.numeroConsigna.messages"
             (valueChange)="setData(form.numeroConsigna.name, $event)"
+            [upperCase]="true"
             [style]="'width: 300px'"
           ></app-input-text>
 

@@ -5,6 +5,7 @@ import {environment} from '../../../environments/environment';
 import {HttpHeaders} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {Auth} from '../../shared/auth';
+import { SessionService } from './../../shared/services/session.service';
 
 @Component({
   selector: 'app-login',
@@ -32,7 +33,8 @@ export class LoginComponent implements OnInit {
   };
 
   constructor(private api: ApiService,
-              private router: Router) {
+              private router: Router,
+              private session: SessionService) {
     const dataUser = Auth.getLogin();
     if (dataUser != null) {
       if (dataUser.user_data.id != null) {
@@ -66,7 +68,8 @@ export class LoginComponent implements OnInit {
       return false;
     }
     Auth.login(response.token);
-    this.router.navigate(['/mis-consignas/info']);
+    this.session.validarLinkRutaPrevia();
+    // this.router.navigate(['/mis-consignas/info']);
 
   }
 

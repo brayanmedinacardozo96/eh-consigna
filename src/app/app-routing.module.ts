@@ -38,6 +38,7 @@ const routes: Routes = [
   , {path: 'comunicado-prensa', component: ComunicadoPrensaComponent, canActivate: [AuthGuard]}
   , {path: 'comunicado-prensa/new', component: ComunicadoPrensaFormComponent, canActivate: [AuthGuard]}
   , {path: 'comunicado-prensa/edit/:id', component: ComunicadoPrensaFormComponent, canActivate: [AuthGuard]}
+  , {path: 'comunicado-prensa/recordatorio/:id/:codigo', component: ComunicadoPrensaFormComponent, canActivate: [AuthGuard]}
   , {path: 'seguimiento-consigna', component: SeguimientoConsignaComponent, canActivate: [AuthGuard]}
   , {path: 'bitacora', component: BitacoraComponent, canActivate: [AuthGuard]}
   , {path: 'bitacora/new', component: BitacoraFormComponent, canActivate: [AuthGuard]}

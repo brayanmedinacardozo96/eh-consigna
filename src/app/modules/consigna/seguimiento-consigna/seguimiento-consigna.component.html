@@ -6,8 +6,10 @@
             <mat-grid-tile [colspan]="2">
 
              <app-input-autocomplete style="width: 100%;" [label]="form.numeroConsigna.label"
+              (keyup.enter)="Consultar()" 
                [value]="form.numeroConsigna.value" [name]="form.numeroConsigna.name"
                [messages]="form.numeroConsigna.messages" (valueChange)="setData(form.numeroConsigna.name, $event)"
+               [upperCase]="true"
                [urlApi]="form.numeroConsigna.url">
              </app-input-autocomplete>
 
