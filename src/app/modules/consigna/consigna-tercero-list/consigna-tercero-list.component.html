@@ -1,0 +1,55 @@
+<h2 mat-dialog-title style="text-align: center;">Listado Tercero</h2>
+<mat-dialog-content class="mat-typography">
+  <div style="width: 100%">
+
+    <div style="text-align: center !important; width: 100%; overflow-x: auto; ">
+      <table mat-table [dataSource]="dataSource" matSort class="custom-table">
+
+        <!-- # consecutivo Column -->
+        <ng-container matColumnDef="solicitada_tercero">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Solicitada Por Un Tercero</th>
+          <td mat-cell *matCellDef="let row"> {{row?.solicitada_tercero == '1' ? 'Si' : 'No'}} </td>
+        </ng-container>
+        <!-- descripcion Column -->
+        <ng-container matColumnDef="tipo_tercero_id">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo Tercero</th>
+          <td mat-cell *matCellDef="let row">
+            <mat-form-field>
+                <mat-label>{{ form.tipoTercero.required ? form.tipoTercero.label+' *' : form.tipoTercero.label}}</mat-label>
+                <mat-select [disabled]="form.tipoTercero.disabled" [(ngModel)]="tipoTercero" style="padding-top: 5px;padding-bottom: 5px;">
+                    <mat-option *ngFor="let value of dataControls?.tipoTercerosConsigna;" [value]="value.id">
+                        {{value.nombre}}
+                    </mat-option>
+                </mat-select>
+                <mat-hint style="color: red" *ngIf="form.tipoTercero.messages">{{form.tipoTercero.messages}}</mat-hint>
+            </mat-form-field>
+          </td>
+        </ng-container>
+        <!-- acciones Column -->
+        <ng-container matColumnDef="tercero_descripcion">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Descripción</th>
+          <td mat-cell *matCellDef="let row">{{row?.tercero_descripcion}}</td>
+        </ng-container>
+        <!-- año -->
+        <ng-container matColumnDef="tercero_anio">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Año</th>
+          <td mat-cell *matCellDef="let row">{{row?.tercero_anio}}</td>
+        </ng-container>
+        <!-- número de contrato -->
+        <ng-container matColumnDef="tercero_numero_contrato">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Número Contrato</th>
+          <td mat-cell *matCellDef="let row">{{row?.tercero_numero_contrato}}</td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+
+      <mat-paginator [pageSizeOptions]="[10]"></mat-paginator>
+    </div>
+
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Aceptar</button>
+</mat-dialog-actions>

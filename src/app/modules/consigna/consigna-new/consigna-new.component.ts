@@ -63,7 +63,9 @@ export class ConsignaNewComponent implements OnInit {
     solicitadaTercero:[ 
       {id: "1",nombre: "Si"},
       {id: "0", nombre: "No"}
-    ]
+    ],
+    tipoTercerosConsigna:[],
+    selectYear: this.dateValidation.getSelectCurrentDate(true),
   };
 
   form = {
@@ -263,7 +265,46 @@ export class ConsignaNewComponent implements OnInit {
       messages: null,
       required: true,
       disabled: false
-    }
+    },
+    tipoTercero: {
+      label: 'Tipo de Tercero',
+      name: 'tipoTercero',
+      value: null,
+      messages: null,
+      required: false,
+      disabled: false,
+      visible: false
+    },
+    terceroNumeroContrato: {
+      label: 'Número Contrato',
+      name: 'terceroNumeroContrato',
+      value: null,
+      messages: null,
+      required: false,
+      length: 20,
+      disabled: false,
+      visible: false
+    },
+    terceroAnio: {
+      label: 'Año del Contrato',
+      name: 'terceroAnio',
+      value: null,
+      messages: null,
+      required: false,
+      disabled: false,
+      visible: false
+    },
+    terceroDescripcion: {
+      label: 'Descripción',
+      name: 'terceroDescripcion',
+      value: null,
+      messages: null,
+      required: false,
+      length: 500,
+      disabled: false,
+      visible: false
+    },
+
   };
 
   interrupcionesTrabajo = {
@@ -969,6 +1010,7 @@ export class ConsignaNewComponent implements OnInit {
     // this.dataControls.elemento = this.session.getItem('elemento');
     this.form.medidasSeguiridad.value=this.session.getItem('medidaSeguridad')[0]['descripcion'];
     this.dataControls.tipoFormatoConsigna = this.session.getItem('tipoFormatoConsigna');
+    this.dataControls.tipoTercerosConsigna = this.session.getItem('tipoTercerosConsigna');
     this.setDefaultTipoConsigna();
     //cuando es nueva agregar solo la solicitada
     this.dataControls.estadoConsigna = this.session.getItem('estadoConsigna').filter(b => {
@@ -1650,6 +1692,77 @@ export class ConsignaNewComponent implements OnInit {
 
   unique(value, index, self) { 
     return self.indexOf(value) === index;
+  }
+
+  validarSelectSolicitaTercero(){
+    if(this.form.solicitadaTercero.value == "1"){
+      this.form.tipoTercero.visible = true
+      this.form.tipoTercero.required = true
+    }else{
+      this.form.tipoTercero.value = null
+      this.form.tipoTercero.visible = false
+      this.form.tipoTercero.required = false
+
+      this.form.terceroNumeroContrato.value = null
+      this.form.terceroNumeroContrato.visible = false
+      this.form.terceroNumeroContrato.required = false
+
+      this.form.terceroAnio.value = null
+      this.form.terceroAnio.visible = false
+      this.form.terceroAnio.required = false
+
+      this.form.terceroDescripcion.value = null
+      this.form.terceroDescripcion.visible = false
+      this.form.terceroDescripcion.required = false
+
+    }
+  }
+
+  validarTipoTercero(){
+    //obtiene el codigo del tipo tercero
+    if(this.form.tipoTercero.value != null){
+      let code = ""
+      for(let value of this.dataControls?.tipoTercerosConsigna){
+        if(parseInt(value.id) == parseInt(this.form.tipoTercero.value)){
+          code = value.codigo
+        }
+      }
+
+      if(code == 'CTA'){
+        this.form.terceroNumeroContrato.visible = true
+        this.form.terceroNumeroContrato.required = true
+
+        this.form.terceroAnio.visible = true
+        this.form.terceroAnio.required = true
+
+        this.form.terceroDescripcion.visible = true
+        this.form.terceroDescripcion.required = true
+      }else{
+        this.form.terceroNumeroContrato.value = null
+        this.form.terceroNumeroContrato.visible = false
+        this.form.terceroNumeroContrato.required = false
+
+        this.form.terceroAnio.value = null
+        this.form.terceroAnio.visible = false
+        this.form.terceroAnio.required = false
+
+        this.form.terceroDescripcion.visible = true
+        this.form.terceroDescripcion.required = true
+      }
+    }else{
+      this.form.terceroNumeroContrato.value = null
+      this.form.terceroNumeroContrato.visible = false
+      this.form.terceroNumeroContrato.required = false
+
+      this.form.terceroAnio.value = null
+      this.form.terceroAnio.visible = false
+      this.form.terceroAnio.required = false
+
+      this.form.terceroDescripcion.value = null
+      this.form.terceroDescripcion.visible = false
+      this.form.terceroDescripcion.required = false
+    }
+
   }
 
   

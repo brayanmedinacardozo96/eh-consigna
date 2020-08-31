@@ -57,7 +57,12 @@
       <!--Solicitante -->
       <ng-container matColumnDef="solicitante">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Solicitante</th>
-        <td mat-cell *matCellDef="let row">{{row?.usuario_nombre_completo}}</td>
+        <td mat-cell *matCellDef="let row">
+          <span (click)="showSolicitadaTercero(row?.consignacion_id)" style="cursor: pointer;color: #0098db;" matTooltip="Ver Solicitada Tercero" matTooltipClass="custom-tooltip" *ngIf="row?.solicitada_tercero == '1'; else elseBlock">
+            {{row?.usuario_nombre_completo}}
+          </span>
+          <ng-template #elseBlock>{{row?.usuario_nombre_completo}}</ng-template>
+        </td>
       </ng-container>
 
       <!--Consigna Padre -->

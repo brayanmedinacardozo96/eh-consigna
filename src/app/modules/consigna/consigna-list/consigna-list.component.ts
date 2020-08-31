@@ -8,6 +8,7 @@ import { ConsignaElementoListComponent } from './../consigna-elemento-list/consi
 import { ConsignaTrabajoListComponent } from './../consigna-trabajo-list/consigna-trabajo-list.component';
 import { ConsignaManiobraListComponent } from './../consigna-maniobra-list/consigna-maniobra-list.component';
 import { ConsignaListDocumentsComponent } from './../consigna-list-documents/consigna-list-documents.component';
+import { ConsignaTerceroListComponent } from './../consigna-tercero-list/consigna-tercero-list.component';
 import { ApiService } from 'src/app/shared/services/api.service';
 import {Router} from "@angular/router";
 import { SnackBarService } from './../../../shared/services/snack-bar.service';
@@ -205,6 +206,22 @@ export class ConsignaListComponent implements OnInit {
 
   viewFormJefeZona(codigo){
     this.router.navigateByUrl('jefe-zona/autorizar/'+codigo);
+  }
+
+  async showSolicitadaTercero(id){
+    const response = await this.api.get(`${environment.apiBackend}/consigna/get/${id}`);
+    let success = response.success;
+    let message = response.message;
+    let dataListTercero = null;
+
+    if(success){
+      dataListTercero = response.data
+      const dialogRef = this.dialog.open(ConsignaTerceroListComponent, {
+        width:'100%',
+        data: {dataListTercero}
+      });
+    }
+
   }
 
 }
