@@ -15,6 +15,8 @@ import { SnackBarService } from './../../../shared/services/snack-bar.service';
 import { ModalConfirmComponent } from './../../../ui/forms/modal-confirm/modal-confirm.component';
 import { Mensaje } from './../../../ui/forms/m-dialog/dialog';
 import {Aprobar} from '../../autorizar/aprobar';
+import { Auth } from './../../../shared/auth';
+import { User } from './../../../shared/models/user';
 
 @Component({
   selector: 'app-consigna-list',
@@ -23,6 +25,7 @@ import {Aprobar} from '../../autorizar/aprobar';
 })
 export class ConsignaListComponent implements OnInit {
   number = Number;
+  user: User = Auth.getUserDataPerson();
 
   displayedColumns: string[] = ['numeroConsigna', 'consecutivoSnc','fecha_creacion','fecha_solicitud', 'tipoFormato', 'tipoZona', 'estadoConsigna','estadoEquipo', 'tipo_consignacion', 'solicitante', 'consignaPadre', 'elementosConsignados', 'maniobras', 'acciones'];
   dataSource: MatTableDataSource<any>;
@@ -222,6 +225,11 @@ export class ConsignaListComponent implements OnInit {
       });
     }
 
+  }
+
+  validaAccionEditar(){
+    console.log('entra');
+    return true;
   }
 
 }

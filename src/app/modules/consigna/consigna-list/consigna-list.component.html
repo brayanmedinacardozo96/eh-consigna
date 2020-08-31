@@ -109,14 +109,23 @@
                       matTooltip="Aprobar"
                       matTooltipClass="custom-tooltip">fact_check
             </mat-icon>
-
-            <ng-container *appUserCan="['consignas-modulo-principal-consigna-editar']">
+            
+            <ng-container *ngIf="number(user.id) == number(row?.usuario_id); else elseBlockEditar">
               <mat-icon *ngIf="number(row?.permite_editar) === 1" (click)="editarElemento(row?.consignacion_id)"
-                        style="cursor: pointer;"
-                        matTooltip="Editar" matTooltipClass="custom-tooltip"
-                        color="accent">edit
-              </mat-icon>
+                          style="cursor: pointer;"
+                          matTooltip="Editar" matTooltipClass="custom-tooltip"
+                          color="accent">edit
+                </mat-icon>
             </ng-container>
+            <ng-template #elseBlockEditar>
+              <ng-container *appUserCan="['consignas-modulo-principal-consigna-editar']">
+                <mat-icon *ngIf="number(row?.permite_editar) === 1" (click)="editarElemento(row?.consignacion_id)"
+                          style="cursor: pointer;"
+                          matTooltip="Editar" matTooltipClass="custom-tooltip"
+                          color="accent">edit
+                </mat-icon>
+              </ng-container>
+            </ng-template>
 
             <mat-icon [style.display]=""
                       (click)="verDocumentos(row?.consignacion_id)" style="cursor: pointer;"
