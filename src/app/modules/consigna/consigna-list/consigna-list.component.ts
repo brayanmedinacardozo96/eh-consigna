@@ -227,9 +227,4 @@ export class ConsignaListComponent implements OnInit {
 
   }
 
-  validaAccionEditar(){
-    console.log('entra');
-    return true;
-  }
-
 }

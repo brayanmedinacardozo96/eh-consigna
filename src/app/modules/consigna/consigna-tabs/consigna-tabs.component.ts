@@ -126,13 +126,6 @@ export class ConsignaTabsComponent implements OnInit {
       setTimeout(
         function(){ myConsigna.validarSelectSolicitaTercero();myConsigna.validarTipoTercero();
       }, 3000);
-      
-
-       console.log(this.consigna.form.solicitadaTercero.value);
-       console.log(this.consigna.form.tipoTercero.value);
-       console.log(this.consigna.form.terceroNumeroContrato.value);
-       console.log(this.consigna.form.terceroAnio.value);
-       console.log(this.consigna.form.terceroDescripcion.value);
 
       this.consigna.interrupcionesCortoTiempo.barrios.value = dataResponse.ct_barrio;
       this.consigna.interrupcionesCortoTiempo.clientesNoRegulados.value = dataResponse.ct_cliente_no_regulado;

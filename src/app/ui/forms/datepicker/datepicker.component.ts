@@ -28,7 +28,6 @@ export class DatepickerComponent implements OnInit {
   }
 
   change(){
-    console.log(this.value)
     let day: string = this.value.getDate().toString();
     day = +day < 10 ? '0' + day : day;
     let month: string = (this.value.getMonth() + 1).toString();
@@ -36,7 +35,6 @@ export class DatepickerComponent implements OnInit {
     let year = this.value.getFullYear();
     let date = `${year}-${month}-${day}`;
     this.value = date;
-    console.log(this.value)
   }
 
   first(event, x= null) {

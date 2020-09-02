@@ -23,11 +23,9 @@ export class TableManiobraComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-      // console.log(this.valueChange);
   }
 
   init(data) {
-    // console.log(data);
     this.dataSource = new MatTableDataSource(data);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;

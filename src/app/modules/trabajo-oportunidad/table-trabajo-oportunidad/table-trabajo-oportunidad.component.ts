@@ -43,7 +43,7 @@ export class TableTrabajoOportunidadComponent implements OnInit {
   }
 
   imprimir(data){
-    // console.log(data)
+    
   }
 
   seleccionar(row)

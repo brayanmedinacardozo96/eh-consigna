@@ -179,7 +179,6 @@ export class ConsignaSolicitudEstadoComponent implements OnInit {
   {
 
     var result=this.aprobar.validarPermiso();
-    console.log(result);
     if(result.length>0)
     {
       this.isVisible=true;
