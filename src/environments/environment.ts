@@ -4,6 +4,7 @@
 
 export const environment = {
   production: false,
+  debug: true, //cuando esté en false ejecutar en el servidor de pruebas, pero apuntando a mapas en producción
   appName: 'Sistema Local de Consignas',
   companyName: 'Electrohuila S.A. - E.S.P.',
   apiTransverseSecurity: 'http://192.9.200.44/back-transverse-security/public/api',//'http://localhost/back-transverse-security/public/api',

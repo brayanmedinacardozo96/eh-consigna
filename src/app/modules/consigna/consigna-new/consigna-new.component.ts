@@ -461,7 +461,8 @@ export class ConsignaNewComponent implements OnInit {
   mostrarPanelElemento=true;
   elementUpdateID=null;
   esRedElectrica=true;
-  
+
+  verMapaSelect = 'hidden';
   
   constructor(private api: ApiService,
               private validations: ValidationService,
@@ -1211,8 +1212,10 @@ export class ConsignaNewComponent implements OnInit {
  getJsonMapa(){
   //  para ocultar el boton de ver el mapa
    var botonVerMapaSelec = document.getElementById("botonVerMapaSelec");
-   botonVerMapaSelec.style.visibility = "hidden";
+   this.verMapaSelect = "hidden";
+   botonVerMapaSelec.style.visibility = this.verMapaSelect;
    this.jsonMapa = '';
+   document.getElementById("jsonDataMapa").innerText = ''
 
     var child;
     var date = new Date();
@@ -1238,8 +1241,13 @@ export class ConsignaNewComponent implements OnInit {
       var intentos = 0;
       var timer = setInterval(async function () {
         if (child.closed) {
+          let response = null;
           // Se realiza el llamado del api que obtiene la data del mapa a partir del key
-          const response = await apiLocal.get(`${environment.apiBackend}/integracion-mapa/get/${key}`);
+          if(environment.debug && environment.production){
+            response = await apiLocal.get(`https://enlinea.electrohuila.com.co/back-consignas/public/api/integracion-mapa/get/${key}`);
+          }else{
+            response = await apiLocal.get(`${environment.apiBackend}/integracion-mapa/get/${key}`);
+          }
           intentos += 1;
           if(response.success){
 
@@ -1252,11 +1260,12 @@ export class ConsignaNewComponent implements OnInit {
             document.getElementById("jsonDataMapa").textContent = jsonLocal;
             document.getElementById("jsonMapaTipo").textContent = objJson.tipo;
 
-            botonVerMapaSelec.style.visibility = "visible";
+            this.verMapaSelect = "visible";
+            botonVerMapaSelec.style.visibility = this.verMapaSelect;
             clearInterval(timer);
             
           }else{
-            if(intentos <= 1){
+            if(intentos <= 1 && this.verMapaSelect !== "visible"){
               snackBar.alert('No se encontró registro de mapa para guardar!',5000);
             }
           }
