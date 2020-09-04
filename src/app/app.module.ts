@@ -24,6 +24,7 @@ import {ComunicadoPrensaModule} from "./modules/comunicado-prensa/comunicado-pre
 import {NotifierModule} from "angular-notifier";
 import {BitacoraModule} from "./modules/bitacora/bitacora.module";
 import {AsignacionSolicitudesModule} from './modules/asignacion-solicitudes/asignacion-solicitudes.module';
+import { ActualizarInformacionModule } from './modules/actualizar-informacion/actualizar-informacion.module';
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import {AsignacionSolicitudesModule} from './modules/asignacion-solicitudes/asig
         }
       }
     }),
+    ActualizarInformacionModule,
   ],
   providers: [
     {provide: LocationStrategy, useClass: HashLocationStrategy},

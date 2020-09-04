@@ -1,0 +1,53 @@
+<mat-card class="container">
+    <mat-card-content>
+        <h1>Actualizar Información Spard</h1>
+        <mat-grid-list class="row" style="align-content: center;" cols="3" rowHeight="160px">
+            <ng-container>
+                <mat-grid-tile>
+                  <mat-card class="item" (click)="updateSpard('subestacion/update-spard')" style="cursor: pointer">
+                    <mat-card-content style="text-align: center">
+                      <h1>Subestaciones</h1>
+                      <span class="material-icons icon">analytics</span>
+                    </mat-card-content>
+                  </mat-card>
+                </mat-grid-tile>
+            </ng-container>
+
+            <ng-container>
+                <mat-grid-tile>
+                  <mat-card class="item" (click)="updateSpard('tipo-elemento/update-spard')" style="cursor: pointer">
+                    <mat-card-content style="text-align: center">
+                      <h1>Tipo Elementos</h1>
+                      <span class="material-icons icon">publish</span>
+                    </mat-card-content>
+                  </mat-card>
+                </mat-grid-tile>
+            </ng-container>
+
+            <ng-container>
+                <mat-grid-tile>
+                  <mat-card class="item" (click)="updateSpard('elemento/update-spard')" style="cursor: pointer">
+                    <mat-card-content style="text-align: center">
+                      <h1>Elementos</h1>
+                      <span class="material-icons icon">scatter_plot</span>
+                    </mat-card-content>
+                  </mat-card>
+                </mat-grid-tile>
+            </ng-container>
+
+            <ng-container>
+                <mat-grid-tile>
+                  <mat-card class="item" (click)="updateSpard('parametro/update-division-area-siec')" style="cursor: pointer">
+                    <mat-card-content style="text-align: center">
+                      <h1>División Area</h1>
+                      <span class="material-icons icon">list</span>
+                    </mat-card-content>
+                  </mat-card>
+                </mat-grid-tile>
+            </ng-container>
+        </mat-grid-list>
+    </mat-card-content>
+</mat-card>
+
+<div [innerHTML]="tableIssues">
+</div>
