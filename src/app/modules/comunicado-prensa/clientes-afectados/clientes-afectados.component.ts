@@ -20,6 +20,12 @@ export class ClientesAfectadosComponent implements OnInit {
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
+  dataHeader = [
+    {name:'#', nameColumn:'count'},
+    {name:'Cuenta', nameColumn:'cuenta'},
+    {name:'Nombre', nameColumn:'nombre'},
+    {name:'Correos', nameColumn:'emails'},
+  ]
 
   constructor(private api: ApiService,
               private notifier: NotifierService,

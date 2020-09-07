@@ -11,10 +11,21 @@
 
 <div>
 
-  <mat-form-field style="width: 100%">
-    <mat-label>Buscar en el listado</mat-label>
-    <input matInput (keyup)="applyFilter($event)" placeholder="Ej: 123456789">
-  </mat-form-field>
+  <mat-grid-list class="row" style="align-content: center;" cols="2" rowHeight="80px">
+    <mat-grid-tile>
+      <mat-form-field style="width: 100%">
+        <mat-label>Buscar en el listado</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Ej: 123456789">
+      </mat-form-field>
+    </mat-grid-tile>
+
+    <mat-grid-tile>
+      <div style="margin-left: 20px;">
+        <app-generate-excel [data]="data" [dataHeader]="dataHeader" [nameDocument]="'Clientes Afectados'"></app-generate-excel>
+      </div>
+    </mat-grid-tile>
+  
+  </mat-grid-list>
 
   <div mat-dialog-content style="text-align: center !important;">
     <table mat-table [dataSource]="dataSource" matSort class="custom-table" style="min-width: 90%">
