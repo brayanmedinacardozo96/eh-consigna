@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input, Output, EventEmitter, ɵConsole } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, Output, EventEmitter } from '@angular/core';
 import {ApiService} from '../../../shared/services/api.service';
 import {ValidationService} from '../../../shared/services/validations.service';
 import {DateValidationervice} from '../../../shared/services/date-validations.service';
@@ -63,7 +63,9 @@ export class ConsignaNewComponent implements OnInit {
     solicitadaTercero:[ 
       {id: "1",nombre: "Si"},
       {id: "0", nombre: "No"}
-    ]
+    ],
+    tipoTercerosConsigna:[],
+    selectYear: this.dateValidation.getSelectCurrentDate(true),
   };
 
   form = {
@@ -123,7 +125,7 @@ export class ConsignaNewComponent implements OnInit {
       disabled: false
     },
     fechaSolicitud: {
-      label: 'Fecha de solicitud',
+      label: 'Fecha ejecución',
       name: 'fechaSolicitud',
       value: null,
       messages: null,
@@ -263,7 +265,46 @@ export class ConsignaNewComponent implements OnInit {
       messages: null,
       required: true,
       disabled: false
-    }
+    },
+    tipoTercero: {
+      label: 'Tipo de Tercero',
+      name: 'tipoTercero',
+      value: null,
+      messages: null,
+      required: false,
+      disabled: false,
+      visible: false
+    },
+    terceroNumeroContrato: {
+      label: 'Número Contrato',
+      name: 'terceroNumeroContrato',
+      value: null,
+      messages: null,
+      required: false,
+      length: 20,
+      disabled: false,
+      visible: false
+    },
+    terceroAnio: {
+      label: 'Año del Contrato',
+      name: 'terceroAnio',
+      value: null,
+      messages: null,
+      required: false,
+      disabled: false,
+      visible: false
+    },
+    terceroDescripcion: {
+      label: 'Descripción',
+      name: 'terceroDescripcion',
+      value: null,
+      messages: null,
+      required: false,
+      length: 500,
+      disabled: false,
+      visible: false
+    },
+
   };
 
   interrupcionesTrabajo = {
@@ -420,7 +461,8 @@ export class ConsignaNewComponent implements OnInit {
   mostrarPanelElemento=true;
   elementUpdateID=null;
   esRedElectrica=true;
-  
+
+  verMapaSelect = 'hidden';
   
   constructor(private api: ApiService,
               private validations: ValidationService,
@@ -969,6 +1011,7 @@ export class ConsignaNewComponent implements OnInit {
     // this.dataControls.elemento = this.session.getItem('elemento');
     this.form.medidasSeguiridad.value=this.session.getItem('medidaSeguridad')[0]['descripcion'];
     this.dataControls.tipoFormatoConsigna = this.session.getItem('tipoFormatoConsigna');
+    this.dataControls.tipoTercerosConsigna = this.session.getItem('tipoTercerosConsigna');
     this.setDefaultTipoConsigna();
     //cuando es nueva agregar solo la solicitada
     this.dataControls.estadoConsigna = this.session.getItem('estadoConsigna').filter(b => {
@@ -1052,7 +1095,7 @@ export class ConsignaNewComponent implements OnInit {
         if(tipoSelect == 'S'){ 
           for(let value of response.data){
             if(event == parseInt(value.subestacion_id)){
-              var message = "Existe una solicitud con la subestación seleccionada en estado pendiente para la fecha de solicitud "+moment(value.fecha_solicitud).format('YYYY/MM/DD')+" ¿desea crear la solicitud como trabajo de oportunidad?"
+              var message = "Existe una solicitud con la subestación seleccionada en estado pendiente para la fecha ejecución "+moment(value.fecha_solicitud).format('YYYY/MM/DD')+" ¿desea crear la solicitud como trabajo de oportunidad?"
               this.dialogo
                 .open(ModalConfirmComponent, {
                 data: new Mensaje("Atención:", message)
@@ -1075,7 +1118,7 @@ export class ConsignaNewComponent implements OnInit {
           for(let value of response.lista_elemento){
             if(parseInt(value.subestacion_id) == this.form.subestacion.value && 
               parseInt(value.elemento_id) == event){
-                var message = "Existe una solicitud con la subestación y elemento seleccionado en estado pendiente para la fecha de solicitud "+moment(value.fecha_solicitud).format('YYYY/MM/DD')+" ¿desea crear la solicitud como trabajo de oportunidad?"
+                var message = "Existe una solicitud con la subestación y elemento seleccionado en estado pendiente para la fecha ejecución "+moment(value.fecha_solicitud).format('YYYY/MM/DD')+" ¿desea crear la solicitud como trabajo de oportunidad?"
                 this.dialogo
                   .open(ModalConfirmComponent, {
                   data: new Mensaje("Atención:", message)
@@ -1169,8 +1212,10 @@ export class ConsignaNewComponent implements OnInit {
  getJsonMapa(){
   //  para ocultar el boton de ver el mapa
    var botonVerMapaSelec = document.getElementById("botonVerMapaSelec");
-   botonVerMapaSelec.style.visibility = "hidden";
+   this.verMapaSelect = "hidden";
+   botonVerMapaSelec.style.visibility = this.verMapaSelect;
    this.jsonMapa = '';
+   document.getElementById("jsonDataMapa").innerText = ''
 
     var child;
     var date = new Date();
@@ -1196,8 +1241,13 @@ export class ConsignaNewComponent implements OnInit {
       var intentos = 0;
       var timer = setInterval(async function () {
         if (child.closed) {
+          let response = null;
           // Se realiza el llamado del api que obtiene la data del mapa a partir del key
-          const response = await apiLocal.get(`${environment.apiBackend}/integracion-mapa/get/${key}`);
+          if(environment.debug && environment.production){
+            response = await apiLocal.get(`https://enlinea.electrohuila.com.co/back-consignas/public/api/integracion-mapa/get/${key}`);
+          }else{
+            response = await apiLocal.get(`${environment.apiBackend}/integracion-mapa/get/${key}`);
+          }
           intentos += 1;
           if(response.success){
 
@@ -1210,11 +1260,12 @@ export class ConsignaNewComponent implements OnInit {
             document.getElementById("jsonDataMapa").textContent = jsonLocal;
             document.getElementById("jsonMapaTipo").textContent = objJson.tipo;
 
-            botonVerMapaSelec.style.visibility = "visible";
+            this.verMapaSelect = "visible";
+            botonVerMapaSelec.style.visibility = this.verMapaSelect;
             clearInterval(timer);
             
           }else{
-            if(intentos <= 1){
+            if(intentos <= 1 && this.verMapaSelect !== "visible"){
               snackBar.alert('No se encontró registro de mapa para guardar!',5000);
             }
           }
@@ -1650,6 +1701,77 @@ export class ConsignaNewComponent implements OnInit {
 
   unique(value, index, self) { 
     return self.indexOf(value) === index;
+  }
+
+  validarSelectSolicitaTercero(){
+    if(this.form.solicitadaTercero.value == "1"){
+      this.form.tipoTercero.visible = true
+      this.form.tipoTercero.required = true
+    }else{
+      this.form.tipoTercero.value = null
+      this.form.tipoTercero.visible = false
+      this.form.tipoTercero.required = false
+
+      this.form.terceroNumeroContrato.value = null
+      this.form.terceroNumeroContrato.visible = false
+      this.form.terceroNumeroContrato.required = false
+
+      this.form.terceroAnio.value = null
+      this.form.terceroAnio.visible = false
+      this.form.terceroAnio.required = false
+
+      this.form.terceroDescripcion.value = null
+      this.form.terceroDescripcion.visible = false
+      this.form.terceroDescripcion.required = false
+
+    }
+  }
+
+  validarTipoTercero(){
+    //obtiene el codigo del tipo tercero
+    if(this.form.tipoTercero.value != null){
+      let code = ""
+      for(let value of this.dataControls?.tipoTercerosConsigna){
+        if(parseInt(value.id) == parseInt(this.form.tipoTercero.value)){
+          code = value.codigo
+        }
+      }
+
+      if(code == 'CTA'){
+        this.form.terceroNumeroContrato.visible = true
+        this.form.terceroNumeroContrato.required = true
+
+        this.form.terceroAnio.visible = true
+        this.form.terceroAnio.required = true
+
+        this.form.terceroDescripcion.visible = true
+        this.form.terceroDescripcion.required = true
+      }else{
+        this.form.terceroNumeroContrato.value = null
+        this.form.terceroNumeroContrato.visible = false
+        this.form.terceroNumeroContrato.required = false
+
+        this.form.terceroAnio.value = null
+        this.form.terceroAnio.visible = false
+        this.form.terceroAnio.required = false
+
+        this.form.terceroDescripcion.visible = true
+        this.form.terceroDescripcion.required = true
+      }
+    }else{
+      this.form.terceroNumeroContrato.value = null
+      this.form.terceroNumeroContrato.visible = false
+      this.form.terceroNumeroContrato.required = false
+
+      this.form.terceroAnio.value = null
+      this.form.terceroAnio.visible = false
+      this.form.terceroAnio.required = false
+
+      this.form.terceroDescripcion.value = null
+      this.form.terceroDescripcion.visible = false
+      this.form.terceroDescripcion.required = false
+    }
+
   }
 
   

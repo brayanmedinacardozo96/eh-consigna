@@ -2,7 +2,7 @@
     <mat-card-content>
         <h1>{{action | titlecase}} {{ tipoFormato | titlecase}}</h1>
         <br>
-        <mat-grid-list class="row" cols="4" rowHeight="80px">
+        <mat-grid-list class="row" cols="4" rowHeight="110px">
             
             <mat-grid-tile>
                 <mat-form-field>
@@ -157,13 +157,67 @@
             <mat-grid-tile >
                 <mat-form-field>
                     <mat-label>{{form.solicitadaTercero.required ? form.solicitadaTercero.label+' *' : form.solicitadaTercero.label}}</mat-label>
-                    <mat-select [disabled]="form.solicitadaTercero.disabled" [(ngModel)]="form.solicitadaTercero.value" style="padding-top: 5px;padding-bottom: 5px;">
+                    <mat-select [disabled]="form.solicitadaTercero.disabled" [(ngModel)]="form.solicitadaTercero.value" 
+                    (ngModelChange)="validarSelectSolicitaTercero()" style="padding-top: 5px;padding-bottom: 5px;">
                         <mat-option *ngFor="let value of dataControls?.solicitadaTercero;" [value]="value.id">
                             {{ value.nombre }}
                         </mat-option>
                     </mat-select>
                     <mat-hint style="color: red" *ngIf="form.solicitadaTercero.messages">{{form.solicitadaTercero.messages}}</mat-hint>
                 </mat-form-field>
+            </mat-grid-tile>
+            
+            <mat-grid-tile *ngIf="form.tipoTercero.visible">
+                <mat-form-field>
+                    <mat-label>{{ form.tipoTercero.required ? form.tipoTercero.label+' *' : form.tipoTercero.label}}</mat-label>
+                    <mat-select [disabled]="form.tipoTercero.disabled" [(ngModel)]="form.tipoTercero.value" 
+                    (ngModelChange)="validarTipoTercero()" style="padding-top: 5px;padding-bottom: 5px;">
+                        <mat-option *ngFor="let value of dataControls?.tipoTercerosConsigna;" [value]="value.id">
+                            {{value.nombre}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-hint style="color: red" *ngIf="form.tipoTercero.messages">{{form.tipoTercero.messages}}</mat-hint>
+                </mat-form-field>
+            </mat-grid-tile>
+
+            <mat-grid-tile *ngIf="form.terceroNumeroContrato.visible">
+                <app-input-text style="width: 85%;"
+                class="input"
+                    [label]="form.terceroNumeroContrato.label"
+                    [value]="form.terceroNumeroContrato.value"
+                    [name]="form.terceroNumeroContrato.name"
+                    [messages]="form.terceroNumeroContrato.messages"
+                    [required]="form.terceroNumeroContrato.required"
+                    [disable]="form.terceroNumeroContrato.disabled"
+                    [length]="form.terceroNumeroContrato.length"
+                    (valueChange)="setData(form.terceroNumeroContrato.name, $event)">
+                </app-input-text>
+            </mat-grid-tile> 
+
+            <mat-grid-tile *ngIf="form.terceroAnio.visible">
+                <mat-form-field>
+                    <mat-label>{{ form.terceroAnio.required ? form.terceroAnio.label+' *' : form.terceroAnio.label}}</mat-label>
+                    <mat-select [disabled]="form.terceroAnio.disabled" [(ngModel)]="form.terceroAnio.value" 
+                     style="padding-top: 5px;padding-bottom: 5px;">
+                        <mat-option *ngFor="let value of dataControls?.selectYear;" [value]="value">
+                            {{value}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-hint style="color: red" *ngIf="form.terceroAnio.messages">{{form.terceroAnio.messages}}</mat-hint>
+                </mat-form-field>
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="2" *ngIf="form.terceroDescripcion.visible">
+                <app-input-text-area style="width: 90%;"
+                    class="input"
+                    [label]="form.terceroDescripcion.label"
+                    [value]="form.terceroDescripcion.value"
+                    [name]="form.terceroDescripcion.name"
+                    [messages]="form.terceroDescripcion.messages"
+                    [required]="form.terceroDescripcion.required"
+                    [length]="form.terceroDescripcion.length"
+                    (valueChange)="setData(form.terceroDescripcion.name, $event)">
+                </app-input-text-area>
             </mat-grid-tile>
 
             <mat-grid-tile [colspan]="2">
@@ -178,7 +232,7 @@
             </mat-grid-tile>
 
         </mat-grid-list>   
-        
+
         <br>
         <!-- Listado elementos a consignar -->
         <fieldset>

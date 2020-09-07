@@ -51,9 +51,14 @@ export class SessionService {
      var persona = [];
 
      this.getItem('usuario').forEach(async (key) => {
-
+        let nombre = '';
+        nombre = key.person.first_name + " ";
+        nombre += (key.person.second_name != 'null' &&  key.person.second_name != null && key.person.second_name != undefined) ? key.person.second_name : '';
+        nombre += " " + key.person.first_lastname + " ";
+        nombre += (key.person.second_lastname != 'null' && key.person.second_lastname != null && key.person.second_lastname != undefined) ? key.person.second_lastname : '';
+        
        persona.push({
-         nombre: key.person.first_name + " " + key.person.second_name + " " + key.person.first_lastname + " " + key.person.second_lastname,
+         nombre: nombre,
          identificacion: key.person.document_number,
          id: key.id
 
@@ -88,7 +93,6 @@ export class SessionService {
 
   validarLinkRutaPrevia(){
     if(sessionStorage.getItem('linkRutaPrevia') != undefined){
-      console.log(sessionStorage.getItem('linkRutaPrevia'))
       this.router.navigate([sessionStorage.getItem('linkRutaPrevia')]);
       sessionStorage.removeItem('linkRutaPrevia');
     }else{

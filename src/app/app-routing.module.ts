@@ -18,6 +18,7 @@ import {BitacoraFormComponent} from "./modules/bitacora/bitacora-form/bitacora-f
 import {BitacoraComponent} from "./modules/bitacora/bitacora.component";
 import {AsignacionSolicitudesComponent} from './modules/asignacion-solicitudes/asignacion-solicitudes.component';
 import { AsignacionSolicitudesNewComponent } from './modules/asignacion-solicitudes/asignacion-solicitudes-new/asignacion-solicitudes-new.component';
+import { ActualizarInformacionComponent } from './modules/actualizar-informacion/actualizar-informacion.component';
 
 const routes: Routes = [
   {path: '', component: LoginComponent}
@@ -47,6 +48,7 @@ const routes: Routes = [
   , {path: 'asignacion-solicitudes', component: AsignacionSolicitudesComponent, canActivate: [AuthGuard]}
   , {path: 'asignacion-solicitudes/new', component: AsignacionSolicitudesNewComponent, canActivate: [AuthGuard]}
   , {path: 'asignacion-solicitudes/editar/:iduser/:rol', component: AsignacionSolicitudesNewComponent, canActivate: [AuthGuard]}
+  , {path: 'actualizar-informacion', component: ActualizarInformacionComponent, canActivate: [AuthGuard]}
 
   , {path: '404', component: NotFoundComponent}
   , {path: '**', redirectTo: '/404'}

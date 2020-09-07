@@ -117,6 +117,16 @@ export class ConsignaTabsComponent implements OnInit {
       this.consigna.form.urlMapa.value = (dataResponse.url_mapa != null && dataResponse.url_mapa != undefined && dataResponse.url_mapa != '')
        ? JSON.parse(dataResponse.url_mapa) : [];
 
+      this.consigna.form.solicitadaTercero.value = dataResponse.solicitada_tercero;
+      this.consigna.form.tipoTercero.value = parseInt(dataResponse.tipo_tercero_id);
+      this.consigna.form.terceroNumeroContrato.value = dataResponse.tercero_numero_contrato;
+      this.consigna.form.terceroAnio.value = parseInt(dataResponse.tercero_anio);
+      this.consigna.form.terceroDescripcion.value = dataResponse.tercero_descripcion;
+      let myConsigna = this.consigna
+      setTimeout(
+        function(){ myConsigna.validarSelectSolicitaTercero();myConsigna.validarTipoTercero();
+      }, 3000);
+
       this.consigna.interrupcionesCortoTiempo.barrios.value = dataResponse.ct_barrio;
       this.consigna.interrupcionesCortoTiempo.clientesNoRegulados.value = dataResponse.ct_cliente_no_regulado;
       //file Anexos

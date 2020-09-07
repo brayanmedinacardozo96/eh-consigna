@@ -71,7 +71,7 @@ export class ConsignaComponent implements OnInit {
       required: false,
     },
     fechaSolicitud: {
-      label: 'Fecha de solicitud',
+      label: 'Fecha ejecución',
       name: 'fechaSolicitud',
       value: null,
       messages: null,
@@ -103,7 +103,8 @@ export class ConsignaComponent implements OnInit {
   dataHeader = [
     {name:'# Consignación', nameColumn:'codigo'},
     {name:'Consecutivo SNC', nameColumn:'codigo_snc'},
-    {name:'Fecha solicitud', nameColumn:'fecha_solicitud'},
+    {name:'Fecha Solicitud', nameColumn:'fecha_creacion'},
+    {name:'Fecha Ejecución', nameColumn:'fecha_solicitud'},
     {name:'Tipo Formato', nameColumn:'tipo_formato'},
     {name:'Zona', nameColumn:'codigo_zona'},
     {name:'Estado Consignación', nameColumn:'estado_consigna'},

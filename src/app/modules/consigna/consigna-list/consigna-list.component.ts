@@ -8,12 +8,15 @@ import { ConsignaElementoListComponent } from './../consigna-elemento-list/consi
 import { ConsignaTrabajoListComponent } from './../consigna-trabajo-list/consigna-trabajo-list.component';
 import { ConsignaManiobraListComponent } from './../consigna-maniobra-list/consigna-maniobra-list.component';
 import { ConsignaListDocumentsComponent } from './../consigna-list-documents/consigna-list-documents.component';
+import { ConsignaTerceroListComponent } from './../consigna-tercero-list/consigna-tercero-list.component';
 import { ApiService } from 'src/app/shared/services/api.service';
 import {Router} from "@angular/router";
 import { SnackBarService } from './../../../shared/services/snack-bar.service';
 import { ModalConfirmComponent } from './../../../ui/forms/modal-confirm/modal-confirm.component';
 import { Mensaje } from './../../../ui/forms/m-dialog/dialog';
 import {Aprobar} from '../../autorizar/aprobar';
+import { Auth } from './../../../shared/auth';
+import { User } from './../../../shared/models/user';
 
 @Component({
   selector: 'app-consigna-list',
@@ -22,8 +25,9 @@ import {Aprobar} from '../../autorizar/aprobar';
 })
 export class ConsignaListComponent implements OnInit {
   number = Number;
+  user: User = Auth.getUserDataPerson();
 
-  displayedColumns: string[] = ['numeroConsigna', 'consecutivoSnc','fecha_solicitud', 'tipoFormato', 'tipoZona', 'estadoConsigna','estadoEquipo', 'tipo_consignacion', 'solicitante', 'consignaPadre', 'elementosConsignados', 'maniobras', 'acciones'];
+  displayedColumns: string[] = ['numeroConsigna', 'consecutivoSnc','fecha_creacion','fecha_solicitud', 'tipoFormato', 'tipoZona', 'estadoConsigna','estadoEquipo', 'tipo_consignacion', 'solicitante', 'consignaPadre', 'elementosConsignados', 'maniobras', 'acciones'];
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
@@ -205,6 +209,22 @@ export class ConsignaListComponent implements OnInit {
 
   viewFormJefeZona(codigo){
     this.router.navigateByUrl('jefe-zona/autorizar/'+codigo);
+  }
+
+  async showSolicitadaTercero(id){
+    const response = await this.api.get(`${environment.apiBackend}/consigna/get/${id}`);
+    let success = response.success;
+    let message = response.message;
+    let dataListTercero = null;
+
+    if(success){
+      dataListTercero = response.data
+      const dialogRef = this.dialog.open(ConsignaTerceroListComponent, {
+        width:'100%',
+        data: {dataListTercero}
+      });
+    }
+
   }
 
 }

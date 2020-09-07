@@ -43,7 +43,8 @@ import { ConsignaSolicitudEstadoComponent } from './consigna-solicitud-estado/co
 import { BitacoraListComponent } from './bitacora-list/bitacora-list.component';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatSidenavModule} from "@angular/material/sidenav";
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner'; 
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { ConsignaTerceroListComponent } from './consigna-tercero-list/consigna-tercero-list.component'; 
 
 @NgModule({
   declarations: [
@@ -63,6 +64,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     ConsignaNewSearchComponent,
     ConsignaSolicitudEstadoComponent,
     BitacoraListComponent,
+    ConsignaTerceroListComponent,
 
 
   ],
