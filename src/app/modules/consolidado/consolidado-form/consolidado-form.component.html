@@ -1,0 +1,135 @@
+<div style="min-height: 520px;">
+    <mat-card class="container">
+        <mat-card-content>
+    
+            <h1>
+            <ng-container *ngIf="!id">Crear</ng-container>
+            <ng-container *ngIf="id">Editar</ng-container>
+            consolidado
+            </h1>
+
+            <fieldset>
+                <legend style="text-align: left;">Buscar comunicados de prensa publicados</legend>
+        
+                <ng-container *ngIf="!id">
+                    <mat-label  style="color: #0098db;">Puede buscar el comunicado de prensa publicado por la fecha de ejecución de la consignacón.</mat-label>
+                    <br>
+                    <app-datepicker
+                        [style]="'padding: 5px;'"
+                        [label]="formRangoFecha.fechaInicio.label"
+                        [value]="formRangoFecha.fechaInicio.value"
+                        [name]="formRangoFecha.fechaInicio.name"
+                        [messages]="formRangoFecha.fechaInicio.messages"
+                        [id]="formRangoFecha.fechaInicio.name"
+                        (valueChange)="setDataFormRangoFechas(formRangoFecha.fechaInicio.name, $event);"
+                    ></app-datepicker>
+            
+                    <app-datepicker
+                        [style]="'padding: 5px;'"
+                        [label]="formRangoFecha.fechaFin.label"
+                        [value]="formRangoFecha.fechaFin.value"
+                        [name]="formRangoFecha.fechaFin.name"
+                        [messages]="formRangoFecha.fechaFin.messages"
+                        [id]="formRangoFecha.fechaFin.name"
+                        (valueChange)="setDataFormRangoFechas(formRangoFecha.fechaFin.name, $event);"
+                    ></app-datepicker>
+            
+                    <button (click)="searchComunicaConsolidado()" mat-raised-button color="primary" style="margin-left: 20px;"
+                            matTooltip="Buscar">
+                        <mat-icon style="color: #FFFFFF">search</mat-icon>
+                    </button>
+        
+                </ng-container>
+        
+                <table class="custom-table">
+                    <thead>
+                    <tr>
+                        <th>
+                            <mat-checkbox [(ngModel)]="selectAllConsignas" (ngModelChange)="checkAll()"></mat-checkbox>
+                        </th>
+                        <th>Fecha Publicación</th>
+                        <th>Fecha Creación</th>
+                        <th colspan="2">Acciones</th>
+                    </tr>
+                    </thead>
+                    <tbody *ngIf="dataPorFechas.length === 0">
+                        <tr>
+                            <td colspan="8">Sin registros...</td>
+                        </tr>
+                    </tbody>
+                    <tbody *ngIf="dataPorFechas.length > 0">
+                        <tr *ngFor="let data of dataPorFechas;">
+                            <td>
+                                <mat-checkbox [(ngModel)]="data.selected"></mat-checkbox>
+                            </td>
+                            <td>{{data?.cp_fecha_publicacion | date:'medium'}}</td>
+                            <td>{{data?.cp_fecha_creacion | date:'medium'}}</td>
+                            <td>
+                                <mat-icon color="accent"
+                                    matTooltip="Ver Consignaciones"
+                                    (click)="openVerConsignas(data.cp_id)"
+                                    style="cursor: pointer;">offline_bolt
+                                </mat-icon>
+                            </td>
+                            <td>
+                                <mat-icon color="accent"
+                                    matTooltip="Ver Comunicado de Prensa"
+                                    (click)="openVerComunicados(data.cp_id)"
+                                    style="cursor: pointer;">assignment 
+                                </mat-icon>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+        
+        
+              </fieldset>
+
+              <fieldset style="margin-top: 1%;">
+
+                <ng-container>
+        
+                    <legend style="text-align: left;">Consolidado</legend>
+                    <mat-icon *ngIf="formPlantilla.plantilla.value" style="padding: 10px; cursor: pointer"
+                                (click)="openVistaPreviaPlantilla()">visibility
+                    </mat-icon>
+                    <mat-form-field style="width: 300px; margin-right: 10px;" appearance="outline">
+                        <mat-label>{{formPlantilla.plantilla.label}}
+                        <ng-container *ngIf="formPlantilla.plantilla.required">*</ng-container>
+                        </mat-label>
+                        <mat-select [(ngModel)]="formPlantilla.plantilla.value" (ngModelChange)="setPlantillaSelected($event)">
+                        <mat-option *ngFor="let value of dataControls?.plantillas;"
+                                    [value]="value?.id">{{value?.nombre}}</mat-option>
+                        </mat-select>
+                        <mat-hint style="color: red"
+                                *ngIf="formPlantilla.plantilla.messages">{{formPlantilla.plantilla.messages}}</mat-hint>
+                    </mat-form-field>
+            
+                    <button (click)="generar()" mat-raised-button color="accent" class="button"
+                            style="color: #FFFFFF; margin: 5px;">
+                        Generar
+                    </button>
+        
+                </ng-container>
+        
+                <ckeditor [(ngModel)]="contenidoConsolidado"
+                          name="editorHtmlContenido"
+                          required
+                          debounce="500">
+                </ckeditor>
+                <br>
+              </fieldset>
+
+              <div style="text-align: center;">
+                <button (click)="guardarConsolidado()" mat-raised-button color="accent" class="button"
+                        style="color: #FFFFFF; margin: 5px;">
+                  GUARDAR
+                </button>
+                <button (click)="cancel()" mat-raised-button color="accent" class="button" style="color: #FFFFFF; margin: 5px;">
+                  CANCELAR
+                </button>
+              </div>
+
+        </mat-card-content>
+    </mat-card>
+</div>

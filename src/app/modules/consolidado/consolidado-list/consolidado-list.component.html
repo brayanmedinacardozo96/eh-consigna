@@ -1,0 +1,46 @@
+<table class="custom-table" style="text-align: center;">
+    <thead>
+        <tr>
+            <th>Usuario</th>
+            <th style="width: 65% !important;">Contenido</th>
+            <th>Fecha Inicio</th>
+            <th>Fecha Fin</th>
+            <th>Fecha Creación</th>
+        </tr>
+    </thead>
+    <tbody *ngIf="data.length === 0">
+        <tr>
+            <td colspan="7">No hay registros...</td>
+        </tr>
+    </tbody>
+    <tbody *ngIf="data.length > 0">
+        <tr *ngFor="let value of data;">
+            <td>
+                {{ value.usuario_nombre_completo }}
+            </td>
+            <td>
+                <mat-accordion class="example-headers-align">
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        Ver consolidado de prensa
+                    </mat-panel-title>
+                    </mat-expansion-panel-header>
+        
+                    <ckeditor
+                    [readonly]="true"
+                    [(ngModel)]="value.contenido">
+                    </ckeditor>
+        
+                </mat-expansion-panel>
+                </mat-accordion>
+            </td>      
+            <td>{{value?.fecha_inicio | date}}</td>
+            <td>{{value?.fecha_fin | date}}</td>
+            <td>{{value?.fecha_creacion | date:'medium'}}</td>
+    
+        </tr>
+    </tbody>
+</table>
+  
+  
