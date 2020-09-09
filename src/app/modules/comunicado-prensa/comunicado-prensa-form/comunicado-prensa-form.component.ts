@@ -10,6 +10,8 @@ import {ActivatedRoute} from "@angular/router";
 import {ConfirmDialogComponent, ConfirmDialogModel} from "../../../ui/confirm-dialog/confirm-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
 
+declare var $: any;
+
 @Component({
   selector: 'app-comunicado-prensa-form',
   templateUrl: './comunicado-prensa-form.component.html',
@@ -271,11 +273,16 @@ export class ComunicadoPrensaFormComponent implements OnInit {
   }
 
   paramsSave() {
+
     const user = Auth.getLogin();
+    $('#divComunicado').html(this.contenidoComunicadoPrensa);
+    const contentTbody = $('#divComunicado table tbody').html();
+
     return {
       id: this.id,
       consignacion_id: this.consignaID,
       contenido: this.contenidoComunicadoPrensa,
+      body_contenido: contentTbody,
       usuario_id: user.user_data.id,
       usuario: user.user_data,
       publicado: this.publicado,
