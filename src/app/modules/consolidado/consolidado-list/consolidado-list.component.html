@@ -6,6 +6,7 @@
             <th>Fecha Inicio</th>
             <th>Fecha Fin</th>
             <th>Fecha Creación</th>
+            <th>Acciones</th>
         </tr>
     </thead>
     <tbody *ngIf="data.length === 0">
@@ -38,6 +39,13 @@
             <td>{{value?.fecha_inicio | date}}</td>
             <td>{{value?.fecha_fin | date}}</td>
             <td>{{value?.fecha_creacion | date:'medium'}}</td>
+            <td>
+                <mat-icon color="accent"
+                    matTooltip="Ver Consignaciones"
+                    (click)="openVerConsignas(value.id)"
+                    style="cursor: pointer;">offline_bolt
+                </mat-icon>
+            </td>
     
         </tr>
     </tbody>
