@@ -31,6 +31,7 @@ export class ConsolidadoFormComponent implements OnInit {
   contenidoConsolidado: string;
   helpers = new Helpers();
   selectAllConsignas = true;
+  msjResultSearch = '';
 
   form = {
     numeroConsigna: {
@@ -123,6 +124,7 @@ export class ConsolidadoFormComponent implements OnInit {
   }
 
   async searchComunicaConsolidado() {
+    this.msjResultSearch = '';
     const responseValidate = Validations.validateEmptyFields(this.formRangoFecha);
     if (!responseValidate.success) {
       return false;
@@ -139,9 +141,11 @@ export class ConsolidadoFormComponent implements OnInit {
       return false;
     }
 
+    this.msjResultSearch = response.message+'<br>'
     this.dataPorFechas = response.data;
 
     if (response.data.length === 0) {
+      this.msjResultSearch = '';
       this.notifier.notify('info', '¡No se encontraron comunicados de prensa en ese rango de fechas!');
     }
 
