@@ -191,7 +191,7 @@ export class ConsignaNewComponent implements OnInit {
       value: null,
       messages: null,
       length: 500,
-      required: true,
+      required: false,
     },
     consignaOperativa: {
       label: 'Consigna operativa',
