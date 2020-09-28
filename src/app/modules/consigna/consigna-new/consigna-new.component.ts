@@ -640,16 +640,9 @@ export class ConsignaNewComponent implements OnInit {
       this.addListElements();
     } else {
       if (this.esRedElectrica) {
-        this.dialogo
-          .open(ModalConfirmComponent, {
-            data: new Mensaje("Mensaje:", "No ha guardado mapa para el elemento seleccionado. ¿Está seguro de guardar el registro?")
-          })
-          .afterClosed()
-          .subscribe((confirmado: Boolean) => {
-            if (confirmado) {
-              this.addListElements();
-            }
-          });
+        
+        this.snackBar.alert('No ha seleccionado un mapa para el elemento.',5000)
+      
       } else {
         this.addListElements();
       }
