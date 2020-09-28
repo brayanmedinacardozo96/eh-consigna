@@ -194,7 +194,7 @@
       </fieldset>
 
       <div style="text-align: center;">
-        <button (click)="guardarComunicadoPrensa()" mat-raised-button color="accent" class="button"
+        <button *ngIf="guardar" (click)="guardarComunicadoPrensa()" mat-raised-button color="accent" class="button"
                 style="color: #FFFFFF; margin: 5px;">
           GUARDAR
         </button>
