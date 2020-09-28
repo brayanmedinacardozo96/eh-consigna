@@ -33,6 +33,7 @@ export class BitacoraFormComponent implements OnInit {
   cerrarBitacora = false;
   selectAllElementos = false;
   action = '';
+  afecta='';
 
   form = {
     numeroConsigna: {
@@ -144,7 +145,7 @@ export class BitacoraFormComponent implements OnInit {
       this.consignaID = this.dataConsigna.consigna_id;
       this.bitacoraID = this.dataConsigna.bitacora_id;
       this.validaciones = response.validaciones;
-
+      this.afecta=response.afecta;
       if (this.bitacoraID) {
         this.loadDataBitacora(this.dataConsigna);
       } else {

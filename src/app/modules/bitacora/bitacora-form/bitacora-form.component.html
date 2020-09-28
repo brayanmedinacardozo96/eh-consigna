@@ -50,6 +50,10 @@
           <span *ngFor="let validacion of validaciones;">* {{validacion}}<br></span>
         </div>
 
+        <div *ngIf="afecta !='' " class="afecta">
+          <span>{{afecta}}<br></span>
+        </div>
+
         <table class="custom-table">
           <tbody>
           <tr>
