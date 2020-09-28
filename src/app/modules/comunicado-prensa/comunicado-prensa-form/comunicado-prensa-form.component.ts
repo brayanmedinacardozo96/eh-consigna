@@ -33,6 +33,7 @@ export class ComunicadoPrensaFormComponent implements OnInit {
   publicado = null;
   helpers = new Helpers();
   selectAllConsignas = true;
+  guardar=true;
 
   form = {
     numeroConsigna: {
@@ -231,6 +232,7 @@ export class ComunicadoPrensaFormComponent implements OnInit {
   }
 
   async generarComunicadoAPI() {
+    this.guardar=true;
     const params = {
       consignaciones_id: this.consignacionesID,
       plantilla: this.plantillaSelected.contenido,
@@ -239,8 +241,15 @@ export class ComunicadoPrensaFormComponent implements OnInit {
     const response = await this.api.post(`${environment.apiBackend}/comunicado-prensa/generate`, params);
     if (response.success) {
       this.contenidoComunicadoPrensa = response.data;
+      if(response.afecta==0)
+      {
+        this.notifier.notify('error', 'Esta consigna no afecta barrios, sectores ni clientes.');
+        this.guardar=false;
+      }
     }
+
   }
+
 
   setConsignacionesID() {
     this.consignacionesID = [];
