@@ -528,6 +528,26 @@ export class BitacoraFormComponent implements OnInit {
     this.dialog.open(BitacoraSubelementosComponent, dialogConfig);
   }
 
+  abrirSubelementosCortoTiempo(obj) {
+
+    if (!obj.json_elemento_mapa_corto) {
+      this.notifier.notify('error', 'El elemento seleccionado no contiene subelementos.');
+      return false;
+    }
+
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.minWidth = 500;
+    dialogConfig.minHeight = 650;
+    dialogConfig.data = {
+      data: obj.json_elemento_mapa_corto,
+      horas: {
+        hora_inicio: obj.form.hora_entrega.value,
+        hora_fin: obj.form.hora_devolucion.value,
+      },
+    };
+    this.dialog.open(BitacoraSubelementosComponent, dialogConfig);
+  }
+
   setCumplioCompleto() {
 
     const totalElementos = this.dataConsigna.bitacora_elementos.length;

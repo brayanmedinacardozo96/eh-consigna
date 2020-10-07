@@ -17,6 +17,7 @@ import { ModalConfirmComponent } from './../../../ui/forms/modal-confirm/modal-c
 import { Mensaje } from './../../../ui/forms/m-dialog/dialog';
 import { ConsignaNewSearchComponent } from './consigna-new-search/consigna-new-search.component';
 import * as moment from 'moment';
+import { async } from '@angular/core/testing';
 
 
 @Component({
@@ -324,6 +325,23 @@ export class ConsignaNewComponent implements OnInit {
     }
   };
 
+  interrupcionesTrabajoCortoTiempo = {
+    barrios: {
+      label: 'Barrios',
+      name: 'barrios',
+      value: null,
+      messages: null,
+      required: true,
+    },
+    clientesNoRegulados: {
+      label: 'Clientes No Regulados',
+      name: 'clientesNoRegulados',
+      value: null,
+      messages: null,
+      required: true,
+    }
+  };
+
   interrupcionesCortoTiempo = {
     barrios: {
       label: 'Barrios',
@@ -416,6 +434,7 @@ export class ConsignaNewComponent implements OnInit {
     files: new FormData()
   };
   areaAFectada=[];
+  areaAFectadaCortoTiempo=[];
   logAreaAFectada=[];
   messageListaElementos = '';
   user: User = Auth.getUserDataPerson();
@@ -458,6 +477,12 @@ export class ConsignaNewComponent implements OnInit {
     clienteRegulado:0,
     clienteNoRegulado:0
   };
+  numeroAreaAfectadaCortoT={
+    barrios:0,
+    clienteRegulado:0,
+    clienteNoRegulado:0
+  };
+  
   mostrarPanelElemento=true;
   elementUpdateID=null;
   esRedElectrica=true;
@@ -676,17 +701,29 @@ export class ConsignaNewComponent implements OnInit {
     var fechaFinal = this.dateValidation.getYearMounthDay(this.formElementos.fechaFinal.value);
     var horaFinal = this.formElementos.horaFinal.value;
     var feeder= this.getFeederElemento(this.formElementos.elemento.value);
-    await this.getAreaAFectada( feeder );
+    await this.getAreaAFectada( feeder);
+    
     
     
     
     var jsonAreaAfectada="";//[[],[]]
     var jsonPersona="";//[]
+
+    var jsonAreaAfectadaCortoT="";//[[],[]]
+    var jsonPersonaCortoT="";//[]
  
-    if(this.formElementos.afectaUsuarios.value==1 && this.areaAFectada.length>0)
+    if(this.formElementos.afectaUsuarios.value==1)
     {
-      jsonAreaAfectada=JSON.stringify( this.areaAFectada[0].area );
-      jsonPersona= JSON.stringify( this.areaAFectada[0].persona );
+      if(this.areaAFectada.length>0)
+      {
+        jsonAreaAfectada=JSON.stringify( this.areaAFectada[0].area );
+        jsonPersona= JSON.stringify( this.areaAFectada[0].persona );
+      }
+      
+      if (this.areaAFectadaCortoTiempo.length > 0) {
+        jsonAreaAfectadaCortoT = JSON.stringify(this.areaAFectadaCortoTiempo[0].area);
+        jsonPersonaCortoT = JSON.stringify(this.areaAFectadaCortoTiempo[0].persona);
+      }
     }
 
     const elemento = {
@@ -702,9 +739,12 @@ export class ConsignaNewComponent implements OnInit {
       horaFinal:      {name: horaFinal,         value: horaFinal},
       jsonAreaAfectada: {name:'jsonAreaAfectada', value: jsonAreaAfectada   },
       jsonPersona:{name:'jsonPersona',value: jsonPersona},
+      jsonAreaAfectadaCortoT: {name:'jsonAreaAfectadaCortoT', value: jsonAreaAfectadaCortoT   },
+      jsonPersonaCortoT:{name:'jsonPersonaCortoT',value: jsonPersonaCortoT},
       jsonElementoMapa:{name:'jsonElementoMapa', value: this.jsonMapa},
       feeder:feeder,
       jsonIntervenirElementoMapa:{name:'jsonIntervenirElementoMapa', value: document.getElementById("jsonElementoIntervenirMapa").innerText } ,
+      jsonIntervenirElementoMapaCortoT:{name:'jsonElementoIntervenirMapaCortoTiempo', value: document.getElementById("jsonElementoIntervenirMapaCortoTiempo").innerText } ,
     }
     
     this.dataElementos.push(elemento);
@@ -1226,32 +1266,47 @@ export class ConsignaNewComponent implements OnInit {
     if(this.formElementos.elemento.value!=null){
       var feeders=this.getFeederElemento(this.formElementos.elemento.value);
       var data = "data="+this.utf8_to_b64('{"feeders":[{"code":"'+feeders+'"}],"tipo":"feeders"}')+'&user='+this.utf8_to_b64(JSON.stringify(this.user));
-      child = window.open(environment.urlEhmap+ '&' + data + '&key=' + key, "MsgWindow", 'width=' + width + ',height=' + height + ',top=' + y + ',left=' + x + ',toolbar=no,resizable=no');
+      child = window.open(environment.urlEhmap+ '?' + data + '&key=' + key, "MsgWindow", 'width=' + width + ',height=' + height + ',top=' + y + ',left=' + x + ',toolbar=no,resizable=no');
       // child = window.open('http://192.9.200.44/hijo.html?key='+key+'&data={"feeders":[{"code":"'+feeders+'"}]}', 'Mapa', 'width=' + width + ',height=' + height + ',top=' + y + ',left=' + x + ',toolbar=no,resizable=no');
       var apiLocal = this.api;
       var jsonLocal = '';
       var jsonIntervenirElementoMapa='';
+      var jsonElementoIntervenirMapaCortoTiempo='';
       var intentos = 0;
       var timer = setInterval(async function () {
         if (child.closed) {
           let response = null;
           // Se realiza el llamado del api que obtiene la data del mapa a partir del key
           if(environment.debug && environment.production){
-            response = await apiLocal.get(`https://enlinea.electrohuila.com.co/back-consignas/public/api/integracion-mapa/get/${key}`);
+            //https://enlinea.electrohuila.com.co/back-consignas/public/api
+            response = await apiLocal.get(`${environment.apiBackend}/integracion-mapa/get/${key}`);
           }else{
             response = await apiLocal.get(`${environment.apiBackend}/integracion-mapa/get/${key}`);
           }
           intentos += 1;
           if(response.success){
-
             var objJson=JSON.parse( response.data );
+          
+            jsonLocal =JSON.stringify({url: objJson });//url JSON.stringify(response.data.url);
+            
+            if(objJson.interrupcion!=null)
+            {
+              var jdata=objJson.interrupcion.data;//JSON.parse(objJson.interrupcion.data);
+              jsonIntervenirElementoMapa=JSON.stringify( jdata.json ) ;
+              document.getElementById("jsonElementoIntervenirMapa").textContent = jsonIntervenirElementoMapa;
+              document.getElementById("jsonMapaTipo").textContent = jdata.tipo;
+            }
 
-            jsonLocal =JSON.stringify({url: objJson.url });// JSON.stringify(response.data.url);
-            jsonIntervenirElementoMapa=JSON.stringify( objJson.json );
+            if(objJson.interrupcionCorta!=null)
+            {
+              var jdata=objJson.interrupcionCorta.data;//JSON.parse(objJson.interrupcionCorta.data);
+              jsonElementoIntervenirMapaCortoTiempo=JSON.stringify( jdata.json ) ;
+              document.getElementById("jsonElementoIntervenirMapaCortoTiempo").textContent=jsonElementoIntervenirMapaCortoTiempo;
+              document.getElementById("jsonMapaTipoCortoTiempo").textContent = jdata.tipo;
+            }
 
-            document.getElementById("jsonElementoIntervenirMapa").textContent = jsonIntervenirElementoMapa;
             document.getElementById("jsonDataMapa").textContent = jsonLocal;
-            document.getElementById("jsonMapaTipo").textContent = objJson.tipo;
+            
 
             this.verMapaSelect = "visible";
             botonVerMapaSelec.style.visibility = this.verMapaSelect;
@@ -1278,53 +1333,94 @@ export class ConsignaNewComponent implements OnInit {
   }
 
   openMap(data = null){
+
+    var url="";
     if(data != '' && data != null && data != undefined){
       if(typeof data == 'string'){
         data = JSON.parse(data);
+        var interrupcion="";
+        if(data.url.interrupcion!=null)
+        {
+           interrupcion=data.url.interrupcion.data.url;// JSON.parse(data.url.interrupcion.data).url;
+        }
+        var interrupcionCorta="";
+        if(data.url.interrupcionCorta!=null)
+        {
+           interrupcionCorta=data.url.interrupcionCorta.data.url;//JSON.parse(data.url.interrupcionCorta.data).url;
+        }
+        
+        url=`visor=${interrupcion}@${interrupcionCorta}`;
       }
-      if(typeof data == 'string'){
-        data = JSON.parse(data);
-      }
-      var child = window.open(environment.urlEhmap+'&'+data.url+'&user='+this.utf8_to_b64(JSON.stringify(this.user)),"MsgWindow", "width=1200,height=600");
+    
+      var child = window.open(environment.urlEhmap+'?'+url+'&user='+this.utf8_to_b64(JSON.stringify(this.user)),"MsgWindow", "width=1200,height=600");
     }else{
       this.snackBar.alert('No se encontró mapa',5000);
     }    
   }
 
   
-  async getAreaAFectada(elemento) 
-  {
-    
-    this.areaAFectada=[];
+  async getAreaAFectada(elemento) {
+
+    this.areaAFectada = [];
     //VALIDAR EL FEEDER PARA NO REPETIR
-    var data=this.logAreaAFectada.filter(b=>{
-      return (b.feeder==elemento)
+    var data = this.logAreaAFectada.filter(b => {
+      return (b.feeder == elemento)
     });
-    if(data.length>0 || this.formElementos.afectaUsuarios.value==0 ){
+    if (data.length > 0 || this.formElementos.afectaUsuarios.value == 0) {
       return;
     }
 
-   
 
-    var padre="";
 
-    if( document.getElementById("jsonMapaTipo").innerText=="getAbrir" ){
-     JSON.parse(document.getElementById("jsonElementoIntervenirMapa").innerText).TRANSFOR.forEach(element => {
-       if (padre == "") {
-         padre = padre + element.CODE;
-       } else {
-         padre = padre + "|" + element.CODE +"|";
-       }
-       this.logAreaAFectada.push({feeder: element.CODE});
-     });
-     elemento="transf/"+padre;
-    }else{
-       this.logAreaAFectada.push({feeder:elemento});
-       elemento="feeder/"+elemento;
+    var padre = "";
+
+    if (document.getElementById("jsonMapaTipo").innerText == "getAbrir" || document.getElementById("jsonMapaTipoCortoTiempo").innerText == "getAbrir" ) {
+
+      var elementoMapa = document.getElementById("jsonElementoIntervenirMapa").innerText;
+      if (elementoMapa != "") {
+        JSON.parse(elementoMapa).TRANSFOR.forEach(element => {
+          if (padre == "") {
+            padre = padre + element.CODE;
+          } else {
+            padre = padre + "|" + element.CODE + "|";
+          }
+          /* this.logAreaAFectada.push({
+             feeder: element.CODE
+           });*/
+        });
+
+        await this.getDataAreaAfectada(`transf/${padre}`, true);
+      }
+
+
+      var elementoMapa = document.getElementById("jsonElementoIntervenirMapaCortoTiempo").innerText;
+
+      if (elementoMapa != null) {
+        JSON.parse(elementoMapa).TRANSFOR.forEach(element => {
+          if (padre == "") {
+            padre = padre + element.CODE;
+          } else {
+            padre = padre + "|" + element.CODE + "|";
+          }
+          /* this.logAreaAFectada.push({
+             feeder: element.CODE
+           });*/
+        });
+        await this.getDataAreaAfectada(`transf/${padre}`, false);
+      }
+
+      //  elemento = "transf/" + padre;
+
+    } else {
+      // this.logAreaAFectada.push({feeder:elemento});
+      elemento = "feeder/" + elemento;
     }
-    
-    
- 
+  }
+
+  
+
+  async getDataAreaAfectada(elemento,duraTrabajo)
+  {
     var response = await this.api.get(
       `${environment.apiBackend}/consigna/getAreaAfectada/${elemento}`
     );
@@ -1372,8 +1468,12 @@ export class ConsignaNewComponent implements OnInit {
       
     }
 
-    
-    this.areaAFectada.push({area:[obj,objSector],persona:objCliente});
+    if(duraTrabajo)
+    {
+      this.areaAFectada.push({area:[obj,objSector],persona:objCliente});
+    }else{
+      this.areaAFectadaCortoTiempo.push({area:[obj,objSector],persona:objCliente});
+    }
     
 
   }
@@ -1445,6 +1545,8 @@ export class ConsignaNewComponent implements OnInit {
      }
 
      this.recorrerAreafectada();
+
+     this.recorrerAreafectadaCortoT();
       
   }
 
@@ -1493,6 +1595,54 @@ export class ConsignaNewComponent implements OnInit {
 
     this.interrupcionesTrabajo.barrios.value = barrio;
     this.interrupcionesTrabajo.clientesNoRegulados.value = cliente;
+  }
+
+  recorrerAreafectadaCortoT() {
+    var barrio = "";
+    var cliente = "";
+    this.numeroAreaAfectadaCortoT.barrios = 0;
+    this.numeroAreaAfectadaCortoT.clienteRegulado = 0;
+    this.numeroAreaAfectadaCortoT.clienteNoRegulado = 0;
+    this.dataElementos.forEach(element => {
+  console.log(element);
+      if (element.jsonAreaAfectadaCortoT.value != "") {
+        var data = JSON.parse(element.jsonAreaAfectadaCortoT.value)[0];
+        if (data != undefined) {
+
+          if (data.length > 0) {
+            data.forEach(elemen => {
+              elemen.barrio.forEach(element => {
+                if(barrio!=null)
+                {
+                  barrio += element + "\r";
+                  this.numeroAreaAfectadaCortoT.barrios++;
+                }
+              });
+            });
+          }
+        }
+      }
+
+      if (element.jsonPersonaCortoT.value != "") {
+        data = JSON.parse(element.jsonPersonaCortoT.value);
+        if (data != undefined) {
+          data.forEach(element => {
+            if (element.tipo == "No regulado") { //
+              cliente += element.nombre + "\r";
+              this.numeroAreaAfectadaCortoT.clienteNoRegulado++;
+            } else {
+              this.numeroAreaAfectadaCortoT.clienteRegulado++;
+            }
+          })
+        };
+      }
+    });
+
+    /* this.interrupcionesTrabajoCortoTiempo.barrios.value = barrio;
+    this.interrupcionesTrabajoCortoTiempo.clientesNoRegulados.value = cliente;*/
+    this.interrupcionesCortoTiempo.barrios.value = barrio;
+    this.interrupcionesCortoTiempo.clientesNoRegulados.value = cliente;
+    
   }
 
   utf8_to_b64( str ) {
