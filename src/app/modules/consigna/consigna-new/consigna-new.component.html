@@ -378,7 +378,9 @@
                  <!-- para ver obtener de manera temporar la data del mapa -->
                  <span style="display: none;" id="jsonDataMapa"></span>
                  <span style="display: none;" id="jsonElementoIntervenirMapa"></span>
+                 <span style="display: none;" id="jsonElementoIntervenirMapaCortoTiempo"></span>
                  <span style="display: none;" id="jsonMapaTipo"></span>
+                 <span style="display: none;" id="jsonMapaTipoCortoTiempo"></span>
                </span>
              </div>
 
@@ -497,9 +499,9 @@
 
         <!-- areas afectadas -->
         <fieldset>
-            <legend style="text-align: left;">Areas Afectadas - <em>Barrios:{{numeroAreaAfectada.barrios}}, Clientes regulados:{{numeroAreaAfectada.clienteRegulado}} ,Clientes no regulados:{{numeroAreaAfectada.clienteNoRegulado}}</em> </legend>
+            <legend style="text-align: left;">Areas Afectadas </legend>
             
-            <h3 style="text-align: left;">Interrupciones Mientras Dura el Trabajo</h3>
+            <h4 style="text-align: left;">Interrupciones Mientras Dura el Trabajo: <em>Barrios:{{numeroAreaAfectada.barrios}}, Clientes regulados:{{numeroAreaAfectada.clienteRegulado}} ,Clientes no regulados:{{numeroAreaAfectada.clienteNoRegulado}}</em></h4>
             <mat-grid-list class="row" cols="2" rowHeight="110px">
 
                 <mat-grid-tile>
@@ -527,7 +529,7 @@
     
             </mat-grid-list>
             
-            <h3 style="text-align: left;">Interrupciones Por Corto Tiempo</h3>
+            <h4 style="text-align: left;">Interrupciones Por Corto Tiempo: <em>Barrios:{{numeroAreaAfectadaCortoT.barrios}}, Clientes regulados:{{numeroAreaAfectadaCortoT.clienteRegulado}} ,Clientes no regulados:{{numeroAreaAfectadaCortoT.clienteNoRegulado}}</em></h4>
             <mat-grid-list class="row" cols="2" rowHeight="110px">
 
                 <mat-grid-tile>

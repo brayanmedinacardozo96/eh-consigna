@@ -13,7 +13,7 @@ export const environment = {
   urlFiles: 'http://localhost/back-consigna/',
   urlPublicFiles: 'http://localhost/back-consigna/public/',
   urlFrontendST: 'http://192.9.200.44/transverse-security/#',
-  urlEhmap:'http://localhost/ehmaps/mapa.php?mapa=2&h=1',
+  urlEhmap:'http://localhost/eh-maps/circuito/',
 };
 
 /*

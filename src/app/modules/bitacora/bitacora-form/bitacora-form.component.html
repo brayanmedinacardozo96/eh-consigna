@@ -5,7 +5,7 @@
       <h1>Bitácora</h1>
 
       <fieldset>
-        <legend style="text-align: left;">Buscar consignación por número</legend>
+        <legend style="text-align: left;">Buscar consigna por número</legend>
 
         <ng-container>
 
@@ -120,11 +120,13 @@
             <td>{{value?.tipo_elemento}}</td>
             <td>
               {{value?.elemento}}
-              <mat-icon *ngIf="value.form.completado == 1"
-                        color="accent"
-                        matTooltip="Abrir elementos afectados"
-                        (click)="abrirSubelementos(value)"
-                        style="cursor: pointer;">offline_bolt
+              <mat-icon *ngIf="value.form.completado == 1" color="accent" matTooltip="Elementos afectados"
+                (click)="abrirSubelementos(value)" style="cursor: pointer;">offline_bolt
+              </mat-icon>
+
+              <mat-icon *ngIf="value.form.completado == 1" color="accent"
+                matTooltip="Elementos afectados por corto tiempo" (click)="abrirSubelementosCortoTiempo(value)"
+                style="cursor: pointer;">history_toggle_off
               </mat-icon>
             </td>
             <td>{{value?.hora_inicio_prog}}</td>
