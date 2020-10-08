@@ -14,6 +14,7 @@ export const environment = {
   urlPublicFiles: 'http://localhost/back-consigna/public/',
   urlFrontendST: 'http://192.9.200.44/transverse-security/#',
   urlEhmap:'http://localhost/eh-maps/circuito/',
+  urlapp:'http://localhost:4200/#/', //'https://enlinea.electrohuila.com.co/consignas/#/'
 };
 
 /*

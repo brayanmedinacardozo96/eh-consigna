@@ -94,7 +94,6 @@ export class ConsignaNewSearchComponent implements OnInit {
           if(this.data.length < 1){
             this.snackBar.alert('No se encontraron registros con los parámetros consultados.',5000);
           }
-
           if(response.lista_elemento != undefined){
             for(let value of response.lista_elemento){
               

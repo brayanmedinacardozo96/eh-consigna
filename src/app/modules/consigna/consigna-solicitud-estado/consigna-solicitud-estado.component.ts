@@ -156,7 +156,7 @@ export class ConsignaSolicitudEstadoComponent implements OnInit {
   }
 
   editarElemento(id){
-    this.router.navigateByUrl('consigna/editar/'+id);
+    this.router.navigateByUrl('consigna/editar/'+id+"/n");
   }
 
   async showPdf(id){

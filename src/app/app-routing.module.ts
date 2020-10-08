@@ -30,7 +30,7 @@ const routes: Routes = [
   , {path: 'consigna', component: ConsignaComponent, canActivate: [AuthGuard]}
   , {path: 'mis-consignas/:id', component: ConsignaUserComponent, canActivate: [AuthGuard]}
   , {path: 'consigna/nueva-consigna', component: ConsignaTabsComponent, canActivate: [AuthGuard]}
-  , {path: 'consigna/editar/:id', component: ConsignaTabsComponent, canActivate: [AuthGuard]}
+  , {path: 'consigna/editar/:id/:tipo', component: ConsignaTabsComponent, canActivate: [AuthGuard]}
   , {path: 'trabajo-oportunidad/:code', component: ConsignaTabsComponent, canActivate: [AuthGuard]}
   , {path: 'maniobra', component: ManiobraComponent, canActivate: [AuthGuard]}
   , {path: 'autorizar/:id', component: AutorizarComponent, canActivate: [AuthGuard]}
