@@ -154,9 +154,12 @@ export class ConsignaTabsComponent implements OnInit {
           fechaFinal:       {name: this.dateValidation.getYearMounthDay(new Date(value.fech_final_prog)),   value: value.fech_final_prog},
           horaFinal:        {name: value.hora_final_prog,                                                   value: value.hora_final_prog},
           jsonAreaAfectada: {name:'jsonAreaAfectada',                                                       value: value.json_area  },
+          jsonAreaAfectadaCortoT: {name:'jsonAreaAfectadaCortoT', value: value.json_area_corto   },
           jsonPersona:      {name:'jsonPersona',                                                            value: dataResponse.json_persona},
+          jsonPersonaCortoT:{name:'jsonPersonaCortoT',value: dataResponse.json_persona_corto},
           jsonElementoMapa: {name:'jsonElementoMapa',                                                       value: value.json_elemento_mapa},
           jsonIntervenirElementoMapa:{name:'jsonIntervenirElementoMapa', value: value.json_elemento_intervenir } ,
+          jsonIntervenirElementoMapaCortoT:{name:'jsonElementoIntervenirMapaCortoTiempo', value: value.json_elemento_intervenir_corto } ,
         }
         
         this.consigna.dataElementos.push(elemento);
@@ -207,9 +210,9 @@ export class ConsignaTabsComponent implements OnInit {
   }
 
   async saveConsigna(){
+    
     let formData: FormData = new FormData();
        
-
     let dataConsigna = this.consigna.guardarConsigna();
     for (const key in dataConsigna) {
       if (dataConsigna.hasOwnProperty(key)) {
@@ -254,7 +257,9 @@ export class ConsignaTabsComponent implements OnInit {
           this.registroManiobra = [];
           this.maniobra.cleanAllFields();
         }
+      
         this.showDialog(response);
+        
       }else{
         this.showDialog(response);
       }
@@ -263,6 +268,13 @@ export class ConsignaTabsComponent implements OnInit {
     }else{
       this.snackBar.alert('Ocurrió un error, por favor vuelva a intentarlo o contáctese con el administrador.',10000)
     }
+
+    if(document.getElementById("vtoolbar").style.visibility=='hidden')
+    {
+       document.getElementById("vtoolbar").style.visibility=="visible"
+       window.close();
+    }
+    
 
   }
 

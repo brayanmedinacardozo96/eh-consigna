@@ -1,5 +1,6 @@
 //servidor de pruebas
 export const environment = {
+  
   production: true,
   debug: true, //cuando esté en false ejecutar en el servidor de pruebas, pero apuntando a mapas en producción
   appName: 'Sistema Local de Consignas',
@@ -10,7 +11,9 @@ export const environment = {
   urlFiles: 'http://192.9.200.44/back-consignas/',
   urlPublicFiles: 'http://192.9.200.44/back-consignas/public/',
   urlFrontendST: 'http://192.9.200.44/transverse-security/#',
-  urlEhmap:'https://enlinea.electrohuila.com.co/ehmaps/mapa.php?mapa=2&h=1',
+  urlEhmap:'http://localhost/ehmaps/circuito',
+  urlapp:'https://enlinea.electrohuila.com.co/consignas/#/'
+
 
 //cuando pase a PRODUCCIÓN
   /*production: true,
@@ -23,6 +26,7 @@ export const environment = {
   urlFiles: 'https://enlinea.electrohuila.com.co/back-consignas/',
   urlPublicFiles: 'https://enlinea.electrohuila.com.co/back-consignas/public/',
   urlFrontendST: 'https://enlinea.electrohuila.com.co/transverse-security/#',
-  urlEhmap:'https://enlinea.electrohuila.com.co/ehmaps/mapa.php?mapa=2&h=1',
+  urlEhmap:'https://enlinea.electrohuila.com.co/ehmaps/circuito',
+  urlapp:'https://enlinea.electrohuila.com.co/consignas/#/'
   */
 };

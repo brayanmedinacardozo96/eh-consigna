@@ -28,7 +28,6 @@ export class ConsolidadoListComponent implements OnInit {
     let params = {id:id}
     let consignas = []
     const response = await this.api.post(`${environment.apiBackend}/consolidado-prensa/get-consignacion-list`,params);
-    console.log(response.data)
     if(response.success){
       for(let value of response.data){
         for(let consigna of value.consignaciones){

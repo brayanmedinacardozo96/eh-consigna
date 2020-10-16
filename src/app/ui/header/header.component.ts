@@ -4,6 +4,7 @@ import {Auth} from '../../shared/auth';
 import {Router} from '@angular/router';
 import { ApiService } from '../../shared/services/api.service';
 import { User } from '../../shared/models/user';
+import {Aprobar} from '../../modules/autorizar/aprobar';
 
 @Component({
   selector: 'app-header',
@@ -21,6 +22,7 @@ export class HeaderComponent implements OnInit {
   constructor(
     private router: Router,
     private api: ApiService,
+    private aprobar:Aprobar,
     ) {
     this.appName = environment.appName;
   }
@@ -45,7 +47,10 @@ export class HeaderComponent implements OnInit {
     const user: User = Auth.getUserDataPerson();
     if(user!=undefined)
     {
-      const response = await this.api.get(`${environment.apiBackend}/consigna/getNotificacion/${user.id}`);
+      var result=this.aprobar.validarPermiso();
+      var tipo=result.length>0?true:false;
+
+      const response = await this.api.get(`${environment.apiBackend}/consigna/getNotificacion/${user.id}/${tipo}`);
       this.numero=response.numeroSolicitud;
       this.numeroVisto=response.numeroVisto;
 

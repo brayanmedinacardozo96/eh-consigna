@@ -26,6 +26,7 @@ import {BitacoraModule} from "./modules/bitacora/bitacora.module";
 import {AsignacionSolicitudesModule} from './modules/asignacion-solicitudes/asignacion-solicitudes.module';
 import {ActualizarInformacionModule} from './modules/actualizar-informacion/actualizar-informacion.module';
 import {ConsolidadoModule} from './modules/consolidado/consolidado.module';
+import { ReporteModule } from './modules/reporte/reporte.module';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import {ConsolidadoModule} from './modules/consolidado/consolidado.module';
     ComunicadoPrensaModule,
     BitacoraModule,
     AsignacionSolicitudesModule,
+    ReporteModule,
     NotifierModule.withConfig({
       position: {
         horizontal: {

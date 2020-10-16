@@ -507,6 +507,10 @@ export class ConsignaNewComponent implements OnInit {
                   if (params.id !== undefined && params.id !== null) {
                     this.consignacionId = params.id;
                     this.action = 'Editar';
+                    if(params.tipo=="v")
+                    {
+                      document.getElementById("vtoolbar").style.visibility='hidden';
+                    }
                     // this.search(this.consignacionId).then();
                   }
 
@@ -1370,8 +1374,6 @@ export class ConsignaNewComponent implements OnInit {
       return;
     }
 
-
-
     var padre = "";
 
     if (document.getElementById("jsonMapaTipo").innerText == "getAbrir" || document.getElementById("jsonMapaTipoCortoTiempo").innerText == "getAbrir" ) {
@@ -1395,7 +1397,7 @@ export class ConsignaNewComponent implements OnInit {
 
       var elementoMapa = document.getElementById("jsonElementoIntervenirMapaCortoTiempo").innerText;
 
-      if (elementoMapa != null) {
+      if (elementoMapa != "") {
         JSON.parse(elementoMapa).TRANSFOR.forEach(element => {
           if (padre == "") {
             padre = padre + element.CODE;
@@ -1604,7 +1606,6 @@ export class ConsignaNewComponent implements OnInit {
     this.numeroAreaAfectadaCortoT.clienteRegulado = 0;
     this.numeroAreaAfectadaCortoT.clienteNoRegulado = 0;
     this.dataElementos.forEach(element => {
-  console.log(element);
       if (element.jsonAreaAfectadaCortoT.value != "") {
         var data = JSON.parse(element.jsonAreaAfectadaCortoT.value)[0];
         if (data != undefined) {

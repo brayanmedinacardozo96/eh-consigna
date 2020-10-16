@@ -111,7 +111,7 @@ export class ConsignaListComponent implements OnInit {
   }
 
   editarElemento(id){
-    this.router.navigateByUrl('consigna/editar/'+id);
+    this.router.navigateByUrl('consigna/editar/'+id+"/n");
   }
 
   async showPdf(id){

@@ -82,8 +82,9 @@ export class TableAprobarConsignaComponent implements OnInit {
     window.open(`${environment.urlFiles}/public/${url}`);
   }
 
-  editarElemento(id){
-    this.router.navigateByUrl('consigna/editar/'+id);
+  editarElemento(id){   
+   window.open(`${environment.urlapp}/consigna/editar/${id}/v`,"MsgWindow", "width=1200,height=600");
+  //this.router.navigateByUrl('consigna/editar/'+id);
   }
 
   generatePdf(id)
