@@ -245,8 +245,6 @@ export class ParametrosRegistroComponent implements OnInit {
       this.dataControls.data = response.data;
     }
 
-
-
   }
 
   async eliminar(key) {

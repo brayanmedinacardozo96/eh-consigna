@@ -1,5 +1,6 @@
 //servidor de pruebas
 export const environment = {
+  
   production: true,
   debug: true, //cuando esté en false ejecutar en el servidor de pruebas, pero apuntando a mapas en producción
   appName: 'Sistema Local de Consignas',
@@ -15,7 +16,7 @@ export const environment = {
 
 
 //cuando pase a PRODUCCIÓN
- /* production: true,
+  /*production: true,
   debug: false, //cuando esté en false ejecutar en el servidor de pruebas, pero apuntando a mapas en producción
   appName: 'Sistema Local de Consignas',
   companyName: 'Electrohuila S.A. - E.S.P.',

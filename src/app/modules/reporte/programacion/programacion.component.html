@@ -1,0 +1,67 @@
+<div style="width: 100%">
+    <mat-form-field style="width: 35%;padding-right:100%;">
+      <mat-label>Buscar en el listado</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="">
+    </mat-form-field>
+  
+    <div style="text-align: center !important; width: 100%; overflow-x: auto; ">
+      <table mat-table [dataSource]="dataSource" matSort class="custom-table">
+         
+        <ng-container matColumnDef="zonacodigo">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Zona</th>
+          <td mat-cell  style="text-align:left" *matCellDef="let row"> {{ row?.zonacodigo }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="estado">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado</th>
+          <td mat-cell  style="text-align:left" *matCellDef="let row"> {{ row?.estado }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="consigna">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>No. Consigna</th>
+          <td mat-cell  style="text-align:left" *matCellDef="let row"> {{ row?.consigna }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="estadoequipo">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado equipo</th>
+          <td mat-cell  style="text-align:left" *matCellDef="let row"> {{ row?.estadoequipo }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="elemento">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Elemento consignado</th>
+          <td mat-cell  style="text-align:left" *matCellDef="let row"> {{ row?.elemento }} </td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="fech_inicio_prog">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha inicio</th>
+          <td mat-cell  style="text-align:left" *matCellDef="let row"> {{row?.fech_inicio_prog |  date:'yyyy/MM/dd' }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="hora_inicio_prog">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha inicio</th>
+          <td mat-cell  style="text-align:left" *matCellDef="let row"> {{row?.hora_inicio_prog }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="fech_final_prog">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha inicio</th>
+          <td mat-cell  style="text-align:left" *matCellDef="let row"> {{row?.fech_inicio_prog |  date:'yyyy/MM/dd' }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="hora_final_prog">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha inicio</th>
+          <td mat-cell  style="text-align:left" *matCellDef="let row"> {{row?.hora_final_prog  }} </td>
+        </ng-container>
+  
+         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+         <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+        </tr>
+      </table>
+  
+      <mat-paginator [pageSizeOptions]="[10, 50, 100]"></mat-paginator>
+    </div>
+  
+  </div>
+
+
+

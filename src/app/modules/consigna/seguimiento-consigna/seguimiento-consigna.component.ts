@@ -4,6 +4,9 @@ import { ApiService } from '../../../shared/services/api.service';
 import {SnackBarClass} from '../../../ui/snack-bar/snack-bar';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { SessionService } from '../../../shared/services/session.service';
+import {Aprobar} from '../../../modules/autorizar/aprobar';
+import {Auth} from '../../../shared/auth';
+import { User } from '../../../shared/models/user';
 import * as moment from 'moment';
 
 @Component({
@@ -20,6 +23,7 @@ export class SeguimientoConsignaComponent implements OnInit {
     private api: ApiService,
     private snackBar: MatSnackBar,
     private session: SessionService,
+    private aprobar:Aprobar,
     ) { }
 
   form = {
@@ -81,15 +85,14 @@ export class SeguimientoConsignaComponent implements OnInit {
 
   setData(name, event) {
 
-    
       this.form[name].value = event;
     
-    if (this.form[name].name == "fechaInicio") {
+     if (this.form[name].name == "fechaInicio") {
       this.form.fechaFin.value = event;
       this.fechaInicio=event;
-    }
+     }
 
-    if (this.form[name].name == "fechaFin") {
+     if (this.form[name].name == "fechaFin") {
       if (this.form.fechaInicio.value == null) {
         this.form.fechaInicio.value = event;
       }
@@ -104,17 +107,20 @@ export class SeguimientoConsignaComponent implements OnInit {
 
   async buscar()
   {
-   
+    
+
     this.form.numeroConsigna.value=this.form.numeroConsigna.value==null?"":this.form.numeroConsigna.value;
     
     if(this.form.numeroConsigna.value.trim()!="")
     {
+
       this.dataSeguimiento=[];
       this.form.fechaInicio.value=null;
       this.form.fechaFin.value=null;
       this.form.estadoConsigna.value=null;
 
       this.buscarConsigna(   this.form.numeroConsigna.value  );
+
     }else{
       new SnackBarClass(this.snackBar, 'Debe ingresar un número de consigna.',"btn-warning").openSnackBar();
     }
@@ -153,9 +159,15 @@ export class SeguimientoConsignaComponent implements OnInit {
         var fechaIni = this.form.fechaInicio.value == null ? null : moment(this.form.fechaInicio.value).format("YYYY-MM-DD");
         var fechaFinal = this.form.fechaFin.value == null ? null : moment(this.form.fechaFin.value).format("YYYY-MM-DD");
 
+        var result=this.aprobar.validarPermiso();
+        const user: User = Auth.getUserDataPerson();
+
         var parametro = '{ "estado" : "' + this.form.estadoConsigna.value + '"';
         parametro += ' ,"fechaInicioSolcitud" : "' + fechaIni + '"';
+        parametro += ' ,"perfil" : "' + (result.length>0?true:false) + '"';
+        parametro += ' ,"idUsuario" : "' + user.id + '"';
         parametro += ' ,"fechaFinSolcitud" : "' + fechaFinal + '"}';
+
         this.buscarConsigna(parametro);
 
       }
@@ -190,7 +202,6 @@ export class SeguimientoConsignaComponent implements OnInit {
     this.dataSeguimiento=[];
     this.form.fechaFin.messages="";
     this.panelOpenState=false;
-    
   }
 
 }
