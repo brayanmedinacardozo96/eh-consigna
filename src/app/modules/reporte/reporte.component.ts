@@ -81,12 +81,26 @@ export class ReporteComponent implements OnInit {
   auth = Auth;
 
   ngOnInit(): void {
-    this.setSelect();
+    this.getDataSelectConsigna();
+    this.session.remove('estadoConsigna');
     this.getReporte();
+
   }
 
   setSelect() {
     this.dataControls.estadoConsigna = this.session.getItem('estadoConsigna');
+  
+  }
+
+  async getDataSelectConsigna() {
+    if (this.session.getItem('estadoConsigna') == null) {
+      const response = await this.session.getDataSelectConsigna();
+      if (response.success) {
+        this.setSelect();
+      }
+    } else {
+      this.setSelect();
+    }
   }
 
   async getReporte() {
