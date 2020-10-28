@@ -160,6 +160,7 @@ export class ConsignaTabsComponent implements OnInit {
           jsonElementoMapa: {name:'jsonElementoMapa',                                                       value: value.json_elemento_mapa},
           jsonIntervenirElementoMapa:{name:'jsonIntervenirElementoMapa', value: value.json_elemento_intervenir } ,
           jsonIntervenirElementoMapaCortoT:{name:'jsonElementoIntervenirMapaCortoTiempo', value: value.json_elemento_intervenir_corto } ,
+          jsonTiempo:{name:'jsonTiempo',value:value.tiempo}
         }
         
         this.consigna.dataElementos.push(elemento);

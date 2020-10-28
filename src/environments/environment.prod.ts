@@ -11,7 +11,7 @@ export const environment = {
   urlFiles: 'http://192.9.200.44/back-consignas/',
   urlPublicFiles: 'http://192.9.200.44/back-consignas/public/',
   urlFrontendST: 'http://192.9.200.44/transverse-security/#',
-  urlEhmap:'http://localhost/ehmaps/circuito',
+  urlEhmap:'https://enlinea.electrohuila.com.co/ehmaps/circuito',//'http://localhost/ehmaps/circuito',
   urlapp:'https://enlinea.electrohuila.com.co/consignas/#/'
 */
 
