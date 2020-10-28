@@ -749,6 +749,7 @@ export class ConsignaNewComponent implements OnInit {
       feeder:feeder,
       jsonIntervenirElementoMapa:{name:'jsonIntervenirElementoMapa', value: document.getElementById("jsonElementoIntervenirMapa").innerText } ,
       jsonIntervenirElementoMapaCortoT:{name:'jsonElementoIntervenirMapaCortoTiempo', value: document.getElementById("jsonElementoIntervenirMapaCortoTiempo").innerText } ,
+      jsonTiempo:{name:'jsonTiempo',value:document.getElementById('jsonTiempo').innerText}
     }
     
     this.dataElementos.push(elemento);
@@ -1305,6 +1306,7 @@ export class ConsignaNewComponent implements OnInit {
             {
               var jdata=objJson.interrupcionCorta.data;//JSON.parse(objJson.interrupcionCorta.data);
               jsonElementoIntervenirMapaCortoTiempo=JSON.stringify( jdata.json ) ;
+              document.getElementById('jsonTiempo').textContent=jdata.tiempo;
               document.getElementById("jsonElementoIntervenirMapaCortoTiempo").textContent=jsonElementoIntervenirMapaCortoTiempo;
               document.getElementById("jsonMapaTipoCortoTiempo").textContent = jdata.tipo;
             }
