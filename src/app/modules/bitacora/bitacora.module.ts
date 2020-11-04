@@ -17,9 +17,14 @@ import { BitacoraDocumentosComponent } from './bitacora-documentos/bitacora-docu
 import { BitacoraElementosComponent } from './bitacora-elementos/bitacora-elementos.component';
 import { BitacoraSubelementosComponent } from './bitacora-subelementos/bitacora-subelementos.component';
 import {MatTabsModule} from "@angular/material/tabs";
+import {MatExpansionModule} from '@angular/material/expansion';
+import { ColorPickerModule } from 'ngx-color-picker';
+import {MatTableModule} from '@angular/material/table';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import { BitacoraSubelementosVistaComponent } from './bitacora-subelementos-vista/bitacora-subelementos-vista.component';
 
 @NgModule({
-  declarations: [BitacoraComponent, BitacoraFormComponent, BitacoraListComponent, BitacoraDocumentosComponent, BitacoraElementosComponent, BitacoraSubelementosComponent],
+  declarations: [BitacoraComponent, BitacoraFormComponent, BitacoraListComponent, BitacoraDocumentosComponent, BitacoraElementosComponent, BitacoraSubelementosComponent, BitacoraSubelementosVistaComponent],
     imports: [
         CommonModule,
         MatCardModule,
@@ -32,7 +37,12 @@ import {MatTabsModule} from "@angular/material/tabs";
         FormsModule,
         MatCheckboxModule,
         RouterModule,
-        MatTabsModule
+        MatTabsModule,
+        MatExpansionModule,
+        ColorPickerModule,
+        MatTableModule,
+        MatPaginatorModule
+       
     ]
 })
 export class BitacoraModule { }

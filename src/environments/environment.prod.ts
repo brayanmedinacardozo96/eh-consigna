@@ -5,18 +5,18 @@ export const environment = {
   debug: true, //cuando esté en false ejecutar en el servidor de pruebas, pero apuntando a mapas en producción
   appName: 'Sistema Local de Consignas',
   companyName: 'Electrohuila S.A. - E.S.P.',
-  apiTransverseSecurity: 'http://192.9.200.44/back-transverse-security/public/api',
+  apiTransverseSecurity: 'http://192.9.200.44:2000/back-transverse-security/public/api',
   keyTransverseSecurity: '$2y$10$OjsZGz0JqaUiFvvLHBt1I.sv5oW3bcZTOTavMOqwfAT2TxYhZa1HS',
-  apiBackend: 'http://192.9.200.44/back-consignas/public/api',
-  urlFiles: 'http://192.9.200.44/back-consignas/',
-  urlPublicFiles: 'http://192.9.200.44/back-consignas/public/',
-  urlFrontendST: 'http://192.9.200.44/transverse-security/#',
+  apiBackend: 'http://192.9.200.44:2000/back-consignas/public/api',
+  urlFiles: 'http://192.9.200.44:2000/back-consignas/',
+  urlPublicFiles: 'http://192.9.200.44:2000/back-consignas/public/',
+  urlFrontendST: 'http://192.9.200.44:2000/transverse-security/#',
   urlEhmap:'https://enlinea.electrohuila.com.co/ehmaps/circuito',//'http://localhost/ehmaps/circuito',
   urlapp:'https://enlinea.electrohuila.com.co/consignas/#/'
 */
 
 //cuando pase a PRODUCCIÓN
-  production: true,
+  /*production: true,
   debug: false, //cuando esté en false ejecutar en el servidor de pruebas, pero apuntando a mapas en producción
   appName: 'Sistema Local de Consignas',
   companyName: 'Electrohuila S.A. - E.S.P.',
@@ -28,5 +28,19 @@ export const environment = {
   urlFrontendST: 'https://enlinea.electrohuila.com.co/transverse-security/#',
   urlEhmap:'https://enlinea.electrohuila.com.co/ehmaps/circuito',
   urlapp:'https://enlinea.electrohuila.com.co/consignas/#/'
-  
+  */
+
+ production: true,
+ debug: true, //cuando esté en false ejecutar en el servidor de pruebas, pero apuntando a mapas en producción
+ appName: 'Sistema Local de Consignas',
+ companyName: 'Electrohuila S.A. - E.S.P.',
+ apiTransverseSecurity: 'http://200.21.4.69:2000/back-transverse-security/public/api',
+ keyTransverseSecurity: '$2y$10$OjsZGz0JqaUiFvvLHBt1I.sv5oW3bcZTOTavMOqwfAT2TxYhZa1HS',
+ apiBackend: 'http://200.21.4.69:2000/back-consignas/public/api',
+ urlFiles: 'http://200.21.4.69:2000/back-consignas/',
+ urlPublicFiles: 'http://200.21.4.69:2000/back-consignas/public/',
+ urlFrontendST: 'http://200.21.4.69:2000/transverse-security/#',
+ urlEhmap:'https://enlinea.electrohuila.com.co/ehmaps/circuito',//'http://localhost/ehmaps/circuito',
+ urlapp:'https://enlinea.electrohuila.com.co/consignas/#/'
+
 };

@@ -1,9 +1,27 @@
-import {Component, OnInit} from '@angular/core';
-import {Helpers} from "../../shared/helpers";
-import {ApiService} from "../../shared/services/api.service";
-import {NotifierService} from "angular-notifier";
-import {ValidationService} from "../../shared/services/validations.service";
-import {environment} from "../../../environments/environment";
+import {
+  Component,
+  OnInit
+} from '@angular/core';
+import {
+  Helpers
+} from "../../shared/helpers";
+import {
+  ApiService
+} from "../../shared/services/api.service";
+import {
+  NotifierService
+} from "angular-notifier";
+import {
+  ValidationService
+} from "../../shared/services/validations.service";
+import {
+  environment
+} from "../../../environments/environment";
+import * as moment from 'moment';
+import {
+  element
+} from 'protractor';
+import { SessionService } from '../../shared/services/session.service';
 
 @Component({
   selector: 'app-bitacora',
@@ -14,14 +32,38 @@ export class BitacoraComponent implements OnInit {
 
   helpers = new Helpers();
   data = [];
-  dataHeader = [
-    {name:'Número de consigna', nameColumn:'codigo'},
-    {name:'Completado', nameColumn:'completado'},
-    {name:'Causal de incumplimiento', nameColumn:'nombre'},
-    {name:'Observación', nameColumn:'obser_causal_incum'},
-    {name:'Bitácora cerrada', nameColumn:'cerrado'},
-    {name:'Fecha cierre', nameColumn:'fecha_cierre'},
-    {name:'Fecha creación', nameColumn:'created_at'}
+  dataHeader = [{
+      name: 'Consigna',
+      nameColumn: 'codigo'
+    },
+    {
+      name: 'Circuito',
+      nameColumn: 'circuito'
+    },
+    {
+      name: 'F.Ejecu',
+      nameColumn: 'fecha_solicitud'
+    },
+    {
+      name: 'H.Inicio',
+      nameColumn: 'hora_inicio'
+    },
+    {
+      name: 'H.Entrega',
+      nameColumn: 'hora_entrega'
+    },
+    {
+      name: 'H.Devolución',
+      nameColumn: 'hora_devolucion'
+    },
+    {
+      name: 'H.Maniobra',
+      nameColumn: 'hora_maniobra'
+    },
+    {
+      name: 'H.Finaliza',
+      nameColumn: 'hora_fin'
+    }
   ];
   dataExcel = [];
   form = {
@@ -46,18 +88,66 @@ export class BitacoraComponent implements OnInit {
       messages: null,
       required: true,
     },
+    estadoConsigna: {
+      label: 'Estado consigna',
+      name: 'estadoConsigna',
+      value: null,
+      messages: null,
+      required: true,
+      valor: null,
+      disabled: false,
+    },
   };
 
-  constructor(private api: ApiService,
-              private notifier: NotifierService,
-              private validations: ValidationService,) {
+  fecha = [];
+  panelOpenState = false;
+  panelOpenStateFiltro = false;
+  public color: string = '#2889e9';
+  colorid = "";
+  colorNuevo="";
+  colors = {
+    riesgo: "#fcf8f8",
+    maniobras: "#fcf8f8",
+    pendiente: "#fcf8f8",
+    inicializada: "#fcf8f8",
+    finalizada: "#fcf8f8",
+    cierre30: "#fcf8f8",
+    cierre15: "#fcf8f8",
+    vencida: "#fcf8f8",
   }
 
-  ngOnInit(): void {
+  dataControls = {
+    estadoConsigna: [],
+  }
 
+  constructor(private api: ApiService,
+    private notifier: NotifierService,
+    private session: SessionService,
+    private validations: ValidationService, ) {}
+
+  ngOnInit(): void {
+    this.searchLoad();
+    this.getParametroColor();
+    this.setDelay();
+
+    this.dataControls.estadoConsigna=[{id:"A",nombre:"Aprobada"},{id:"T",nombre:"Todas"}]
+
+  }
+
+  setDelay() {
+    setTimeout(()=>{
+      
+      if(this.form.fechaInicio.value==null)
+      {
+        this.searchLoad();
+        
+      }
+      this.setDelay();
+    }, 60000);
   }
 
   getParams() {
+
     let fechaInicio = null;
     if (this.form.fechaInicio.value) {
       fechaInicio = this.helpers.formatDate(this.form.fechaInicio.value);
@@ -67,12 +157,24 @@ export class BitacoraComponent implements OnInit {
     if (this.form.fechaFin.value) {
       fechaFin = this.helpers.formatDate(this.form.fechaFin.value);
     }
+   
+    if(fechaInicio==null)
+    {
+      var f = moment();
+      this.fecha[0] = f.format('YYYY-MM-DD');
+      this.fecha[1] = f.format('YYYY-MM-DD');
+      fechaInicio=this.fecha[0];
+    }
 
     const params = {
-      numero_consigna: this.form.numeroConsigna.value,
-      fecha_inicio: fechaInicio,
-      fecha_fin: fechaFin,
+      codigo: this.form.numeroConsigna.value,
+      fechaIni: fechaInicio,
+      fechaFin: fechaFin,
+      estadoConsigna:this.form.estadoConsigna.value
     };
+
+    this.fecha[0] = fechaInicio;
+    this.fecha[1] = fechaFin;
 
     return JSON.stringify(params);
   }
@@ -85,7 +187,32 @@ export class BitacoraComponent implements OnInit {
     }
 
     const params = this.getParams();
-    const response = await this.api.get(`${environment.apiBackend}/bitacora/get-all?params=${params}`);
+    //const response = await this.api.get(`${environment.apiBackend}/bitacora/get-all?params=${params}`);
+    const response = await this.api.get(`${environment.apiBackend}/bitacora/getListEjecucion/${params}`);
+
+    this.data = response.data;
+    this.setDataExcel();
+    if (this.data.length === 0) {
+      this.notifier.notify('info', 'No se encontraron registros...');
+    }
+
+  }
+
+  async searchLoad() {
+
+    var f = moment();
+    this.fecha[0] = f.format('YYYY-MM-DD');
+    this.fecha[1] = f.format('YYYY-MM-DD');
+
+    const params = {
+      codigo: this.form.numeroConsigna.value,
+      fechaIni: this.fecha[0],
+      fechaFin: this.fecha[1],
+      estadoConsigna:this.form.estadoConsigna.value
+    };
+
+    const response = await this.api.get(`${environment.apiBackend}/bitacora/getListEjecucion/${JSON.stringify(params)}`);
+
     this.data = response.data;
     this.setDataExcel();
     if (this.data.length === 0) {
@@ -102,13 +229,14 @@ export class BitacoraComponent implements OnInit {
     this.validations.cleanFields(this.form);
     this.data = [];
     this.setDataExcel();
+    this.searchLoad();
   }
 
-  setDataExcel(){
+  setDataExcel() {
     this.dataExcel = [];
-    for(let value of this.data){
+    for (let value of this.data) {
       this.dataExcel.push({
-        codigo: value.consigna.codigo,
+        codigo: value.codigo,
         completado: value.completado === '1' ? 'SI' : 'NO',
         nombre: value.causal_incumplimiento != null ? value.causal_incumplimiento.nombre : '',
         obser_causal_incum: value.completado === '0' ? value.obser_causal_incum : '',
@@ -118,5 +246,81 @@ export class BitacoraComponent implements OnInit {
       })
     }
   }
+
+  onColor(elemento,parametro) {
+
+    var t = document.querySelector('div[class="color-picker open"]');
+    document.querySelector('div[class="color-picker open"]');
+    var css = "position:fixed;top:20%;left: 40%;";
+    t.setAttribute("style", `${t.getAttribute("style")};${css}`)
+    this.colorid = parametro;
+
+  }
+
+  onChangeColor(a) {
+
+  }
+
+  async onOkColor(a) 
+  {
+    var obj = {
+      codigo: this.colorid,
+      valor: a
+    }
+
+    var response = await this.api.post(`${environment.apiBackend}/parametro/updateValor`, obj);
+    await this.getParametroColor();
+    await this.searchLoad();
+    
+  }
+
+  async getParametroColor() {
+    const response = await this.api.get(`${environment.apiBackend}/parametro/getParametroCodigoTipo/colEj`);
+
+    var color = response.data;
+
+    if (color.length === 0) {
+      this.notifier.notify('info', 'No se encontraron registros...');
+    } else {
+      color.forEach(element => {
+        switch (element.codigo) {
+          case "ClCierre15":
+            this.colors.cierre15 = element.valor;
+            break;
+          case "ClCierre30":
+            this.colors.cierre30 = element.valor;
+            break;
+          case "CrRies":
+            this.colors.riesgo = element.valor;
+            break;
+          case "CLFinaliz":
+            this.colors.finalizada = element.valor;
+            break;
+          case "CLInicia":
+            this.colors.inicializada = element.valor;
+            break;
+          case "ClManio":
+            this.colors.maniobras = element.valor;
+            break;
+          case "ClPendient":
+            this.colors.pendiente = element.valor;
+            break;
+          case "ClVencida":
+            this.colors.vencida = element.valor;
+            break;
+          default:
+            break;
+        }
+      });
+       this.session.setItem("colorEjecucion",JSON.stringify(this.colors));
+    }
+  }
+
+  setDataEstado(name, event) {
+
+    this.form[name].value = event;
+
+  }
+ 
 
 }

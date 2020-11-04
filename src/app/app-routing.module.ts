@@ -45,7 +45,7 @@ const routes: Routes = [
   , {path: 'comunicado-prensa/recordatorio/:id/:codigo', component: ComunicadoPrensaFormComponent, canActivate: [AuthGuard]}
   , {path: 'seguimiento-consigna', component: SeguimientoConsignaComponent, canActivate: [AuthGuard]}
   , {path: 'bitacora', component: BitacoraComponent, canActivate: [AuthGuard]}
-  , {path: 'bitacora/new', component: BitacoraFormComponent, canActivate: [AuthGuard]}
+  , {path: 'bitacora/new/:id', component: BitacoraFormComponent, canActivate: [AuthGuard]}
   , {path: 'bitacora/edit/:id', component: BitacoraFormComponent, canActivate: [AuthGuard]}
   , {path: 'bitacora/edit/:id', component: BitacoraFormComponent, canActivate: [AuthGuard]}
   , {path: 'asignacion-solicitudes', component: AsignacionSolicitudesComponent, canActivate: [AuthGuard]}
