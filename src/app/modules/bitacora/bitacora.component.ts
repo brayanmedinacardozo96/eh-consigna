@@ -22,6 +22,7 @@ import {
   element
 } from 'protractor';
 import { SessionService } from '../../shared/services/session.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-bitacora',
@@ -135,14 +136,19 @@ export class BitacoraComponent implements OnInit {
   }
 
   setDelay() {
+    
     setTimeout(()=>{
-      
+      var item=window.location.href.split('/'); 
       if(this.form.fechaInicio.value==null)
       {
         this.searchLoad();
-        
       }
-      this.setDelay();
+      console.log(item[item.length-1]);
+      if(item[item.length-1]=="bitacora")
+      {
+        this.setDelay();
+      }
+      
     }, 60000);
   }
 
@@ -211,7 +217,7 @@ export class BitacoraComponent implements OnInit {
       estadoConsigna:this.form.estadoConsigna.value
     };
 
-    const response = await this.api.get(`${environment.apiBackend}/bitacora/getListEjecucion/${JSON.stringify(params)}`);
+    const response = await this.api.getnoLoad(`${environment.apiBackend}/bitacora/getListEjecucion/${JSON.stringify(params)}`);
 
     this.data = response.data;
     this.setDataExcel();

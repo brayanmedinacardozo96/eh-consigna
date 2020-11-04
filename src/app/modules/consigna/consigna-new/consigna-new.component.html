@@ -135,7 +135,7 @@
                         [(ngModel)]="form.subestacion.value" (ngModelChange)="validateSubestacion()"
                         style="padding-top: 5px;padding-bottom: 5px;">
                         <mat-option *ngFor="let value of dataControls?.subestacion;" [value]="value.id">
-                            {{ value.codigo }}
+                            {{ value.nombre }}
                         </mat-option>
                     </mat-select>
                     <mat-hint style="color: red" *ngIf="form.subestacion.messages">{{form.subestacion.messages}}</mat-hint>

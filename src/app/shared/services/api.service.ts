@@ -24,6 +24,19 @@ export class ApiService {
     return response;
   }
 
+  async getnoLoad(path: string) {
+    let response: any;
+    response = await this.http.get<any>(path)
+      .toPromise()
+      .then(resp => {
+        return resp;
+      })
+      .catch((error: any) => {
+        return error.error;
+      });
+    return response;
+  }
+
   async post(path: string, params: object, headers: HttpHeaders = null) {
     let response: any;
     GlobalConstants.showLoading = true;
