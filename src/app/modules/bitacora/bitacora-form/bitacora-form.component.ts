@@ -509,7 +509,7 @@ export class BitacoraFormComponent implements OnInit {
   }
 
   abrirSubelementos(obj) {
-
+    
     if (!obj.json_elemento_mapa) {
       this.notifier.notify('error', 'El elemento seleccionado no contiene subelementos.');
       return false;
@@ -529,7 +529,7 @@ export class BitacoraFormComponent implements OnInit {
   }
 
   abrirSubelementosCortoTiempo(obj) {
-
+  
     if (!obj.json_elemento_mapa_corto) {
       this.notifier.notify('error', 'El elemento seleccionado no contiene subelementos.');
       return false;

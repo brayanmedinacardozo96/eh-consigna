@@ -1,72 +1,207 @@
 <div style="min-height: 520px;">
-  <mat-card class="container">
+
+  <mat-accordion style="position:relative; z-index:0;">
+    <mat-expansion-panel [expanded]="panelOpenStateFiltro" (opened)="panelOpenStateFiltro = true"
+      (closed)="panelOpenStateFiltro = false">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Filtros
+        </mat-panel-title>
+        <mat-panel-description>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+  <!--<mat-card class="container">
     <mat-card-content>
-      <h1>Bitácoras</h1>
+      <h1>Ejecución consignas</h1>-->
 
       <fieldset>
         <legend style="text-align: left;">Parámetros de búsqueda</legend>
 
-        <app-input-text
-          class="input"
-          (keyup.enter)="search()"
-          [name]="form.numeroConsigna.name"
-          [value]="form.numeroConsigna.value"
-          [label]="form.numeroConsigna.label"
-          [messages]="form.numeroConsigna.messages"
-          [upperCase]="true"
-          (valueChange)="setData(form.numeroConsigna.name, $event)"
-          [style]="'width: 200px'"
-        ></app-input-text>
+        <app-input-text class="input" (keyup.enter)="search()" [name]="form.numeroConsigna.name"
+          [value]="form.numeroConsigna.value" [label]="form.numeroConsigna.label"
+          [messages]="form.numeroConsigna.messages" [upperCase]="true"
+          (valueChange)="setData(form.numeroConsigna.name, $event)" [style]="'width: 200px'"></app-input-text>
+          
+          <mat-form-field class="input" style="width: 15%;padding:1%">
+            <mat-label>{{form.estadoConsigna.required ? form.estadoConsigna.label+' *':form.estadoConsigna.label}}</mat-label>
+            <mat-select [disabled]="form.estadoConsigna.disabled" id="ddlEstadoConsigna" (valueChange)="setDataEstado(form.estadoConsigna.name, $event)" [(ngModel)]="form.estadoConsigna.value" style="padding-top: 5px;padding-bottom: 5px;">
+                <mat-option *ngFor="let value of dataControls?.estadoConsigna;" [value]="value.id">
+                    {{value.nombre}}
+                </mat-option>
+            </mat-select>
+            <mat-hint style="color: red" *ngIf="form.estadoConsigna.messages">{{form.estadoConsigna.messages}}</mat-hint>
+        </mat-form-field>
+        
+        <app-datepicker  [style]="'padding: 5px;'" [label]="form.fechaInicio.label" [value]="form.fechaInicio.value"
+          [name]="form.fechaInicio.name" [messages]="form.fechaInicio.messages" [id]="form.fechaInicio.name"
+          (valueChange)="setData(form.fechaInicio.name, $event)"></app-datepicker>
 
-        <app-datepicker
-          [style]="'padding: 5px;'"
-          [label]="form.fechaInicio.label"
-          [value]="form.fechaInicio.value"
-          [name]="form.fechaInicio.name"
-          [messages]="form.fechaInicio.messages"
-          [id]="form.fechaInicio.name"
-          (valueChange)="setData(form.fechaInicio.name, $event)"
-        ></app-datepicker>
-
-        <app-datepicker
-          [style]="'padding: 5px;'"
-          [label]="form.fechaFin.label"
-          [value]="form.fechaFin.value"
-          [name]="form.fechaFin.name"
-          [messages]="form.fechaFin.messages"
-          [id]="form.fechaFin.name"
-          (valueChange)="setData(form.fechaFin.name, $event)"
-        ></app-datepicker>
+        <app-datepicker [style]="'padding: 5px;display: none;'" [label]="form.fechaFin.label" [value]="form.fechaFin.value"
+          [name]="form.fechaFin.name" [messages]="form.fechaFin.messages" [id]="form.fechaFin.name"
+          (valueChange)="setData(form.fechaFin.name, $event)"></app-datepicker>
 
 
-        <button (click)="search()"
-                mat-mini-fab color="accent"
-                style="margin-left: 20px;" matTooltip="Consultar">
+        <button (click)="search()" mat-mini-fab color="accent" style="margin-left: 20px;" matTooltip="Consultar">
           <mat-icon style="color: #FFFFFF">search</mat-icon>
         </button>
 
-        <button (click)="cleanFields()"
-                mat-mini-fab color="accent"
-                style="margin-left: 10px;" matTooltip="Limpiar">
+        <button (click)="cleanFields()" mat-mini-fab color="accent" style="margin-left: 10px;" matTooltip="Limpiar">
           <mat-icon style="color: #FFFFFF">brush</mat-icon>
         </button>
 
       </fieldset>
 
-    </mat-card-content>
-  </mat-card>
+    
+    <!--</mat-card-content>
+  </mat-card>-->
+
+</mat-expansion-panel>
+</mat-accordion>
+
+<mat-accordion style="position:relative; z-index:0;">
+  <mat-expansion-panel [expanded]="panelOpenState" (opened)="panelOpenState = true"
+    (closed)="panelOpenState = false">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Convención de colores
+      </mat-panel-title>
+      <mat-panel-description>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <table>
+
+      <tr>
+        <td>
+          <table>
+            <tr>
+              <td>
+                Riesgo de disparo
+              </td>
+              <td>
+                <input (colorPickerSelect)="onOkColor($event)" (colorPickerChange)="onChangeColor($event)"
+                  [cpOKButton]="'true'" id="pnColorRiesgo" (click)="onColor('pnColorRiesgo','CrRies')"
+                  [(colorPicker)]="colors.riesgo" [cpCancelButton]="true" style="width: 8px;border:0;"
+                  [style.background]="colors.riesgo" />
+              </td>
+
+            </tr>
+            <tr>
+              <td>
+                Apertura
+              </td>
+              <td>
+                <input (colorPickerSelect)="onOkColor($event)" (colorPickerChange)="onChangeColor($event)"
+                  [cpOKButton]="'true'" id="pnColorManiobras" (click)="onColor('pnColorManiobras','ClManio')"
+                  [(colorPicker)]="colors.maniobras" [cpCancelButton]="true" style="width: 8px;border:0;"
+                  [style.background]="colors.maniobras" />
+              </td>
+
+            </tr>
+          </table>
+        </td>
+        <td>
+          <table>
+            <tr>
+              <td>
+                Pendiente
+              </td>
+              <td>
+                <input (colorPickerSelect)="onOkColor($event)" (colorPickerChange)="onChangeColor($event)"
+                  [cpOKButton]="'true'" id="pnColorPendiente" (click)="onColor('pnColorPendiente','ClPendient')"
+                  [(colorPicker)]="colors.pendiente" [cpCancelButton]="true" style="width: 8px;border:0;"
+                  [style.background]="colors.pendiente" />
+              </td>
+
+            </tr>
+            <tr>
+              <td>
+                Inicializada
+              </td>
+              <td>
+                <input (colorPickerSelect)="onOkColor($event)" (colorPickerChange)="onChangeColor($event)"
+                  [cpOKButton]="'true'" id="pnColorInicializada" (click)="onColor('pnColorInicializada','CLInicia')"
+                  [(colorPicker)]="colors.inicializada" [cpCancelButton]="true" style="width: 8px;border:0;"
+                  [style.background]="colors.inicializada" />
+              </td>
+
+            </tr>
+            <tr>
+              <td>
+                Finalizada
+              </td>
+              <td>
+                <input (colorPickerSelect)="onOkColor($event)" (colorPickerChange)="onChangeColor($event)"
+                  [cpOKButton]="'true'" id="pnColorFinalizada" (click)="onColor('pnColorFinalizada','CLFinaliz')"
+                  [(colorPicker)]="colors.finalizada" [cpCancelButton]="true" style="width: 8px;border:0;"
+                  [style.background]="colors.finalizada" />
+              </td>
+
+            </tr>
+          </table>
+        </td>
+        <td>
+          <table>
+            <tr>
+              <td>
+                Cierre 30 m
+              </td>
+              <td>
+                <input (colorPickerSelect)="onOkColor($event)" (colorPickerChange)="onChangeColor($event)"
+                  [cpOKButton]="'true'" id="pnColorCierre30" (click)="onColor('pnColorCierre30','ClCierre30')"
+                  [(colorPicker)]="colors.cierre30" [cpCancelButton]="true" style="width: 8px;border:0;"
+                  [style.background]="colors.cierre30" />
+              </td>
+
+            </tr>
+            <tr>
+              <td>
+                Cierre 15 m
+              </td>
+              <td>
+                <input (colorPickerSelect)="onOkColor($event)" (colorPickerChange)="onChangeColor($event)"
+                  [cpOKButton]="'true'" id="pnColorCierre15" (click)="onColor('pnColorCierre15','ClCierre15')"
+                  [(colorPicker)]="colors.cierre15" [cpCancelButton]="true" style="width: 8px;border:0;"
+                  [style.background]="colors.cierre15" />
+              </td>
+
+            </tr>
+            <tr>
+              <td>
+                Vencida
+              </td>
+              <td>
+                <input (colorPickerSelect)="onOkColor($event)" (colorPickerChange)="onChangeColor($event)"
+                  [cpOKButton]="'true'" id="pnColorVencida" (click)="onColor('pnColorVencida','ClVencida')"
+                  [(colorPicker)]="colors.vencida" [cpCancelButton]="true" style="width: 8px;border:0;"
+                  [style.background]="colors.vencida" />
+              </td>
+
+            </tr>
+          </table>
+        </td>
+      </tr>
+
+
+    </table>
+
+
+  </mat-expansion-panel>
+</mat-accordion>
+
+
   <div style="margin-left: 95%;">
     <app-generate-excel [dataHeader]="dataHeader" [data]="dataExcel" [nameDocument]="'Bitácoras'"></app-generate-excel>
   </div>
   <div style="padding: 10px;">
-    <app-bitacora-list [data]="data" ></app-bitacora-list>
+    <em>Ejecución:{{fecha[0]}}</em>
+    <app-bitacora-list [data]="data"></app-bitacora-list>
   </div>
 
-  <button mat-fab color="accent"
-          [routerLink]="['/bitacora/new']"
-          matTooltip="Nueva bitácora"
-          class="custom-float-button">
+  <!-- <button mat-fab color="accent" [routerLink]="['/bitacora/new']" matTooltip="Nueva bitácora"
+    class="custom-float-button">
     <mat-icon style="color: #FFFFFF;">add</mat-icon>
-  </button>
+  </button>-->
 
 </div>

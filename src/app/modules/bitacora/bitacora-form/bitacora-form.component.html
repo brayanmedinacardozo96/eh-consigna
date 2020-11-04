@@ -73,6 +73,22 @@
             <td>{{dataConsigna?.consigna_estado_consignacion}}</td>
           </tr>
           <tr>
+            <th>Jefe contratista</th>
+            <td>{{dataConsigna?.jefe_contratista}}
+            <th>Telefono</th>
+            <td>{{dataConsigna?.telefono_jefe_contratista}}</td>
+            <th></th>
+            <td></td>
+          </tr>
+          <tr>
+            <th>Jefe trabajo</th>
+            <td>{{dataConsigna?.jefe_trabajo}}
+            <th>Telefono</th>
+            <td>{{dataConsigna?.telefono_jefe_trabajo}}</td>
+            <th></th>
+            <td></td>
+          </tr>
+          <tr>
             <th>Trabajo a efectuar</th>
             <td colspan="5">{{dataConsigna?.consigna_trabajo_efectuar}}</td>
           </tr>
@@ -147,10 +163,11 @@
                 [value]="value?.form?.hora_entrega?.value"
                 [name]="value?.form?.hora_entrega?.name"
                 (valueChange)="setDinamicData(value?.form?.hora_entrega?.name, $event, i);
-                validarHorasIntermedias(value?.form?.hora_inicio?.value, value?.form?.hora_fin?.value, value?.form?.hora_entrega?.value,
+                validarHorasIntermedias(value?.form?.hora_inicio?.value,value?.hora_final_prog, value?.form?.hora_entrega?.value,
                 'Hora de entrega')">
               </app-date-time-picker>
             </td>
+            <!--value?.form?.hora_fin?.value-->
             <td>
               <app-date-time-picker
                 [disable]="value.form.completado == 1 ? false : true"
@@ -158,7 +175,7 @@
                 [value]="value?.form?.hora_devolucion?.value"
                 [name]="value?.form?.hora_devolucion?.name"
                 (valueChange)="setDinamicData(value?.form?.hora_devolucion?.name, $event, i);
-                validarHorasIntermedias(value?.form?.hora_inicio?.value, value?.form?.hora_fin?.value, value?.form?.hora_devolucion?.value,
+                validarHorasIntermedias(value?.form?.hora_inicio?.value, value?.hora_final_prog, value?.form?.hora_devolucion?.value,
                 'Hora de devolución')">
               </app-date-time-picker>
             </td>
@@ -169,7 +186,7 @@
                 [value]="value?.form?.hora_maniobra?.value"
                 [name]="value?.form?.hora_maniobra?.name"
                 (valueChange)="setDinamicData(value?.form?.hora_maniobra?.name, $event, i);
-                validarHorasIntermedias(value?.form?.hora_inicio?.value, value?.form?.hora_fin?.value, value?.form?.hora_maniobra?.value,
+                validarHorasIntermedias(value?.form?.hora_inicio?.value, value?.hora_final_prog, value?.form?.hora_maniobra?.value,
                 'Hora de maniobra')">
               </app-date-time-picker>
             </td>
@@ -180,7 +197,7 @@
                 [value]="value?.form?.hora_fin?.value"
                 [name]="value?.form?.hora_fin?.name"
                 (valueChange)="setDinamicData(value?.form?.hora_fin?.name, $event, i);
-                validateRangeHour(value?.form?.hora_inicio?.value, value?.form?.hora_fin?.value)">
+                validateRangeHour(value?.form?.hora_inicio?.value, value?.hora_fin)">
               </app-date-time-picker>
             </td>
             <td>{{value?.hora_final_prog}}</td>
@@ -343,7 +360,7 @@
           GUARDAR
         </button>
         <button (click)="cancel()" mat-raised-button color="accent" class="button" style="color: #FFFFFF; margin: 5px;">
-          CANCELAR
+          SALIR
         </button>
       </div>
 
