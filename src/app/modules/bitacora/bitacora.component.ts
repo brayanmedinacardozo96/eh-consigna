@@ -76,7 +76,7 @@ export class BitacoraComponent implements OnInit {
       required: true,
     },
     fechaInicio: {
-      label: 'Fecha inicio creación',
+      label: 'Fecha ejecución',
       name: 'fechaInicio',
       value: null,
       messages: null,
@@ -222,7 +222,7 @@ export class BitacoraComponent implements OnInit {
     this.data = response.data;
     this.setDataExcel();
     if (this.data.length === 0) {
-      this.notifier.notify('info', 'No se encontraron registros...');
+     // this.notifier.notify('info', 'No se encontraron registros...');
     }
 
   }
