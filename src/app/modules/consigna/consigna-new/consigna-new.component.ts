@@ -7,7 +7,7 @@ import {environment} from '../../../../environments/environment';
 import { SnackBarService } from './../../../shared/services/snack-bar.service';
 import { Auth } from './../../../shared/auth';
 import { User } from './../../../shared/models/user';
-import {MatDialog} from '@angular/material/dialog';
+import {MatDialog,MatDialogConfig} from '@angular/material/dialog';
 import {Router,ActivatedRoute} from '@angular/router';
 import { SessionService } from './../../../shared/services/session.service';
 import { TrabajoOportunidadComponent } from './../../trabajo-oportunidad/trabajo-oportunidad.component';
@@ -17,7 +17,7 @@ import { ModalConfirmComponent } from './../../../ui/forms/modal-confirm/modal-c
 import { Mensaje } from './../../../ui/forms/m-dialog/dialog';
 import { ConsignaNewSearchComponent } from './consigna-new-search/consigna-new-search.component';
 import * as moment from 'moment';
-import { async } from '@angular/core/testing';
+import {BitacoraSubelementosVistaComponent} from "../../bitacora/bitacora-subelementos-vista/bitacora-subelementos-vista.component";
 
 
 @Component({
@@ -1919,6 +1919,63 @@ export class ConsignaNewComponent implements OnInit {
     }
 
   }
+
+  abrirSubelementos(obj) {
+
+    try {
+
+      if (JSON.parse(obj.jsonElementoMapa.value).url.interrupcion == null) {
+        this.snackBar.alert('El elemento seleccionado no contiene subelementos.', 5000)
+        return false;
+      }
+
+      var elemento = JSON.parse(obj.jsonElementoMapa.value).url.interrupcion.data.json;
+
+      if (!elemento) {
+        this.snackBar.alert('El elemento seleccionado no contiene subelementos.', 5000)
+        return false;
+      }
+
+      const dialogConfig = new MatDialogConfig();
+      dialogConfig.minWidth = 500;
+      dialogConfig.minHeight = 650;
+      dialogConfig.data = {
+        data: elemento,
+
+      };
+      this.dialog.open(BitacoraSubelementosVistaComponent, dialogConfig);
+    } catch (error) {
+      this.snackBar.alert('El elemento seleccionado no contiene subelementos.', 5000)
+    }
+  }
+
+  abrirSubelementosCortoTiempo(obj) {
+   
+    try {
+      if (JSON.parse(obj.jsonElementoMapa.value).url.interrupcionCorta == null) {
+        this.snackBar.alert('El elemento seleccionado no contiene subelementos.', 5000)
+        return false;
+      }
+
+      var elemento = JSON.parse(obj.jsonElementoMapa.value).url.interrupcionCorta.data.json;
+
+      if (!elemento) {
+        this.snackBar.alert('El elemento seleccionado no contiene subelementos.', 5000)
+        return false;
+      }
+
+      const dialogConfig = new MatDialogConfig();
+      dialogConfig.minWidth = 500;
+      dialogConfig.minHeight = 650;
+      dialogConfig.data = {
+        data: elemento,
+      };
+      this.dialog.open(BitacoraSubelementosVistaComponent, dialogConfig);
+    } catch (error) {
+      this.snackBar.alert('El elemento seleccionado no contiene subelementos.', 5000)
+    }
+
+    }
 
   
   
