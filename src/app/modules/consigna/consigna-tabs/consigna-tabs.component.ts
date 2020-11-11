@@ -12,6 +12,7 @@ import { SnackBarService } from './../../../shared/services/snack-bar.service';
 import { SessionService } from './../../../shared/services/session.service';
 import { ValueConverter } from '@angular/compiler/src/render3/view/template';
 import { ThrowStmt } from '@angular/compiler';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 
 @Component({
@@ -96,6 +97,10 @@ export class ConsignaTabsComponent implements OnInit {
       this.consigna.getSubestaciones(this.consigna.form.tipoZona.value);
       this.consigna.form.tipoSolicitud.value = parseInt(dataResponse.tipo_solicitud_id);
       this.consigna.form.fechaSolicitud.value = new Date(dataResponse.fecha_solicitud);
+
+      this.consigna.formElementos.fechaInicio.value=this.consigna.form.fechaSolicitud.value;
+      this.consigna.formElementos.fechaFinal.value=this.consigna.form.fechaSolicitud.value;
+
       this.consigna.form.tipoConsignacion.value = parseInt(dataResponse.tipo_consignacion_id);
       this.consigna.form.numeroConsigna.value = dataResponse.codigo;
       this.consigna.form.consecutivoSnc.value = dataResponse.codigo_snc;

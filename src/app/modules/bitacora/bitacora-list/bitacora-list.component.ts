@@ -113,7 +113,7 @@ export class BitacoraListComponent implements OnInit {
   abrirSubelementos(obj) {
 
     if (!obj.json_elemento_intervenir) {
-      this.notifier.notify('error', 'pk El elemento seleccionado no contiene subelementos.');
+      this.notifier.notify('error', 'El elemento seleccionado no contiene subelementos.');
       return false;
     }
 

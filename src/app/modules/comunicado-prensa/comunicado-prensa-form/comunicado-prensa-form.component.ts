@@ -6,7 +6,7 @@ import {NotifierService} from "angular-notifier";
 import {Helpers} from "../../../shared/helpers";
 import {Auth} from "../../../shared/auth";
 import {Location} from '@angular/common';
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {ConfirmDialogComponent, ConfirmDialogModel} from "../../../ui/confirm-dialog/confirm-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
 
@@ -75,6 +75,7 @@ export class ComunicadoPrensaFormComponent implements OnInit {
   constructor(private api: ApiService,
               private notifier: NotifierService,
               private location: Location,
+              private router: Router,
               private activeRoute: ActivatedRoute,
               private dialogConfirm: MatDialog,) {
 
@@ -158,6 +159,12 @@ export class ComunicadoPrensaFormComponent implements OnInit {
       this.notifier.notify('error', response.message);
       this.data = null;
       return false;
+    }
+
+    if(response.comunicado!=null)
+    {
+      this.router.navigateByUrl('/comunicado-prensa/edit/'+response.comunicado[0].id);
+      
     }
 
     if (response.data) {
