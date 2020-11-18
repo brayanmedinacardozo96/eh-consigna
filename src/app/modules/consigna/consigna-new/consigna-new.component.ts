@@ -1977,6 +1977,66 @@ export class ConsignaNewComponent implements OnInit {
 
     }
 
+    async resumenMapa() {
+      
+      var url = "";
+      var interrupcion = "";
+      var interrupcionCorta = "";
+
+      this.dataElementos.forEach(element => {
+
+        if (element.jsonElementoMapa.value != "") {
+          var elemento = JSON.parse(element.jsonElementoMapa.value);
+
+          if (elemento.url.interrupcion != null) {
+            url += elemento.url.interrupcion.data.url;
+            interrupcion += elemento.url.interrupcion.data.url;
+          }
+
+          if (elemento.url.interrupcionCorta != null) {
+            url += elemento.url.interrupcionCorta.data.url;
+            interrupcionCorta += elemento.url.interrupcionCorta.data.url
+          }
+
+        }
+
+        console.log(url);
+
+      });
+
+      if (url != "") {
+
+        var date = new Date();
+        var key = date.getHours() + '' + date.getMinutes() + '' + date.getSeconds();
+
+        var parametro = {
+          key: key,
+          data: JSON.stringify({
+            interrupcion: interrupcion,
+            interrupcionCorta: interrupcionCorta,
+          })
+        }
+
+        const response = await this.api.post(`${environment.apiBackend}/integracion-mapa/set`, parametro);
+
+        console.log(response);
+
+        // definimos la anchura y altura de la ventana
+        const height = 600;
+        const width = 1000;
+
+        // calculamos la posicion x, y para centrar la ventana
+        const y = Number((window.innerHeight / 2) - (height / 2));
+        const x = Number((window.innerWidth / 2) - (width / 2));
+
+        window.open(environment.urlEhmap + '?keyload=' + key + '&user=' + this.utf8_to_b64(JSON.stringify(this.user)), "MsgWindow", 'width=' + width + ',height=' + height + ',top=' + y + ',left=' + x + ',toolbar=no,resizable=no');
+
+      } else {
+        this.snackBar.alert('El elemento seleccionado no contiene subelementos.', 5000)
+      }
+
+    }
+
   
   
 }

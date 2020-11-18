@@ -369,6 +369,11 @@
                  <mat-icon style="color: #FFF;">public</mat-icon>
                </button>
 
+               <button *ngIf="dataElementos.length>1" (click)="resumenMapa()" mat-mini-fab color="primary"
+                 style="margin-left: 20px; margin-bottom:20px;" matTooltip="Ver mapa" matTooltipClass="custom-tooltip">
+                 <mat-icon style="color: #FFF;">map</mat-icon>
+               </button>
+
                <span>
                  <button id="botonVerMapaSelec" (click)="verMapaGuardado()" mat-mini-fab
                    style="visibility: hidden; margin-left: 20px; margin-bottom:20px; background-color: rgb(227, 114, 34);"
