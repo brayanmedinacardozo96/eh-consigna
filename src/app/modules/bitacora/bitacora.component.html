@@ -190,10 +190,64 @@
   </mat-expansion-panel>
 </mat-accordion>
 
+<mat-accordion style="position:relative; z-index:0;">
+  <mat-expansion-panel [expanded]="panelOpenStateResumen" (opened)="panelOpenStateResumen = true"
+    (closed)="panelOpenStateResumen = false">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Resumen
+      </mat-panel-title>
+      <mat-panel-description>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
 
-  <div style="margin-left: 95%;">
+    <table class="custom-table">
+
+      <tr>
+        <td>
+          Zona norte
+        </td>
+        <td>
+          Zona centro
+        </td>
+        <td>
+          Zona occidente
+        </td>
+        <td>
+          Zona sur
+        </td>
+        <td>
+          Nacional
+        </td>
+      </tr>
+      <tr>
+        <td>
+          {{this.dataResumen.norte}}
+        </td>
+        <td>
+          {{this.dataResumen.centro}}
+        </td>
+        <td>
+          {{this.dataResumen.occidente}}
+        </td>
+        <td>
+          {{this.dataResumen.sur}}
+        </td>
+        <td>
+         0
+        </td>
+      </tr>
+
+
+    </table>
+
+
+  </mat-expansion-panel>
+</mat-accordion>
+
+ <!-- <div style="margin-left: 95%;">
     <app-generate-excel [dataHeader]="dataHeader" [data]="dataExcel" [nameDocument]="'Bitácoras'"></app-generate-excel>
-  </div>
+  </div>-->
   <div style="padding: 10px;">
     <em>Ejecución:{{fecha[0]}}</em>
     <app-bitacora-list [data]="data"></app-bitacora-list>

@@ -121,6 +121,14 @@ export class BitacoraComponent implements OnInit {
     estadoConsigna: [],
   }
 
+  dataResumen={
+    norte:0,
+    sur:0,
+    occidente:0,
+    centro:0,
+    nacional:0
+  }
+
   constructor(private api: ApiService,
     private notifier: NotifierService,
     private session: SessionService,
@@ -198,6 +206,7 @@ export class BitacoraComponent implements OnInit {
 
     this.data = response.data;
     this.setDataExcel();
+    this.resumen();
     if (this.data.length === 0) {
       this.notifier.notify('info', 'No se encontraron registros...');
     }
@@ -221,10 +230,30 @@ export class BitacoraComponent implements OnInit {
 
     this.data = response.data;
     this.setDataExcel();
+    this.resumen();
     if (this.data.length === 0) {
      // this.notifier.notify('info', 'No se encontraron registros...');
     }
 
+  }
+
+  resumen()
+  {
+    this.dataResumen.norte=this.filtroZona("Zona Norte");
+    this.dataResumen.centro=this.filtroZona("Zona Centro");
+    this.dataResumen.occidente=this.filtroZona("Zona Occidente");
+    this.dataResumen.sur=this.filtroZona("Zona Sur");
+    this.dataResumen.nacional=this.data.filter(b => {
+      return (b.tipocodigo == "A")
+    }).length;
+          
+  }
+
+  filtroZona(zona){
+   var result= this.data.filter(b => {
+      return (b.zona == zona)
+    });
+    return result.length
   }
 
   setData(name, event) {
