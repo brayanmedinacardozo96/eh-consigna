@@ -103,6 +103,7 @@ export class BitacoraComponent implements OnInit {
   fecha = [];
   panelOpenState = false;
   panelOpenStateFiltro = false;
+  panelOpenStateResumen=false;
   public color: string = '#2889e9';
   colorid = "";
   colorNuevo="";
