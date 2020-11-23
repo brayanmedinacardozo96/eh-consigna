@@ -1,8 +1,9 @@
 <div style="width: 100%">
-  <!--<mat-form-field style="width: 35%;">
+  
+  <mat-form-field style="width: 35%;padding-right:100%;">
     <mat-label>Buscar en el listado</mat-label>
-    <input matInput (keyup)="applyFilter($event)" placeholder="Ej: 123456789">
-  </mat-form-field>-->
+    <input matInput (keyup)="applyFilter($event)" placeholder="">
+  </mat-form-field>
 
   <div style="text-align: center !important; width: 100%; overflow-x: auto; ">
     <table mat-table [dataSource]="dataSource" matSort class="custom-table">
