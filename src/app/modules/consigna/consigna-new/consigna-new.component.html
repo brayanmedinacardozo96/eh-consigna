@@ -118,8 +118,9 @@
             <mat-grid-tile>
                 <mat-form-field>
                     <mat-label>{{form.estadoEquipo.required ? form.estadoEquipo.label+' *' : form.estadoEquipo.label}}</mat-label>
-                    <mat-select [disabled]="form.estadoEquipo.disabled" [(ngModel)]="form.estadoEquipo.value" style="padding-top: 5px;padding-bottom: 5px;">
-                        <mat-option *ngFor="let value of dataControls?.estadoEquipo;" [value]="value.id">
+                    <mat-select id="ddlestadoEquipo" [disabled]="form.estadoEquipo.disabled" [(ngModel)]="form.estadoEquipo.value"
+                    (ngModelChange)="validarEstadoEquipo()" style="padding-top: 5px;padding-bottom: 5px;">
+                        <mat-option *ngFor="let value of dataControls?.estadoEquipo;"  [value]="value.id">
                             {{value.nombre}}
                         </mat-option>
                     </mat-select>
@@ -414,7 +415,7 @@
                   <th>Fecha y hora final</th>
                   <th>Mapa</th>
                   <th>Subelementos</th>
-                  <th>Usuarios afectados</th>
+                  <th *ngIf="this.validarEstadoEquipo() == 'A'">Usuarios afectados</th>
                   <th>Acciones</th>
                 </tr>
                 </thead>
@@ -442,7 +443,7 @@
                         (click)="abrirSubelementosCortoTiempo(value)" style="cursor: pointer;">history_toggle_off
                       </mat-icon>
                     </td>
-                    <td>
+                    <td *ngIf="this.validarEstadoEquipo() == 'A'">
                         <table style="border:none;">
                             <tr *ngIf="value.totalUsuarioInterrupcion.value>0">
                                 <td>D. Trabajo</td>
@@ -468,7 +469,7 @@
         </fieldset>
         <mat-hint style="color: red" *ngIf="messageListaElementos != '' ">{{ messageListaElementos }}</mat-hint>
         <br><br>
-           <mat-accordion style="position:relative; z-index:0;">
+           <mat-accordion *ngIf="this.validarEstadoEquipo() == 'A'" style="position:relative; z-index:0;">
             <mat-expansion-panel [expanded]="panelOpenStateResumen" (opened)="panelOpenStateResumen = true"
               (closed)="panelOpenStateResumen = false">
               <mat-expansion-panel-header>

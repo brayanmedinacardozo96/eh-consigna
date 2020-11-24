@@ -17,10 +17,12 @@ import {ConsignaModule} from '../consigna/consigna.module';
 import {DirectivesModule} from "../../shared/directives/directives.module";
 import {MatSortModule} from "@angular/material/sort";
 import {MatTooltipModule} from "@angular/material/tooltip";
+import { IndicadorZonaComponent } from './indicador-zona.component';
+
 
 @NgModule({
   declarations: [
-   
+   IndicadorZonaComponent
   ],
   imports: [
     CommonModule,

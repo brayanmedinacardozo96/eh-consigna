@@ -27,12 +27,11 @@ import {AsignacionSolicitudesModule} from './modules/asignacion-solicitudes/asig
 import {ActualizarInformacionModule} from './modules/actualizar-informacion/actualizar-informacion.module';
 import {ConsolidadoModule} from './modules/consolidado/consolidado.module';
 import { ReporteModule } from './modules/reporte/reporte.module';
-import { IndicadorZonaComponent } from './modules/indicador-zona/indicador-zona.component';
+import{ IndicadorZonaModule } from './modules/indicador-zona/autorizar.module'
 
 @NgModule({
   declarations: [
-    AppComponent,
-    IndicadorZonaComponent,
+    AppComponent
   ],
   imports: [
     BrowserModule,
@@ -53,6 +52,7 @@ import { IndicadorZonaComponent } from './modules/indicador-zona/indicador-zona.
     BitacoraModule,
     AsignacionSolicitudesModule,
     ReporteModule,
+    IndicadorZonaModule,
     NotifierModule.withConfig({
       position: {
         horizontal: {

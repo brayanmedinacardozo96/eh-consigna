@@ -1,1 +1,374 @@
-<p>indicador-zona works!</p>
+<mat-card class="container">
+
+    <mat-card-content>
+        <h1>Indicadores por Zona</h1>
+
+        <mat-grid-list cols="3" rowHeight="104px">
+        <mat-grid-tile class="col col-lg-12 col-sm-12">
+            <mat-form-field style="width: 60%;">
+                <mat-label>{{form.tipoZona.label}}</mat-label>
+                <mat-select [(ngModel)]="form.tipoZona.value" style="padding-top: 5px;padding-bottom: 5px;">
+                    <mat-option *ngFor="let value of dataControls?.tipoZona;" [value]="value.id">
+                        {{value.nombre}}
+                    </mat-option>
+                </mat-select>
+                <mat-hint style="color: red" *ngIf="form.tipoZona.messages">{{form.tipoZona.messages}}</mat-hint>
+            </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile class="col col-lg-12 col-sm-12">
+            <mat-form-field style="width: 60%;">
+                <mat-label>{{form.anio.label}}</mat-label>
+                <mat-select [(ngModel)]="form.anio.value" style="padding-top: 5px;padding-bottom: 5px;">
+                    <mat-option *ngFor="let value of dataControls?.anio;" [value]="value.id">
+                        {{value.nombre}}
+                    </mat-option>
+                </mat-select>
+                <mat-hint style="color: red" *ngIf="form.anio.messages">{{form.anio.messages}}</mat-hint>
+            </mat-form-field>
+        </mat-grid-tile>
+        
+    </mat-grid-list>
+
+    <table class="custom-table">
+        <tr>
+            <th>Enero</th>
+            <td>
+
+                <app-input-number-float style="width: 40%;margin-right:5px;"
+                class="input"
+                [id]="'eneroAsignado'"
+                [label]="form.enero.label"
+                [value]="form.enero.value"
+                [name]="form.enero.name"
+                [messages]="form.enero.messages"
+                [maxLength]="form.enero.maxLength"
+                [required]="form.enero.required"
+                (valueChange)="setData(form.enero.name, $event)">
+             </app-input-number-float>
+        
+             <app-input-number-float style="width: 40%;"
+                class="input"
+                [id]="'eneroTrabajado'"
+                [label]="form.eneroTrabajado.label"
+                [value]="form.eneroTrabajado.value"
+                [name]="form.eneroTrabajado.name"
+                [messages]="form.eneroTrabajado.messages"
+                [maxLength]="form.eneroTrabajado.maxLength"
+                [required]="form.eneroTrabajado.required"
+                (valueChange)="setData(form.eneroTrabajado.name, $event)">
+            </app-input-number-float>
+
+            </td>
+            <th>Julio</th>
+            <td>
+
+                <app-input-number-float style="width: 40%;margin-right:5px;"
+                class="input"
+                [id]="'eneroAsignado'"
+                [label]="form.enero.label"
+                [value]="form.enero.value"
+                [name]="form.enero.name"
+                [messages]="form.enero.messages"
+                [maxLength]="form.enero.maxLength"
+                [required]="form.enero.required"
+                (valueChange)="setData(form.enero.name, $event)">
+             </app-input-number-float>
+        
+             <app-input-number-float style="width: 40%;"
+                class="input"
+                [id]="'eneroTrabajado'"
+                [label]="form.eneroTrabajado.label"
+                [value]="form.eneroTrabajado.value"
+                [name]="form.eneroTrabajado.name"
+                [messages]="form.eneroTrabajado.messages"
+                [maxLength]="form.eneroTrabajado.maxLength"
+                [required]="form.eneroTrabajado.required"
+                (valueChange)="setData(form.eneroTrabajado.name, $event)">
+            </app-input-number-float>
+                
+            </td>
+        </tr>
+        <tr>
+            <th>Febrero</th>
+            <td>
+                <app-input-number-float style="width: 40%;margin-right:5px;"
+                class="input"
+                [id]="'eneroAsignado'"
+                [label]="form.enero.label"
+                [value]="form.enero.value"
+                [name]="form.enero.name"
+                [messages]="form.enero.messages"
+                [maxLength]="form.enero.maxLength"
+                [required]="form.enero.required"
+                (valueChange)="setData(form.enero.name, $event)">
+             </app-input-number-float>
+        
+             <app-input-number-float style="width: 40%;"
+                class="input"
+                [id]="'eneroTrabajado'"
+                [label]="form.eneroTrabajado.label"
+                [value]="form.eneroTrabajado.value"
+                [name]="form.eneroTrabajado.name"
+                [messages]="form.eneroTrabajado.messages"
+                [maxLength]="form.eneroTrabajado.maxLength"
+                [required]="form.eneroTrabajado.required"
+                (valueChange)="setData(form.eneroTrabajado.name, $event)">
+            </app-input-number-float>
+
+            </td>
+            <th>Agosto</th>
+            <td>
+                 
+                <app-input-number-float style="width: 40%;margin-right:5px;"
+                class="input"
+                [id]="'eneroAsignado'"
+                [label]="form.enero.label"
+                [value]="form.enero.value"
+                [name]="form.enero.name"
+                [messages]="form.enero.messages"
+                [maxLength]="form.enero.maxLength"
+                [required]="form.enero.required"
+                (valueChange)="setData(form.enero.name, $event)">
+             </app-input-number-float>
+        
+             <app-input-number-float style="width: 40%;"
+                class="input"
+                [id]="'eneroTrabajado'"
+                [label]="form.eneroTrabajado.label"
+                [value]="form.eneroTrabajado.value"
+                [name]="form.eneroTrabajado.name"
+                [messages]="form.eneroTrabajado.messages"
+                [maxLength]="form.eneroTrabajado.maxLength"
+                [required]="form.eneroTrabajado.required"
+                (valueChange)="setData(form.eneroTrabajado.name, $event)">
+            </app-input-number-float>
+
+            </td>
+        </tr>
+        <tr>
+            <th>Marzo</th>
+            <td>
+                 
+                <app-input-number-float style="width: 40%;margin-right:5px;"
+                class="input"
+                [id]="'eneroAsignado'"
+                [label]="form.enero.label"
+                [value]="form.enero.value"
+                [name]="form.enero.name"
+                [messages]="form.enero.messages"
+                [maxLength]="form.enero.maxLength"
+                [required]="form.enero.required"
+                (valueChange)="setData(form.enero.name, $event)">
+             </app-input-number-float>
+        
+             <app-input-number-float style="width: 40%;"
+                class="input"
+                [id]="'eneroTrabajado'"
+                [label]="form.eneroTrabajado.label"
+                [value]="form.eneroTrabajado.value"
+                [name]="form.eneroTrabajado.name"
+                [messages]="form.eneroTrabajado.messages"
+                [maxLength]="form.eneroTrabajado.maxLength"
+                [required]="form.eneroTrabajado.required"
+                (valueChange)="setData(form.eneroTrabajado.name, $event)">
+            </app-input-number-float>
+
+            </td>
+            <th>Septiembre</th>
+            <td>
+                <app-input-number-float style="width: 40%;margin-right:5px;"
+                class="input"
+                [id]="'eneroAsignado'"
+                [label]="form.enero.label"
+                [value]="form.enero.value"
+                [name]="form.enero.name"
+                [messages]="form.enero.messages"
+                [maxLength]="form.enero.maxLength"
+                [required]="form.enero.required"
+                (valueChange)="setData(form.enero.name, $event)">
+             </app-input-number-float>
+        
+             <app-input-number-float style="width: 40%;"
+                class="input"
+                [id]="'eneroTrabajado'"
+                [label]="form.eneroTrabajado.label"
+                [value]="form.eneroTrabajado.value"
+                [name]="form.eneroTrabajado.name"
+                [messages]="form.eneroTrabajado.messages"
+                [maxLength]="form.eneroTrabajado.maxLength"
+                [required]="form.eneroTrabajado.required"
+                (valueChange)="setData(form.eneroTrabajado.name, $event)">
+            </app-input-number-float>
+            </td>
+        </tr>
+        <tr>
+            <th  style="width: 15%;">Abril</th>
+            <td>
+                <app-input-number-float style="width: 40%;margin-right:5px;"
+                class="input"
+                [id]="'eneroAsignado'"
+                [label]="form.enero.label"
+                [value]="form.enero.value"
+                [name]="form.enero.name"
+                [messages]="form.enero.messages"
+                [maxLength]="form.enero.maxLength"
+                [required]="form.enero.required"
+                (valueChange)="setData(form.enero.name, $event)">
+             </app-input-number-float>
+        
+             <app-input-number-float style="width: 40%;"
+                class="input"
+                [id]="'eneroTrabajado'"
+                [label]="form.eneroTrabajado.label"
+                [value]="form.eneroTrabajado.value"
+                [name]="form.eneroTrabajado.name"
+                [messages]="form.eneroTrabajado.messages"
+                [maxLength]="form.eneroTrabajado.maxLength"
+                [required]="form.eneroTrabajado.required"
+                (valueChange)="setData(form.eneroTrabajado.name, $event)">
+            </app-input-number-float>
+            </td>
+            <th  style="width: 15%;">Octubre</th>
+            <td>
+                <app-input-number-float style="width: 40%;margin-right:5px;"
+                class="input"
+                [id]="'eneroAsignado'"
+                [label]="form.enero.label"
+                [value]="form.enero.value"
+                [name]="form.enero.name"
+                [messages]="form.enero.messages"
+                [maxLength]="form.enero.maxLength"
+                [required]="form.enero.required"
+                (valueChange)="setData(form.enero.name, $event)">
+             </app-input-number-float>
+        
+             <app-input-number-float style="width: 40%;"
+                class="input"
+                [id]="'eneroTrabajado'"
+                [label]="form.eneroTrabajado.label"
+                [value]="form.eneroTrabajado.value"
+                [name]="form.eneroTrabajado.name"
+                [messages]="form.eneroTrabajado.messages"
+                [maxLength]="form.eneroTrabajado.maxLength"
+                [required]="form.eneroTrabajado.required"
+                (valueChange)="setData(form.eneroTrabajado.name, $event)">
+            </app-input-number-float>
+            </td>
+        </tr>
+        <tr>
+            <th  style="width: 15%;">Mayo</th>
+            <td>
+                <app-input-number-float style="width: 40%;margin-right:5px;"
+                class="input"
+                [id]="'eneroAsignado'"
+                [label]="form.enero.label"
+                [value]="form.enero.value"
+                [name]="form.enero.name"
+                [messages]="form.enero.messages"
+                [maxLength]="form.enero.maxLength"
+                [required]="form.enero.required"
+                (valueChange)="setData(form.enero.name, $event)">
+             </app-input-number-float>
+        
+             <app-input-number-float style="width: 40%;"
+                class="input"
+                [id]="'eneroTrabajado'"
+                [label]="form.eneroTrabajado.label"
+                [value]="form.eneroTrabajado.value"
+                [name]="form.eneroTrabajado.name"
+                [messages]="form.eneroTrabajado.messages"
+                [maxLength]="form.eneroTrabajado.maxLength"
+                [required]="form.eneroTrabajado.required"
+                (valueChange)="setData(form.eneroTrabajado.name, $event)">
+            </app-input-number-float>
+            </td>
+            <th  style="width: 15%;">Noviembre</th>
+            <td>
+                <app-input-number-float style="width: 40%;margin-right:5px;"
+                class="input"
+                [id]="'eneroAsignado'"
+                [label]="form.enero.label"
+                [value]="form.enero.value"
+                [name]="form.enero.name"
+                [messages]="form.enero.messages"
+                [maxLength]="form.enero.maxLength"
+                [required]="form.enero.required"
+                (valueChange)="setData(form.enero.name, $event)">
+             </app-input-number-float>
+        
+             <app-input-number-float style="width: 40%;"
+                class="input"
+                [id]="'eneroTrabajado'"
+                [label]="form.eneroTrabajado.label"
+                [value]="form.eneroTrabajado.value"
+                [name]="form.eneroTrabajado.name"
+                [messages]="form.eneroTrabajado.messages"
+                [maxLength]="form.eneroTrabajado.maxLength"
+                [required]="form.eneroTrabajado.required"
+                (valueChange)="setData(form.eneroTrabajado.name, $event)">
+            </app-input-number-float>
+            </td>
+        </tr>
+        <tr>
+            <th  style="width: 15%;">Junio</th>
+            <td>
+                <app-input-number-float style="width: 40%;margin-right:5px;"
+                class="input"
+                [id]="'eneroAsignado'"
+                [label]="form.enero.label"
+                [value]="form.enero.value"
+                [name]="form.enero.name"
+                [messages]="form.enero.messages"
+                [maxLength]="form.enero.maxLength"
+                [required]="form.enero.required"
+                (valueChange)="setData(form.enero.name, $event)">
+             </app-input-number-float>
+        
+             <app-input-number-float style="width: 40%;"
+                class="input"
+                [id]="'eneroTrabajado'"
+                [label]="form.eneroTrabajado.label"
+                [value]="form.eneroTrabajado.value"
+                [name]="form.eneroTrabajado.name"
+                [messages]="form.eneroTrabajado.messages"
+                [maxLength]="form.eneroTrabajado.maxLength"
+                [required]="form.eneroTrabajado.required"
+                (valueChange)="setData(form.eneroTrabajado.name, $event)">
+            </app-input-number-float>
+            </td>
+            <th  style="width: 15%;">Diciembre</th>
+            <td>
+                <app-input-number-float style="width: 40%;margin-right:5px;"
+                class="input"
+                [id]="'eneroAsignado'"
+                [label]="form.enero.label"
+                [value]="form.enero.value"
+                [name]="form.enero.name"
+                [messages]="form.enero.messages"
+                [maxLength]="form.enero.maxLength"
+                [required]="form.enero.required"
+                (valueChange)="setData(form.enero.name, $event)">
+             </app-input-number-float>
+        
+             <app-input-number-float style="width: 40%;"
+                class="input"
+                [id]="'eneroTrabajado'"
+                [label]="form.eneroTrabajado.label"
+                [value]="form.eneroTrabajado.value"
+                [name]="form.eneroTrabajado.name"
+                [messages]="form.eneroTrabajado.messages"
+                [maxLength]="form.eneroTrabajado.maxLength"
+                [required]="form.eneroTrabajado.required"
+                (valueChange)="setData(form.eneroTrabajado.name, $event)">
+            </app-input-number-float>
+            </td>
+        </tr>
+    </table>
+    
+
+    </mat-card-content>
+
+
+
+</mat-card>
