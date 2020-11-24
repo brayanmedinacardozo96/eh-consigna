@@ -360,39 +360,43 @@ export class BitacoraFormComponent implements OnInit {
             break;
           }
 
-          // ---- Valida los sub-elementos ----
-          if (!this.validarMinimoIntervenirSubelemento(value, ['SWITCH', 'SWITCHES', 'TRANSFOR', 'RECLOSER'])) {
-            response = false;
-            break;
-          }
+          console.log(this.dataConsigna );
+          if (this.dataConsigna.estado_equipo != "Riesgo Disparo") {
+            // ---- Valida los sub-elementos ----
+            if (!this.validarMinimoIntervenirSubelemento(value, ['SWITCH', 'SWITCHES', 'TRANSFOR', 'RECLOSER'])) {
+              response = false;
+              break;
+            }
 
-          let responseValid = this.validarHorasSubElementos(value, 'SWITCH', obj.hora_entrega.value, obj.hora_devolucion.value);
-          if (!responseValid.success) {
-            this.notifier.notify('error', responseValid.message);
-            response = false;
-            break;
-          }
+            let responseValid = this.validarHorasSubElementos(value, 'SWITCH', obj.hora_entrega.value, obj.hora_devolucion.value);
+            if (!responseValid.success) {
+              this.notifier.notify('error', responseValid.message);
+              response = false;
+              break;
+            }
 
-          responseValid = this.validarHorasSubElementos(value, 'SWITCHES', obj.hora_entrega.value, obj.hora_devolucion.value);
-          if (!responseValid.success) {
-            this.notifier.notify('error', responseValid.message);
-            response = false;
-            break;
-          }
+            responseValid = this.validarHorasSubElementos(value, 'SWITCHES', obj.hora_entrega.value, obj.hora_devolucion.value);
+            if (!responseValid.success) {
+              this.notifier.notify('error', responseValid.message);
+              response = false;
+              break;
+            }
 
-          responseValid = this.validarHorasSubElementos(value, 'TRANSFOR', obj.hora_entrega.value, obj.hora_devolucion.value);
-          if (!responseValid.success) {
-            this.notifier.notify('error', responseValid.message);
-            response = false;
-            break;
-          }
+            responseValid = this.validarHorasSubElementos(value, 'TRANSFOR', obj.hora_entrega.value, obj.hora_devolucion.value);
+            if (!responseValid.success) {
+              this.notifier.notify('error', responseValid.message);
+              response = false;
+              break;
+            }
 
-          responseValid = this.validarHorasSubElementos(value, 'RECLOSER', obj.hora_entrega.value, obj.hora_devolucion.value);
-          if (!responseValid.success) {
-            this.notifier.notify('error', responseValid.message);
-            response = false;
-            break;
+            responseValid = this.validarHorasSubElementos(value, 'RECLOSER', obj.hora_entrega.value, obj.hora_devolucion.value);
+            if (!responseValid.success) {
+              this.notifier.notify('error', responseValid.message);
+              response = false;
+              break;
+            }
           }
+        
 
         }
       }

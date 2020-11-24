@@ -414,6 +414,7 @@
                   <th>Fecha y hora final</th>
                   <th>Mapa</th>
                   <th>Subelementos</th>
+                  <th>Usuarios afectados</th>
                   <th>Acciones</th>
                 </tr>
                 </thead>
@@ -425,6 +426,7 @@
                     <td>{{ value.afectaUsuarios.name }}</td>
                     <td [ngClass]="{'mal': value.fechaInicio.name==null}">{{ value.fechaInicio.name }} - {{ value.horaInicio.name }}</td>
                     <td [ngClass]="{'mal': value.fechaFinal.name==null }">{{ value.fechaFinal.name }} - {{ value.horaFinal.name }}</td>
+                
                     <td><button *ngIf="value.jsonElementoMapa.value != undefined && value.jsonElementoMapa.value != '' && value.jsonElementoMapa.value != null " 
                         color="primary"
                         (click)="openMap(value.jsonElementoMapa.value)" mat-icon-button matTooltip="Ver en mapa" matTooltipClass="custom-tooltip">
@@ -441,6 +443,18 @@
                       </mat-icon>
                     </td>
                     <td>
+                        <table style="border:none;">
+                            <tr *ngIf="value.totalUsuarioInterrupcion.value>0">
+                                <td>D. Trabajo</td>
+                                <td>{{value.totalUsuarioInterrupcion.value}}</td>
+                            </tr>
+                            <tr *ngIf="value.totalUsuarioInterrupcionCorta.value>0">
+                                <td>Corto Tiempo : {{value.jsonTiempo.value}} m</td>
+                                <td>{{value.totalUsuarioInterrupcionCorta.value}}</td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td>
                         <button *ngIf="value.eliminar == undefined" (click)="removeListElement(i)" mat-icon-button matTooltip="Eliminar" matTooltipClass="custom-tooltip">
                             <mat-icon>delete_forever</mat-icon>
                         </button>
@@ -454,6 +468,62 @@
         </fieldset>
         <mat-hint style="color: red" *ngIf="messageListaElementos != '' ">{{ messageListaElementos }}</mat-hint>
         <br><br>
+           <mat-accordion style="position:relative; z-index:0;">
+            <mat-expansion-panel [expanded]="panelOpenStateResumen" (opened)="panelOpenStateResumen = true"
+              (closed)="panelOpenStateResumen = false">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Indicador
+                </mat-panel-title>
+                <mat-panel-description>
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+          
+              <table class="custom-table">
+          
+                <tr>
+                  <td>
+                    Total usuarios
+                  </td>
+                  <td>
+                    Usuarios afectados
+                  </td>
+                  <td>
+                    Tiempo
+                  </td>
+                  <td>
+                    SAIDI
+                  </td>
+                  <td>
+                    SAIFI
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                   {{this.indicador.totalUsuarios}}
+                  </td>
+                  <td>
+                    {{this.indicador.interrupcionUsuario}}
+                  </td>
+                  <td>
+                    {{this.indicador.horaTrabajo}}
+                  </td>
+                  <td>
+                    {{this.indicador.Saidi}}
+                  </td>
+                  <td>
+                    {{this.indicador.Saifi}}
+                  </td>
+                </tr>
+          
+          
+              </table>
+          
+          
+            </mat-expansion-panel>
+           </mat-accordion>
+          <br/>
+          <br/>
         <!-- trabajos a efectuar -->
         <mat-grid-list class="row" cols="1" rowHeight="110px">
             <mat-grid-tile>

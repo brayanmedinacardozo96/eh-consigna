@@ -18,6 +18,7 @@ import { Mensaje } from './../../../ui/forms/m-dialog/dialog';
 import { ConsignaNewSearchComponent } from './consigna-new-search/consigna-new-search.component';
 import * as moment from 'moment';
 import {BitacoraSubelementosVistaComponent} from "../../bitacora/bitacora-subelementos-vista/bitacora-subelementos-vista.component";
+import { element } from 'protractor';
 
 
 @Component({
@@ -488,6 +489,22 @@ export class ConsignaNewComponent implements OnInit {
   esRedElectrica=true;
 
   verMapaSelect = 'hidden';
+
+  indicador={
+    totalUsuarios:0,
+    interrupcionUsuario:0,
+    Saidi:0,
+    Saifi:0,
+    tiempoMaximo:0,
+    horaTrabajo:0
+  }
+
+  usuarioAfectadoTemp={
+    interrupcion:0,
+    interrupcionCorta:0
+  }
+
+  panelOpenStateResumen=false;
   
   constructor(private api: ApiService,
               private validations: ValidationService,
@@ -695,6 +712,9 @@ export class ConsignaNewComponent implements OnInit {
 
   async addListElements(){
 
+    this.usuarioAfectadoTemp.interrupcion=0;
+    this.usuarioAfectadoTemp.interrupcionCorta=0;
+
     var textRedElectrica = ((document.getElementById("form_consigna-red_electrica")) as HTMLSelectElement).textContent;
     var textTipoElemento = ((document.getElementById("form_consigna-tipo_elemento")) as HTMLSelectElement).textContent;
     var textElemento = ((document.getElementById("form_consigna-elemento")) as HTMLSelectElement).textContent;
@@ -706,8 +726,6 @@ export class ConsignaNewComponent implements OnInit {
     var horaFinal = this.formElementos.horaFinal.value;
     var feeder= this.getFeederElemento(this.formElementos.elemento.value);
     await this.getAreaAFectada( feeder);
-    
-    
     
     
     var jsonAreaAfectada="";//[[],[]]
@@ -749,7 +767,9 @@ export class ConsignaNewComponent implements OnInit {
       feeder:feeder,
       jsonIntervenirElementoMapa:{name:'jsonIntervenirElementoMapa', value: document.getElementById("jsonElementoIntervenirMapa").innerText } ,
       jsonIntervenirElementoMapaCortoT:{name:'jsonElementoIntervenirMapaCortoTiempo', value: document.getElementById("jsonElementoIntervenirMapaCortoTiempo").innerText } ,
-      jsonTiempo:{name:'jsonTiempo',value:document.getElementById('jsonTiempo').innerText}
+      jsonTiempo:{name:'jsonTiempo',value:document.getElementById('jsonTiempo').innerText},
+      totalUsuarioInterrupcion:{name:'totalUsuarioInterrupcion',value:this.usuarioAfectadoTemp.interrupcion},
+      totalUsuarioInterrupcionCorta:{name:'totalUsuarioInterrupcionCorta',value:this.usuarioAfectadoTemp.interrupcionCorta}
     }
     
     this.dataElementos.push(elemento);
@@ -757,6 +777,8 @@ export class ConsignaNewComponent implements OnInit {
 
     this.setElemento.emit(elemento.elemento);
     this.escribrirAreaAfectada();
+
+    this.calcularIdicador();
 
     //oculta el boton de ver mapa seleccionado
     var botonVerMapaSelec = document.getElementById("botonVerMapaSelec");
@@ -775,6 +797,54 @@ export class ConsignaNewComponent implements OnInit {
     this.formElementos.fechaFinal.value = this.form.fechaSolicitud.value;
     this.formElementos.horaFinal.value = null;
 
+  }
+
+  calcularIdicador()
+  {
+
+    var total=0;
+    var tiempo=0
+    
+
+    this.dataElementos.forEach(element=>{
+
+       var jsonTiempo=0;
+
+        total+= element.totalUsuarioInterrupcion.value;
+
+        if(element.jsonTiempo.value!="")
+        {
+          jsonTiempo=parseInt(element.jsonTiempo.value)
+
+          if( jsonTiempo>this.indicador.tiempoMaximo)
+          {
+            total+= element.totalUsuarioInterrupcionCorta.value;
+          }
+        }
+        
+
+       if( element.totalUsuarioInterrupcion.value>0 || (jsonTiempo>this.indicador.tiempoMaximo && element.totalUsuarioInterrupcionCorta.value>0)  )
+       {
+         var horaInicio = new Date( `${moment(element.fechaInicio.value).format('YYYY/MM/DD') }, ${element.horaInicio.value}` );
+         var horaFinal = new Date( `${moment(element.fechaInicio.value).format('YYYY/MM/DD') }, ${element.horaFinal.value}` );
+     
+         var hora=horaFinal.getHours()-horaInicio.getHours()
+         var minutos=horaFinal.getMinutes()-horaInicio.getMinutes()
+         hora=hora+(minutos>0?minutos/60:0)
+        
+         tiempo+=hora;
+       }
+       
+
+
+    });
+
+    this.indicador.interrupcionUsuario=total;
+    this.indicador.horaTrabajo=tiempo;
+    var mlt=tiempo*total;
+    this.indicador.Saidi=mlt>0?( mlt / this.indicador.totalUsuarios):0
+    this.indicador.Saifi=total>0?(total/this.indicador.totalUsuarios):0
+    
   }
 
   getElementoMapa(){
@@ -829,6 +899,7 @@ export class ConsignaNewComponent implements OnInit {
         }
         this.escribrirAreaAfectada();
         this.getElementoMapa();
+        this. calcularIdicador();
       }
     });    
   }
@@ -1034,6 +1105,9 @@ export class ConsignaNewComponent implements OnInit {
     const response = await this.session.getDataSelectConsigna();
     if(response.success){
       this.setSelect();
+      this.indicador.totalUsuarios=response.data.totalUsuario[0].usuarios;
+      var valor=response.data.validarTiempoIntCorta[0].valor;
+      this.indicador.tiempoMaximo=valor!=""? parseInt(valor):0;
     }
   }
 
@@ -1055,6 +1129,7 @@ export class ConsignaNewComponent implements OnInit {
     this.dataControls.estadoConsigna = this.session.getItem('estadoConsigna').filter(b => {
       return (b.codigo == 'S')
     })
+    
   }
 
   cleanAllFields(){
@@ -1392,8 +1467,11 @@ export class ConsignaNewComponent implements OnInit {
              feeder: element.CODE
            });*/
         });
-
-        await this.getDataAreaAfectada(`transf/${padre}`, true);
+        if(padre!="")
+        {
+          await this.getDataAreaAfectada(`transf/${padre}`, true);
+        }
+        
       }
 
 
@@ -1410,7 +1488,11 @@ export class ConsignaNewComponent implements OnInit {
              feeder: element.CODE
            });*/
         });
-        await this.getDataAreaAfectada(`transf/${padre}`, false);
+        if(padre!="")
+        {
+          await this.getDataAreaAfectada(`transf/${padre}`, false);
+        }
+        
       }
 
       //  elemento = "transf/" + padre;
@@ -1425,6 +1507,7 @@ export class ConsignaNewComponent implements OnInit {
 
   async getDataAreaAfectada(elemento,duraTrabajo)
   {
+
     var response = await this.api.get(
       `${environment.apiBackend}/consigna/getAreaAfectada/${elemento}`
     );
@@ -1471,12 +1554,15 @@ export class ConsignaNewComponent implements OnInit {
       }
       
     }
-
+      // hola
+      
     if(duraTrabajo)
     {
       this.areaAFectada.push({area:[obj,objSector],persona:objCliente});
+      this.usuarioAfectadoTemp.interrupcion=objCliente.length
     }else{
       this.areaAFectadaCortoTiempo.push({area:[obj,objSector],persona:objCliente});
+      this.usuarioAfectadoTemp.interrupcionCorta=objCliente.length
     }
     
 
