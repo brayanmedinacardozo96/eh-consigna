@@ -360,7 +360,7 @@ export class BitacoraFormComponent implements OnInit {
             break;
           }
 
-          console.log(this.dataConsigna );
+          
           if (this.dataConsigna.estado_equipo != "Riesgo Disparo") {
             // ---- Valida los sub-elementos ----
             if (!this.validarMinimoIntervenirSubelemento(value, ['SWITCH', 'SWITCHES', 'TRANSFOR', 'RECLOSER'])) {
