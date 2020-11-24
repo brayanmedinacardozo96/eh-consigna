@@ -651,6 +651,12 @@ export class ConsignaNewComponent implements OnInit {
     this.jsonMapa = document.getElementById("jsonDataMapa").innerText;
     const responseValidate = this.validations.validateEmptyFields(this.formElementos);
 
+    if(this.form.estadoEquipo.value==null)
+    {
+      this.form.estadoEquipo.messages="Este campo es requerido.";
+      return;
+    }
+
     if (!responseValidate.success) {
       return false;
     }
@@ -799,51 +805,66 @@ export class ConsignaNewComponent implements OnInit {
 
   }
 
-  calcularIdicador()
-  {
+  calcularIdicador() {
 
-    var total=0;
-    var tiempo=0
-    
+    //solo apertura
+    if (this.validarEstadoEquipo() == "A") {
 
-    this.dataElementos.forEach(element=>{
+      //hola
+      var total = 0;
+      var tiempo = 0
 
-       var jsonTiempo=0;
 
-        total+= element.totalUsuarioInterrupcion.value;
+      this.dataElementos.forEach(element => {
 
-        if(element.jsonTiempo.value!="")
-        {
-          jsonTiempo=parseInt(element.jsonTiempo.value)
+        var jsonTiempo = 0;
 
-          if( jsonTiempo>this.indicador.tiempoMaximo)
-          {
-            total+= element.totalUsuarioInterrupcionCorta.value;
+        total += element.totalUsuarioInterrupcion.value;
+
+        if (element.jsonTiempo.value != "") {
+          jsonTiempo = parseInt(element.jsonTiempo.value)
+
+          if (jsonTiempo > this.indicador.tiempoMaximo) {
+            total += element.totalUsuarioInterrupcionCorta.value;
           }
+
         }
-        
-
-       if( element.totalUsuarioInterrupcion.value>0 || (jsonTiempo>this.indicador.tiempoMaximo && element.totalUsuarioInterrupcionCorta.value>0)  )
-       {
-         var horaInicio = new Date( `${moment(element.fechaInicio.value).format('YYYY/MM/DD') }, ${element.horaInicio.value}` );
-         var horaFinal = new Date( `${moment(element.fechaInicio.value).format('YYYY/MM/DD') }, ${element.horaFinal.value}` );
-     
-         var hora=horaFinal.getHours()-horaInicio.getHours()
-         var minutos=horaFinal.getMinutes()-horaInicio.getMinutes()
-         hora=hora+(minutos>0?minutos/60:0)
-        
-         tiempo+=hora;
-       }
-       
 
 
-    });
+        if (element.totalUsuarioInterrupcion.value > 0 || (jsonTiempo > this.indicador.tiempoMaximo && element.totalUsuarioInterrupcionCorta.value > 0)) {
+          var horaInicio = new Date(`${moment(element.fechaInicio.value).format('YYYY/MM/DD') }, ${element.horaInicio.value}`);
+          var horaFinal = new Date(`${moment(element.fechaInicio.value).format('YYYY/MM/DD') }, ${element.horaFinal.value}`);
 
-    this.indicador.interrupcionUsuario=total;
-    this.indicador.horaTrabajo=tiempo;
-    var mlt=tiempo*total;
-    this.indicador.Saidi=mlt>0?( mlt / this.indicador.totalUsuarios):0
-    this.indicador.Saifi=total>0?(total/this.indicador.totalUsuarios):0
+          var hora = horaFinal.getHours() - horaInicio.getHours()
+          var minutos = horaFinal.getMinutes() - horaInicio.getMinutes()
+          hora = hora + (minutos > 0 ? minutos / 60 : 0)
+
+          tiempo += hora;
+        }
+
+
+
+      });
+
+      this.indicador.interrupcionUsuario = total;
+      this.indicador.horaTrabajo = tiempo;
+      var mlt = tiempo * total;
+      this.indicador.Saidi = mlt > 0 ? (mlt / this.indicador.totalUsuarios) : 0
+      this.indicador.Saifi = total > 0 ? (total / this.indicador.totalUsuarios) : 0
+
+    }
+
+
+
+  }
+
+  validarEstadoEquipo(){
+
+    var result= this.session.getItem('estadoEquipo').filter(b=>{
+      return (b.id==this.form.estadoEquipo.value)
+    }) 
+   
+    return result.length==0?"":result[0].codigo;
     
   }
 
@@ -923,7 +944,7 @@ export class ConsignaNewComponent implements OnInit {
   {
 
     if(this.formElementos.fechaInicio.value==null || this.formElementos.fechaFinal.value==null ||
-       this.formElementos.horaInicio.value==null || this.formElementos.horaFinal.value==null )
+       this.formElementos.horaInicio.value==null || this.formElementos.horaFinal.value==null || this.form.estadoEquipo.value==null )
     {
       this.validacionUpdate("Este campo es requerido.");
        return;
@@ -955,6 +976,7 @@ export class ConsignaNewComponent implements OnInit {
     this.formElementos.horaInicio.messages=mensaje;
     this.formElementos.horaFinal.messages=mensaje;
     this.form.fechaSolicitud.messages=mensaje;
+    this.form.estadoEquipo.messages=mensaje;
   }
 
 
