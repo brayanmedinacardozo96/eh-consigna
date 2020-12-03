@@ -26,10 +26,11 @@ export class InputNumberFloatComponent implements OnInit {
   }
 
   checkPattern(event){    
-    var re = /^[0-9]+$/;
+    var re = /^-?\d+(?:,\d+)?$/;
     var text = '';
     var count = 0
 
+  
     for(let value in event){
       count += 1;
       if(re.test(event[value])){
@@ -38,15 +39,21 @@ export class InputNumberFloatComponent implements OnInit {
             text += event[value];
           }
         }else{
-          text += event[value];
+            text += event[value];
+        }
+      }else{
+        if (event[value] == ".") {
+          text += "."
         }
       }
     }
 
+    console.log(text)
     this.value = text;
     $('#'+this.id).val(this.value);
     this.valueChange.emit(this.value);
   }
 
+  
 
 }

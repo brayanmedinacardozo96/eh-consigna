@@ -819,13 +819,22 @@ export class ConsignaNewComponent implements OnInit {
 
         var jsonTiempo = 0;
 
-        total += element.totalUsuarioInterrupcion.value;
+        if(element.totalUsuarioInterrupcion.value!="" && element.totalUsuarioInterrupcion.value!=null)
+        {
+          total += parseInt( element.totalUsuarioInterrupcion.value );
+        }
+        
 
         if (element.jsonTiempo.value != "") {
           jsonTiempo = parseInt(element.jsonTiempo.value)
 
           if (jsonTiempo > this.indicador.tiempoMaximo) {
-            total += element.totalUsuarioInterrupcionCorta.value;
+
+            if(element.totalUsuarioInterrupcionCorta.value!="" && element.totalUsuarioInterrupcionCorta.value!=null)
+            {
+              total +=  element.totalUsuarioInterrupcionCorta.value;
+            }
+            
           }
 
         }
@@ -849,8 +858,13 @@ export class ConsignaNewComponent implements OnInit {
       this.indicador.interrupcionUsuario = total;
       this.indicador.horaTrabajo = tiempo;
       var mlt = tiempo * total;
-      this.indicador.Saidi = mlt > 0 ? (mlt / this.indicador.totalUsuarios) : 0
-      this.indicador.Saifi = total > 0 ? (total / this.indicador.totalUsuarios) : 0
+
+      if(this.indicador.totalUsuarios>0)
+      {
+        this.indicador.Saidi = mlt > 0 ? (mlt / this.indicador.totalUsuarios) : 0
+        this.indicador.Saifi = total > 0 ? (total / this.indicador.totalUsuarios) : 0
+      }
+      
 
     }
 
@@ -1127,9 +1141,18 @@ export class ConsignaNewComponent implements OnInit {
     const response = await this.session.getDataSelectConsigna();
     if(response.success){
       this.setSelect();
-      this.indicador.totalUsuarios=response.data.totalUsuario[0].usuarios;
-      var valor=response.data.validarTiempoIntCorta[0].valor;
-      this.indicador.tiempoMaximo=valor!=""? parseInt(valor):0;
+      
+      if(response.data.totalUsuario.length>0)
+      {
+        this.indicador.totalUsuarios=response.data.totalUsuario[0].usuarios;
+      }
+
+      if(response.data.validarTiempoIntCorta.length>0)
+      {
+        var valor=response.data.validarTiempoIntCorta[0].valor;
+        this.indicador.tiempoMaximo=valor!=""? parseInt(valor):0;
+      }
+      
     }
   }
 
