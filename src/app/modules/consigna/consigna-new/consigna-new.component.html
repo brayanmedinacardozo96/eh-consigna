@@ -415,7 +415,7 @@
                   <th>Fecha y hora final</th>
                   <th>Mapa</th>
                   <th>Subelementos</th>
-                  <th *ngIf="this.validarEstadoEquipo() == 'A'">Usuarios afectados</th>
+                  <th>Usuarios afectados</th>
                   <th>Acciones</th>
                 </tr>
                 </thead>
@@ -443,7 +443,7 @@
                         (click)="abrirSubelementosCortoTiempo(value)" style="cursor: pointer;">history_toggle_off
                       </mat-icon>
                     </td>
-                    <td *ngIf="this.validarEstadoEquipo() == 'A'">
+                    <td>
                         <table style="border:none;">
                             <tr *ngIf="value.totalUsuarioInterrupcion.value>0">
                                 <td>D. Trabajo</td>

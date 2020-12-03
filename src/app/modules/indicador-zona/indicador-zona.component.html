@@ -30,7 +30,11 @@
         
     </mat-grid-list>
 
-    <table class="custom-table">
+    <button mat-raised-button color="primary" (click)="guardar()" style="margin-left: 20px; margin-top: 10px;">
+        <span style="color: #FFF">Enviar</span>
+    </button>
+    <br/>
+    <table  style="margin-top: 10px;" class="custom-table">
         <tr>
             <th>Enero</th>
             <td>
@@ -65,26 +69,26 @@
 
                 <app-input-number-float style="width: 40%;margin-right:5px;"
                 class="input"
-                [id]="'eneroAsignado'"
-                [label]="form.enero.label"
-                [value]="form.enero.value"
-                [name]="form.enero.name"
-                [messages]="form.enero.messages"
-                [maxLength]="form.enero.maxLength"
-                [required]="form.enero.required"
-                (valueChange)="setData(form.enero.name, $event)">
+                [id]="'julioAsignado'"
+                [label]="form.julio.label"
+                [value]="form.julio.value"
+                [name]="form.julio.name"
+                [messages]="form.julio.messages"
+                [maxLength]="form.julio.maxLength"
+                [required]="form.julio.required"
+                (valueChange)="setData(form.julio.name, $event)">
              </app-input-number-float>
         
              <app-input-number-float style="width: 40%;"
                 class="input"
-                [id]="'eneroTrabajado'"
-                [label]="form.eneroTrabajado.label"
-                [value]="form.eneroTrabajado.value"
-                [name]="form.eneroTrabajado.name"
-                [messages]="form.eneroTrabajado.messages"
-                [maxLength]="form.eneroTrabajado.maxLength"
-                [required]="form.eneroTrabajado.required"
-                (valueChange)="setData(form.eneroTrabajado.name, $event)">
+                [id]="'julioTrabajado'"
+                [label]="form.julioTrabajado.label"
+                [value]="form.julioTrabajado.value"
+                [name]="form.julioTrabajado.name"
+                [messages]="form.julioTrabajado.messages"
+                [maxLength]="form.julioTrabajado.maxLength"
+                [required]="form.julioTrabajado.required"
+                (valueChange)="setData(form.julioTrabajado.name, $event)">
             </app-input-number-float>
                 
             </td>
@@ -94,26 +98,26 @@
             <td>
                 <app-input-number-float style="width: 40%;margin-right:5px;"
                 class="input"
-                [id]="'eneroAsignado'"
-                [label]="form.enero.label"
-                [value]="form.enero.value"
-                [name]="form.enero.name"
-                [messages]="form.enero.messages"
-                [maxLength]="form.enero.maxLength"
-                [required]="form.enero.required"
-                (valueChange)="setData(form.enero.name, $event)">
+                [id]="'febreroAsignado'"
+                [label]="form.febrero.label"
+                [value]="form.febrero.value"
+                [name]="form.febrero.name"
+                [messages]="form.febrero.messages"
+                [maxLength]="form.febrero.maxLength"
+                [required]="form.febrero.required"
+                (valueChange)="setData(form.febrero.name, $event)">
              </app-input-number-float>
         
              <app-input-number-float style="width: 40%;"
                 class="input"
-                [id]="'eneroTrabajado'"
-                [label]="form.eneroTrabajado.label"
-                [value]="form.eneroTrabajado.value"
-                [name]="form.eneroTrabajado.name"
-                [messages]="form.eneroTrabajado.messages"
-                [maxLength]="form.eneroTrabajado.maxLength"
-                [required]="form.eneroTrabajado.required"
-                (valueChange)="setData(form.eneroTrabajado.name, $event)">
+                [id]="'febreroTrabajado'"
+                [label]="form.febreroTrabajado.label"
+                [value]="form.febreroTrabajado.value"
+                [name]="form.febreroTrabajado.name"
+                [messages]="form.febreroTrabajado.messages"
+                [maxLength]="form.febreroTrabajado.maxLength"
+                [required]="form.febreroTrabajado.required"
+                (valueChange)="setData(form.febreroTrabajado.name, $event)">
             </app-input-number-float>
 
             </td>
@@ -122,26 +126,26 @@
                  
                 <app-input-number-float style="width: 40%;margin-right:5px;"
                 class="input"
-                [id]="'eneroAsignado'"
-                [label]="form.enero.label"
-                [value]="form.enero.value"
-                [name]="form.enero.name"
-                [messages]="form.enero.messages"
-                [maxLength]="form.enero.maxLength"
-                [required]="form.enero.required"
-                (valueChange)="setData(form.enero.name, $event)">
+                [id]="'agostoAsignado'"
+                [label]="form.agosto.label"
+                [value]="form.agosto.value"
+                [name]="form.agosto.name"
+                [messages]="form.agosto.messages"
+                [maxLength]="form.agosto.maxLength"
+                [required]="form.agosto.required"
+                (valueChange)="setData(form.agosto.name, $event)">
              </app-input-number-float>
         
              <app-input-number-float style="width: 40%;"
                 class="input"
-                [id]="'eneroTrabajado'"
-                [label]="form.eneroTrabajado.label"
-                [value]="form.eneroTrabajado.value"
-                [name]="form.eneroTrabajado.name"
-                [messages]="form.eneroTrabajado.messages"
-                [maxLength]="form.eneroTrabajado.maxLength"
-                [required]="form.eneroTrabajado.required"
-                (valueChange)="setData(form.eneroTrabajado.name, $event)">
+                [id]="'agostoTrabajado'"
+                [label]="form.agostoTrabajado.label"
+                [value]="form.agostoTrabajado.value"
+                [name]="form.agostoTrabajado.name"
+                [messages]="form.agostoTrabajado.messages"
+                [maxLength]="form.agostoTrabajado.maxLength"
+                [required]="form.agostoTrabajado.required"
+                (valueChange)="setData(form.agostoTrabajado.name, $event)">
             </app-input-number-float>
 
             </td>
@@ -152,26 +156,26 @@
                  
                 <app-input-number-float style="width: 40%;margin-right:5px;"
                 class="input"
-                [id]="'eneroAsignado'"
-                [label]="form.enero.label"
-                [value]="form.enero.value"
-                [name]="form.enero.name"
-                [messages]="form.enero.messages"
-                [maxLength]="form.enero.maxLength"
-                [required]="form.enero.required"
-                (valueChange)="setData(form.enero.name, $event)">
+                [id]="'marzoAsignado'"
+                [label]="form.marzo.label"
+                [value]="form.marzo.value"
+                [name]="form.marzo.name"
+                [messages]="form.marzo.messages"
+                [maxLength]="form.marzo.maxLength"
+                [required]="form.marzo.required"
+                (valueChange)="setData(form.marzo.name, $event)">
              </app-input-number-float>
         
              <app-input-number-float style="width: 40%;"
                 class="input"
-                [id]="'eneroTrabajado'"
-                [label]="form.eneroTrabajado.label"
-                [value]="form.eneroTrabajado.value"
-                [name]="form.eneroTrabajado.name"
-                [messages]="form.eneroTrabajado.messages"
-                [maxLength]="form.eneroTrabajado.maxLength"
-                [required]="form.eneroTrabajado.required"
-                (valueChange)="setData(form.eneroTrabajado.name, $event)">
+                [id]="'marzoTrabajado'"
+                [label]="form.marzoTrabajado.label"
+                [value]="form.marzoTrabajado.value"
+                [name]="form.marzoTrabajado.name"
+                [messages]="form.marzoTrabajado.messages"
+                [maxLength]="form.marzoTrabajado.maxLength"
+                [required]="form.marzoTrabajado.required"
+                (valueChange)="setData(form.marzoTrabajado.name, $event)">
             </app-input-number-float>
 
             </td>
@@ -179,26 +183,26 @@
             <td>
                 <app-input-number-float style="width: 40%;margin-right:5px;"
                 class="input"
-                [id]="'eneroAsignado'"
-                [label]="form.enero.label"
-                [value]="form.enero.value"
-                [name]="form.enero.name"
-                [messages]="form.enero.messages"
-                [maxLength]="form.enero.maxLength"
-                [required]="form.enero.required"
-                (valueChange)="setData(form.enero.name, $event)">
+                [id]="'septiembreAsignado'"
+                [label]="form.septiembre.label"
+                [value]="form.septiembre.value"
+                [name]="form.septiembre.name"
+                [messages]="form.septiembre.messages"
+                [maxLength]="form.septiembre.maxLength"
+                [required]="form.septiembre.required"
+                (valueChange)="setData(form.septiembre.name, $event)">
              </app-input-number-float>
         
              <app-input-number-float style="width: 40%;"
                 class="input"
-                [id]="'eneroTrabajado'"
-                [label]="form.eneroTrabajado.label"
-                [value]="form.eneroTrabajado.value"
-                [name]="form.eneroTrabajado.name"
-                [messages]="form.eneroTrabajado.messages"
-                [maxLength]="form.eneroTrabajado.maxLength"
-                [required]="form.eneroTrabajado.required"
-                (valueChange)="setData(form.eneroTrabajado.name, $event)">
+                [id]="'septiembreTrabajado'"
+                [label]="form.septiembreTrabajado.label"
+                [value]="form.septiembreTrabajado.value"
+                [name]="form.septiembreTrabajado.name"
+                [messages]="form.septiembreTrabajado.messages"
+                [maxLength]="form.septiembreTrabajado.maxLength"
+                [required]="form.septiembreTrabajado.required"
+                (valueChange)="setData(form.septiembreTrabajado.name, $event)">
             </app-input-number-float>
             </td>
         </tr>
@@ -207,52 +211,52 @@
             <td>
                 <app-input-number-float style="width: 40%;margin-right:5px;"
                 class="input"
-                [id]="'eneroAsignado'"
-                [label]="form.enero.label"
-                [value]="form.enero.value"
-                [name]="form.enero.name"
-                [messages]="form.enero.messages"
-                [maxLength]="form.enero.maxLength"
-                [required]="form.enero.required"
-                (valueChange)="setData(form.enero.name, $event)">
+                [id]="'abrilAsignado'"
+                [label]="form.abril.label"
+                [value]="form.abril.value"
+                [name]="form.abril.name"
+                [messages]="form.abril.messages"
+                [maxLength]="form.abril.maxLength"
+                [required]="form.abril.required"
+                (valueChange)="setData(form.abril.name, $event)">
              </app-input-number-float>
         
              <app-input-number-float style="width: 40%;"
                 class="input"
-                [id]="'eneroTrabajado'"
-                [label]="form.eneroTrabajado.label"
-                [value]="form.eneroTrabajado.value"
-                [name]="form.eneroTrabajado.name"
-                [messages]="form.eneroTrabajado.messages"
-                [maxLength]="form.eneroTrabajado.maxLength"
-                [required]="form.eneroTrabajado.required"
-                (valueChange)="setData(form.eneroTrabajado.name, $event)">
+                [id]="'abrilTrabajado'"
+                [label]="form.abrilTrabajado.label"
+                [value]="form.abrilTrabajado.value"
+                [name]="form.abrilTrabajado.name"
+                [messages]="form.abrilTrabajado.messages"
+                [maxLength]="form.abrilTrabajado.maxLength"
+                [required]="form.abrilTrabajado.required"
+                (valueChange)="setData(form.abrilTrabajado.name, $event)">
             </app-input-number-float>
             </td>
             <th  style="width: 15%;">Octubre</th>
             <td>
                 <app-input-number-float style="width: 40%;margin-right:5px;"
                 class="input"
-                [id]="'eneroAsignado'"
-                [label]="form.enero.label"
-                [value]="form.enero.value"
-                [name]="form.enero.name"
-                [messages]="form.enero.messages"
-                [maxLength]="form.enero.maxLength"
-                [required]="form.enero.required"
-                (valueChange)="setData(form.enero.name, $event)">
+                [id]="'octubreAsignado'"
+                [label]="form.octubre.label"
+                [value]="form.octubre.value"
+                [name]="form.octubre.name"
+                [messages]="form.octubre.messages"
+                [maxLength]="form.octubre.maxLength"
+                [required]="form.octubre.required"
+                (valueChange)="setData(form.octubre.name, $event)">
              </app-input-number-float>
         
              <app-input-number-float style="width: 40%;"
                 class="input"
-                [id]="'eneroTrabajado'"
-                [label]="form.eneroTrabajado.label"
-                [value]="form.eneroTrabajado.value"
-                [name]="form.eneroTrabajado.name"
-                [messages]="form.eneroTrabajado.messages"
-                [maxLength]="form.eneroTrabajado.maxLength"
-                [required]="form.eneroTrabajado.required"
-                (valueChange)="setData(form.eneroTrabajado.name, $event)">
+                [id]="'octubreTrabajado'"
+                [label]="form.octubreTrabajado.label"
+                [value]="form.octubreTrabajado.value"
+                [name]="form.octubreTrabajado.name"
+                [messages]="form.octubreTrabajado.messages"
+                [maxLength]="form.octubreTrabajado.maxLength"
+                [required]="form.octubreTrabajado.required"
+                (valueChange)="setData(form.octubreTrabajado.name, $event)">
             </app-input-number-float>
             </td>
         </tr>
@@ -261,52 +265,52 @@
             <td>
                 <app-input-number-float style="width: 40%;margin-right:5px;"
                 class="input"
-                [id]="'eneroAsignado'"
-                [label]="form.enero.label"
-                [value]="form.enero.value"
-                [name]="form.enero.name"
-                [messages]="form.enero.messages"
-                [maxLength]="form.enero.maxLength"
-                [required]="form.enero.required"
-                (valueChange)="setData(form.enero.name, $event)">
+                [id]="'mayoAsignado'"
+                [label]="form.mayo.label"
+                [value]="form.mayo.value"
+                [name]="form.mayo.name"
+                [messages]="form.mayo.messages"
+                [maxLength]="form.mayo.maxLength"
+                [required]="form.mayo.required"
+                (valueChange)="setData(form.mayo.name, $event)">
              </app-input-number-float>
         
              <app-input-number-float style="width: 40%;"
                 class="input"
-                [id]="'eneroTrabajado'"
-                [label]="form.eneroTrabajado.label"
-                [value]="form.eneroTrabajado.value"
-                [name]="form.eneroTrabajado.name"
-                [messages]="form.eneroTrabajado.messages"
-                [maxLength]="form.eneroTrabajado.maxLength"
-                [required]="form.eneroTrabajado.required"
-                (valueChange)="setData(form.eneroTrabajado.name, $event)">
+                [id]="'mayoTrabajado'"
+                [label]="form.mayoTrabajado.label"
+                [value]="form.mayoTrabajado.value"
+                [name]="form.mayoTrabajado.name"
+                [messages]="form.mayoTrabajado.messages"
+                [maxLength]="form.mayoTrabajado.maxLength"
+                [required]="form.mayoTrabajado.required"
+                (valueChange)="setData(form.mayoTrabajado.name, $event)">
             </app-input-number-float>
             </td>
             <th  style="width: 15%;">Noviembre</th>
             <td>
                 <app-input-number-float style="width: 40%;margin-right:5px;"
                 class="input"
-                [id]="'eneroAsignado'"
-                [label]="form.enero.label"
-                [value]="form.enero.value"
-                [name]="form.enero.name"
-                [messages]="form.enero.messages"
-                [maxLength]="form.enero.maxLength"
-                [required]="form.enero.required"
-                (valueChange)="setData(form.enero.name, $event)">
+                [id]="'noviembreAsignado'"
+                [label]="form.noviembre.label"
+                [value]="form.noviembre.value"
+                [name]="form.noviembre.name"
+                [messages]="form.noviembre.messages"
+                [maxLength]="form.noviembre.maxLength"
+                [required]="form.noviembre.required"
+                (valueChange)="setData(form.noviembre.name, $event)">
              </app-input-number-float>
         
              <app-input-number-float style="width: 40%;"
                 class="input"
-                [id]="'eneroTrabajado'"
-                [label]="form.eneroTrabajado.label"
-                [value]="form.eneroTrabajado.value"
-                [name]="form.eneroTrabajado.name"
-                [messages]="form.eneroTrabajado.messages"
-                [maxLength]="form.eneroTrabajado.maxLength"
-                [required]="form.eneroTrabajado.required"
-                (valueChange)="setData(form.eneroTrabajado.name, $event)">
+                [id]="'noviembreTrabajado'"
+                [label]="form.noviembreTrabajado.label"
+                [value]="form.noviembreTrabajado.value"
+                [name]="form.noviembreTrabajado.name"
+                [messages]="form.noviembreTrabajado.messages"
+                [maxLength]="form.noviembreTrabajado.maxLength"
+                [required]="form.noviembreTrabajado.required"
+                (valueChange)="setData(form.noviembreTrabajado.name, $event)">
             </app-input-number-float>
             </td>
         </tr>
@@ -315,52 +319,52 @@
             <td>
                 <app-input-number-float style="width: 40%;margin-right:5px;"
                 class="input"
-                [id]="'eneroAsignado'"
-                [label]="form.enero.label"
-                [value]="form.enero.value"
-                [name]="form.enero.name"
-                [messages]="form.enero.messages"
-                [maxLength]="form.enero.maxLength"
-                [required]="form.enero.required"
-                (valueChange)="setData(form.enero.name, $event)">
+                [id]="'junioAsignado'"
+                [label]="form.junio.label"
+                [value]="form.junio.value"
+                [name]="form.junio.name"
+                [messages]="form.junio.messages"
+                [maxLength]="form.junio.maxLength"
+                [required]="form.junio.required"
+                (valueChange)="setData(form.junio.name, $event)">
              </app-input-number-float>
         
              <app-input-number-float style="width: 40%;"
                 class="input"
-                [id]="'eneroTrabajado'"
-                [label]="form.eneroTrabajado.label"
-                [value]="form.eneroTrabajado.value"
-                [name]="form.eneroTrabajado.name"
-                [messages]="form.eneroTrabajado.messages"
-                [maxLength]="form.eneroTrabajado.maxLength"
-                [required]="form.eneroTrabajado.required"
-                (valueChange)="setData(form.eneroTrabajado.name, $event)">
+                [id]="'junioTrabajado'"
+                [label]="form.junioTrabajado.label"
+                [value]="form.junioTrabajado.value"
+                [name]="form.junioTrabajado.name"
+                [messages]="form.junioTrabajado.messages"
+                [maxLength]="form.junioTrabajado.maxLength"
+                [required]="form.junioTrabajado.required"
+                (valueChange)="setData(form.junioTrabajado.name, $event)">
             </app-input-number-float>
             </td>
             <th  style="width: 15%;">Diciembre</th>
             <td>
                 <app-input-number-float style="width: 40%;margin-right:5px;"
                 class="input"
-                [id]="'eneroAsignado'"
-                [label]="form.enero.label"
-                [value]="form.enero.value"
-                [name]="form.enero.name"
-                [messages]="form.enero.messages"
-                [maxLength]="form.enero.maxLength"
-                [required]="form.enero.required"
-                (valueChange)="setData(form.enero.name, $event)">
+                [id]="'diciembreAsignado'"
+                [label]="form.diciembre.label"
+                [value]="form.diciembre.value"
+                [name]="form.diciembre.name"
+                [messages]="form.diciembre.messages"
+                [maxLength]="form.diciembre.maxLength"
+                [required]="form.diciembre.required"
+                (valueChange)="setData(form.diciembre.name, $event)">
              </app-input-number-float>
         
              <app-input-number-float style="width: 40%;"
                 class="input"
-                [id]="'eneroTrabajado'"
-                [label]="form.eneroTrabajado.label"
-                [value]="form.eneroTrabajado.value"
-                [name]="form.eneroTrabajado.name"
-                [messages]="form.eneroTrabajado.messages"
-                [maxLength]="form.eneroTrabajado.maxLength"
-                [required]="form.eneroTrabajado.required"
-                (valueChange)="setData(form.eneroTrabajado.name, $event)">
+                [id]="'diciembreTrabajado'"
+                [label]="form.diciembreTrabajado.label"
+                [value]="form.diciembreTrabajado.value"
+                [name]="form.diciembreTrabajado.name"
+                [messages]="form.diciembreTrabajado.messages"
+                [maxLength]="form.diciembreTrabajado.maxLength"
+                [required]="form.diciembreTrabajado.required"
+                (valueChange)="setData(form.diciembreTrabajado.name, $event)">
             </app-input-number-float>
             </td>
         </tr>

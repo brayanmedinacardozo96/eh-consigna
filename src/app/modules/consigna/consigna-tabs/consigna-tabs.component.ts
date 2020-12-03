@@ -166,14 +166,14 @@ export class ConsignaTabsComponent implements OnInit {
           jsonIntervenirElementoMapa:{name:'jsonIntervenirElementoMapa', value: value.json_elemento_intervenir } ,
           jsonIntervenirElementoMapaCortoT:{name:'jsonElementoIntervenirMapaCortoTiempo', value: value.json_elemento_intervenir_corto } ,
           jsonTiempo:{name:'jsonTiempo',value:value.tiempo},
-          totalUsuarioInterrupcion:{name:'totalUsuarioInterrupcion',value:0},
-          totalUsuarioInterrupcionCorta:{name:'totalUsuarioInterrupcionCorta',value:0}
+          totalUsuarioInterrupcion:{name:'totalUsuarioInterrupcion',value:value.total_usuario},
+          totalUsuarioInterrupcionCorta:{name:'totalUsuarioInterrupcionCorta',value:value.total_usuario_corta}
 
         }
-        
+
         this.consigna.dataElementos.push(elemento);
         this.setElemento(elemento.elemento)
-
+        this.consigna.calcularIdicador()
         /* if(value.trabajo_oportunidad.length > 0){
           for(let valueTrabajo of value.trabajo_oportunidad){
 
