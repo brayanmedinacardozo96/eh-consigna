@@ -3,6 +3,7 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
+  
   production: false,
   debug: true, //cuando esté en false ejecutar en el servidor de pruebas, pero apuntando a mapas en producción
   appName: 'Sistema Local de Consignas',
@@ -17,6 +18,9 @@ export const environment = {
   urlapp:'http://localhost:4200/#/', //'https://enlinea.electrohuila.com.co/consignas/#/'
 
 };
+
+
+
 
 /*
  * For easier debugging in development mode, you can import the following file

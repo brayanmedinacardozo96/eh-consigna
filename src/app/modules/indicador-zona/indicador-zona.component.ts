@@ -47,6 +47,7 @@ export class IndicadorZonaComponent implements OnInit {
       value: null,
       messages: null,
       required: false,
+      disable:true,
       maxLength: 20,
     },
     febrero: {
@@ -63,6 +64,7 @@ export class IndicadorZonaComponent implements OnInit {
       value: null,
       messages: null,
       required: false,
+      disable:true,
       maxLength: 20,
     }, marzo: {
       label: 'Asignado',
@@ -77,6 +79,7 @@ export class IndicadorZonaComponent implements OnInit {
       value: null,
       messages: null,
       required: false,
+      disable:true,
       maxLength: 20,
     },abril: {
       label: 'Asignado',
@@ -91,6 +94,7 @@ export class IndicadorZonaComponent implements OnInit {
       value: null,
       messages: null,
       required: false,
+      disable:true,
       maxLength: 20,
     },mayo: {
       label: 'Asignado',
@@ -105,6 +109,7 @@ export class IndicadorZonaComponent implements OnInit {
       value: null,
       messages: null,
       required: false,
+      disable:true,
       maxLength: 20,
     },junio: {
       label: 'Asignado',
@@ -120,6 +125,7 @@ export class IndicadorZonaComponent implements OnInit {
       value: null,
       messages: null,
       required: false,
+      disable:true,
       maxLength: 20,
     },julio: {
       label: 'Asignado',
@@ -135,6 +141,7 @@ export class IndicadorZonaComponent implements OnInit {
       value: null,
       messages: null,
       required: false,
+      disable:true,
       maxLength: 20,
     },agosto: {
       label: 'Asignado',
@@ -150,6 +157,7 @@ export class IndicadorZonaComponent implements OnInit {
       value: null,
       messages: null,
       required: false,
+      disable:true,
       maxLength: 20,
     },
     septiembre: {
@@ -166,6 +174,7 @@ export class IndicadorZonaComponent implements OnInit {
       value: null,
       messages: null,
       required: false,
+      disable:true,
       maxLength: 20,
     },
     octubre: {
@@ -182,6 +191,7 @@ export class IndicadorZonaComponent implements OnInit {
       value: null,
       messages: null,
       required: false,
+      disable:true,
       maxLength: 20,
     },
     noviembre: {
@@ -198,6 +208,7 @@ export class IndicadorZonaComponent implements OnInit {
       value: null,
       messages: null,
       required: false,
+      disable:true,
       maxLength: 20,
     },
     diciembre: {
@@ -214,6 +225,7 @@ export class IndicadorZonaComponent implements OnInit {
       value: null,
       messages: null,
       required: false,
+      disable:true,
       maxLength: 20,
     },
   }
@@ -224,7 +236,8 @@ export class IndicadorZonaComponent implements OnInit {
   };
 
   mesKey=[['enero',1],['febrero',2],['marzo',3],['abril',4],['mayo',5],['junio',6],['julio',7],['agosto',8],['septiembre',9],['octubre',10],['noviembre',11],['diciembre',12]]
-
+   tipoZona=null;
+   anio=null;
 
   anioInicio=2020;
 
@@ -272,13 +285,49 @@ export class IndicadorZonaComponent implements OnInit {
   }
 
   setData(name, event) {
+
     this.form[name].value = event;
+
+  
   }
+
+  async cargarTabla(name, event) 
+  {
+    
+    if(name=="tipoZona")
+    {
+      this.tipoZona=event;
+    }
+    if(name=="anio")
+    {
+      this.anio=event;
+    }
+    
+    if(this.tipoZona!=null && this.anio!=null)
+    {
+      const response = await this.apiService.get(`${environment.apiBackend}/indicador-zona/getIndicadorZonaAnio/${this.anio}/${this.tipoZona}`);
+      if (response.message == null && response.data!=null) {
+        
+        response.data.forEach(element => {
+
+          var mes=this.mesKey[element.mes-1];
+          var key=mes[0]
+          var keyTrabajado=`${key}Trabajado`.trim()
+
+          this.form[key].value=element.asignado
+          this.form[keyTrabajado].value=element.trabajado
+
+        }); 
+      
+    }
+
+  }
+}
 
   async guardar() 
   {
     
-    
+  
     var obj=[];
 
      this.mesKey.forEach(element=>{

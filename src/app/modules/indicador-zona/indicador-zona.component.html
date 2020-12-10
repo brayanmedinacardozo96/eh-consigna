@@ -7,7 +7,7 @@
         <mat-grid-tile class="col col-lg-12 col-sm-12">
             <mat-form-field style="width: 60%;">
                 <mat-label>{{form.tipoZona.label}}</mat-label>
-                <mat-select [(ngModel)]="form.tipoZona.value" style="padding-top: 5px;padding-bottom: 5px;">
+                <mat-select [(ngModel)]="form.tipoZona.value"   (valueChange)="cargarTabla(form.tipoZona.name, $event)" style="padding-top: 5px;padding-bottom: 5px;">
                     <mat-option *ngFor="let value of dataControls?.tipoZona;" [value]="value.id">
                         {{value.nombre}}
                     </mat-option>
@@ -19,7 +19,7 @@
         <mat-grid-tile class="col col-lg-12 col-sm-12">
             <mat-form-field style="width: 60%;">
                 <mat-label>{{form.anio.label}}</mat-label>
-                <mat-select [(ngModel)]="form.anio.value" style="padding-top: 5px;padding-bottom: 5px;">
+                <mat-select [(ngModel)]="form.anio.value" (valueChange)="cargarTabla(form.anio.name, $event)" style="padding-top: 5px;padding-bottom: 5px;">
                     <mat-option *ngFor="let value of dataControls?.anio;" [value]="value.id">
                         {{value.nombre}}
                     </mat-option>
@@ -60,6 +60,7 @@
                 [messages]="form.eneroTrabajado.messages"
                 [maxLength]="form.eneroTrabajado.maxLength"
                 [required]="form.eneroTrabajado.required"
+                [disable]="form.eneroTrabajado.disable"
                 (valueChange)="setData(form.eneroTrabajado.name, $event)">
             </app-input-number-float>
 
@@ -88,6 +89,7 @@
                 [messages]="form.julioTrabajado.messages"
                 [maxLength]="form.julioTrabajado.maxLength"
                 [required]="form.julioTrabajado.required"
+                [disable]="form.julioTrabajado.disable"
                 (valueChange)="setData(form.julioTrabajado.name, $event)">
             </app-input-number-float>
                 
@@ -117,6 +119,7 @@
                 [messages]="form.febreroTrabajado.messages"
                 [maxLength]="form.febreroTrabajado.maxLength"
                 [required]="form.febreroTrabajado.required"
+                [disable]="form.febreroTrabajado.disable"
                 (valueChange)="setData(form.febreroTrabajado.name, $event)">
             </app-input-number-float>
 
@@ -145,6 +148,7 @@
                 [messages]="form.agostoTrabajado.messages"
                 [maxLength]="form.agostoTrabajado.maxLength"
                 [required]="form.agostoTrabajado.required"
+                [disable]="form.agostoTrabajado.disable"
                 (valueChange)="setData(form.agostoTrabajado.name, $event)">
             </app-input-number-float>
 
@@ -175,6 +179,7 @@
                 [messages]="form.marzoTrabajado.messages"
                 [maxLength]="form.marzoTrabajado.maxLength"
                 [required]="form.marzoTrabajado.required"
+                [disable]="form.marzoTrabajado.disable"
                 (valueChange)="setData(form.marzoTrabajado.name, $event)">
             </app-input-number-float>
 
@@ -202,6 +207,7 @@
                 [messages]="form.septiembreTrabajado.messages"
                 [maxLength]="form.septiembreTrabajado.maxLength"
                 [required]="form.septiembreTrabajado.required"
+                [disable]="form.septiembreTrabajado.disable"
                 (valueChange)="setData(form.septiembreTrabajado.name, $event)">
             </app-input-number-float>
             </td>
@@ -230,6 +236,7 @@
                 [messages]="form.abrilTrabajado.messages"
                 [maxLength]="form.abrilTrabajado.maxLength"
                 [required]="form.abrilTrabajado.required"
+                [disable]="form.abrilTrabajado.disable"
                 (valueChange)="setData(form.abrilTrabajado.name, $event)">
             </app-input-number-float>
             </td>
@@ -256,6 +263,7 @@
                 [messages]="form.octubreTrabajado.messages"
                 [maxLength]="form.octubreTrabajado.maxLength"
                 [required]="form.octubreTrabajado.required"
+                [disable]="form.octubreTrabajado.disable"
                 (valueChange)="setData(form.octubreTrabajado.name, $event)">
             </app-input-number-float>
             </td>
@@ -284,6 +292,7 @@
                 [messages]="form.mayoTrabajado.messages"
                 [maxLength]="form.mayoTrabajado.maxLength"
                 [required]="form.mayoTrabajado.required"
+                [disable]="form.mayoTrabajado.disable"
                 (valueChange)="setData(form.mayoTrabajado.name, $event)">
             </app-input-number-float>
             </td>
@@ -310,6 +319,7 @@
                 [messages]="form.noviembreTrabajado.messages"
                 [maxLength]="form.noviembreTrabajado.maxLength"
                 [required]="form.noviembreTrabajado.required"
+                [disable]="form.noviembreTrabajado.disable"
                 (valueChange)="setData(form.noviembreTrabajado.name, $event)">
             </app-input-number-float>
             </td>
@@ -338,6 +348,7 @@
                 [messages]="form.junioTrabajado.messages"
                 [maxLength]="form.junioTrabajado.maxLength"
                 [required]="form.junioTrabajado.required"
+                [disable]="form.junioTrabajado.disable"
                 (valueChange)="setData(form.junioTrabajado.name, $event)">
             </app-input-number-float>
             </td>
@@ -364,6 +375,7 @@
                 [messages]="form.diciembreTrabajado.messages"
                 [maxLength]="form.diciembreTrabajado.maxLength"
                 [required]="form.diciembreTrabajado.required"
+                [disable]="form.diciembreTrabajado.disable"
                 (valueChange)="setData(form.diciembreTrabajado.name, $event)">
             </app-input-number-float>
             </td>
