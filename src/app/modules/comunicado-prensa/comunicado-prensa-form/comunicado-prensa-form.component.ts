@@ -161,9 +161,13 @@ export class ComunicadoPrensaFormComponent implements OnInit {
       return false;
     }
 
+
     if(response.comunicado!=null)
     {
-      this.router.navigateByUrl('/comunicado-prensa/edit/'+response.comunicado[0].id);
+      if(response.comunicado.length>0)
+      {
+        this.router.navigateByUrl('/comunicado-prensa/edit/'+response.comunicado[0].id);
+      }
       
     }
 
