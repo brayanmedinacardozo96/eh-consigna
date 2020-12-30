@@ -202,7 +202,7 @@ export class ConsignaNewComponent implements OnInit {
       name: 'consignaOperativa',
       value: null,
       messages: null,
-      length: 500,
+      length: 9000,
       required: true,
     },
     medidasSeguiridad: {
