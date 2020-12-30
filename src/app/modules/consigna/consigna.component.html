@@ -34,7 +34,7 @@
             <mat-grid-tile>
                 <mat-form-field>
                     <mat-label>{{ form.codigoTipoFormato.required ? form.codigoTipoFormato.label+' *' : form.codigoTipoFormato.label}}</mat-label>
-                    <mat-select id="form_consigna-tipo_formato" [(ngModel)]="form.codigoTipoFormato.value" 
+                    <mat-select id="form_consigna-tipo_formato" [(ngModel)]="form.codigoTipoFormato.value"
                          style="padding-top: 5px;padding-bottom: 5px;">
                         <mat-option *ngFor="let value of dataControls?.tipoFormatoConsigna;" [value]="value.codigo">
                             {{value.nombre}}
@@ -163,6 +163,7 @@
         [routerLink]="['/consigna/nueva-consigna']"
         matTooltip="Nueva Consigna"
         matTooltipClass="custom-tooltip"
+        *appUserCan="['consignas-modulo-principal-consigna-crear']"
         class="custom-float-button">
     <mat-icon style="color: #FFFFFF; transform: scale(2);">add</mat-icon>
 </button>

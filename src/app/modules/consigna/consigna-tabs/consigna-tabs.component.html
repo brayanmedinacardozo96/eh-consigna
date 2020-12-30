@@ -9,7 +9,7 @@
         <ng-template mat-tab-label>
             <span>Trabajos de Oportunidad</span>
         </ng-template>
-        <app-trabajo-oportunidad  
+        <app-trabajo-oportunidad
         [elementos]="elementos"
         (setTrabajoOportunidad)="setTrabajoOportunidad($event)"
         ></app-trabajo-oportunidad>
@@ -26,7 +26,10 @@
 </mat-tab-group>
 
 <!-- botón para abrir form nueva consigna -->
-<button *ngIf="showBotonGuardar" mat-fab color="primary" style="position: fixed; right: 3%; top: 12%; z-index: 1;" (click)="saveConsigna()" 
-    matTooltip="{{action}}" matTooltipClass="custom-tooltip">
+<ng-container *appUserCan="['consignas-modulo-principal-consigna-crear']">
+  <button *ngIf="showBotonGuardar" mat-fab color="primary" style="position: fixed; right: 3%; top: 12%; z-index: 1;"
+          (click)="saveConsigna()"
+          matTooltip="{{action}}" matTooltipClass="custom-tooltip">
     <mat-icon style="color: #FFFFFF;">save</mat-icon>
-</button> 
+  </button>
+</ng-container>
