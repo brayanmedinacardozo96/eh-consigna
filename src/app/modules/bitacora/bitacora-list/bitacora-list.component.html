@@ -18,7 +18,7 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Consigna</th>
         <td [style.background-color]=" 
         (row?.hora_inicio == null && row?.hora_fin==null) ? this.colors.pendiente  : 
-        (row?.hora_fin!=null) ? this.colors.finalizada  : (row?.hora_inicio!=null) ? this.colors.inicializada   : ''
+        (row?.fecha_cierre!=null) ? this.colors.finalizada  : (row?.hora_inicio!=null) ? this.colors.inicializada   : ''
         " mat-cell *matCellDef="let row"> {{row?.codigo}} </td>
       </ng-container>
 

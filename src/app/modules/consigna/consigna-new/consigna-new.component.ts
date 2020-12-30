@@ -178,7 +178,7 @@ export class ConsignaNewComponent implements OnInit {
       name: 'trabajoEfectuar',
       value: null,
       messages: null,
-      length: 500,
+      length: 9000,
       required: true,
     },
     justificacion: {
@@ -202,7 +202,7 @@ export class ConsignaNewComponent implements OnInit {
       name: 'consignaOperativa',
       value: null,
       messages: null,
-      length: 500,
+      length: 9000,
       required: true,
     },
     medidasSeguiridad: {
@@ -808,6 +808,7 @@ export class ConsignaNewComponent implements OnInit {
   calcularIdicador() {
 
     //solo apertura
+    console.log( this.validarEstadoEquipo() )
     if (this.validarEstadoEquipo() == "A") {
 
       //hola
@@ -858,7 +859,7 @@ export class ConsignaNewComponent implements OnInit {
       this.indicador.interrupcionUsuario = total;
       this.indicador.horaTrabajo = tiempo;
       var mlt = tiempo * total;
-
+     
       if(this.indicador.totalUsuarios>0)
       {
         this.indicador.Saidi = mlt > 0 ? (mlt / this.indicador.totalUsuarios) : 0
@@ -934,7 +935,7 @@ export class ConsignaNewComponent implements OnInit {
         }
         this.escribrirAreaAfectada();
         this.getElementoMapa();
-        this. calcularIdicador();
+        this.calcularIdicador();
       }
     });    
   }
@@ -1605,9 +1606,11 @@ export class ConsignaNewComponent implements OnInit {
     {
       this.areaAFectada.push({area:[obj,objSector],persona:objCliente});
       this.usuarioAfectadoTemp.interrupcion=objCliente.length
+      console.log(objCliente.length)
     }else{
       this.areaAFectadaCortoTiempo.push({area:[obj,objSector],persona:objCliente});
       this.usuarioAfectadoTemp.interrupcionCorta=objCliente.length
+      console.log(objCliente.length)
     }
     
 

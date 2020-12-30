@@ -15,6 +15,7 @@ export class InputNumberFloatComponent implements OnInit {
   @Input() name;
   @Input() messages;
   @Input() style;
+  @Input() disable = false;
   @Input() maxLength = null;
   @Input() required;
   @Output() valueChange = new EventEmitter();

@@ -7,7 +7,7 @@
         <mat-grid-tile class="col col-lg-12 col-sm-12">
             <mat-form-field style="width: 60%;">
                 <mat-label>{{form.tipoZona.label}}</mat-label>
-                <mat-select [(ngModel)]="form.tipoZona.value" style="padding-top: 5px;padding-bottom: 5px;">
+                <mat-select [(ngModel)]="form.tipoZona.value"   (valueChange)="cargarTabla(form.tipoZona.name, $event)" style="padding-top: 5px;padding-bottom: 5px;">
                     <mat-option *ngFor="let value of dataControls?.tipoZona;" [value]="value.id">
                         {{value.nombre}}
                     </mat-option>
@@ -19,7 +19,7 @@
         <mat-grid-tile class="col col-lg-12 col-sm-12">
             <mat-form-field style="width: 60%;">
                 <mat-label>{{form.anio.label}}</mat-label>
-                <mat-select [(ngModel)]="form.anio.value" style="padding-top: 5px;padding-bottom: 5px;">
+                <mat-select [(ngModel)]="form.anio.value" (valueChange)="cargarTabla(form.anio.name, $event)" style="padding-top: 5px;padding-bottom: 5px;">
                     <mat-option *ngFor="let value of dataControls?.anio;" [value]="value.id">
                         {{value.nombre}}
                     </mat-option>
@@ -35,339 +35,401 @@
     </button>
     <br/>
     <table  style="margin-top: 10px;" class="custom-table">
+
         <tr>
-            <th>Enero</th>
-            <td>
+          <th>Enero</th>
+          <td>
 
-                <app-input-number-float style="width: 40%;margin-right:5px;"
-                class="input"
-                [id]="'eneroAsignado'"
-                [label]="form.enero.label"
-                [value]="form.enero.value"
-                [name]="form.enero.name"
-                [messages]="form.enero.messages"
-                [maxLength]="form.enero.maxLength"
-                [required]="form.enero.required"
-                (valueChange)="setData(form.enero.name, $event)">
-             </app-input-number-float>
-        
-             <app-input-number-float style="width: 40%;"
-                class="input"
-                [id]="'eneroTrabajado'"
-                [label]="form.eneroTrabajado.label"
-                [value]="form.eneroTrabajado.value"
-                [name]="form.eneroTrabajado.name"
-                [messages]="form.eneroTrabajado.messages"
-                [maxLength]="form.eneroTrabajado.maxLength"
-                [required]="form.eneroTrabajado.required"
-                (valueChange)="setData(form.eneroTrabajado.name, $event)">
+            <app-input-number-float style="width: 20%;margin-right:5px;" class="input" [id]="'eneroAsignadoSAIDI'"
+              [label]="form.eneroSAIDI.label" [value]="form.eneroSAIDI.value" [name]="form.eneroSAIDI.name"
+              [messages]="form.eneroSAIDI.messages" [maxLength]="form.eneroSAIDI.maxLength"
+              [required]="form.eneroSAIDI.required" (valueChange)="setData(form.eneroSAIDI.name, $event)">
             </app-input-number-float>
 
-            </td>
-            <th>Julio</th>
-            <td>
-
-                <app-input-number-float style="width: 40%;margin-right:5px;"
-                class="input"
-                [id]="'julioAsignado'"
-                [label]="form.julio.label"
-                [value]="form.julio.value"
-                [name]="form.julio.name"
-                [messages]="form.julio.messages"
-                [maxLength]="form.julio.maxLength"
-                [required]="form.julio.required"
-                (valueChange)="setData(form.julio.name, $event)">
-             </app-input-number-float>
-        
-             <app-input-number-float style="width: 40%;"
-                class="input"
-                [id]="'julioTrabajado'"
-                [label]="form.julioTrabajado.label"
-                [value]="form.julioTrabajado.value"
-                [name]="form.julioTrabajado.name"
-                [messages]="form.julioTrabajado.messages"
-                [maxLength]="form.julioTrabajado.maxLength"
-                [required]="form.julioTrabajado.required"
-                (valueChange)="setData(form.julioTrabajado.name, $event)">
+            <app-input-number-float style="width: 20%;margin-right:5px;" class="input" [id]="'eneroAsignadoSAIFI'"
+              [label]="form.eneroSAIFI.label" [value]="form.eneroSAIFI.value" [name]="form.eneroSAIFI.name"
+              [messages]="form.eneroSAIFI.messages" [maxLength]="form.eneroSAIFI.maxLength"
+              [required]="form.eneroSAIFI.required" (valueChange)="setData(form.eneroSAIFI.name, $event)">
             </app-input-number-float>
-                
-            </td>
+
+            <app-input-number-float style="width: 20%;" class="input" [id]="'eneroTrabajadoSAIDI'"
+              [label]="form.eneroTrabajadoSAIDI.label" [value]="form.eneroTrabajadoSAIDI.value"
+              [name]="form.eneroTrabajadoSAIDI.name" [messages]="form.eneroTrabajadoSAIDI.messages"
+              [maxLength]="form.eneroTrabajadoSAIDI.maxLength" [required]="form.eneroTrabajadoSAIDI.required"
+              [disable]="form.eneroTrabajadoSAIDI.disable"
+              (valueChange)="setData(form.eneroTrabajadoSAIDI.name, $event)">
+            </app-input-number-float>
+
+            <app-input-number-float style="width: 20%;" class="input" [id]="'eneroTrabajadoSAIFI'"
+              [label]="form.eneroTrabajadoSAIFI.label" [value]="form.eneroTrabajadoSAIFI.value"
+              [name]="form.eneroTrabajadoSAIFI.name" [messages]="form.eneroTrabajadoSAIFI.messages"
+              [maxLength]="form.eneroTrabajadoSAIFI.maxLength" [required]="form.eneroTrabajadoSAIFI.required"
+              [disable]="form.eneroTrabajadoSAIFI.disable"
+              (valueChange)="setData(form.eneroTrabajadSAIFI.name, $event)">
+            </app-input-number-float>
+
+          </td>
+          <th>Julio</th>
+          <td>
+
+            <app-input-number-float style="width: 20%;margin-right:5px;" class="input" [id]="'julioAsignadoSAIDI'"
+              [label]="form.julioSAIDI.label" [value]="form.julioSAIDI.value" [name]="form.julioSAIDI.name"
+              [messages]="form.julioSAIDI.messages" [maxLength]="form.julioSAIDI.maxLength" [required]="form.julioSAIDI.required"
+              (valueChange)="setData(form.julioSAIDI.name, $event)">
+            </app-input-number-float>
+
+            <app-input-number-float style="width: 20%;margin-right:5px;" class="input" [id]="'julioAsignadoSAIFI'"
+              [label]="form.julioSAIFI.label" [value]="form.julioSAIFI.value" [name]="form.julioSAIFI.name"
+              [messages]="form.julioSAIFI.messages" [maxLength]="form.julioSAIFI.maxLength" [required]="form.julioSAIFI.required"
+              (valueChange)="setData(form.julioSAIFI.name, $event)">
+            </app-input-number-float>
+
+            <app-input-number-float style="width: 20%;" class="input" [id]="'julioTrabajadoSAIDI'"
+              [label]="form.julioTrabajadoSAIDI.label" [value]="form.julioTrabajadoSAIDI.value" [name]="form.julioTrabajadoSAIDI.name"
+              [messages]="form.julioTrabajadoSAIDI.messages" [maxLength]="form.julioTrabajadoSAIDI.maxLength"
+              [required]="form.julioTrabajadoSAIDI.required" [disable]="form.julioTrabajadoSAIDI.disable"
+              (valueChange)="setData(form.julioTrabajadoSAIDI.name, $event)">
+            </app-input-number-float>
+
+            <app-input-number-float style="width: 20%;" class="input" [id]="'julioTrabajadoSAIFI'"
+            [label]="form.julioTrabajadoSAIFI.label" [value]="form.julioTrabajadoSAIFI.value" [name]="form.julioTrabajadoSAIFI.name"
+            [messages]="form.julioTrabajadoSAIFI.messages" [maxLength]="form.julioTrabajadoSAIFI.maxLength"
+            [required]="form.julioTrabajadoSAIFI.required" [disable]="form.julioTrabajadoSAIFI.disable"
+            (valueChange)="setData(form.julioTrabajadoSAIFI.name, $event)">
+          </app-input-number-float>
+
+          </td>
         </tr>
+
+        
         <tr>
             <th>Febrero</th>
             <td>
-                <app-input-number-float style="width: 40%;margin-right:5px;"
-                class="input"
-                [id]="'febreroAsignado'"
-                [label]="form.febrero.label"
-                [value]="form.febrero.value"
-                [name]="form.febrero.name"
-                [messages]="form.febrero.messages"
-                [maxLength]="form.febrero.maxLength"
-                [required]="form.febrero.required"
-                (valueChange)="setData(form.febrero.name, $event)">
-             </app-input-number-float>
-        
-             <app-input-number-float style="width: 40%;"
-                class="input"
-                [id]="'febreroTrabajado'"
-                [label]="form.febreroTrabajado.label"
-                [value]="form.febreroTrabajado.value"
-                [name]="form.febreroTrabajado.name"
-                [messages]="form.febreroTrabajado.messages"
-                [maxLength]="form.febreroTrabajado.maxLength"
-                [required]="form.febreroTrabajado.required"
-                (valueChange)="setData(form.febreroTrabajado.name, $event)">
-            </app-input-number-float>
-
+  
+              <app-input-number-float style="width: 20%;margin-right:5px;" class="input" [id]="'febreroAsignadoSAIDI'"
+                [label]="form.febreroSAIDI.label" [value]="form.febreroSAIDI.value" [name]="form.febreroSAIDI.name"
+                [messages]="form.febreroSAIDI.messages" [maxLength]="form.febreroSAIDI.maxLength"
+                [required]="form.febreroSAIDI.required" (valueChange)="setData(form.febreroSAIDI.name, $event)">
+              </app-input-number-float>
+  
+              <app-input-number-float style="width: 20%;margin-right:5px;" class="input" [id]="'febreroAsignadoSAIFI'"
+                [label]="form.febreroSAIFI.label" [value]="form.febreroSAIFI.value" [name]="form.febreroSAIFI.name"
+                [messages]="form.febreroSAIFI.messages" [maxLength]="form.febreroSAIFI.maxLength"
+                [required]="form.febreroSAIFI.required" (valueChange)="setData(form.febreroSAIFI.name, $event)">
+              </app-input-number-float>
+  
+              <app-input-number-float style="width: 20%;" class="input" [id]="'febreroTrabajadoSAIDI'"
+                [label]="form.febreroTrabajadoSAIDI.label" [value]="form.febreroTrabajadoSAIDI.value"
+                [name]="form.febreroTrabajadoSAIDI.name" [messages]="form.febreroTrabajadoSAIDI.messages"
+                [maxLength]="form.febreroTrabajadoSAIDI.maxLength" [required]="form.febreroTrabajadoSAIDI.required"
+                [disable]="form.febreroTrabajadoSAIDI.disable"
+                (valueChange)="setData(form.febreroTrabajadoSAIDI.name, $event)">
+              </app-input-number-float>
+  
+              <app-input-number-float style="width: 20%;" class="input" [id]="'febreroTrabajadoSAIFI'"
+                [label]="form.febreroTrabajadoSAIFI.label" [value]="form.febreroTrabajadoSAIFI.value"
+                [name]="form.febreroTrabajadoSAIFI.name" [messages]="form.febreroTrabajadoSAIFI.messages"
+                [maxLength]="form.febreroTrabajadoSAIFI.maxLength" [required]="form.febreroTrabajadoSAIFI.required"
+                [disable]="form.febreroTrabajadoSAIFI.disable"
+                (valueChange)="setData(form.febreroTrabajadSAIFI.name, $event)">
+              </app-input-number-float>
+  
             </td>
             <th>Agosto</th>
             <td>
-                 
-                <app-input-number-float style="width: 40%;margin-right:5px;"
-                class="input"
-                [id]="'agostoAsignado'"
-                [label]="form.agosto.label"
-                [value]="form.agosto.value"
-                [name]="form.agosto.name"
-                [messages]="form.agosto.messages"
-                [maxLength]="form.agosto.maxLength"
-                [required]="form.agosto.required"
-                (valueChange)="setData(form.agosto.name, $event)">
-             </app-input-number-float>
-        
-             <app-input-number-float style="width: 40%;"
-                class="input"
-                [id]="'agostoTrabajado'"
-                [label]="form.agostoTrabajado.label"
-                [value]="form.agostoTrabajado.value"
-                [name]="form.agostoTrabajado.name"
-                [messages]="form.agostoTrabajado.messages"
-                [maxLength]="form.agostoTrabajado.maxLength"
-                [required]="form.agostoTrabajado.required"
-                (valueChange)="setData(form.agostoTrabajado.name, $event)">
+  
+              <app-input-number-float style="width: 20%;margin-right:5px;" class="input" [id]="'agostoAsignadoSAIDI'"
+                [label]="form.agostoSAIDI.label" [value]="form.agostoSAIDI.value" [name]="form.agostoSAIDI.name"
+                [messages]="form.agostoSAIDI.messages" [maxLength]="form.agostoSAIDI.maxLength" [required]="form.agostoSAIDI.required"
+                (valueChange)="setData(form.agostoSAIDI.name, $event)">
+              </app-input-number-float>
+  
+              <app-input-number-float style="width: 20%;margin-right:5px;" class="input" [id]="'agostoAsignadoSAIFI'"
+                [label]="form.agostoSAIFI.label" [value]="form.agostoSAIFI.value" [name]="form.agostoSAIFI.name"
+                [messages]="form.agostoSAIFI.messages" [maxLength]="form.agostoSAIFI.maxLength" [required]="form.agostoSAIFI.required"
+                (valueChange)="setData(form.agostoSAIFI.name, $event)">
+              </app-input-number-float>
+  
+              <app-input-number-float style="width: 20%;" class="input" [id]="'agostoTrabajadoSAIDI'"
+                [label]="form.agostoTrabajadoSAIDI.label" [value]="form.agostoTrabajadoSAIDI.value" [name]="form.agostoTrabajadoSAIDI.name"
+                [messages]="form.agostoTrabajadoSAIDI.messages" [maxLength]="form.agostoTrabajadoSAIDI.maxLength"
+                [required]="form.agostoTrabajadoSAIDI.required" [disable]="form.agostoTrabajadoSAIDI.disable"
+                (valueChange)="setData(form.agostoTrabajadoSAIDI.name, $event)">
+              </app-input-number-float>
+  
+              <app-input-number-float style="width: 20%;" class="input" [id]="'agostoTrabajadoSAIFI'"
+              [label]="form.agostoTrabajadoSAIFI.label" [value]="form.agostoTrabajadoSAIFI.value" [name]="form.agostoTrabajadoSAIFI.name"
+              [messages]="form.agostoTrabajadoSAIFI.messages" [maxLength]="form.agostoTrabajadoSAIFI.maxLength"
+              [required]="form.agostoTrabajadoSAIFI.required" [disable]="form.agostoTrabajadoSAIFI.disable"
+              (valueChange)="setData(form.agostoTrabajadoSAIFI.name, $event)">
             </app-input-number-float>
-
+  
             </td>
-        </tr>
-        <tr>
+          </tr>
+
+        
+          <tr>
             <th>Marzo</th>
             <td>
-                 
-                <app-input-number-float style="width: 40%;margin-right:5px;"
-                class="input"
-                [id]="'marzoAsignado'"
-                [label]="form.marzo.label"
-                [value]="form.marzo.value"
-                [name]="form.marzo.name"
-                [messages]="form.marzo.messages"
-                [maxLength]="form.marzo.maxLength"
-                [required]="form.marzo.required"
-                (valueChange)="setData(form.marzo.name, $event)">
-             </app-input-number-float>
-        
-             <app-input-number-float style="width: 40%;"
-                class="input"
-                [id]="'marzoTrabajado'"
-                [label]="form.marzoTrabajado.label"
-                [value]="form.marzoTrabajado.value"
-                [name]="form.marzoTrabajado.name"
-                [messages]="form.marzoTrabajado.messages"
-                [maxLength]="form.marzoTrabajado.maxLength"
-                [required]="form.marzoTrabajado.required"
-                (valueChange)="setData(form.marzoTrabajado.name, $event)">
-            </app-input-number-float>
-
+  
+              <app-input-number-float style="width: 20%;margin-right:5px;" class="input" [id]="'marzoAsignadoSAIDI'"
+                [label]="form.marzoSAIDI.label" [value]="form.marzoSAIDI.value" [name]="form.marzoSAIDI.name"
+                [messages]="form.marzoSAIDI.messages" [maxLength]="form.marzoSAIDI.maxLength"
+                [required]="form.marzoSAIDI.required" (valueChange)="setData(form.marzoSAIDI.name, $event)">
+              </app-input-number-float>
+  
+              <app-input-number-float style="width: 20%;margin-right:5px;" class="input" [id]="'marzoAsignadoSAIFI'"
+                [label]="form.marzoSAIFI.label" [value]="form.marzoSAIFI.value" [name]="form.marzoSAIFI.name"
+                [messages]="form.marzoSAIFI.messages" [maxLength]="form.marzoSAIFI.maxLength"
+                [required]="form.marzoSAIFI.required" (valueChange)="setData(form.marzoSAIFI.name, $event)">
+              </app-input-number-float>
+  
+              <app-input-number-float style="width: 20%;" class="input" [id]="'marzoTrabajadoSAIDI'"
+                [label]="form.marzoTrabajadoSAIDI.label" [value]="form.marzoTrabajadoSAIDI.value"
+                [name]="form.marzoTrabajadoSAIDI.name" [messages]="form.marzoTrabajadoSAIDI.messages"
+                [maxLength]="form.marzoTrabajadoSAIDI.maxLength" [required]="form.marzoTrabajadoSAIDI.required"
+                [disable]="form.marzoTrabajadoSAIDI.disable"
+                (valueChange)="setData(form.marzoTrabajadoSAIDI.name, $event)">
+              </app-input-number-float>
+  
+              <app-input-number-float style="width: 20%;" class="input" [id]="'marzoTrabajadoSAIFI'"
+                [label]="form.marzoTrabajadoSAIFI.label" [value]="form.marzoTrabajadoSAIFI.value"
+                [name]="form.marzoTrabajadoSAIFI.name" [messages]="form.marzoTrabajadoSAIFI.messages"
+                [maxLength]="form.marzoTrabajadoSAIFI.maxLength" [required]="form.marzoTrabajadoSAIFI.required"
+                [disable]="form.marzoTrabajadoSAIFI.disable"
+                (valueChange)="setData(form.marzoTrabajadSAIFI.name, $event)">
+              </app-input-number-float>
+  
             </td>
             <th>Septiembre</th>
             <td>
-                <app-input-number-float style="width: 40%;margin-right:5px;"
-                class="input"
-                [id]="'septiembreAsignado'"
-                [label]="form.septiembre.label"
-                [value]="form.septiembre.value"
-                [name]="form.septiembre.name"
-                [messages]="form.septiembre.messages"
-                [maxLength]="form.septiembre.maxLength"
-                [required]="form.septiembre.required"
-                (valueChange)="setData(form.septiembre.name, $event)">
-             </app-input-number-float>
-        
-             <app-input-number-float style="width: 40%;"
-                class="input"
-                [id]="'septiembreTrabajado'"
-                [label]="form.septiembreTrabajado.label"
-                [value]="form.septiembreTrabajado.value"
-                [name]="form.septiembreTrabajado.name"
-                [messages]="form.septiembreTrabajado.messages"
-                [maxLength]="form.septiembreTrabajado.maxLength"
-                [required]="form.septiembreTrabajado.required"
-                (valueChange)="setData(form.septiembreTrabajado.name, $event)">
+  
+              <app-input-number-float style="width: 20%;margin-right:5px;" class="input" [id]="'septiembreAsignadoSAIDI'"
+                [label]="form.septiembreSAIDI.label" [value]="form.septiembreSAIDI.value" [name]="form.septiembreSAIDI.name"
+                [messages]="form.septiembreSAIDI.messages" [maxLength]="form.septiembreSAIDI.maxLength" [required]="form.septiembreSAIDI.required"
+                (valueChange)="setData(form.septiembreSAIDI.name, $event)">
+              </app-input-number-float>
+  
+              <app-input-number-float style="width: 20%;margin-right:5px;" class="input" [id]="'septiembreAsignadoSAIFI'"
+                [label]="form.septiembreSAIFI.label" [value]="form.septiembreSAIFI.value" [name]="form.septiembreSAIFI.name"
+                [messages]="form.septiembreSAIFI.messages" [maxLength]="form.septiembreSAIFI.maxLength" [required]="form.septiembreSAIFI.required"
+                (valueChange)="setData(form.septiembreSAIFI.name, $event)">
+              </app-input-number-float>
+  
+              <app-input-number-float style="width: 20%;" class="input" [id]="'septiembreTrabajadoSAIDI'"
+                [label]="form.septiembreTrabajadoSAIDI.label" [value]="form.septiembreTrabajadoSAIDI.value" [name]="form.septiembreTrabajadoSAIDI.name"
+                [messages]="form.septiembreTrabajadoSAIDI.messages" [maxLength]="form.septiembreTrabajadoSAIDI.maxLength"
+                [required]="form.septiembreTrabajadoSAIDI.required" [disable]="form.septiembreTrabajadoSAIDI.disable"
+                (valueChange)="setData(form.septiembreTrabajadoSAIDI.name, $event)">
+              </app-input-number-float>
+  
+              <app-input-number-float style="width: 20%;" class="input" [id]="'septiembreTrabajadoSAIFI'"
+              [label]="form.septiembreTrabajadoSAIFI.label" [value]="form.septiembreTrabajadoSAIFI.value" [name]="form.septiembreTrabajadoSAIFI.name"
+              [messages]="form.septiembreTrabajadoSAIFI.messages" [maxLength]="form.septiembreTrabajadoSAIFI.maxLength"
+              [required]="form.septiembreTrabajadoSAIFI.required" [disable]="form.septiembreTrabajadoSAIFI.disable"
+              (valueChange)="setData(form.septiembreTrabajadoSAIFI.name, $event)">
             </app-input-number-float>
+  
             </td>
-        </tr>
-        <tr>
-            <th  style="width: 15%;">Abril</th>
+          </tr>
+
+        
+          <tr>
+            <th>Abril</th>
             <td>
-                <app-input-number-float style="width: 40%;margin-right:5px;"
-                class="input"
-                [id]="'abrilAsignado'"
-                [label]="form.abril.label"
-                [value]="form.abril.value"
-                [name]="form.abril.name"
-                [messages]="form.abril.messages"
-                [maxLength]="form.abril.maxLength"
-                [required]="form.abril.required"
-                (valueChange)="setData(form.abril.name, $event)">
-             </app-input-number-float>
-        
-             <app-input-number-float style="width: 40%;"
-                class="input"
-                [id]="'abrilTrabajado'"
-                [label]="form.abrilTrabajado.label"
-                [value]="form.abrilTrabajado.value"
-                [name]="form.abrilTrabajado.name"
-                [messages]="form.abrilTrabajado.messages"
-                [maxLength]="form.abrilTrabajado.maxLength"
-                [required]="form.abrilTrabajado.required"
-                (valueChange)="setData(form.abrilTrabajado.name, $event)">
-            </app-input-number-float>
+  
+              <app-input-number-float style="width: 20%;margin-right:5px;" class="input" [id]="'abrilAsignadoSAIDI'"
+                [label]="form.abrilSAIDI.label" [value]="form.abrilSAIDI.value" [name]="form.abrilSAIDI.name"
+                [messages]="form.abrilSAIDI.messages" [maxLength]="form.abrilSAIDI.maxLength"
+                [required]="form.abrilSAIDI.required" (valueChange)="setData(form.abrilSAIDI.name, $event)">
+              </app-input-number-float>
+  
+              <app-input-number-float style="width: 20%;margin-right:5px;" class="input" [id]="'abrilAsignadoSAIFI'"
+                [label]="form.abrilSAIFI.label" [value]="form.abrilSAIFI.value" [name]="form.abrilSAIFI.name"
+                [messages]="form.abrilSAIFI.messages" [maxLength]="form.abrilSAIFI.maxLength"
+                [required]="form.abrilSAIFI.required" (valueChange)="setData(form.abrilSAIFI.name, $event)">
+              </app-input-number-float>
+  
+              <app-input-number-float style="width: 20%;" class="input" [id]="'abrilTrabajadoSAIDI'"
+                [label]="form.abrilTrabajadoSAIDI.label" [value]="form.abrilTrabajadoSAIDI.value"
+                [name]="form.abrilTrabajadoSAIDI.name" [messages]="form.abrilTrabajadoSAIDI.messages"
+                [maxLength]="form.abrilTrabajadoSAIDI.maxLength" [required]="form.abrilTrabajadoSAIDI.required"
+                [disable]="form.abrilTrabajadoSAIDI.disable"
+                (valueChange)="setData(form.abrilTrabajadoSAIDI.name, $event)">
+              </app-input-number-float>
+  
+              <app-input-number-float style="width: 20%;" class="input" [id]="'abrilTrabajadoSAIFI'"
+                [label]="form.abrilTrabajadoSAIFI.label" [value]="form.abrilTrabajadoSAIFI.value"
+                [name]="form.abrilTrabajadoSAIFI.name" [messages]="form.abrilTrabajadoSAIFI.messages"
+                [maxLength]="form.abrilTrabajadoSAIFI.maxLength" [required]="form.abrilTrabajadoSAIFI.required"
+                [disable]="form.abrilTrabajadoSAIFI.disable"
+                (valueChange)="setData(form.abrilTrabajadSAIFI.name, $event)">
+              </app-input-number-float>
+  
             </td>
-            <th  style="width: 15%;">Octubre</th>
+            <th>Octubre</th>
             <td>
-                <app-input-number-float style="width: 40%;margin-right:5px;"
-                class="input"
-                [id]="'octubreAsignado'"
-                [label]="form.octubre.label"
-                [value]="form.octubre.value"
-                [name]="form.octubre.name"
-                [messages]="form.octubre.messages"
-                [maxLength]="form.octubre.maxLength"
-                [required]="form.octubre.required"
-                (valueChange)="setData(form.octubre.name, $event)">
-             </app-input-number-float>
-        
-             <app-input-number-float style="width: 40%;"
-                class="input"
-                [id]="'octubreTrabajado'"
-                [label]="form.octubreTrabajado.label"
-                [value]="form.octubreTrabajado.value"
-                [name]="form.octubreTrabajado.name"
-                [messages]="form.octubreTrabajado.messages"
-                [maxLength]="form.octubreTrabajado.maxLength"
-                [required]="form.octubreTrabajado.required"
-                (valueChange)="setData(form.octubreTrabajado.name, $event)">
+  
+              <app-input-number-float style="width: 20%;margin-right:5px;" class="input" [id]="'octubreAsignadoSAIDI'"
+                [label]="form.octubreSAIDI.label" [value]="form.octubreSAIDI.value" [name]="form.octubreSAIDI.name"
+                [messages]="form.octubreSAIDI.messages" [maxLength]="form.octubreSAIDI.maxLength" [required]="form.octubreSAIDI.required"
+                (valueChange)="setData(form.octubreSAIDI.name, $event)">
+              </app-input-number-float>
+  
+              <app-input-number-float style="width: 20%;margin-right:5px;" class="input" [id]="'octubreAsignadoSAIFI'"
+                [label]="form.octubreSAIFI.label" [value]="form.octubreSAIFI.value" [name]="form.octubreSAIFI.name"
+                [messages]="form.octubreSAIFI.messages" [maxLength]="form.octubreSAIFI.maxLength" [required]="form.octubreSAIFI.required"
+                (valueChange)="setData(form.octubreSAIFI.name, $event)">
+              </app-input-number-float>
+  
+              <app-input-number-float style="width: 20%;" class="input" [id]="'octubreTrabajadoSAIDI'"
+                [label]="form.octubreTrabajadoSAIDI.label" [value]="form.octubreTrabajadoSAIDI.value" [name]="form.octubreTrabajadoSAIDI.name"
+                [messages]="form.octubreTrabajadoSAIDI.messages" [maxLength]="form.octubreTrabajadoSAIDI.maxLength"
+                [required]="form.octubreTrabajadoSAIDI.required" [disable]="form.octubreTrabajadoSAIDI.disable"
+                (valueChange)="setData(form.octubreTrabajadoSAIDI.name, $event)">
+              </app-input-number-float>
+  
+              <app-input-number-float style="width: 20%;" class="input" [id]="'octubreTrabajadoSAIFI'"
+              [label]="form.octubreTrabajadoSAIFI.label" [value]="form.octubreTrabajadoSAIFI.value" [name]="form.octubreTrabajadoSAIFI.name"
+              [messages]="form.octubreTrabajadoSAIFI.messages" [maxLength]="form.octubreTrabajadoSAIFI.maxLength"
+              [required]="form.octubreTrabajadoSAIFI.required" [disable]="form.octubreTrabajadoSAIFI.disable"
+              (valueChange)="setData(form.octubreTrabajadoSAIFI.name, $event)">
             </app-input-number-float>
+  
             </td>
-        </tr>
-        <tr>
-            <th  style="width: 15%;">Mayo</th>
+          </tr>
+
+          <tr>
+            <th>Mayo</th>
             <td>
-                <app-input-number-float style="width: 40%;margin-right:5px;"
-                class="input"
-                [id]="'mayoAsignado'"
-                [label]="form.mayo.label"
-                [value]="form.mayo.value"
-                [name]="form.mayo.name"
-                [messages]="form.mayo.messages"
-                [maxLength]="form.mayo.maxLength"
-                [required]="form.mayo.required"
-                (valueChange)="setData(form.mayo.name, $event)">
-             </app-input-number-float>
-        
-             <app-input-number-float style="width: 40%;"
-                class="input"
-                [id]="'mayoTrabajado'"
-                [label]="form.mayoTrabajado.label"
-                [value]="form.mayoTrabajado.value"
-                [name]="form.mayoTrabajado.name"
-                [messages]="form.mayoTrabajado.messages"
-                [maxLength]="form.mayoTrabajado.maxLength"
-                [required]="form.mayoTrabajado.required"
-                (valueChange)="setData(form.mayoTrabajado.name, $event)">
-            </app-input-number-float>
+  
+              <app-input-number-float style="width: 20%;margin-right:5px;" class="input" [id]="'mayoAsignadoSAIDI'"
+                [label]="form.mayoSAIDI.label" [value]="form.mayoSAIDI.value" [name]="form.mayoSAIDI.name"
+                [messages]="form.mayoSAIDI.messages" [maxLength]="form.mayoSAIDI.maxLength"
+                [required]="form.mayoSAIDI.required" (valueChange)="setData(form.mayoSAIDI.name, $event)">
+              </app-input-number-float>
+  
+              <app-input-number-float style="width: 20%;margin-right:5px;" class="input" [id]="'mayoAsignadoSAIFI'"
+                [label]="form.mayoSAIFI.label" [value]="form.mayoSAIFI.value" [name]="form.mayoSAIFI.name"
+                [messages]="form.mayoSAIFI.messages" [maxLength]="form.mayoSAIFI.maxLength"
+                [required]="form.mayoSAIFI.required" (valueChange)="setData(form.mayoSAIFI.name, $event)">
+              </app-input-number-float>
+  
+              <app-input-number-float style="width: 20%;" class="input" [id]="'mayoTrabajadoSAIDI'"
+                [label]="form.mayoTrabajadoSAIDI.label" [value]="form.mayoTrabajadoSAIDI.value"
+                [name]="form.mayoTrabajadoSAIDI.name" [messages]="form.mayoTrabajadoSAIDI.messages"
+                [maxLength]="form.mayoTrabajadoSAIDI.maxLength" [required]="form.mayoTrabajadoSAIDI.required"
+                [disable]="form.mayoTrabajadoSAIDI.disable"
+                (valueChange)="setData(form.mayoTrabajadoSAIDI.name, $event)">
+              </app-input-number-float>
+  
+              <app-input-number-float style="width: 20%;" class="input" [id]="'mayoTrabajadoSAIFI'"
+                [label]="form.mayoTrabajadoSAIFI.label" [value]="form.mayoTrabajadoSAIFI.value"
+                [name]="form.mayoTrabajadoSAIFI.name" [messages]="form.mayoTrabajadoSAIFI.messages"
+                [maxLength]="form.mayoTrabajadoSAIFI.maxLength" [required]="form.mayoTrabajadoSAIFI.required"
+                [disable]="form.mayoTrabajadoSAIFI.disable"
+                (valueChange)="setData(form.mayoTrabajadSAIFI.name, $event)">
+              </app-input-number-float>
+  
             </td>
-            <th  style="width: 15%;">Noviembre</th>
+            <th>noviembre</th>
             <td>
-                <app-input-number-float style="width: 40%;margin-right:5px;"
-                class="input"
-                [id]="'noviembreAsignado'"
-                [label]="form.noviembre.label"
-                [value]="form.noviembre.value"
-                [name]="form.noviembre.name"
-                [messages]="form.noviembre.messages"
-                [maxLength]="form.noviembre.maxLength"
-                [required]="form.noviembre.required"
-                (valueChange)="setData(form.noviembre.name, $event)">
-             </app-input-number-float>
-        
-             <app-input-number-float style="width: 40%;"
-                class="input"
-                [id]="'noviembreTrabajado'"
-                [label]="form.noviembreTrabajado.label"
-                [value]="form.noviembreTrabajado.value"
-                [name]="form.noviembreTrabajado.name"
-                [messages]="form.noviembreTrabajado.messages"
-                [maxLength]="form.noviembreTrabajado.maxLength"
-                [required]="form.noviembreTrabajado.required"
-                (valueChange)="setData(form.noviembreTrabajado.name, $event)">
+  
+              <app-input-number-float style="width: 20%;margin-right:5px;" class="input" [id]="'noviembreAsignadoSAIDI'"
+                [label]="form.noviembreSAIDI.label" [value]="form.noviembreSAIDI.value" [name]="form.noviembreSAIDI.name"
+                [messages]="form.noviembreSAIDI.messages" [maxLength]="form.noviembreSAIDI.maxLength" [required]="form.noviembreSAIDI.required"
+                (valueChange)="setData(form.noviembreSAIDI.name, $event)">
+              </app-input-number-float>
+  
+              <app-input-number-float style="width: 20%;margin-right:5px;" class="input" [id]="'noviembreAsignadoSAIFI'"
+                [label]="form.noviembreSAIFI.label" [value]="form.noviembreSAIFI.value" [name]="form.noviembreSAIFI.name"
+                [messages]="form.noviembreSAIFI.messages" [maxLength]="form.noviembreSAIFI.maxLength" [required]="form.noviembreSAIFI.required"
+                (valueChange)="setData(form.noviembreSAIFI.name, $event)">
+              </app-input-number-float>
+  
+              <app-input-number-float style="width: 20%;" class="input" [id]="'noviembreTrabajadoSAIDI'"
+                [label]="form.noviembreTrabajadoSAIDI.label" [value]="form.noviembreTrabajadoSAIDI.value" [name]="form.noviembreTrabajadoSAIDI.name"
+                [messages]="form.noviembreTrabajadoSAIDI.messages" [maxLength]="form.noviembreTrabajadoSAIDI.maxLength"
+                [required]="form.noviembreTrabajadoSAIDI.required" [disable]="form.noviembreTrabajadoSAIDI.disable"
+                (valueChange)="setData(form.noviembreTrabajadoSAIDI.name, $event)">
+              </app-input-number-float>
+  
+              <app-input-number-float style="width: 20%;" class="input" [id]="'noviembreTrabajadoSAIFI'"
+              [label]="form.noviembreTrabajadoSAIFI.label" [value]="form.noviembreTrabajadoSAIFI.value" [name]="form.noviembreTrabajadoSAIFI.name"
+              [messages]="form.noviembreTrabajadoSAIFI.messages" [maxLength]="form.noviembreTrabajadoSAIFI.maxLength"
+              [required]="form.noviembreTrabajadoSAIFI.required" [disable]="form.noviembreTrabajadoSAIFI.disable"
+              (valueChange)="setData(form.noviembreTrabajadoSAIFI.name, $event)">
             </app-input-number-float>
+  
             </td>
-        </tr>
-        <tr>
-            <th  style="width: 15%;">Junio</th>
+          </tr>
+
+          <tr>
+            <th>Junio</th>
             <td>
-                <app-input-number-float style="width: 40%;margin-right:5px;"
-                class="input"
-                [id]="'junioAsignado'"
-                [label]="form.junio.label"
-                [value]="form.junio.value"
-                [name]="form.junio.name"
-                [messages]="form.junio.messages"
-                [maxLength]="form.junio.maxLength"
-                [required]="form.junio.required"
-                (valueChange)="setData(form.junio.name, $event)">
-             </app-input-number-float>
-        
-             <app-input-number-float style="width: 40%;"
-                class="input"
-                [id]="'junioTrabajado'"
-                [label]="form.junioTrabajado.label"
-                [value]="form.junioTrabajado.value"
-                [name]="form.junioTrabajado.name"
-                [messages]="form.junioTrabajado.messages"
-                [maxLength]="form.junioTrabajado.maxLength"
-                [required]="form.junioTrabajado.required"
-                (valueChange)="setData(form.junioTrabajado.name, $event)">
-            </app-input-number-float>
+  
+              <app-input-number-float style="width: 20%;margin-right:5px;" class="input" [id]="'junioAsignadoSAIDI'"
+                [label]="form.junioSAIDI.label" [value]="form.junioSAIDI.value" [name]="form.junioSAIDI.name"
+                [messages]="form.junioSAIDI.messages" [maxLength]="form.junioSAIDI.maxLength"
+                [required]="form.junioSAIDI.required" (valueChange)="setData(form.junioSAIDI.name, $event)">
+              </app-input-number-float>
+  
+              <app-input-number-float style="width: 20%;margin-right:5px;" class="input" [id]="'junioAsignadoSAIFI'"
+                [label]="form.junioSAIFI.label" [value]="form.junioSAIFI.value" [name]="form.junioSAIFI.name"
+                [messages]="form.junioSAIFI.messages" [maxLength]="form.junioSAIFI.maxLength"
+                [required]="form.junioSAIFI.required" (valueChange)="setData(form.junioSAIFI.name, $event)">
+              </app-input-number-float>
+  
+              <app-input-number-float style="width: 20%;" class="input" [id]="'junioTrabajadoSAIDI'"
+                [label]="form.junioTrabajadoSAIDI.label" [value]="form.junioTrabajadoSAIDI.value"
+                [name]="form.junioTrabajadoSAIDI.name" [messages]="form.junioTrabajadoSAIDI.messages"
+                [maxLength]="form.junioTrabajadoSAIDI.maxLength" [required]="form.junioTrabajadoSAIDI.required"
+                [disable]="form.junioTrabajadoSAIDI.disable"
+                (valueChange)="setData(form.junioTrabajadoSAIDI.name, $event)">
+              </app-input-number-float>
+  
+              <app-input-number-float style="width: 20%;" class="input" [id]="'junioTrabajadoSAIFI'"
+                [label]="form.junioTrabajadoSAIFI.label" [value]="form.junioTrabajadoSAIFI.value"
+                [name]="form.junioTrabajadoSAIFI.name" [messages]="form.junioTrabajadoSAIFI.messages"
+                [maxLength]="form.junioTrabajadoSAIFI.maxLength" [required]="form.junioTrabajadoSAIFI.required"
+                [disable]="form.junioTrabajadoSAIFI.disable"
+                (valueChange)="setData(form.junioTrabajadSAIFI.name, $event)">
+              </app-input-number-float>
+  
             </td>
-            <th  style="width: 15%;">Diciembre</th>
+            <th>Diciembre</th>
             <td>
-                <app-input-number-float style="width: 40%;margin-right:5px;"
-                class="input"
-                [id]="'diciembreAsignado'"
-                [label]="form.diciembre.label"
-                [value]="form.diciembre.value"
-                [name]="form.diciembre.name"
-                [messages]="form.diciembre.messages"
-                [maxLength]="form.diciembre.maxLength"
-                [required]="form.diciembre.required"
-                (valueChange)="setData(form.diciembre.name, $event)">
-             </app-input-number-float>
-        
-             <app-input-number-float style="width: 40%;"
-                class="input"
-                [id]="'diciembreTrabajado'"
-                [label]="form.diciembreTrabajado.label"
-                [value]="form.diciembreTrabajado.value"
-                [name]="form.diciembreTrabajado.name"
-                [messages]="form.diciembreTrabajado.messages"
-                [maxLength]="form.diciembreTrabajado.maxLength"
-                [required]="form.diciembreTrabajado.required"
-                (valueChange)="setData(form.diciembreTrabajado.name, $event)">
+  
+              <app-input-number-float style="width: 20%;margin-right:5px;" class="input" [id]="'diciembreAsignadoSAIDI'"
+                [label]="form.diciembreSAIDI.label" [value]="form.diciembreSAIDI.value" [name]="form.diciembreSAIDI.name"
+                [messages]="form.diciembreSAIDI.messages" [maxLength]="form.diciembreSAIDI.maxLength" [required]="form.diciembreSAIDI.required"
+                (valueChange)="setData(form.diciembreSAIDI.name, $event)">
+              </app-input-number-float>
+  
+              <app-input-number-float style="width: 20%;margin-right:5px;" class="input" [id]="'diciembreAsignadoSAIFI'"
+                [label]="form.diciembreSAIFI.label" [value]="form.diciembreSAIFI.value" [name]="form.diciembreSAIFI.name"
+                [messages]="form.diciembreSAIFI.messages" [maxLength]="form.diciembreSAIFI.maxLength" [required]="form.diciembreSAIFI.required"
+                (valueChange)="setData(form.diciembreSAIFI.name, $event)">
+              </app-input-number-float>
+  
+              <app-input-number-float style="width: 20%;" class="input" [id]="'diciembreTrabajadoSAIDI'"
+                [label]="form.diciembreTrabajadoSAIDI.label" [value]="form.diciembreTrabajadoSAIDI.value" [name]="form.diciembreTrabajadoSAIDI.name"
+                [messages]="form.diciembreTrabajadoSAIDI.messages" [maxLength]="form.diciembreTrabajadoSAIDI.maxLength"
+                [required]="form.diciembreTrabajadoSAIDI.required" [disable]="form.diciembreTrabajadoSAIDI.disable"
+                (valueChange)="setData(form.diciembreTrabajadoSAIDI.name, $event)">
+              </app-input-number-float>
+  
+              <app-input-number-float style="width: 20%;" class="input" [id]="'diciembreTrabajadoSAIFI'"
+              [label]="form.diciembreTrabajadoSAIFI.label" [value]="form.diciembreTrabajadoSAIFI.value" [name]="form.diciembreTrabajadoSAIFI.name"
+              [messages]="form.diciembreTrabajadoSAIFI.messages" [maxLength]="form.diciembreTrabajadoSAIFI.maxLength"
+              [required]="form.diciembreTrabajadoSAIFI.required" [disable]="form.diciembreTrabajadoSAIFI.disable"
+              (valueChange)="setData(form.diciembreTrabajadoSAIFI.name, $event)">
             </app-input-number-float>
+  
             </td>
-        </tr>
+          </tr>
+    
+
     </table>
     
 
