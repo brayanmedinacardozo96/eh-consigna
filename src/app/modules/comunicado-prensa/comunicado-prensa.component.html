@@ -60,10 +60,13 @@
   </div>
 
   <button mat-fab color="accent"
+          *appUserCan="['consignas-modulo-principal-comunicados-de-prensa-crear']"
           [routerLink]="['/comunicado-prensa/new']"
           matTooltip="Nuevo comunicado de prensa"
           class="custom-float-button">
     <mat-icon style="color: #FFFFFF;">add</mat-icon>
   </button>
+
+  
 
 </div>

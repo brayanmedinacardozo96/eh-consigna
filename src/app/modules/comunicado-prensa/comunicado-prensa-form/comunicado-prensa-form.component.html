@@ -194,10 +194,13 @@
       </fieldset>
 
       <div style="text-align: center;">
-        <button *ngIf="guardar" (click)="guardarComunicadoPrensa()" mat-raised-button color="accent" class="button"
-                style="color: #FFFFFF; margin: 5px;">
-          GUARDAR
-        </button>
+        <div *appUserCan="['consignas-modulo-principal-comunicados-de-prensa-crear']">
+          <button *ngIf="guardar" (click)="guardarComunicadoPrensa()" mat-raised-button color="accent" class="button"
+            style="color: #FFFFFF; margin: 5px;">
+            GUARDAR
+          </button>
+        </div>
+
         <button (click)="cancel()" mat-raised-button color="accent" class="button" style="color: #FFFFFF; margin: 5px;">
           CANCELAR
         </button>
