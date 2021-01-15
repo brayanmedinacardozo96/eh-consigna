@@ -127,7 +127,7 @@ export class ConsignaListComponent implements OnInit {
 
 
   aprobarConsigna(id){
-    this.router.navigateByUrl('autorizar/'+id);
+    this.router.navigateByUrl('autorizar/'+id+'/n');
   }
 
   async consignaAprobar()

@@ -186,4 +186,9 @@ export class BitacoraListComponent implements OnInit {
   
   }
 
+  cambiarEstado(row)
+  {
+    window.open(`${environment.urlapp}autorizar/${row.id}/v`,"MsgWindow", "width=1200,height=600");
+  }
+
 }

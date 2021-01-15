@@ -35,7 +35,7 @@ const routes: Routes = [
   , {path: 'consigna/editar/:id/:tipo', component: ConsignaTabsComponent, canActivate: [AuthGuard]}
   , {path: 'trabajo-oportunidad/:code', component: ConsignaTabsComponent, canActivate: [AuthGuard]}
   , {path: 'maniobra', component: ManiobraComponent, canActivate: [AuthGuard]}
-  , {path: 'autorizar/:id', component: AutorizarComponent, canActivate: [AuthGuard]}
+  , {path: 'autorizar/:id/:tipo', component: AutorizarComponent, canActivate: [AuthGuard]}
   , {path: 'autorizar', component: AutorizarComponent, canActivate: [AuthGuard]}
   , {path: 'jefe-zona/autorizar', component: AutorizarJefeZonaComponent, canActivate: [AuthGuard]}
   , {path: 'jefe-zona/autorizar/:id', component: AutorizarJefeZonaComponent, canActivate: [AuthGuard]}

@@ -142,6 +142,8 @@ export class BitacoraComponent implements OnInit {
 
     this.dataControls.estadoConsigna=[{id:"A",nombre:"Aprobada"},{id:"T",nombre:"Todas"}]
 
+    this.form.estadoConsigna.value="A"
+
   }
 
   setDelay() {

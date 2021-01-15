@@ -34,12 +34,20 @@ export class AutorizarComponent implements OnInit {
 
 
       if (params.id !== undefined && params.id !== null && params.id != "") {
+
+        if(params.tipo=="v")
+        {
+          document.getElementById("vtoolbar").style.visibility='hidden';
+        }
+
         if (isNaN(parseInt(params.id))) {
           this.buscarConsigna({numeroConsigna: {value: params.id}});
         } else {
           this.buscarConsigna({consignacion_id: {value: params.id}});
         }
       }
+
+
     });
   }
 
@@ -297,7 +305,6 @@ export class AutorizarComponent implements OnInit {
 
     if (this.validateEmptyFields()) {
 
-
       this.dialogo
         .open(ModalConfirmComponent, {
           data: new Mensaje("Consigna # " + this.form.numeroConsigna.value, "Cambiar el estado a: " + textEstado)
@@ -387,6 +394,10 @@ export class AutorizarComponent implements OnInit {
     const response = await this.api.post(`${environment.apiBackend}/consigna/putActualizarEstado`, params);
     if (response.message == null) {
       mensaje = ["Se realizo el cambio de estado de forma exitosa.", "btn-success"];
+      if (document.getElementById("vtoolbar").style.visibility == 'hidden') {
+        document.getElementById("vtoolbar").style.visibility == "visible"
+        window.close();
+      }
       this.limpiar();
     }
 
