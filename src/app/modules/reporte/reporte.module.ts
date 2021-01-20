@@ -17,10 +17,11 @@ import {ConsignaModule} from '../consigna/consigna.module';
 import {MatSortModule} from "@angular/material/sort";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import { ProgramacionComponent } from './programacion/programacion.component';
-import {ReporteComponent} from './reporte.component'
+import {ReporteComponent} from './reporte.component';
+import { IndicadoresPowerBiComponent } from './indicadores-power-bi/indicadores-power-bi.component'
 @NgModule({
   declarations: [
-  ProgramacionComponent,ReporteComponent],
+  ProgramacionComponent,ReporteComponent, IndicadoresPowerBiComponent],
   imports: [
     CommonModule,
     MatCardModule,
