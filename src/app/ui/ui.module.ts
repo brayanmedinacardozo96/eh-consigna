@@ -19,9 +19,10 @@ import {MatBadgeModule} from '@angular/material/badge';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatButtonModule} from "@angular/material/button";
+import { DynamicDialogComponent } from './dynamic-dialog/dynamic-dialog.component';
 
 @NgModule({
-  declarations: [HeaderComponent, FooterComponent, LoadingComponent, NotFoundComponent, ConfirmDialogComponent],
+  declarations: [HeaderComponent, FooterComponent, LoadingComponent, NotFoundComponent, ConfirmDialogComponent, DynamicDialogComponent],
   imports: [
     CommonModule,
     MatToolbarModule,
