@@ -47,8 +47,6 @@ export class Auth {
 
   public static logout() {
     localStorage.removeItem('token_consignas');
-    localStorage.clear();
-    sessionStorage.clear();
   }
 
   public static getUserDataPerson() {
