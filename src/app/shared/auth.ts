@@ -3,14 +3,13 @@ import {environment} from "../../environments/environment";
 export class Auth {
 
   public static login(token) {
-    localStorage.setItem('token', atob(token));
+    localStorage.setItem('token_consignas', atob(token));
   }
 
   public static getLogin() {
-     
-    const token = localStorage.getItem('token');
-    if(token==null)
-    {
+
+    const token = localStorage.getItem('token_consignas');
+    if (token == null) {
       return null;
     }
     const tokenParse = JSON.parse(token);
@@ -47,19 +46,18 @@ export class Auth {
   }
 
   public static logout() {
-    localStorage.removeItem('token');
+    localStorage.removeItem('token_consignas');
     localStorage.clear();
     sessionStorage.clear();
   }
 
   public static getUserDataPerson() {
     const token = this.getLogin();
-    if(token!=null)
-    {
+    if (token != null) {
       const person = token.user_data.person;
       return person;
     }
-    
+
   }
 
 }
