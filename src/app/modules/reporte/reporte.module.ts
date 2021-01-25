@@ -16,12 +16,16 @@ import {MatTableModule} from '@angular/material/table';
 import {ConsignaModule} from '../consigna/consigna.module';
 import {MatSortModule} from "@angular/material/sort";
 import {MatTooltipModule} from "@angular/material/tooltip";
-import { ProgramacionComponent } from './programacion/programacion.component';
 import {ReporteComponent} from './reporte.component';
-import { IndicadoresPowerBiComponent } from './indicadores-power-bi/indicadores-power-bi.component'
+import { IndicadoresPowerBiComponent } from './indicadores-power-bi/indicadores-power-bi.component';
+import { TableProgramacionComponent } from './table-programacion/table-programacion.component'
+
 @NgModule({
   declarations: [
-  ProgramacionComponent,ReporteComponent, IndicadoresPowerBiComponent],
+    ReporteComponent, 
+    IndicadoresPowerBiComponent, 
+    TableProgramacionComponent
+  ],
   imports: [
     CommonModule,
     MatCardModule,

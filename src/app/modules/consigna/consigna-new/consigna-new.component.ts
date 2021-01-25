@@ -1405,7 +1405,7 @@ export class ConsignaNewComponent implements OnInit {
           // Se realiza el llamado del api que obtiene la data del mapa a partir del key
           if(environment.debug && environment.production){
             //https://enlinea.electrohuila.com.co/back-consignas/public/api
-            response = await apiLocal.get(`${environment.apiBackend}/integracion-mapa/get/${key}`);
+            response = await apiLocal.get(`https://enlinea.electrohuila.com.co/back-consignas/public/api/integracion-mapa/get/${key}`);
           }else{
             response = await apiLocal.get(`${environment.apiBackend}/integracion-mapa/get/${key}`);
           }
@@ -2017,7 +2017,7 @@ export class ConsignaNewComponent implements OnInit {
         }
       }
 
-      if(code == 'CTA'){
+      if(code == 'CTA' || code == 'PDI'){
         this.form.terceroNumeroContrato.visible = true
         this.form.terceroNumeroContrato.required = true
 

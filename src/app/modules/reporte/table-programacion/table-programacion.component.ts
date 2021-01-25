@@ -2,15 +2,17 @@ import { Component, OnInit,ViewChild,Output,EventEmitter,Input  } from '@angular
 import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
+import { DynamicDialogComponent, DynamicDialogModel } from './../../../ui/dynamic-dialog/dynamic-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-programacion',
-  templateUrl: './programacion.component.html',
-  styleUrls: ['./programacion.component.scss']
+  selector: 'app-table-programacion',
+  templateUrl: './table-programacion.component.html',
+  styleUrls: ['./table-programacion.component.scss']
 })
-export class ProgramacionComponent implements OnInit {
+export class TableProgramacionComponent implements OnInit {
 
-  displayedColumns: string[] = ['zonacodigo','estado', 'consigna', 'estadoequipo','elemento','fech_inicio_prog','hora_inicio_prog','fech_final_prog','hora_final_prog'];
+  displayedColumns: string[] = [];
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
@@ -19,7 +21,13 @@ export class ProgramacionComponent implements OnInit {
     this.init(data);
   }
 
-  constructor() { }
+  @Input() set setDisplayedColumns(data){
+    this.displayedColumns = data;
+  }
+
+  @Input() tableHeader;
+
+  constructor(private dialog: MatDialog) { }
 
   ngOnInit(): void {
   }
@@ -37,6 +45,14 @@ export class ProgramacionComponent implements OnInit {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+
+  verInformcion(name, data){
+    const dialogData = new DynamicDialogModel(`<div class="title-modal"><b>${name}</b></div>`, data, 'Aceptar', null, 'end');
+    const dialogRef = this.dialog.open(DynamicDialogComponent, {
+      maxWidth: '90%',
+      data: dialogData
+    });
   }
 
 }

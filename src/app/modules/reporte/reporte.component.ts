@@ -1,7 +1,4 @@
-import {
-  Component,
-  OnInit
-} from '@angular/core';
+import {Component,  OnInit} from '@angular/core';
 import {SessionService} from './../../shared/services/session.service';
 import {environment} from 'src/environments/environment';
 import { ApiService} from '../../shared/services/api.service';
@@ -11,6 +8,7 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import {Aprobar} from '../../modules/autorizar/aprobar';
 import {Auth} from '../../shared/auth';
 import { User } from '../../shared/models/user';
+import { DateValidationervice } from './../../shared/services/date-validations.service';
 import * as moment from 'moment';
 
 @Component({
@@ -24,7 +22,8 @@ export class ReporteComponent implements OnInit {
     private validations: ValidationService,
     private snackBar: MatSnackBar,
     private aprobar:Aprobar,
-    private apiService: ApiService, ) {}
+    private apiService: ApiService, 
+    private dateValidation: DateValidationervice,) {}
 
   form = {
     reporte: {
@@ -54,110 +53,82 @@ export class ReporteComponent implements OnInit {
       name: 'estadoConsigna',
       value: null,
       messages: null,
-      required: true,
+      required: false,
+    },
+    solicitadaTercero: {
+      label: 'Solicitada por un tercero',
+      name: 'solicitada_tercero',
+      value: null,
+      disabled: false,
+      messages: null,
+      required: false,
+    },
+    tipoTercero: {
+      label: 'Tipo tercero',
+      name: 'tipo_tercero',
+      value: null,
+      disabled: false,
+      messages: null,
+      visible: false,
+      required: false,
+    },
+    terceroNumeroContrato: {
+      label: 'Número Contrato',
+      name: 'terceroNumeroContrato',
+      value: null,
+      messages: null,
+      required: false,
+      length: 20,
+      disabled: false,
+      visible: false
+    },
+    terceroAnio: {
+      label: 'Año del Contrato',
+      name: 'terceroAnio',
+      value: null,
+      messages: null,
+      required: false,
+      disabled: false,
+      visible: false
     },
   }
 
   dataControls = {
     reporte: [],
-    estadoConsigna: []
+    estadoConsignacion: [],
+    tipoTerceros: [],
+    solicitadaTercero:[ 
+      {id: "1",nombre: "Si"},
+      {id: "0", nombre: "No"}
+    ],
+    selectYear: this.dateValidation.getSelectCurrentDate(true),
   }
 
-  dataProgramacion = [{
-    zonacodigo: "",
-    zonanombre: "",
-    estado: "",
-    consigna: "",
-    estadoequipo: "",
-    elemento: "",
-    fech_inicio_prog: "",
-    hora_inicio_prog: "",
-    fech_final_prog: "",
-    hora_final_prog: ""
-  }];
-
-  dataHeader = []
-  dataExcel=[];
+  dataExcel = [];
+  dataHeader = [];
   auth = Auth;
 
+  displayedColumns: string[] = [];
+  data = [];
+
   ngOnInit(): void {
-    this.getDataSelectConsigna();
-    this.session.remove('estadoConsigna');
-    this.getReporte();
-
+    this.getDataControls();
   }
 
-  setSelect() {
-    this.dataControls.estadoConsigna = this.session.getItem('estadoConsigna');
-  
-  }
-
-  async getDataSelectConsigna() {
-    if (this.session.getItem('estadoConsigna') == null) {
-      const response = await this.session.getDataSelectConsigna();
-      if (response.success) {
-        this.setSelect();
+  async getDataControls(){
+    const response = await this.apiService.get(`${environment.apiBackend}/reporte/get-data-controls`);
+    let data = response.data;
+    if(response.success){
+      for(let obj in data){
+        if(data.hasOwnProperty(obj)){
+          this.dataControls[obj] = data[obj];
+        }        
       }
-    } else {
-      this.setSelect();
-    }
-  }
-
-  async getReporte() {
-
-    const response = await this.apiService.get(`${environment.apiBackend}/parametro/getParametroCodigoTipo/REPOR`);
-
-    if (response.data.length > 0) {
-      this.dataControls.reporte = response.data;
-    }
-
-
-  }
-  
-  tipoReporte(tipo) {
-    switch (tipo) {
-      case 'RConsignac':
-        this.dataHeader.push({
-            name: 'Zona',
-            nameColumn: 'zonacodigo'
-          }, {
-            name: 'Estado',
-            nameColumn: 'estado'
-          }, {
-            name: 'No. Consigna',
-            nameColumn: 'consigna'
-          }, {
-            name: 'Estado equipo',
-            nameColumn: 'estadoequipo'
-          }, {
-            name: 'Elemento consignado',
-            nameColumn: 'elemento'
-          }, {
-            name: 'Fecha inicio',
-            nameColumn: 'fech_inicio_prog'
-          }, {
-            name: 'Hora inicio',
-            nameColumn: 'hora_inicio_prog'
-          }, {
-            name: 'Fecha final',
-            nameColumn: 'fech_final_prog'
-          }, {
-            name: 'Hora final',
-            nameColumn: 'hora_final_prog'
-          }
-
-        )
-        break;
-
-      default:
-        break;
-    }
+    }      
   }
 
   setData(name, event) {
-
     this.form[name].value = event;
-
   }
 
   async consultar() {
@@ -170,31 +141,40 @@ export class ReporteComponent implements OnInit {
       var obj = {
         reporte: this.form.reporte.value,
         estado: this.form.estadoConsigna.value,
-        fechaInicio: moment(this.form.fechaInicio.value).format("YYYY/MM/DD"),
-        fechaFin: moment(this.form.fechaFin.value).format("YYYY/MM/DD"),
+        fechaInicio: this.form.fechaInicio.value != null ? moment(this.form.fechaInicio.value).format("YYYY/MM/DD"):null,
+        fechaFin: this.form.fechaFin.value != null ? moment(this.form.fechaFin.value).format("YYYY/MM/DD"):null,
         perfil:result.length>0?true:false,
-        idUsuario:user.id
+        idUsuario:user.id,
+        solicitadaTercero: this.form.solicitadaTercero.value,
+        tipoTerceroId: this.form.tipoTercero.value,
+        terceroNumeroContrato: this.form.terceroNumeroContrato.value,
+        terceroAnioContrato: this.form.terceroAnio.value
       }
 
-      const response = await this.apiService.post(`${environment.apiBackend}/reporte/reporte`, obj);
-      if (response.message == null && response.data != null) {
+      this.dataExcel = [];
 
-        if (response.data.length > 0) {
-          this.dataProgramacion = response.data;
-          this.tipoReporte(obj.reporte);
-          this.dataExcel = response.data;
-        } else {
-          new SnackBarClass(this.snackBar, 'No se encontraron registros.', 'btn-warning').openSnackBar();
+      const response = await this.apiService.post(`${environment.apiBackend}/reporte/reporte`, obj);
+      if (response.success) {
+        this.displayedColumns = [];
+        this.dataHeader = response.data.tableHeader;
+        this.data = response.data.dataList;
+        if(this.data.length < 1){
+          new SnackBarClass(this.snackBar, 'No se encontraron registros con los parámetros ingresados.', 'btn-warning').openSnackBar();  
+        }else{
+          this.dataExcel = this.data;
+  
+          for(let value of response.data.tableHeader){
+            this.displayedColumns.push(value.nameColumn);
+          }
         }
 
       } else {
-        new SnackBarClass(this.snackBar, 'No se puede realizar esta acción.', 'btn-danger').openSnackBar();
+        new SnackBarClass(this.snackBar, 'No se puede realizar esta acción.', 'btn-warning').openSnackBar();
       }
     }
   }
 
   validateEmptyFields() {
-
     let success = true;
 
     if (!this.validations.validateEmptyFields(this.form).success) {
@@ -205,9 +185,55 @@ export class ReporteComponent implements OnInit {
   }
 
   limpiar() {
+    this.dataExcel = [];
+    for(let obj in this.form){
+      this.form[obj].value = null;
+      this.form[obj].message = '';
+    }
+    this.validarSelectSolicitaTercero();
+    this.validarTipoTercero();
+  }
 
+  validarSelectSolicitaTercero(){
+    if(this.form.solicitadaTercero.value == "1"){
+      this.form.tipoTercero.visible = true;
+      this.form.tipoTercero.value = null;
+      // this.form.tipoTercero.required = true
+    }else{
+      this.form.tipoTercero.value = null;
+      this.form.tipoTercero.visible = false;
+      // this.form.tipoTercero.required = false
+    }
+    this.form.terceroNumeroContrato.value = null;
+    this.form.terceroNumeroContrato.visible = false;
+    this.form.terceroAnio.value = null;
+    this.form.terceroAnio.visible = false;
+  }
 
+  validarTipoTercero(){
+    let visible = false;
+    let data = this.dataControls.tipoTerceros.find(data => data.id == parseInt(this.form.tipoTercero.value));
 
+    if(data != undefined){
+      if(data.codigo == 'CTA' || data.codigo == 'PDI'){
+        visible = true;
+      }else{
+        visible = false;
+      }
+    }
+
+    if(visible){
+      this.form.terceroNumeroContrato.visible = true
+  
+      this.form.terceroAnio.visible = true  
+    }else{
+      this.form.terceroNumeroContrato.value = null
+      this.form.terceroNumeroContrato.visible = false
+  
+      this.form.terceroAnio.value = null
+      this.form.terceroAnio.visible = false
+    }
+    
   }
 
 }
