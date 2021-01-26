@@ -141,18 +141,19 @@ export class ConsignaComponent implements OnInit {
   }
 
   async search() {
-    const responseValidate = this.validations.validateACompleteField(this.form);
-    if(responseValidate.success){
-      this.data = [];
-      const response = await this.api.post(`${environment.apiBackend}/consigna/get-list`, this.form);
-      if(response.success){
-        this.data = response.data;
-        this.session.setItem('dataConsigna',this.data);//agregar en la variable de session
-        if(this.data.length < 1){
-          this.snackBar.alert('No se encontraron registros con los parámetros consultados.',5000);
-        }
+    const validateEmptyFields = this.validations.validateEmptyFields(this.form);
+    if(!validateEmptyFields.success){
+      return false;
+    }
+    
+    this.data = [];
+    const response = await this.api.post(`${environment.apiBackend}/consigna/get-list`, this.form);
+    if(response.success){
+      this.data = response.data;
+      this.session.setItem('dataConsigna',this.data);//agregar en la variable de session
+      if(this.data.length < 1){
+        this.snackBar.alert('No se encontraron registros con los parámetros consultados.',5000);
       }
-
     }
   }
 

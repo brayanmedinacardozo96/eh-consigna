@@ -46,7 +46,7 @@
 
             <mat-grid-tile class="col col-lg-12 col-sm-12">
                 <mat-form-field>
-                    <mat-label>{{form.tipoZona.label}}</mat-label>
+                    <mat-label>{{form.tipoZona.required ? form.tipoZona.label+' *' : form.tipoZona.value}}</mat-label>
                     <mat-select [(ngModel)]="form.tipoZona.value" style="padding-top: 5px;padding-bottom: 5px;">
                         <mat-option *ngFor="let value of dataControls?.tipoZona;" [value]="value.id">
                             {{value.nombre}}
@@ -58,7 +58,7 @@
 
             <mat-grid-tile class="col col-lg-4 col-sm-12">
                 <mat-form-field>
-                    <mat-label>{{form.tipoSolicitud.label}}</mat-label>
+                    <mat-label>{{form.tipoSolicitud.required ? form.tipoSolicitud.label+' *' : form.tipoSolicitud.label}}</mat-label>
                     <mat-select [(ngModel)]="form.tipoSolicitud.value" style="padding-top: 5px;padding-bottom: 5px;">
                         <mat-option *ngFor="let value of dataControls?.tipoSolicitud;" [value]="value.id">
                             {{value.nombre}}
@@ -70,7 +70,7 @@
 
             <mat-grid-tile class="col col-lg-4 col-sm-12">
                 <mat-form-field>
-                    <mat-label>{{form.tipoConsignacion.label}}</mat-label>
+                    <mat-label>{{form.tipoConsignacion.required ? form.tipoConsignacion.label+' *' : form.tipoConsignacion.label}}</mat-label>
                     <mat-select [(ngModel)]="form.tipoConsignacion.value" style="padding-top: 5px;padding-bottom: 5px;">
                         <mat-option *ngFor="let value of dataControls?.tipoConsignacion;" [value]="value.id">
                             {{value.nombre}}
@@ -93,7 +93,7 @@
 
             <mat-grid-tile class="col col-lg-4 col-sm-12">
                 <mat-form-field>
-                    <mat-label>{{form.estadoConsigna.label}}</mat-label>
+                    <mat-label>{{form.estadoConsigna.required ? form.estadoConsigna.label+' *' : form.estadoConsigna.label}}</mat-label>
                     <mat-select [(ngModel)]="form.estadoConsigna.value" style="padding-top: 5px;padding-bottom: 5px;">
                         <mat-option *ngFor="let value of dataControls?.estadoConsigna;" [value]="value.id">
                             {{value.nombre}}
@@ -105,7 +105,7 @@
 
             <mat-grid-tile class="col col-lg-4 col-sm-12">
                 <mat-form-field>
-                    <mat-label>{{form.estadoEquipo.label}}</mat-label>
+                    <mat-label>{{form.estadoEquipo.required ? form.estadoEquipo.label+' *' : form.estadoEquipo.label}}</mat-label>
                     <mat-select [(ngModel)]="form.estadoEquipo.value" style="padding-top: 5px;padding-bottom: 5px;">
                         <mat-option *ngFor="let value of dataControls?.estadoEquipo;" [value]="value.id">
                             {{value.nombre}}
@@ -117,7 +117,7 @@
 
             <mat-grid-tile class="col col-lg-4 col-sm-12">
                 <mat-form-field style="width: 95%;">
-                    <mat-label>{{form.solicitante.label}}</mat-label>
+                    <mat-label>{{form.solicitante.required ? form.solicitante.label+' *' : form.solicitante.label}}</mat-label>
                     <mat-select [(ngModel)]="form.solicitante.value" style="padding-top: 5px;padding-bottom: 5px;">
                         <mat-option *ngFor="let value of dataControls?.solicitante;" [value]="value.id">
                             {{value.identificacion}} - {{value.nombre}}
@@ -129,7 +129,7 @@
 
             <mat-grid-tile class="col col-lg-4 col-sm-12">
                 <mat-form-field style="width: 85%;">
-                    <mat-label>{{form.solicitadaTercero.label}}</mat-label>
+                    <mat-label>{{form.solicitadaTercero.required ? form.solicitadaTercero.label+' *' : form.solicitadaTercero.label}}</mat-label>
                     <mat-select [(ngModel)]="form.solicitadaTercero.value" style="padding-top: 5px;padding-bottom: 5px;">
                         <mat-option *ngFor="let value of dataControls?.solicitadaTercero;" [value]="value.id">
                             {{ value.nombre }}
