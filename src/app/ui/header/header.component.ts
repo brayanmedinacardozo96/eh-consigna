@@ -5,6 +5,7 @@ import {Router} from '@angular/router';
 import { ApiService } from '../../shared/services/api.service';
 import { User } from '../../shared/models/user';
 import {Aprobar} from '../../modules/autorizar/aprobar';
+import { NotifierService } from 'angular-notifier';
 
 @Component({
   selector: 'app-header',
@@ -23,6 +24,7 @@ export class HeaderComponent implements OnInit {
     private router: Router,
     private api: ApiService,
     private aprobar:Aprobar,
+    private notifier: NotifierService,
     ) {
     this.appName = environment.appName;
   }
@@ -62,6 +64,15 @@ export class HeaderComponent implements OnInit {
   {
     this.notificacion();
     this.router.navigate([`/mis-consignas/${tipo}`]);
+  }
+
+  async viewManual(){
+    const response = await this.api.get(`${environment.apiBackend}/documentos-slc/get-manual-usuario`);
+    if(response.success){
+      window.open(`${environment.urlFiles}/${response.data}`);
+    }else{
+      this.notifier.notify('warning',response.message);
+    }
   }
 
 }

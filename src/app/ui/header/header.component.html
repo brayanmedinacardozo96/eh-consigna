@@ -2,13 +2,25 @@
   <mat-toolbar-row>
     <div class="title">
       <div class="container-left" *ngIf="auth.getLogin()">
-        <span class="material-icons btn-logout"
+        <div class="material-icons btn-logout">
+          <span 
           style="cursor: pointer;"
           matTooltip="Inicio"
           (click)="notificacion()"
           matTooltipClass="custom-tooltip"
           [routerLink]="['/dashboard']"
           >home</span>
+        </div>       
+
+        <div class="material-icons" style="padding-left: 10px;">
+          <span 
+          style="cursor: pointer;"
+          matTooltip="Ver manual"
+          (click)="viewManual()"
+          matTooltipClass="custom-tooltip"
+          [routerLink]="['/dashboard']"
+          >help_outline</span>
+        </div>
       </div>
       <div>
         <a (click)="notificacion()" [routerLink]="['/dashboard']" style="cursor: pointer; text-decoration: none; color: #FFFFFF;">{{appName}}</a>
