@@ -25,7 +25,11 @@ export class ConsignaComponent implements OnInit {
     solicitante:[
       {nombre:'',identificacion:'',id:1},
     ],
-    tipoFormatoConsigna: []
+    tipoFormatoConsigna: [],
+    solicitadaTercero:[ 
+      {id: "1",nombre: "Si"},
+      {id: "0", nombre: "No"}
+    ],
   };
   form = {
     numeroConsigna:{
@@ -97,7 +101,15 @@ export class ConsignaComponent implements OnInit {
       value: null,
       messages: null,
       required: false,
-    }
+    },
+    solicitadaTercero: {
+      label: 'Solicitada por un tercero',
+      name: 'solicitadaTercero',
+      value: null,
+      messages: null,
+      required: false,
+      disabled: false
+    },
   };
 
   dataHeader = [

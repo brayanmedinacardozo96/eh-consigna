@@ -9,6 +9,7 @@ import {Aprobar} from '../../modules/autorizar/aprobar';
 import {Auth} from '../../shared/auth';
 import { User } from '../../shared/models/user';
 import { DateValidationervice } from './../../shared/services/date-validations.service';
+import { NotifierService } from 'angular-notifier';
 import * as moment from 'moment';
 
 @Component({
@@ -20,7 +21,7 @@ export class ReporteComponent implements OnInit {
 
   constructor(private session: SessionService,
     private validations: ValidationService,
-    private snackBar: MatSnackBar,
+    private notifier: NotifierService,
     private aprobar:Aprobar,
     private apiService: ApiService, 
     private dateValidation: DateValidationervice,) {}
@@ -129,11 +130,19 @@ export class ReporteComponent implements OnInit {
 
   setData(name, event) {
     this.form[name].value = event;
+    if (name === 'fechaInicio' || name === 'fechaFin') {
+      this.validateFechas();
+    }
   }
 
   async consultar() {
 
     if (this.validateEmptyFields()) {
+
+      let validaFechas = this.validateFechas();
+      if(!validaFechas.success){
+        return false;
+      }
 
       var result=this.aprobar.validarPermiso();
       const user: User = Auth.getUserDataPerson();
@@ -159,7 +168,7 @@ export class ReporteComponent implements OnInit {
         this.dataHeader = response.data.tableHeader;
         this.data = response.data.dataList;
         if(this.data.length < 1){
-          new SnackBarClass(this.snackBar, 'No se encontraron registros con los parámetros ingresados.', 'btn-warning').openSnackBar();  
+          this.notifier.notify('warning', 'No se encontraron registros con los parámetros ingresados.');
         }else{
           this.dataExcel = this.data;
   
@@ -169,7 +178,7 @@ export class ReporteComponent implements OnInit {
         }
 
       } else {
-        new SnackBarClass(this.snackBar, 'No se puede realizar esta acción.', 'btn-warning').openSnackBar();
+        this.notifier.notify('warning', 'No se puede realizar esta acción.');
       }
     }
   }
@@ -234,6 +243,22 @@ export class ReporteComponent implements OnInit {
       this.form.terceroAnio.visible = false
     }
     
+  }
+
+  validateFechas() {
+    let response = {success: true, message: ''}
+
+    if (this.form.fechaInicio.value != null && this.form.fechaFin.value != null) {
+      if (moment(this.form.fechaFin.value) < moment(this.form.fechaInicio.value)) {
+        const message = 'La fecha no puede ser menor a la inicial';
+        this.form.fechaFin.messages = message;
+        this.notifier.notify('warning', message);
+        response.success = false;
+      } else {
+        this.form.fechaFin.messages = '';
+      }
+    }
+    return response;
   }
 
 }

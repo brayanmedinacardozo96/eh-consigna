@@ -127,6 +127,18 @@
                 </mat-form-field>
             </mat-grid-tile>
 
+            <mat-grid-tile class="col col-lg-4 col-sm-12">
+                <mat-form-field style="width: 85%;">
+                    <mat-label>{{form.solicitadaTercero.label}}</mat-label>
+                    <mat-select [(ngModel)]="form.solicitadaTercero.value" style="padding-top: 5px;padding-bottom: 5px;">
+                        <mat-option *ngFor="let value of dataControls?.solicitadaTercero;" [value]="value.id">
+                            {{ value.nombre }}
+                        </mat-option>
+                    </mat-select>
+                    <mat-hint style="color: red" *ngIf="form.solicitadaTercero.messages">{{form.solicitadaTercero.messages}}</mat-hint>
+                </mat-form-field>
+            </mat-grid-tile>
+
         </mat-grid-list>
 
         <mat-grid-list class="row" cols="1" rowHeight="80px">
@@ -147,11 +159,11 @@
       </fieldset>
 
     </mat-card-content>
-  </mat-card>
+</mat-card>
 
-  <div style="padding: 10px;">
+<div style="padding-top: 10px;">
     <app-consigna-list [data]="data"></app-consigna-list>
-  </div>
+</div>
 
 
   <!-- botón para abrir form nueva consigna -->
