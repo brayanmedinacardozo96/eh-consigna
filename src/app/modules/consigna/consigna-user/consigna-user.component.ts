@@ -3,9 +3,10 @@ import {environment} from '../../../../environments/environment';
 import { ApiService } from './../../../shared/services/api.service';
 import { User } from './../../../shared/models/user';
 import { Auth } from './../../../shared/auth';
-import { SnackBarService } from './../../../shared/services/snack-bar.service';
 import {Aprobar} from '../../autorizar/aprobar';
 import {ActivatedRoute} from '@angular/router';
+import {NotifierService} from 'angular-notifier';
+import { MessageService } from 'src/app/shared/services/message.service';
 
 @Component({
   selector: 'app-consigna-user',
@@ -51,8 +52,9 @@ export class ConsignaUserComponent implements OnInit {
 
   constructor(private api: ApiService,
               private activeRoute: ActivatedRoute,
-              private snackBar: SnackBarService,
+              private notifier: NotifierService,
               private aprobar:Aprobar,
+              private messageService: MessageService,
               ) {
     this.viewList = false;
     this.activeRoute.params.subscribe(params => {
@@ -96,7 +98,7 @@ export class ConsignaUserComponent implements OnInit {
     if(response.success){
       this.data = response.data;
       if(this.data.length < 1){
-        this.snackBar.alert('No se encontraron registros con los parámetros consultados.',5000);
+        this.notifier.notify('warning', this.messageService.get('not-records'));
       }
     }
   }
@@ -113,7 +115,6 @@ export class ConsignaUserComponent implements OnInit {
       }
 
       this.consignasSinComunicado = response.consignasSinComunicado;
-
     }
   }
 
@@ -138,12 +139,14 @@ export class ConsignaUserComponent implements OnInit {
       this.isVisible=true;
       this.total.totalAprobar=0;
       const response = await this.api.get(`${environment.apiBackend}/consigna/getEstadoConsigna/S|R`);
-      if(response.message==null && response.data.length>0){
+      if(response.success){
         let data = response.data;
         for (let index = 0; index < data.length; index++) {
           const element = data[index];
           this.total.totalAprobar += parseInt(element.numero);
         }
+      }else{
+        this.notifier.notify('warning',response.message);
       }
     }
 
@@ -158,9 +161,11 @@ export class ConsignaUserComponent implements OnInit {
     {
       this.isVisible=true;
       const response = await this.api.get(`${environment.apiBackend}/bitacora/getNumero/0`);
-      if(response.message==null){
+      if(response.success){
         let data = response.data;
         this.total.totalBitacora =data[0].numero;
+      }else{
+        this.notifier.notify('warning',response.message);
       }
 
     }
@@ -176,7 +181,7 @@ export class ConsignaUserComponent implements OnInit {
     this.viewList=false;
     this.viewListEstado=false;
     if (response.data.length === 0) {
-      this.snackBar.alert('No se encontraron registros.',5000);
+      this.notifier.notify('warning', this.messageService.get('not-records-found'));
     }
   }
 
@@ -194,7 +199,7 @@ export class ConsignaUserComponent implements OnInit {
     if(response.success){
       this.data = response.data;
       if(this.data.length < 1){
-        this.snackBar.alert('No se encontraron registros con los parámetros consultados.',5000);
+        this.notifier.notify('warning', this.messageService.get('not-records'));
       }
     }
   }
@@ -208,7 +213,7 @@ export class ConsignaUserComponent implements OnInit {
     if(response.success){
       this.dataEstado = response;
       if(this.dataEstado.length < 1){
-        this.snackBar.alert('No se encontraron registros con los parámetros consultados.',5000);
+        this.notifier.notify('warning', this.messageService.get('not-records'));
       }
     }
   }
@@ -233,7 +238,7 @@ export class ConsignaUserComponent implements OnInit {
       this.viewListEstado=false;
       this.viewVistoSnipper = false;
       if(this.data.length < 1){
-        this.snackBar.alert('No se encontraron registros con los parámetros consultados.',5000);
+        this.notifier.notify('warning', this.messageService.get('not-records'));
       }
 
       for(let value of this.data){

@@ -8,6 +8,7 @@ export const environment = {
     debug: true, //cuando esté en false ejecutar en el servidor de pruebas, pero apuntando a mapas en producción
     appName: 'Sistema Local de Consignas',
     companyName: 'Electrohuila S.A. - E.S.P.',
+    messagesFile: 'assets/messages/es.json',
     apiTransverseSecurity: 'http://192.9.200.44/back-transverse-security/public/api',//'http://localhost/back-transverse-security/public/api',
     keyTransverseSecurity: '$2y$10$OjsZGz0JqaUiFvvLHBt1I.sv5oW3bcZTOTavMOqwfAT2TxYhZa1HS',
     apiBackend: 'http://localhost/back-consigna/public/api',

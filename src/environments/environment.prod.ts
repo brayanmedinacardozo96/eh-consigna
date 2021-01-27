@@ -5,6 +5,7 @@ export const environment = {
     debug: true, //cuando esté en false ejecutar en el servidor de pruebas, pero apuntando a mapas en producción
     appName: 'Sistema Local de Consignas',
     companyName: 'Electrohuila S.A. - E.S.P.',
+    messagesFile: 'assets/messages/es.json',
     apiTransverseSecurity: 'http://192.9.200.44/back-transverse-security/public/api',
     keyTransverseSecurity: '$2y$10$OjsZGz0JqaUiFvvLHBt1I.sv5oW3bcZTOTavMOqwfAT2TxYhZa1HS',
     apiBackend: 'http://192.9.200.44/back-consignas/public/api',
@@ -19,6 +20,7 @@ export const environment = {
     debug: false, //cuando esté en false ejecutar en el servidor de pruebas, pero apuntando a mapas en producción
     appName: 'Sistema Local de Consignas',
     companyName: 'Electrohuila S.A. - E.S.P.',
+    messagesFile: 'assets/messages/es.json',
     apiTransverseSecurity: 'https://enlinea.electrohuila.com.co/back-transverse-security/public/api',
     keyTransverseSecurity: '$2y$12$R2scCdlaEehOJSkY8po7weQ3aEAQ.i8nL/ap0lxPnNxnrXlL7m.ba',
     apiBackend: 'https://enlinea.electrohuila.com.co/back-consignas/public/api',

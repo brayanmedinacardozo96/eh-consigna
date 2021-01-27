@@ -1,0 +1,18 @@
+{
+    "error-api": "El servidor ha tardado en responder, inténtelo de nuevo. De lo contrario comuníquese con Soporte Técnico."
+    ,"not-request": "Ocurrió un error, por favor vuelva a intentarlo o comuníquese con el administrador."
+    ,"not-records-found": "No se encontraron registros!"
+    ,"not-records": "No se encontraron registros con los parámetros consultados."
+    ,"not-changes-save": "No se encontraron cambios para guardar!"
+    ,"eliminated-successful": "Registro eliminado"
+    ,"save-successful": "Guardado con éxito"
+    ,"updated-successful": "Registro actualizado"
+    ,"info-text-created": "Ver/Editar contenido"
+    ,"info-modified-content": "Contenido modificado"
+    ,"temporal-success": "Registro temporal guardado"
+    ,"information-data-temp": "Esta información se encuentra guardada temporalmente, si desea almacenarlo de forma definitiva, seleccione en el botón de guardar."
+    ,"no-check-request": "No se han seleccionado solicitudes."
+    ,"some-value-in-the-fields": "Ingrese al menos un valor en cualquiera de los campos para realizar la consulta."
+    ,"enter-start-date": "Debe ingresar una fecha inicial."
+    ,"start-date-greater": "La fecha final debe ser mayor a la inicial."
+}

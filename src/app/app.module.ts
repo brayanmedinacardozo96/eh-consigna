@@ -1,5 +1,5 @@
 import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
+import {NgModule, APP_INITIALIZER} from '@angular/core';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -28,6 +28,8 @@ import {ActualizarInformacionModule} from './modules/actualizar-informacion/actu
 import {ConsolidadoModule} from './modules/consolidado/consolidado.module';
 import { ReporteModule } from './modules/reporte/reporte.module';
 import{ IndicadorZonaModule } from './modules/indicador-zona/autorizar.module'
+import { MessageService } from './shared/services/message.service';
+import { MessagesLoader } from './shared/classes/messages-loader';
 
 @NgModule({
   declarations: [
@@ -71,7 +73,18 @@ import{ IndicadorZonaModule } from './modules/indicador-zona/autorizar.module'
   ],
   providers: [
     {provide: LocationStrategy, useClass: HashLocationStrategy},
-    ApiService,ValidationService,SnackBarService,FileValidationService,DateValidationervice
+    ApiService,
+    ValidationService,
+    SnackBarService,
+    FileValidationService,
+    DateValidationervice,
+    MessageService,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: MessagesLoader,
+      deps: [MessageService],
+      multi: true,
+    },
   ],
   bootstrap: [AppComponent]
 })

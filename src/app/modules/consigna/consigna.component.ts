@@ -5,6 +5,8 @@ import {ValidationService} from './../../shared/services/validations.service';
 import {DateValidationervice} from './../../shared/services/date-validations.service';
 import { SnackBarService } from './../../shared/services/snack-bar.service';
 import { SessionService } from './../../shared/services/session.service';
+import { NotifierService } from 'angular-notifier';
+import { MessageService } from 'src/app/shared/services/message.service';
 
 @Component({
   selector: 'app-consigna',
@@ -129,7 +131,8 @@ export class ConsignaComponent implements OnInit {
   constructor(private api: ApiService,
               private validations: ValidationService,
               private dateValidation: DateValidationervice,
-              private snackBar: SnackBarService,
+              private notifier: NotifierService,
+              private messageService: MessageService,
               private session: SessionService) { }
 
   ngOnInit(): void {
@@ -152,7 +155,7 @@ export class ConsignaComponent implements OnInit {
       this.data = response.data;
       this.session.setItem('dataConsigna',this.data);//agregar en la variable de session
       if(this.data.length < 1){
-        this.snackBar.alert('No se encontraron registros con los parámetros consultados.',5000);
+        this.notifier.notify('warning', this.messageService.get('not-records'));
       }
     }
   }
