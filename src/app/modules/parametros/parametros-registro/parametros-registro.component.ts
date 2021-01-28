@@ -2,12 +2,13 @@ import { Component, OnInit,Input } from '@angular/core';
 import {ApiService} from '../../../shared/services/api.service';
 import {environment} from 'src/environments/environment';
 import {SnackBarClass} from '../../../ui/snack-bar/snack-bar';
-import {MatSnackBar} from '@angular/material/snack-bar';
 import {MatDialog} from "@angular/material/dialog";
 import {ModalConfirmComponent} from "../../../ui/forms/modal-confirm/modal-confirm.component";
 import {Mensaje} from '../../../ui/forms/modal-confirm/mensaje';
 import {ValidationService} from '../../../shared/services/validations.service';
 import {Scroll} from '../../../ui/forms/scroll/scroll';
+import { NotifierService } from 'angular-notifier';
+import { MessageService } from 'src/app/shared/services/message.service';
 
 @Component({
   selector: 'app-parametros-registro',
@@ -25,12 +26,11 @@ export class ParametrosRegistroComponent implements OnInit {
   }
 
   constructor(private apiService: ApiService,
-              private snackBar: MatSnackBar,
+              private notifier: NotifierService,
               private dialogo: MatDialog,
               private validations: ValidationService,
+              private messageService: MessageService,
               ) {}
-
-
 
   form = {
     id: {
@@ -149,8 +149,6 @@ export class ParametrosRegistroComponent implements OnInit {
         });
 
     }
-
-
   }
 
   async tipoParametro()
@@ -199,31 +197,20 @@ export class ParametrosRegistroComponent implements OnInit {
       }
 
       var response;
-      var mensaje = [];
 
       if (this.boton.value == "Guardar") {
         response = await this.apiService.post(`${environment.apiBackend}/parametro/postParametro`, obj);
-        mensaje = ["Guardado con éxito", "btn-primary"];
-
-        if(response.message!=null)
-        {
-          var codigo = response.message.split('-');
-          if (codigo[0] == "961202") {
-            response.message=null;
-            mensaje[0] = codigo[1];
-            mensaje[1]="btn-danger";
-          }
-        }
-        
-
       } else {
-
         response = await this.apiService.post(`${environment.apiBackend}/parametro/putParametro`, obj);
-        mensaje = ["Registro actualizado", "btn-success"];
-  
       }
 
-      this.evaluar(response.data, mensaje);
+      if(response.success){
+        this.dataControls.data = response.data;
+        this.limpiar();
+        this.notifier.notify('success', response.message);
+      }else{
+        this.notifier.notify('warning', response.message);
+      }
     }
 
   }
@@ -241,8 +228,10 @@ export class ParametrosRegistroComponent implements OnInit {
 
     const  response = await this.apiService.get(api);
 
-    if (response.messages==null) {
+    if (response.success) {
       this.dataControls.data = response.data;
+    }else{
+      this.notifier.notify('warning', response.message);
     }
 
   }
@@ -255,26 +244,13 @@ export class ParametrosRegistroComponent implements OnInit {
       tipo_parametro_id:key.tp_id
     });
 
-    mensaje = ["Registro eliminado", "btn-default"];
-
-    this.evaluar(response.data, mensaje);
-
-  }
-
-
-  evaluar(response, mensaje) {
-
-    if (response.message == null) {
-
+    if(response.success){
+      this.notifier.notify('success', response.message);
       this.dataControls.data = response.data;
       this.limpiar();
-
-    } else {
-        mensaje = ["Algo ha ocurrido", "btn-danger"];
+    }else{
+      this.notifier.notify('warning', response.message);
     }
-
-    new SnackBarClass(this.snackBar, mensaje[0], mensaje[1]).openSnackBar();
-    
   }
 
   validateEmptyFields() {
@@ -287,7 +263,4 @@ export class ParametrosRegistroComponent implements OnInit {
 
     return success;
   }
-
-
-
 }

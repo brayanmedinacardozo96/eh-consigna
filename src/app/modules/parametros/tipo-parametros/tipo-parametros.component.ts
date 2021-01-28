@@ -8,6 +8,7 @@ import {ModalConfirmComponent} from "../../../ui/forms/modal-confirm/modal-confi
 import {Mensaje} from '../../../ui/forms/modal-confirm/mensaje';
 import {ValidationService} from '../../../shared/services/validations.service';
 import {Scroll} from '../../../ui/forms/scroll/scroll';
+import { NotifierService } from 'angular-notifier';
 
 @Component({
   selector: 'app-tipo-parametros',
@@ -18,7 +19,7 @@ import {Scroll} from '../../../ui/forms/scroll/scroll';
 export class TipoParametrosComponent implements OnInit {
 
   constructor(private apiService: ApiService,
-      private snackBar: MatSnackBar,
+      private notifier: NotifierService,
       private dialogo: MatDialog,
       private validations: ValidationService) {}
 
@@ -133,31 +134,29 @@ export class TipoParametrosComponent implements OnInit {
       }
 
       var response;
-      var mensaje = [];
 
       if (this.boton.value == "Guardar") {
         response = await this.apiService.post(`${environment.apiBackend}/tipo-parametro/postTipoParametro`, obj);
-        mensaje = ["Guardado con éxito", "btn-primary"];
       } else {
-
         response = await this.apiService.post(`${environment.apiBackend}/tipo-parametro/putTipoParametro`, obj);
-        mensaje = ["Registro actualizado", "btn-success"];
       }
 
-      this.evaluar(response, mensaje);
+      if(response.success){
+        this.notifier.notify('success', response.message);
+        this.data = response.data;
+        this.limpiar();
+      }else{
+        this.notifier.notify('warning', response.message);
+      }
     }
-
   }
 
   async select() {
-
     const response = await this.apiService.get(`${environment.apiBackend}/tipo-parametro/getTipoParametro`);
 
     if (response.length > 0) {
       this.data = response;
-
     }
-
   }
 
   async eliminar(key) {
@@ -167,34 +166,13 @@ export class TipoParametrosComponent implements OnInit {
       id: key.id
     });
 
-    mensaje = ["Registro eliminado", "btn-default"];
-
-    this.evaluar(response, mensaje);
-
-  }
-
-
-  evaluar(response, mensaje) {
-
-    if (response.message == null) {
-
+    if(response.success){
+      this.notifier.notify('success', response.message);
       this.data = response.data;
       this.limpiar();
-
-    } else {
-
-      mensaje = ["Algo ha ocurrido", "btn-danger"];
-      var codigo = response.message.split('-');
-      if (codigo[0] == "2292") {
-        mensaje = ["Debe eliminar todos los parámetros asociados a este tipo de parámetro.", "btn-danger"];
-      }
-      if (codigo[0] == "961202") {
-        mensaje[0] = codigo[1];
-      }
-      
+    }else{
+      this.notifier.notify('warning', response.message);
     }
-
-    new SnackBarClass(this.snackBar, mensaje[0], mensaje[1]).openSnackBar();
   }
 
   validateEmptyFields() {

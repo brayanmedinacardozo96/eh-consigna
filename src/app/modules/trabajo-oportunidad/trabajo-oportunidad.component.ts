@@ -6,9 +6,9 @@ import { ApiService } from '../../shared/services/api.service';
 import { ValidationService } from '../../shared/services/validations.service';
 import { Scroll } from '../../ui/forms/scroll/scroll';
 import { SnackBarClass } from '../../ui/snack-bar/snack-bar';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import {ModalConfirmComponent} from "../../ui/forms/modal-confirm/modal-confirm.component";
 import { TableTrabajoOportunidadComponent } from './table-trabajo-oportunidad/table-trabajo-oportunidad.component';
+import { NotifierService } from 'angular-notifier';
 
 @Component({
   selector: 'app-trabajo-oportunidad',
@@ -27,7 +27,7 @@ export class TrabajoOportunidadComponent implements OnInit {
     private dialogo: MatDialog,
     private apiService: ApiService,
     private validations: ValidationService,
-    private snackBar: MatSnackBar
+    private notifier: NotifierService
   ) {}
 
   panelOpenState = false;
@@ -157,8 +157,10 @@ export class TrabajoOportunidadComponent implements OnInit {
       `${environment.apiBackend}/trabajos-oportunidad/getTrabajoOportunidadElemento/${this.consignacion_id}`
     );
 
-    if (response.message == null) {
+    if (response.success) {
       this.dataControls.elemento = response.data;
+    }else{
+      this.notifier.notify('warning', response.message);
     }
   }
 
@@ -215,24 +217,15 @@ export class TrabajoOportunidadComponent implements OnInit {
     return success;
   }
 
-  evaluar(response, mensaje) {
-    if (response.message == null) {
-      this.dataTrabajo = response.data;
-      this.limpiar();
-    } else {
-      mensaje = ['Algo ha ocurrido.', 'btn-danger'];
-    }
-
-    new SnackBarClass(this.snackBar, mensaje[0], mensaje[1]).openSnackBar();
-  }
-
   async select() {
     const response = await this.apiService.get(
       `${environment.apiBackend}/trabajos-oportunidad/getTrabajoOportunidad/${this.consignacion_id}`
     );
 
-    if (response.message == null) {
+    if (response.success) {
       this.dataTrabajo = response.data;
+    }else{
+      this.notifier.notify('warning', response.message);
     }
   }
 

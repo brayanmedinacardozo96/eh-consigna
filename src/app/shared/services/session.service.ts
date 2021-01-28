@@ -2,13 +2,17 @@ import { Injectable } from '@angular/core';
 import { ApiService } from 'src/app/shared/services/api.service';
 import { environment } from 'src/environments/environment';
 import {Router} from '@angular/router';
+import { NotifierService } from 'angular-notifier';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SessionService {
 
-  constructor(private api: ApiService,private router: Router) { }
+  constructor(private api: ApiService,
+    private router: Router,
+    private notifier: NotifierService,
+    ) { }
 
   setItem(name,value){
     window.sessionStorage.setItem(name,JSON.stringify(value));
@@ -33,6 +37,8 @@ export class SessionService {
         }        
       }
       await this.getUsuario();
+    }else{
+      this.notifier.notify('warning', response.message);
     }
     return response;
   }

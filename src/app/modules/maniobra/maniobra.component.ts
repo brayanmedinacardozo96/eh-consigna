@@ -11,6 +11,7 @@ import { FileValidationService } from '../../shared/services/file-validation.ser
 import {ModalConfirmComponent} from "../../ui/forms/modal-confirm/modal-confirm.component";
 import { TableManiobraComponent } from './table-maniobra/table-maniobra.component';
 import { InputFileComponent } from './../../ui/forms/input-file/input-file.component';
+import { NotifierService } from 'angular-notifier';
 
 @Component({
   selector: 'app-maniobra',
@@ -28,10 +29,10 @@ export class ManiobraComponent implements OnInit {
     public dialog: MatDialog,
     private validations: ValidationService,
     private apiService: ApiService,
-    private snackBar: MatSnackBar,
     private fileValidation: FileValidationService,
     private dialogo: MatDialog,
-    private api: ApiService
+    private api: ApiService,
+    private notifier: NotifierService
     ) { }
 
 
@@ -138,10 +139,10 @@ export class ManiobraComponent implements OnInit {
       `${environment.apiBackend}/maniobra/getManiobra/${this.form.consigna.value}`
     );
 
-    if (response.message == null) {
-
+    if (response.success) {
       this.dataManiobra = response.data;
-
+    }else{
+      this.notifier.notify('warning', response.message);
     }
   }
 
@@ -230,7 +231,7 @@ export class ManiobraComponent implements OnInit {
         } */
 
     if(!success){
-      new SnackBarClass(this.snackBar,message,'snackbar-alert').openSnackBar();
+      this.notifier.notify('warning', message);
     }
   }
 
@@ -283,17 +284,6 @@ export class ManiobraComponent implements OnInit {
     }
 
     return success;
-  }
-
-  evaluar(response, mensaje) {
-    if (response.message == null) {
-      this.dataManiobra = response.data;
-      this.limpiar();
-    } else {
-      mensaje = ['Algo ha ocurrido.', 'btn-danger'];
-    }
-
-    new SnackBarClass(this.snackBar, mensaje[0], mensaje[1]).openSnackBar();
   }
 
   limpiar() {

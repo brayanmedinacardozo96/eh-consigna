@@ -1562,7 +1562,7 @@ export class ConsignaNewComponent implements OnInit {
     var objSector=[];
     var objCliente=[];
     
-    if (response.message == null || response.message=="") {
+    if (response.success) {
       
       var municipio="inicio";
     
@@ -1606,11 +1606,11 @@ export class ConsignaNewComponent implements OnInit {
     {
       this.areaAFectada.push({area:[obj,objSector],persona:objCliente});
       this.usuarioAfectadoTemp.interrupcion=objCliente.length
-      console.log(objCliente.length)
+      // console.log(objCliente.length)
     }else{
       this.areaAFectadaCortoTiempo.push({area:[obj,objSector],persona:objCliente});
       this.usuarioAfectadoTemp.interrupcionCorta=objCliente.length
-      console.log(objCliente.length)
+      // console.log(objCliente.length)
     }
     
 

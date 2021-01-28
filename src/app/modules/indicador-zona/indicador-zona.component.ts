@@ -1,23 +1,10 @@
-import {
-  Component,
-  OnInit
-} from '@angular/core';
-import {
-  SessionService
-} from './../../shared/services/session.service';
-import {
-  ApiService
-} from '../../shared/services/api.service';
-import {
-  environment
-} from 'src/environments/environment';
-import {
-  SnackBarClass
-} from '../../ui/snack-bar/snack-bar';
-import {
-  MatSnackBar
-} from '@angular/material/snack-bar';
+import {Component, OnInit} from '@angular/core';
+import {SessionService} from './../../shared/services/session.service';
+import {ApiService} from '../../shared/services/api.service';
+import {environment} from 'src/environments/environment';
+import {MatSnackBar} from '@angular/material/snack-bar';
 import {ValidationService} from '../../shared/services/validations.service';
+import { NotifierService } from 'angular-notifier';
 
 @Component({
   selector: 'app-indicador-zona',
@@ -29,7 +16,7 @@ export class IndicadorZonaComponent implements OnInit {
   constructor(
     private session: SessionService,
     private apiService: ApiService,
-    private snackBar: MatSnackBar,
+    private notifier: NotifierService,
     private validations: ValidationService,
   ) {}
 
@@ -579,7 +566,7 @@ export class IndicadorZonaComponent implements OnInit {
     if (this.tipoZona != null && this.anio != null) {
 
       const response = await this.apiService.get(`${environment.apiBackend}/indicador-zona/getIndicadorZonaAnio/${this.anio}/${this.tipoZona}`);
-      if (response.message == null && response.data != null) {
+      if (response.success) {
 
         response.data.forEach(element => {
 
@@ -594,7 +581,8 @@ export class IndicadorZonaComponent implements OnInit {
 
 
         });
-
+      }else{
+        this.notifier.notify('warning',response.message);
       }
 
     }
@@ -622,19 +610,16 @@ export class IndicadorZonaComponent implements OnInit {
       })
 
       var response;
-      var mensaje = [];
-
+      
       response = await this.apiService.post(`${environment.apiBackend}/indicador-zona/postIndicadorZona`, {
         data: obj
       });
-      mensaje = ["Guardado con éxito", "btn-primary"];
 
-      if (response.message != null) {
-        mensaje = ["Problemas con la ejecución", "btn-primary"];
-        console.log(response.message)
+      if(response.success){
+        this.notifier.notify('success', response.message);
+      }else{
+        this.notifier.notify('warning', response.message);
       }
-
-      new SnackBarClass(this.snackBar, mensaje[0], mensaje[1]).openSnackBar();
     }
   }
 

@@ -6,12 +6,12 @@ import {environment} from '../../../environments/environment';
 import {ValidationService} from '../../shared/services/validations.service';
 import {Auth} from '../../shared/auth';
 import {User} from '../../shared/models/user';
-import {SnackBarClass} from '../../ui/snack-bar/snack-bar';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {Mensaje} from '../../ui/forms/modal-confirm/mensaje';
 import {ModalConfirmComponent} from "../../ui/forms/modal-confirm/modal-confirm.component";
 import {MDialogComponent} from "../../ui/forms/m-dialog/m-dialog.component"
 import {MatDialog} from "@angular/material/dialog";
+import { NotifierService } from 'angular-notifier';
 import * as moment from 'moment';
 
 @Component({
@@ -27,7 +27,7 @@ export class AutorizarComponent implements OnInit {
               private session: SessionService,
               private api: ApiService,
               private validations: ValidationService,
-              private snackBar: MatSnackBar,
+              private notifier: NotifierService,
               private dialogo: MatDialog
   ) {
     this.activeRoute.params.subscribe(params => {
@@ -182,15 +182,19 @@ export class AutorizarComponent implements OnInit {
 
   async getCausal() {
     const response = await this.api.get(`${environment.apiBackend}/consigna/getCausal`);
-    if (response.message == null && response.data!=null) {
+    if (response.success) {
       this.dataControls.causalEstado = response.data;
+    }else{
+      this.notifier.notify('warning', response.message);
     }
   }
 
   async getPlazoReprogramada(){
     const response = await this.api.get(`${environment.apiBackend}/parametro/getPlazoReprogramada`);
-    if (response.message == null  && response.data!=null) {
+    if (response.success) {
        this.plazoReprogramar = response.data;
+    }else{
+      this.notifier.notify('warning', response.message);
     }
   }
 
@@ -285,11 +289,11 @@ export class AutorizarComponent implements OnInit {
       if (this.data[0].estado_consigna != "Solicitada" && this.data[0].estado_consigna != "Reprogramada" &&  this.data[0].estado_consigna != "Aprobada") {
         this.permitir = false;
         this.form.estadoConsigna.disabled=true;
-        new SnackBarClass(this.snackBar, 'Acción no permitida para esta consigna.', 'btn-warning').openSnackBar();
+        this.notifier.notify('warning', 'Acción no permitida para esta consigna.');
       }
 
     }else{
-      new SnackBarClass(this.snackBar, 'No se encontraron registros.', 'btn-warning').openSnackBar();
+      this.notifier.notify('warning', 'No se encontraron registros.');
     }
   }
 
@@ -352,9 +356,7 @@ export class AutorizarComponent implements OnInit {
                   this.actualizarEstado(id);
                 }
 
-                new SnackBarClass(this.snackBar, 'Se realizo el cambio de estado de forma exitosa.', 'btn-success')
-                  .openSnackBar();
-
+                this.notifier.notify('success', 'Se realizo el cambio de estado de forma exitosa.');
                 this.limpiar();
 
               }
@@ -377,8 +379,6 @@ export class AutorizarComponent implements OnInit {
 
   async actualizarEstado(id) {
 
-    var mensaje = ["Algo ha ocurrido", "btn-danger"];
-
     let params = {
       estado_consignacion_id: this.form.estadoConsigna.value,
       id: id,
@@ -392,28 +392,23 @@ export class AutorizarComponent implements OnInit {
     }
 
     const response = await this.api.post(`${environment.apiBackend}/consigna/putActualizarEstado`, params);
-    if (response.message == null) {
-      mensaje = ["Se realizo el cambio de estado de forma exitosa.", "btn-success"];
+    if (response.success) {
       if (document.getElementById("vtoolbar").style.visibility == 'hidden') {
         document.getElementById("vtoolbar").style.visibility == "visible"
         window.close();
       }
       this.limpiar();
+      this.notifier.notify('success', 'Se realizo el cambio de estado de forma exitosa.');
+    }else{
+      this.notifier.notify('warning', response.message);
     }
-
-    new SnackBarClass(this.snackBar, mensaje[0], mensaje[1]).openSnackBar();
-
   }
 
   async buscar() {
 
     if (this.form.numeroConsigna.value !== undefined && this.form.numeroConsigna.value !== null && this.form.numeroConsigna.value != "") {
-
       this.buscarConsigna({numeroConsigna: {value: this.form.numeroConsigna.value}});
-
     }
-
-
   }
 
 }
