@@ -23,7 +23,7 @@ import {MatSortModule} from "@angular/material/sort";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatGridListModule} from '@angular/material/grid-list';
-
+import { DirectivesModule } from './../../shared/directives/directives.module';
 
 @NgModule({
   declarations: [ComunicadoPrensaFormComponent, ComunicadoPrensaComponent, ComunicadoPrensaListComponent, ClientesAfectadosComponent],
@@ -47,7 +47,8 @@ import {MatGridListModule} from '@angular/material/grid-list';
         MatSortModule,
         MatPaginatorModule,
         MatCheckboxModule,
-        MatGridListModule
+        MatGridListModule,
+        DirectivesModule,
     ]
 })
 export class ComunicadoPrensaModule { }
