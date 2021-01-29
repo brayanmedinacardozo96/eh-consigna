@@ -591,6 +591,8 @@ export class ConsignaNewComponent implements OnInit {
         }
         this.dataElementos.push(elemento);
       }
+    }else{
+      this.snackBar.alert(response.message,5000);
     }
   }
 
@@ -808,7 +810,6 @@ export class ConsignaNewComponent implements OnInit {
   calcularIdicador() {
 
     //solo apertura
-    console.log( this.validarEstadoEquipo() )
     if (this.validarEstadoEquipo() == "A") {
 
       //hola
@@ -1060,7 +1061,7 @@ export class ConsignaNewComponent implements OnInit {
           this.session.setItem('dataConsigna',null);
         }
       }else{
-        this.snackBar.alert('Ocurrió un error, por favor vuelva a intentarlo o contáctese con el administrador.',10000)
+        this.snackBar.alert(message,10000)
       } */
 
     }else{
@@ -1214,7 +1215,7 @@ export class ConsignaNewComponent implements OnInit {
           this.dataControls.subestacion.push(value);        
         }
       }else{
-        this.snackBar.alert('Ocurrió un error, por favor vuelva a intentarlo o contáctese con el administrador.',10000)
+        this.snackBar.alert(message,10000)
       }
     }
   }
@@ -1298,6 +1299,8 @@ export class ConsignaNewComponent implements OnInit {
             }
           }
         }
+      }else{
+        this.snackBar.alert(response.message,10000)
       }
     }
   }
@@ -1332,7 +1335,7 @@ export class ConsignaNewComponent implements OnInit {
                 this.snackBar.alert('No se encontró información con la subestación seleccionada!',5000);
               }
             }else{
-              this.snackBar.alert('Ocurrió un error, por favor vuelva a intentarlo o contáctese con el administrador.',10000)
+              this.snackBar.alert(message,10000)
             } 
           }
         }else{
@@ -1362,7 +1365,7 @@ export class ConsignaNewComponent implements OnInit {
         if(success){
           this.dataControls.elemento = response.data;
         }else{
-          this.snackBar.alert('Ocurrió un error, por favor vuelva a intentarlo o contáctese con el administrador.',10000)
+          this.snackBar.alert(message,10000)
         } 
       }    
     }
@@ -1606,11 +1609,9 @@ export class ConsignaNewComponent implements OnInit {
     {
       this.areaAFectada.push({area:[obj,objSector],persona:objCliente});
       this.usuarioAfectadoTemp.interrupcion=objCliente.length
-      // console.log(objCliente.length)
     }else{
       this.areaAFectadaCortoTiempo.push({area:[obj,objSector],persona:objCliente});
       this.usuarioAfectadoTemp.interrupcionCorta=objCliente.length
-      // console.log(objCliente.length)
     }
     
 
@@ -2134,7 +2135,6 @@ export class ConsignaNewComponent implements OnInit {
 
         }
 
-        console.log(url);
 
       });
 
@@ -2152,8 +2152,6 @@ export class ConsignaNewComponent implements OnInit {
         }
 
         const response = await this.api.post(`${environment.apiBackend}/integracion-mapa/set`, parametro);
-
-        console.log(response);
 
         // definimos la anchura y altura de la ventana
         const height = 600;

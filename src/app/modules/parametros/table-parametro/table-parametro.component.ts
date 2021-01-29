@@ -66,7 +66,7 @@ export class TableParametroComponent implements OnInit {
       if(response.success){
         new SnackBarClass(this.snackBar, response.message, "btn-success", 5000).openSnackBar();
       }else{
-        new SnackBarClass(this.snackBar, "¡Ocurrió un error, por favor vuelva a intentarlo!", "btn-warning", 5000).openSnackBar();
+        new SnackBarClass(this.snackBar, response.message, "btn-warning", 5000).openSnackBar();
       }
 
   }

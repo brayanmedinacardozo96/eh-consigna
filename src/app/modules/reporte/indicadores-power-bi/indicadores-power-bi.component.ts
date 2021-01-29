@@ -28,7 +28,7 @@ export class IndicadoresPowerBiComponent implements OnInit {
     if(response.success){
       this.getDialogInfo(response);
     }else{
-      this.notifier.notify('warning', 'Ocurrió un error, por favor vuelva a intentarlo o comuníquese con el administrador.');
+      this.notifier.notify('warning', response.message);
     }
     this.router.navigate(['/dashboard']);
   }

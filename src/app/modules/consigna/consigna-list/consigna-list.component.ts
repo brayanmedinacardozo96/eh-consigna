@@ -121,7 +121,7 @@ export class ConsignaListComponent implements OnInit {
       if(success){
         window.open(`${environment.urlFiles}/${response.path}`);
       }else{
-        this.snackBar.alert('Ocurrió un error, por favor vuelva a intentarlo o contáctese con el administrador.',10000)
+        this.snackBar.alert(message,10000)
       }
   }
 

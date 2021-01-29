@@ -275,7 +275,7 @@ export class ConsignaTabsComponent implements OnInit {
 
       
     }else{
-      this.snackBar.alert('Ocurrió un error, por favor vuelva a intentarlo o contáctese con el administrador.',10000)
+      this.snackBar.alert(message,10000)
     }
 
     if(document.getElementById("vtoolbar").style.visibility=='hidden')

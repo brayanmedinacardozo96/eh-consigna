@@ -99,7 +99,7 @@ export class TableAprobarConsignaComponent implements OnInit {
       if(success){
         window.open(`${environment.urlFiles}/${response.path}`);
       }else{
-        new SnackBarClass(this.snackBar,'Ocurrió un error, por favor vuelva a intentarlo o contáctese con el administrador.', 'btn-warning').openSnackBar();
+        new SnackBarClass(this.snackBar,message, 'btn-warning').openSnackBar();
       }
   }
 

@@ -186,7 +186,7 @@ export class AsignacionSolicitudesNewComponent implements OnInit {
     if(response.success){
       new SnackBarClass(this.snackBar, response.message,  "btn-success", 2500).openSnackBar();
     }else{
-      new SnackBarClass(this.snackBar, 'Ocurrió un error, por favor vuelva a intentarlo', "btn-warning", 2500).openSnackBar();
+      new SnackBarClass(this.snackBar, response.message, "btn-warning", 2500).openSnackBar();
     }
   }
 

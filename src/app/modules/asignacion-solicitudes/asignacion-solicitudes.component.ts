@@ -100,7 +100,7 @@ export class AsignacionSolicitudesComponent implements OnInit {
           this.snackBar.alert('No se encontraron registros con los parámetros consultados.', 5000);
         }
       }else{
-        this.snackBar.alert('Ocurrió un error, por favor vuelva a intentarlo', 5000);
+        this.snackBar.alert(response.message, 5000);
       }
     }
   }

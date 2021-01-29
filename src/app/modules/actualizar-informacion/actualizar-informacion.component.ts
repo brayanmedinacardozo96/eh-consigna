@@ -31,7 +31,7 @@ export class ActualizarInformacionComponent implements OnInit {
       }
 
     }else{
-      this.notifier.notify('error','Ocurrió un error, por favor vuelva intentarlo.')
+      this.notifier.notify('error',response.message)
     }
   }
 
