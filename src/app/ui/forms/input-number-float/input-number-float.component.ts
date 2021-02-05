@@ -49,7 +49,6 @@ export class InputNumberFloatComponent implements OnInit {
       }
     }
 
-    console.log(text)
     this.value = text;
     $('#'+this.id).val(this.value);
     this.valueChange.emit(this.value);

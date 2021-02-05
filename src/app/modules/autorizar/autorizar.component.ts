@@ -139,7 +139,6 @@ export class AutorizarComponent implements OnInit {
     nombreUsuario += `${this.user.second_lastname != null && this.user.second_lastname != undefined && this.user.second_lastname != '' ? this.user.second_lastname : ''}`;
 
     this.form.usuario.value = nombreUsuario;
-    console.log(this.form.usuario.value);
     this.getDataSelectConsigna();
     this.session.remove('estadoConsigna');
 

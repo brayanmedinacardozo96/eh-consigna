@@ -154,7 +154,6 @@ export class BitacoraComponent implements OnInit {
       {
         this.searchLoad();
       }
-      console.log(item[item.length-1]);
       if(item[item.length-1]=="bitacora")
       {
         this.setDelay();
