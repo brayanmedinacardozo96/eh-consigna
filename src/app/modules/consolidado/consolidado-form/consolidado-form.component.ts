@@ -292,7 +292,7 @@ export class ConsolidadoFormComponent implements OnInit {
   }
 
   paramsSave() {
-    const user = Auth.getLogin();
+    const user = Auth.getUserDataPerson();
     const fechaInicio = this.helpers.formatDate(this.formRangoFecha.fechaInicio.value);
     const fechaFin = this.helpers.formatDate(this.formRangoFecha.fechaFin.value);
     return {
@@ -300,7 +300,7 @@ export class ConsolidadoFormComponent implements OnInit {
       contenido: this.contenidoConsolidado,
       fecha_inicio: fechaInicio,
       fecha_fin: fechaFin,
-      usuario_id: user.user_data.id,
+      usuario_id: user.id,
       plantilla_id: this.formPlantilla.plantilla.value,
       comunicados_id: this.comunicadosID,
     };

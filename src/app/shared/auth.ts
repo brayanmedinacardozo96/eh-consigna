@@ -27,7 +27,11 @@ export class Auth {
   public static getNameUser() {
     const token = this.getLogin();
     const person = token.user_data.person;
-    return `${person.first_name} ${person.second_name} ${person.first_lastname} ${person.second_lastname}`;
+    let nombreUsuario = `${person.first_name} `;
+    nombreUsuario += `${person.second_name != null && person.second_name != undefined && person.second_name != '' ? person.second_name : '' } `;
+    nombreUsuario += `${person.first_lastname != null && person.first_lastname != undefined && person.first_lastname != '' ? person.first_lastname : '' } `;
+    nombreUsuario += `${person.second_lastname != null && person.second_lastname != undefined && person.second_lastname != '' ? person.second_lastname : ''}`;
+    return `${nombreUsuario}`;
   }
 
   public static getUser() {
