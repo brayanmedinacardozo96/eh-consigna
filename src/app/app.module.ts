@@ -30,6 +30,7 @@ import { ReporteModule } from './modules/reporte/reporte.module';
 import{ IndicadorZonaModule } from './modules/indicador-zona/autorizar.module'
 import { MessageService } from './shared/services/message.service';
 import { MessagesLoader } from './shared/classes/messages-loader';
+import {ErroresApiModule} from './modules/errores-api/errores-api.module';
 
 @NgModule({
   declarations: [
@@ -70,6 +71,7 @@ import { MessagesLoader } from './shared/classes/messages-loader';
     }),
     ActualizarInformacionModule,
     ConsolidadoModule,
+    ErroresApiModule
   ],
   providers: [
     {provide: LocationStrategy, useClass: HashLocationStrategy},

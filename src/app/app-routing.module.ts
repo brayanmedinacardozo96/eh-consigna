@@ -24,6 +24,7 @@ import { ConsolidadoFormComponent } from './modules/consolidado/consolidado-form
 import {ReporteComponent} from './modules/reporte/reporte.component';
 import { IndicadorZonaComponent } from './modules/indicador-zona/indicador-zona.component';
 import { IndicadoresPowerBiComponent } from './modules/reporte/indicadores-power-bi/indicadores-power-bi.component';
+import { ErroresApiComponent } from './modules/errores-api/errores-api.component';
 
 const routes: Routes = [
   {path: '', component: LoginComponent}
@@ -59,6 +60,7 @@ const routes: Routes = [
   , {path: 'reporte', component: ReporteComponent, canActivate: [AuthGuard]}
   , {path: 'reporte/indicadores-power-bi', component: IndicadoresPowerBiComponent, canActivate: [AuthGuard]}
   , {path: 'indicador-zona', component: IndicadorZonaComponent, canActivate: [AuthGuard]}
+  , {path: 'errores-api', component: ErroresApiComponent, canActivate: [AuthGuard]}
   , {path: '404', component: NotFoundComponent}
   , {path: '**', redirectTo: '/404'}
 ];
