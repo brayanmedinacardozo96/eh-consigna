@@ -18,7 +18,7 @@ export class ErroresApiComponent implements OnInit {
       name: 'fechaInicio',
       value: null,
       messages: null,
-      required: false,
+      required: true,
     },
     fechaFin: {
       label: 'Fecha fin',
