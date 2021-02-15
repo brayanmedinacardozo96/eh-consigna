@@ -62,7 +62,8 @@ export class BitacoraFormComponent implements OnInit {
       name: 'completado',
       value: null,
       messages: null,
-      required: false,
+      required: true,
+      disabled: false
     },
     causalIncumplimiento: {
       label: 'Seleccione la razón del incumplimiento',
