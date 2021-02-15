@@ -59,8 +59,8 @@ export class ConsignaNewComponent implements OnInit {
       {nombre:'No',value:'0'}
     ],
     redElectrica:[
-      {nombre:'Si',value:'1'},
-      {nombre:'No',value:'0'}
+      {nombre:'Linea',value:'1'},
+      {nombre:'Subestación',value:'0'}
     ],
     solicitadaTercero:[ 
       {id: "1",nombre: "Si"},
@@ -362,7 +362,7 @@ export class ConsignaNewComponent implements OnInit {
 
   formElementos = {
     redElectrica: {
-      label: '¿Es red eléctrica?',
+      label: 'Red eléctrica',
       name: 'redElectrica',
       value: null,
       messages: null,

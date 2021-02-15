@@ -25,6 +25,7 @@ import {ReporteComponent} from './modules/reporte/reporte.component';
 import { IndicadorZonaComponent } from './modules/indicador-zona/indicador-zona.component';
 import { IndicadoresPowerBiComponent } from './modules/reporte/indicadores-power-bi/indicadores-power-bi.component';
 import { ErroresApiComponent } from './modules/errores-api/errores-api.component';
+import {ElementosSpardComponent} from './modules/elementos-spard/elementos-spard.component';
 
 const routes: Routes = [
   {path: '', component: LoginComponent}
@@ -61,6 +62,7 @@ const routes: Routes = [
   , {path: 'reporte/indicadores-power-bi', component: IndicadoresPowerBiComponent, canActivate: [AuthGuard]}
   , {path: 'indicador-zona', component: IndicadorZonaComponent, canActivate: [AuthGuard]}
   , {path: 'errores-api', component: ErroresApiComponent, canActivate: [AuthGuard]}
+  , {path: 'elementos-spard', component: ElementosSpardComponent, canActivate: [AuthGuard]}
   , {path: '404', component: NotFoundComponent}
   , {path: '**', redirectTo: '/404'}
 ];

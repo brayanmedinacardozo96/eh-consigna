@@ -31,6 +31,7 @@ import{ IndicadorZonaModule } from './modules/indicador-zona/autorizar.module'
 import { MessageService } from './shared/services/message.service';
 import { MessagesLoader } from './shared/classes/messages-loader';
 import {ErroresApiModule} from './modules/errores-api/errores-api.module';
+import { ElementosSpardModule } from './modules/elementos-spard/elementos-spard.module';
 
 @NgModule({
   declarations: [
@@ -71,7 +72,8 @@ import {ErroresApiModule} from './modules/errores-api/errores-api.module';
     }),
     ActualizarInformacionModule,
     ConsolidadoModule,
-    ErroresApiModule
+    ErroresApiModule,
+    ElementosSpardModule
   ],
   providers: [
     {provide: LocationStrategy, useClass: HashLocationStrategy},

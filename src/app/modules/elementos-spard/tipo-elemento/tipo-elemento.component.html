@@ -1,0 +1,89 @@
+<mat-card class="container">
+    <mat-card-content>
+        <h2>Tipo Elementos</h2>
+        <mat-grid-list class="row" cols="3" rowHeight="103px">
+            <mat-grid-tile>
+                <mat-form-field style="width: 50%;">
+                    <mat-label>{{form.redElectrica.required ? form.redElectrica.label+' *' :form.redElectrica.label}}</mat-label>
+                    <mat-select id="form_consigna-red_electrica" [(ngModel)]="form.redElectrica.value"
+                        (ngModelChange)="validarRedElectrica()"
+                        style="padding-top: 5px;padding-bottom: 5px;">
+                        <mat-option *ngFor="let value of dataControls?.redElectrica;" [value]="value.value">
+                            {{ value.nombre }}
+                        </mat-option>
+                    </mat-select>
+                    <mat-hint style="color: red" *ngIf="form.redElectrica.messages">{{form.redElectrica.messages}}</mat-hint>
+                </mat-form-field>
+            </mat-grid-tile>
+
+            <mat-grid-tile>
+                <mat-form-field style="width: 50%;">
+                    <mat-label>{{ form.tipoZona.required ? form.tipoZona.label+' *' : form.tipoZona.label}}</mat-label>
+                    <mat-select [disabled]="form.tipoZona.disabled" [(ngModel)]="form.tipoZona.value" 
+                        (ngModelChange)="validarTipoZona()"
+                        style="padding-top: 5px;padding-bottom: 5px;">
+                        <mat-option *ngFor="let value of dataControls?.tipoZona;" [value]="value.id">
+                            {{value.nombre}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-hint style="color: red" *ngIf="form.tipoZona.messages">{{form.tipoZona.messages}}</mat-hint>
+                </mat-form-field>
+            </mat-grid-tile>
+
+            <mat-grid-tile>
+                <mat-form-field style="width: 80%">
+                    <mat-label>{{form.subestacion.required ? form.subestacion.label+' *' : form.subestacion.label}}</mat-label>
+                    <mat-select [disabled]="(dataControls?.subestacion.length > 0 ? false: true) || form.subestacion.disabled" 
+                        [(ngModel)]="form.subestacion.value"
+                        style="padding-top: 5px;padding-bottom: 5px;">
+                        <mat-option *ngFor="let value of dataControls?.subestacion;" [value]="value.id">
+                            {{ value.nombre }}
+                        </mat-option>
+                    </mat-select>
+                    <mat-hint style="color: red" *ngIf="form.subestacion.messages">{{form.subestacion.messages}}</mat-hint>
+                </mat-form-field>
+            </mat-grid-tile>
+
+            <mat-grid-tile colspan="2">
+                <app-input-text style="width: 80%;"
+                    class="input"
+                    [label]="form.nombre.label"
+                    [value]="form.nombre.value"
+                    [name]="form.nombre.name"
+                    [messages]="form.nombre.messages"
+                    [required]="form.nombre.required"
+                    [disable]="form.nombre.disabled"
+                    [length]="form.nombre.length"
+                    (valueChange)="setData(form.nombre.name, $event)">
+                </app-input-text>
+            </mat-grid-tile> 
+
+            <mat-grid-tile>
+                <app-input-text style="width: 85%;"
+                    class="input"
+                    [label]="form.codigoSpard.label"
+                    [value]="form.codigoSpard.value"
+                    [name]="form.codigoSpard.name"
+                    [messages]="form.codigoSpard.messages"
+                    [required]="form.codigoSpard.required"
+                    [disable]="form.codigoSpard.disabled"
+                    [length]="form.codigoSpard.length"
+                    (valueChange)="setData(form.codigoSpard.name, $event)">
+                </app-input-text>
+            </mat-grid-tile> 
+
+        </mat-grid-list>
+
+        <button mat-raised-button class="{{boton.color}}" (click)="guardar()" style="margin-left: 20px; margin-top: 10px;">
+            <span style="color: #FFF">{{boton.value}}</span>
+        </button>
+      
+        <button mat-flat-button class="btn-default" (click)="limpiar()"
+            style="margin-left: 20px; margin-top: 10px;">Limpiar</button>
+        
+        <app-table-tipo-elemento [data]="dataControls.tipoElementos" [temporales]="temporales" 
+            (valueChange)="setDataTable(dataControls.data, $event)">
+        </app-table-tipo-elemento>
+        
+    </mat-card-content>
+</mat-card>
