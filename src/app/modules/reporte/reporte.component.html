@@ -9,7 +9,7 @@
         <mat-form-field>
           <mat-label>{{form.reporte.required ? form.reporte.label+' *':form.reporte.label}}
           </mat-label>
-          <mat-select id="ddlReporte" (valueChange)="setData(form.reporte.name, $event)"
+          <mat-select id="ddlReporte" (valueChange)="setData(form.reporte.name, $event); validarReporte()"
             [(ngModel)]="form.reporte.value" style="padding-top: 5px;padding-bottom: 5px;">
             <mat-option *ngFor="let value of dataControls?.reporte;" [value]="value.codigo">
               {{value.nombre}}
@@ -23,7 +23,20 @@
     </mat-grid-list>
 
     <mat-grid-list cols="3" rowHeight="104px">
-      <mat-grid-tile>
+      <mat-grid-tile *ngIf="form.numeroConsigna.visible">
+        <app-input-text style="width: 95%;"
+          class="input"
+          (keyup.enter)="consultar()"
+          [label]="form.numeroConsigna.label"
+          [value]="form.numeroConsigna.value"
+          [name]="form.numeroConsigna.name"
+          [messages]="form.numeroConsigna.messages"
+          [upperCase]="true"
+          (valueChange)="setData(form.numeroConsigna.name, $event)">
+        </app-input-text>
+      </mat-grid-tile>
+
+      <mat-grid-tile *ngIf="form.estadoConsigna.visible">
         <mat-form-field>
           <mat-label>{{form.estadoConsigna.required ? form.estadoConsigna.label+' *':form.estadoConsigna.label }}</mat-label>
           <mat-select [(ngModel)]="form.estadoConsigna.value" style="padding-top: 5px;padding-bottom: 5px;">
@@ -35,21 +48,21 @@
         </mat-form-field>
       </mat-grid-tile>
 
-      <mat-grid-tile>
+      <mat-grid-tile *ngIf="form.fechaInicio.visible">
         <app-datepicker [label]="form.fechaInicio.label" [value]="form.fechaInicio.value" [name]="form.fechaInicio.name"
           [required]="form.fechaInicio.required"
           [messages]="form.fechaInicio.messages" [id]="form.fechaInicio.name"
           (valueChange)="setData(form.fechaInicio.name, $event)"></app-datepicker>
       </mat-grid-tile>
       
-      <mat-grid-tile>
+      <mat-grid-tile *ngIf="form.fechaFin.visible">
         <app-datepicker [label]="form.fechaFin.label" [value]="form.fechaFin.value" [name]="form.fechaFin.name"
           [required]="form.fechaFin.required"
           [messages]="form.fechaFin.messages" [id]="form.fechaFin.name"
           (valueChange)="setData(form.fechaFin.name, $event)"></app-datepicker>
       </mat-grid-tile>
 
-      <mat-grid-tile >
+      <mat-grid-tile *ngIf="form.solicitadaTercero.visible">
           <mat-form-field>
               <mat-label>{{form.solicitadaTercero.required ? form.solicitadaTercero.label+' *' : form.solicitadaTercero.label}}</mat-label>
               <mat-select [disabled]="form.solicitadaTercero.disabled" [(ngModel)]="form.solicitadaTercero.value" 
