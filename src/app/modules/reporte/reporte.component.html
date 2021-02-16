@@ -133,6 +133,10 @@
 
 </mat-card>
 
-<div style="padding: 10px;" *ngIf="data.length > 0">
+<div *ngIf="data.length > 0 && form.reporte.value != 'REjecu'">
   <app-table-programacion [data]="data" [setDisplayedColumns]="displayedColumns" [tableHeader]="dataHeader"></app-table-programacion>
+</div>
+
+<div style="padding: 10px;" *ngIf="data.length > 0 && form.reporte.value == 'REjecu'">
+  
 </div>

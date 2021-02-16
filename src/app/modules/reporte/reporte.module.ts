@@ -18,13 +18,14 @@ import {MatSortModule} from "@angular/material/sort";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {ReporteComponent} from './reporte.component';
 import { IndicadoresPowerBiComponent } from './indicadores-power-bi/indicadores-power-bi.component';
-import { TableProgramacionComponent } from './table-programacion/table-programacion.component'
+import { TableProgramacionComponent } from './table-programacion/table-programacion.component';
+import { TableEjecucionComponent } from './table-ejecucion/table-ejecucion.component'
 
 @NgModule({
   declarations: [
     ReporteComponent, 
     IndicadoresPowerBiComponent, 
-    TableProgramacionComponent
+    TableProgramacionComponent, TableEjecucionComponent
   ],
   imports: [
     CommonModule,
