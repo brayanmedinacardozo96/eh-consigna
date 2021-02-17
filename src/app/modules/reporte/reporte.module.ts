@@ -19,13 +19,18 @@ import {MatTooltipModule} from "@angular/material/tooltip";
 import {ReporteComponent} from './reporte.component';
 import { IndicadoresPowerBiComponent } from './indicadores-power-bi/indicadores-power-bi.component';
 import { TableProgramacionComponent } from './table-programacion/table-programacion.component';
-import { TableEjecucionComponent } from './table-ejecucion/table-ejecucion.component'
+import { TableEjecucionComponent } from './table-ejecucion/table-ejecucion.component';
+import { TableBitacoraElementosComponent } from './table-ejecucion/table-bitacora-elementos/table-bitacora-elementos.component';
+import { ModalBitacoraSubelementoComponent } from './table-ejecucion/modal-bitacora-subelemento/modal-bitacora-subelemento.component'
+import {MatTabsModule} from "@angular/material/tabs";
+import {MatCheckboxModule} from "@angular/material/checkbox";
+import {ScrollingModule} from '@angular/cdk/scrolling'; 
 
 @NgModule({
   declarations: [
     ReporteComponent, 
     IndicadoresPowerBiComponent, 
-    TableProgramacionComponent, TableEjecucionComponent
+    TableProgramacionComponent, TableEjecucionComponent, TableBitacoraElementosComponent, ModalBitacoraSubelementoComponent
   ],
   imports: [
     CommonModule,
@@ -44,7 +49,10 @@ import { TableEjecucionComponent } from './table-ejecucion/table-ejecucion.compo
     MatListModule,
     ConsignaModule,
     MatSortModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatTabsModule,
+    MatCheckboxModule,
+    ScrollingModule
   ]
 })
 export class ReporteModule { }
