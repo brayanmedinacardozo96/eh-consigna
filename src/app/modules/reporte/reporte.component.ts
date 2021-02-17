@@ -35,12 +35,21 @@ export class ReporteComponent implements OnInit {
       required: true,
       valor: null
     },
+    numeroConsigna:{
+      label: 'Consignación No.',
+      name: 'numeroConsigna',
+      value: null,
+      messages: null,
+      required: false,
+      visible: false
+    },
     fechaInicio: {
       label: 'Fecha inicio ejecución',
       name: 'fechaInicio',
       value: null,
       messages: null,
       required: true,
+      visible: true
     },
     fechaFin: {
       label: 'Fecha fin ejecución',
@@ -48,6 +57,7 @@ export class ReporteComponent implements OnInit {
       value: null,
       messages: null,
       required: true,
+      visible: true
     },
     estadoConsigna: {
       label: 'Estado consignación',
@@ -55,6 +65,7 @@ export class ReporteComponent implements OnInit {
       value: null,
       messages: null,
       required: false,
+      visible: true
     },
     solicitadaTercero: {
       label: 'Solicitada por un tercero',
@@ -63,6 +74,7 @@ export class ReporteComponent implements OnInit {
       disabled: false,
       messages: null,
       required: false,
+      visible: true
     },
     tipoTercero: {
       label: 'Tipo tercero',
@@ -157,7 +169,8 @@ export class ReporteComponent implements OnInit {
         solicitadaTercero: this.form.solicitadaTercero.value,
         tipoTerceroId: this.form.tipoTercero.value,
         terceroNumeroContrato: this.form.terceroNumeroContrato.value,
-        terceroAnioContrato: this.form.terceroAnio.value
+        terceroAnioContrato: this.form.terceroAnio.value,
+        numeroConsigna: this.form.numeroConsigna.value
       }
 
       this.dataExcel = [];
@@ -195,10 +208,7 @@ export class ReporteComponent implements OnInit {
 
   limpiar() {
     this.dataExcel = [];
-    for(let obj in this.form){
-      this.form[obj].value = null;
-      this.form[obj].message = '';
-    }
+    this.validations.cleanFields(this.form);
     this.validarSelectSolicitaTercero();
     this.validarTipoTercero();
   }
@@ -259,6 +269,37 @@ export class ReporteComponent implements OnInit {
       }
     }
     return response;
+  }
+
+  validarReporte(){
+    this.dataExcel = [];
+    this.data = [];
+
+    for (const key in this.form) {
+      if (this.form.hasOwnProperty(key)) {
+        if(key != 'reporte'){
+          this.form[key].value = null;
+          this.form[key].messages = null;
+        }
+      }
+    }
+
+    if(this.form.reporte.value == 'REjecu'){
+      this.form.numeroConsigna.visible = true;
+      this.form.fechaInicio.visible = true;
+
+      this.form.estadoConsigna.visible = false;
+      this.form.fechaFin.visible = false;
+      this.form.fechaFin.required = false;
+      this.form.solicitadaTercero.visible = false;
+    }else{
+      this.form.numeroConsigna.visible = false;
+
+      this.form.estadoConsigna.visible = true;
+      this.form.fechaFin.visible = true;
+      this.form.fechaFin.required = true;
+      this.form.solicitadaTercero.visible = true;
+    }
   }
 
 }
