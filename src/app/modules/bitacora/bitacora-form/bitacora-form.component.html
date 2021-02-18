@@ -109,6 +109,7 @@
           <thead>
           <tr>
             <th>
+              Completado<br>
               <mat-checkbox [(ngModel)]="selectAllElementos" (ngModelChange)="checkAll()"></mat-checkbox>
             </th>
             <th>Tipo elemento</th>
@@ -136,11 +137,11 @@
             <td>{{value?.tipo_elemento}}</td>
             <td>
               {{value?.elemento}}
-              <mat-icon *ngIf="value.form.completado == 1" color="accent" matTooltip="Elementos afectados"
+              <mat-icon color="accent" matTooltip="Elementos afectados"
                 (click)="abrirSubelementos(value)" style="cursor: pointer;">offline_bolt
               </mat-icon>
 
-              <mat-icon *ngIf="value.form.completado == 1" color="accent"
+              <mat-icon color="accent"
                 matTooltip="Elementos afectados por corto tiempo" (click)="abrirSubelementosCortoTiempo(value)"
                 style="cursor: pointer;">history_toggle_off
               </mat-icon>
@@ -148,7 +149,7 @@
             <td>{{value?.hora_inicio_prog}}</td>
             <td>
               <app-date-time-picker
-                [disable]="value.form.completado == 1 ? false : true"
+                [disable]="false"
                 [style]="'width: 100px;'"
                 [value]="value?.form?.hora_inicio?.value"
                 [name]="value?.form?.hora_inicio?.name"
@@ -158,7 +159,7 @@
             </td>
             <td>
               <app-date-time-picker
-                [disable]="value.form.completado == 1 ? false : true"
+                [disable]="false"
                 [style]="'width: 100px;'"
                 [value]="value?.form?.hora_entrega?.value"
                 [name]="value?.form?.hora_entrega?.name"
@@ -170,7 +171,7 @@
             <!--value?.form?.hora_fin?.value-->
             <td>
               <app-date-time-picker
-                [disable]="value.form.completado == 1 ? false : true"
+                [disable]="false"
                 [style]="'width: 100px;'"
                 [value]="value?.form?.hora_devolucion?.value"
                 [name]="value?.form?.hora_devolucion?.name"
@@ -181,7 +182,7 @@
             </td>
             <td>
               <app-date-time-picker
-                [disable]="value.form.completado == 1 ? false : true"
+                [disable]="false"
                 [style]="'width: 100px;'"
                 [value]="value?.form?.hora_maniobra?.value"
                 [name]="value?.form?.hora_maniobra?.name"
@@ -192,7 +193,7 @@
             </td>
             <td>
               <app-date-time-picker
-                [disable]="value.form.completado == 1 ? false : true"
+                [disable]="false"
                 [style]="'width: 100px;'"
                 [value]="value?.form?.hora_fin?.value"
                 [name]="value?.form?.hora_fin?.name"
@@ -203,7 +204,7 @@
             <td>{{value?.hora_final_prog}}</td>
             <td>
               <app-input-text-area
-                [disable]="value.form.completado == 1 ? false : true"
+                [disable]="false"
                 class="input"
                 [value]="value?.form?.comentario?.value"
                 [name]="value?.form?.comentario?.name"
@@ -302,7 +303,7 @@
             <mat-label>{{formCompletado.completado.label}}
               <ng-container *ngIf="formCompletado.completado.required">*</ng-container>
             </mat-label>
-            <mat-select [disabled]="true" [(ngModel)]="formCompletado.completado.value"
+            <mat-select [disabled]="formCompletado.completado.disabled" [(ngModel)]="formCompletado.completado.value"
                         (ngModelChange)="setData(formCompletado, formCompletado.completado.name, $event)">
               <mat-option [value]="1">SI</mat-option>
               <mat-option [value]="0">NO</mat-option>
@@ -318,6 +319,7 @@
                 <ng-container *ngIf="formCompletado.causalIncumplimiento.required">*</ng-container>
               </mat-label>
               <mat-select [(ngModel)]="formCompletado.causalIncumplimiento.value"
+                          [required]="formCompletado.causalIncumplimiento.required"
                           (ngModelChange)="setData(formCompletado, formCompletado.causalIncumplimiento.name, $event)">
                 <mat-option *ngFor="let value of dataControls?.causales_incumplimiento;"
                             [value]="value?.id">{{value?.nombre}}</mat-option>

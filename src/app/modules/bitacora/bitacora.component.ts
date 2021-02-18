@@ -1,26 +1,11 @@
-import {
-  Component,
-  OnInit
-} from '@angular/core';
-import {
-  Helpers
-} from "../../shared/helpers";
-import {
-  ApiService
-} from "../../shared/services/api.service";
-import {
-  NotifierService
-} from "angular-notifier";
-import {
-  ValidationService
-} from "../../shared/services/validations.service";
-import {
-  environment
-} from "../../../environments/environment";
+import {Component,OnInit} from '@angular/core';
+import {Helpers} from "../../shared/helpers";
+import {ApiService} from "../../shared/services/api.service";
+import {NotifierService} from "angular-notifier";
+import {ValidationService} from "../../shared/services/validations.service";
+import {environment} from "../../../environments/environment";
 import * as moment from 'moment';
-import {
-  element
-} from 'protractor';
+import {element} from 'protractor';
 import { SessionService } from '../../shared/services/session.service';
 import { Router } from '@angular/router';
 
@@ -130,20 +115,25 @@ export class BitacoraComponent implements OnInit {
     nacional:0
   }
 
+  dataFormBitacora = 'dataFormBitacora';
+
   constructor(private api: ApiService,
     private notifier: NotifierService,
     private session: SessionService,
     private validations: ValidationService, ) {}
 
   ngOnInit(): void {
-    this.searchLoad();
+    if(this.session.getItem(this.dataFormBitacora) != undefined){
+      this.loadSessionForm();
+    }else{
+      this.searchLoad();
+    }
     this.getParametroColor();
     this.setDelay();
 
     this.dataControls.estadoConsigna=[{id:"A",nombre:"Aprobada"},{id:"T",nombre:"Todas"}]
 
-    this.form.estadoConsigna.value="A"
-
+    this.form.estadoConsigna.value = this.form.estadoConsigna.value != null ? this.form.estadoConsigna.value :"A"
   }
 
   setDelay() {
@@ -163,7 +153,6 @@ export class BitacoraComponent implements OnInit {
   }
 
   getParams() {
-
     let fechaInicio = null;
     if (this.form.fechaInicio.value) {
       fechaInicio = this.helpers.formatDate(this.form.fechaInicio.value);
@@ -211,6 +200,8 @@ export class BitacoraComponent implements OnInit {
     this.resumen();
     if (this.data.length === 0) {
       this.notifier.notify('info', 'No se encontraron registros...');
+    }else{
+      this.setFormSession();//guarda registros del form en el almacenamiento  session
     }
 
   }
@@ -232,9 +223,12 @@ export class BitacoraComponent implements OnInit {
 
     this.data = response.data;
     this.setDataExcel();
+    this.setFormSession();//guarda registros del form en el almacenamiento  session
     this.resumen();
     if (this.data.length === 0) {
      // this.notifier.notify('info', 'No se encontraron registros...');
+    }else{
+      this.setFormSession();//guarda registros del form en el almacenamiento  session
     }
 
   }
@@ -265,6 +259,7 @@ export class BitacoraComponent implements OnInit {
   cleanFields() {
     this.validations.cleanFields(this.form);
     this.data = [];
+    this.session.remove(this.dataFormBitacora);
     this.setDataExcel();
     this.searchLoad();
   }
@@ -354,8 +349,39 @@ export class BitacoraComponent implements OnInit {
   }
 
   setDataEstado(name, event) {
-
     this.form[name].value = event;
+  }
+
+  setFormSession(){
+    let success = false;
+    //verifica que en algún dato se encuentre guardado información
+    for (const key in this.form) {
+      if (this.form.hasOwnProperty(key)) {
+        if (this.form[key].value != null && this.form[key].value != 'null' ) {
+          success = true          
+        }
+      }
+    }
+
+    if(success){
+      this.session.setItem(this.dataFormBitacora, this.form);
+    }
+  }
+
+  loadSessionForm(){
+    let form = this.session.getItem(this.dataFormBitacora);
+    for (const key in form) {
+      if (form.hasOwnProperty(key)) {
+        if (form[key].value != null && form[key].value != 'null') {
+          if(key.includes('fecha')){
+            this.form[key].value = new Date(form[key].value);
+          }else{
+            this.form[key].value = form[key].value;
+          }
+        }
+      }
+    }
+    this.search();
 
   }
  
