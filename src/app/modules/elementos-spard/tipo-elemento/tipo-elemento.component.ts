@@ -114,6 +114,11 @@ export class TipoElementoComponent implements OnInit {
   }
 
   async guardar(){
+    let validations = this.validations.validateEmptyFields(this.form);
+    if(!validations.success){
+      return false;
+    }
+    
     let request = {
       id: this.id,
       redElectrica: this.form.redElectrica.value,

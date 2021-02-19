@@ -23,9 +23,11 @@ import { TipoElementoComponent } from './tipo-elemento/tipo-elemento.component';
 import { ElementosComponent } from './elementos/elementos.component';
 import { TableTipoElementoComponent } from './tipo-elemento/table-tipo-elemento/table-tipo-elemento.component';
 import { TableElementosComponent } from './elementos/table-elementos/table-elementos.component';
+import { SubestacionesComponent } from './subestaciones/subestaciones.component';
+import { TableSubestacionesComponent } from './subestaciones/table-subestaciones/table-subestaciones.component';
 
 @NgModule({
-  declarations: [ElementosSpardComponent, TipoElementoComponent, ElementosComponent, TableTipoElementoComponent, TableElementosComponent],
+  declarations: [ElementosSpardComponent, TipoElementoComponent, ElementosComponent, TableTipoElementoComponent, TableElementosComponent, SubestacionesComponent, TableSubestacionesComponent],
   imports: [
     CommonModule,
     RouterModule,

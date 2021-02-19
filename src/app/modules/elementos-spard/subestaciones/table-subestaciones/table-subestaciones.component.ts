@@ -4,13 +4,13 @@ import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 
 @Component({
-  selector: 'app-table-elementos',
-  templateUrl: './table-elementos.component.html',
-  styleUrls: ['./table-elementos.component.scss']
+  selector: 'app-table-subestaciones',
+  templateUrl: './table-subestaciones.component.html',
+  styleUrls: ['./table-subestaciones.component.scss']
 })
-export class TableElementosComponent implements OnInit {
+export class TableSubestacionesComponent implements OnInit {
 
-  displayedColumns: string[] = ['nombre','grupo','codigo_creg', 'codigo_spard','latitud','longitud','fecha_creacion','red_electrica','tipo_elemento','zona','subestacion','estado','acciones'];
+  displayedColumns: string[] = ['nombre','codigo','latitud','longitud', 'codigo_creg', 'zona','fecha_creacion','fecha_actualizacion','acciones'];
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
@@ -43,16 +43,6 @@ export class TableElementosComponent implements OnInit {
   seleccionar(row) {
     let obj = {...row}
     this.valueChange.emit(["select",obj]);
-  }
-
-  getRedElectrica(id){
-    let redElectrica = this.temporales.redElectrica.find(data => data.value == id);
-    return redElectrica.nombre;
-  }
-
-  getEstado(id){
-    let estado = this.temporales.estado.find(data => data.value == id);
-    return estado.nombre;
   }
 
   getDataInfo(nameObj, id){

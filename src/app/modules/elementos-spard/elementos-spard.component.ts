@@ -21,9 +21,10 @@ export class ElementosSpardComponent implements OnInit {
 
   temporales = {
     tipoZona: [],
+    tipoElementos: [],
     subestacion: [],
     redElectrica: [],
-    tipoElementos: [],
+    estado: [],
   }
 
   constructor(
