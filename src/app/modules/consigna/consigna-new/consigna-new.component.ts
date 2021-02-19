@@ -1354,6 +1354,9 @@ export class ConsignaNewComponent implements OnInit {
       let request = {
         tipo_elemento_id: event
       };
+
+      let tipoElementos = this.dataControls.tipoElemento;
+      let tpElemento = tipoElementos.find(data => data.id == this.formElementos.tipoElemento.value);
   
       let dataSession = this.session.getDataInfo('elemento','tipo_elemento_id',event);
       if(dataSession.success && dataSession.data.length >0){
@@ -1368,6 +1371,12 @@ export class ConsignaNewComponent implements OnInit {
           this.snackBar.alert(message,10000)
         } 
       }    
+
+      if(tpElemento.codigo_spard == 'Consigna-BahiaLinea' ){
+        let dataElementos =  this.dataControls.elemento;
+        dataElementos = dataElementos.filter(data => data.subestacion_id == this.form.subestacion.value);
+        this.dataControls.elemento = dataElementos;
+      }
     }
   }
 

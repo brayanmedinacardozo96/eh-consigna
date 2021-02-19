@@ -249,12 +249,19 @@ export class ElementosComponent implements OnInit {
       this.id = event[1].id;
 
       this.form.redElectrica.value = event[1].tipo_elemento.red_electrica;
-      this.validarRedElectrica();
+      //subestacion
+      this.dataControls.subestacion = this.temporales.subestacion;
+      this.form.subestacion.value = parseInt(event[1].subestacion_id);
+
+      //zona
+      this.dataControls.tipoZona = this.temporales.tipoZona;
+      let dataSubestacion = this.temporales.subestacion.find(data => data.id == event[1].subestacion_id);
+      let dataZona = this.temporales.tipoZona.find(data => data.id == dataSubestacion.zona_id);
+      this.form.tipoZona.value = parseInt(dataZona.id);
+
+      //tipoElemento
+      this.dataControls.tipoElementos = this.temporales.tipoElementos;
       this.form.tipoElemento.value = parseInt(event[1].tipo_elemento_id);
-      this.validarTipoElemento();
-      this.form.tipoZona.value = parseInt(event[1].tipo_elemento.subestacion.zona_id);
-      this.validarTipoZona();
-      this.form.subestacion.value = parseInt(event[1].tipo_elemento.subestacion_id);
 
       this.form.estado.value = event[1].estado;
       this.form.grupo.value = event[1].grupo != null && event[1].grupo != null ? event[1].grupo : '';
@@ -275,6 +282,10 @@ export class ElementosComponent implements OnInit {
       new Scroll("0");
     }
 
+  }
+
+  consultar(){
+  
   }
 
 }

@@ -55,12 +55,12 @@
 
         <ng-container matColumnDef="zona">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Zona</th>
-            <td mat-cell *matCellDef="let row">{{getDataInfo('tipoZona',row?.tipo_elemento.subestacion.zona_id)}}</td>
+            <td mat-cell *matCellDef="let row">{{getZona(row?.subestacion_id)}}</td>
         </ng-container>
 
         <ng-container matColumnDef="subestacion">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Subestación</th>
-            <td mat-cell *matCellDef="let row">{{getDataInfo('subestacion',row?.tipo_elemento.subestacion_id)}}</td>
+            <td mat-cell *matCellDef="let row">{{getDataInfo('subestacion',row?.subestacion_id)}}</td>
         </ng-container>
         <!--'estado','acciones' -->       
   

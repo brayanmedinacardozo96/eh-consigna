@@ -60,4 +60,10 @@ export class TableElementosComponent implements OnInit {
     return data.nombre;
   }
 
+  getZona(idSubestacion){
+    let dataSubestacion = this.temporales.subestacion.find(data => data.id == idSubestacion);
+    let dataZona = this.temporales.tipoZona.find(data => data.id == dataSubestacion.zona_id);
+    return dataZona.nombre;
+  }
+
 }
