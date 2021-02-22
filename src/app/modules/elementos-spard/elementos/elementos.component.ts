@@ -177,7 +177,13 @@ export class ElementosComponent implements OnInit {
     }
 
     this.form.tipoZona.disabled = false;
-    this.dataControls.tipoZona = tipoZona;    
+    this.dataControls.tipoZona = tipoZona;
+    
+    if(tipoZona.length == 1){
+      this.form.tipoZona.value = tipoZona[0].id;
+      this.form.tipoZona.disabled = true;
+      this.validarTipoZona();
+    }
   }
 
   validarTipoZona(){
@@ -190,6 +196,11 @@ export class ElementosComponent implements OnInit {
       this.dataControls.subestacion = this.getSortByName(subestacion);
     }
     this.form.subestacion.disabled = false;
+
+    if(this.dataControls.subestacion.length == 1){
+      this.form.subestacion.value = this.dataControls.subestacion[0].id;
+      this.form.subestacion.disabled = true;
+    }
   }
 
   getSortByName(data){

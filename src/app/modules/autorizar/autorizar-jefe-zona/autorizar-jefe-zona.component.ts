@@ -83,7 +83,11 @@ export class AutorizarJefeZonaComponent implements OnInit {
 
   ngOnInit(): void {
     this.form.usuario.id=this.user.id;
-    this.form.usuario.value = `${this.user.first_name} ${this.user.second_name} ${this.user.first_lastname} ${this.user.second_lastname}`;
+    let nombreUsuario = `${this.user.first_name} `;
+    nombreUsuario += `${this.user.second_name != null && this.user.second_name != undefined && this.user.second_name != '' ? this.user.second_name : '' } `;
+    nombreUsuario += `${this.user.first_lastname != null && this.user.first_lastname != undefined && this.user.first_lastname != '' ? this.user.first_lastname : '' } `;
+    nombreUsuario += `${this.user.second_lastname != null && this.user.second_lastname != undefined && this.user.second_lastname != '' ? this.user.second_lastname : ''}`;
+    this.form.usuario.value = `${nombreUsuario}`;
     // this.getlistParametros();
   }
 

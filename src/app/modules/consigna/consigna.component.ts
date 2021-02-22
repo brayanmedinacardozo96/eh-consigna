@@ -153,10 +153,11 @@ export class ConsignaComponent implements OnInit {
     const response = await this.api.post(`${environment.apiBackend}/consigna/get-list`, this.form);
     if(response.success){
       this.data = response.data;
-      this.session.setItem('dataConsigna',this.data);//agregar en la variable de session
       if(this.data.length < 1){
         this.notifier.notify('warning', this.messageService.get('not-records'));
       }
+      let sessionDataConsigna = this.data.length < 51 ? this.data : [];
+      this.session.setItem('dataConsigna',sessionDataConsigna);//agregar en la variable de session
     }
   }
 
