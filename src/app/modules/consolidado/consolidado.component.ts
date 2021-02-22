@@ -6,6 +6,7 @@ import { Validations } from './../../shared/validations';
 import { Helpers } from './../../shared/helpers';
 import { ValidationService } from './../../shared/services/validations.service';
 import { SessionService } from './../../shared/services/session.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-consolidado',
@@ -65,6 +66,10 @@ export class ConsolidadoComponent implements OnInit {
     if (!responseValidate.success) {
       return false;
     }
+    const validarFechas = this.validacionFechas();
+    if(!validarFechas.success){
+      return false;
+    }
     let params = this.getParams()
 
     const response = await this.api.post(`${environment.apiBackend}/consolidado-prensa/get-all`,params);
@@ -112,6 +117,19 @@ export class ConsolidadoComponent implements OnInit {
       this.session.setItem('usuario',response.data.personSeguridadTransversal);
       this.dataControls.usuario = this.session.getPersona();
     }
+  }
+
+  validacionFechas(){
+    let response = {success: true, message: ''};
+    if(this.form.fechaInicio.value != null && this.form.fechaFin.value != null){
+      if(moment(this.form.fechaFin.value) < moment(this.form.fechaInicio.value)){
+        response.success = false; 
+        response.message = 'La fecha final no puede ser menor a la inicial'; 
+        this.notifier.notify('warning', 'La fecha final no puede ser menor a la inicial');
+      }
+    }
+    
+    return response;
   }
 
 }
