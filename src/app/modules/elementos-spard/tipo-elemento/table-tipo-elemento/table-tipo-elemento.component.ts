@@ -10,7 +10,7 @@ import {MatSort} from '@angular/material/sort';
 })
 export class TableTipoElementoComponent implements OnInit {
 
-  displayedColumns: string[] = ['nombre','codigo_spard','red_electrica', 'subestacion','fecha_creacion','fecha_actualizacion','acciones'];
+  displayedColumns: string[] = ['nombre','codigo_spard','contiene_subestacion','red_electrica', 'subestacion','fecha_creacion','fecha_actualizacion','acciones'];
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
@@ -53,6 +53,11 @@ export class TableTipoElementoComponent implements OnInit {
   getSubestacion(id){
     let subestacion = this.temporales.subestacion.find(data => data.id == id);
     return subestacion.nombre;
+  }
+
+  getContieneSubestacion(value){
+    let contieneSubestacion = this.temporales.contieneSubestacion.find(data => data.value == value);
+    return contieneSubestacion.nombre;
   }
 
 }

@@ -18,6 +18,11 @@
           <td mat-cell *matCellDef="let row">{{row?.codigo_spard}}</td>
         </ng-container>
   
+        <ng-container matColumnDef="contiene_subestacion">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Contiene Subestación</th>
+          <td style="text-align:left" mat-cell *matCellDef="let row">{{getContieneSubestacion(row.contiene_subestacion)}} </td>
+        </ng-container>
+
         <ng-container matColumnDef="red_electrica">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Red Electrica</th>
           <td style="text-align:left" mat-cell *matCellDef="let row">{{getRedElectrica(row.red_electrica)}} </td>

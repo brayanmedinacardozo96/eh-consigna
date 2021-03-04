@@ -99,7 +99,7 @@ export class ElementosComponent implements OnInit {
       name: 'latitud',
       value: null,
       messages: null,
-      required: true,
+      required: false,
       length: 20,
       disabled: false,
       visible: true
@@ -109,7 +109,7 @@ export class ElementosComponent implements OnInit {
       name: 'longitud',
       value: null,
       messages: null,
-      required: true,
+      required: false,
       length: 20,
       disabled: false,
       visible: true
@@ -129,7 +129,8 @@ export class ElementosComponent implements OnInit {
       private validations: ValidationService,
       private api: ApiService,
       private notifier: NotifierService
-    ) { }
+    ) {
+    }
 
   ngOnInit(): void {
   }
@@ -138,7 +139,7 @@ export class ElementosComponent implements OnInit {
     let tipoElemento = this.temporales.tipoElementos;
     this.dataControls.tipoElementos = this.temporales.tipoElementos;
     // this.form.tipoElemento.disabled = false;
-    tipoElemento = tipoElemento.filter(data => data.red_electrica == this.form.redElectrica.value);
+    tipoElemento = tipoElemento.filter(data => data.red_electrica == this.form.redElectrica.value && data.codigo_spard != 'Consigna-BahiaLinea');
     this.dataControls.tipoElementos = this.getSortByName(tipoElemento); 
     this.form.tipoElemento.disabled = false;
 
@@ -157,28 +158,28 @@ export class ElementosComponent implements OnInit {
   validarTipoElemento(){
     let dataTipoElemento = this.dataControls.tipoElementos.find(data => data.id == this.form.tipoElemento.value);
     let tipoZona = this.temporales.tipoZona;
+    let subestacion = this.temporales.subestacion;
     this.dataControls.subestacion = this.temporales.subestacion;
 
-    let subestacion = this.temporales.subestacion;
     this.dataControls.subestacion = [];
 
-    this.form.tipoZona.value = null;
-    this.form.subestacion.value = null;
+    this.form.tipoZona.disabled = true;
+    this.form.subestacion.disabled = true;
 
-    if(this.form.redElectrica.value == 0 && dataTipoElemento.codigo_spard != 'Consigna-BahiaLinea'){
+    if(parseInt(dataTipoElemento.contiene_subestacion) == 1){
+      this.form.tipoZona.disabled = false;
+      this.form.subestacion.disabled = false;
+
+      tipoZona = tipoZona.filter(data => data.codigo != 'NTZ');
+    }else{
       tipoZona = tipoZona.filter(data => data.codigo == 'NTZ');
-    }else if(this.form.redElectrica.value == 1){
-      tipoZona = tipoZona.filter(data => data.id == dataTipoElemento.subestacion.zona_id);
       subestacion = subestacion.filter(data => data.id == dataTipoElemento.subestacion.id);
       this.dataControls.subestacion = subestacion;
-    }else{
-      tipoZona = tipoZona.filter(data => data.codigo != 'NTZ');
-      // tipoZona = tipoZona;
     }
 
     this.form.tipoZona.disabled = false;
     this.dataControls.tipoZona = tipoZona;
-    
+
     if(tipoZona.length == 1){
       this.form.tipoZona.value = tipoZona[0].id;
       this.form.tipoZona.disabled = true;
@@ -191,10 +192,8 @@ export class ElementosComponent implements OnInit {
     this.form.subestacion.value = null;
     let dataTipoElemento = this.dataControls.tipoElementos.find(data => data.id == this.form.tipoElemento.value);
 
-    if(this.dataControls.subestacion.length < 1 || dataTipoElemento.codigo_spard == 'Consigna-BahiaLinea'){
-      subestacion = subestacion.filter(data => data.zona_id == this.form.tipoZona.value);
-      this.dataControls.subestacion = this.getSortByName(subestacion);
-    }
+    subestacion = subestacion.filter(data => data.zona_id == this.form.tipoZona.value);
+    this.dataControls.subestacion = this.getSortByName(subestacion);
     this.form.subestacion.disabled = false;
 
     if(this.dataControls.subestacion.length == 1){
@@ -253,10 +252,14 @@ export class ElementosComponent implements OnInit {
     this.form.tipoZona.disabled = true;
     this.form.subestacion.disabled = true;
     this.id = null;
+
+    this.dataControls.redElectricaElementos = this.temporales.redElectricaElementos;
   }
 
   setDataTable(event) {
     if (event[0] == "select") {
+      this.dataControls.redElectricaElementos  = this.temporales.redElectrica;
+
       this.id = event[1].id;
 
       this.form.redElectrica.value = event[1].tipo_elemento.red_electrica;

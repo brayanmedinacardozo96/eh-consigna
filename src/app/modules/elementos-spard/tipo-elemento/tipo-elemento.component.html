@@ -6,9 +6,22 @@
                 <mat-form-field style="width: 50%;">
                     <mat-label>{{form.redElectrica.required ? form.redElectrica.label+' *' :form.redElectrica.label}}</mat-label>
                     <mat-select id="form_consigna-red_electrica" [(ngModel)]="form.redElectrica.value"
-                        (ngModelChange)="validarRedElectrica()"
                         style="padding-top: 5px;padding-bottom: 5px;">
                         <mat-option *ngFor="let value of dataControls?.redElectrica;" [value]="value.value">
+                            {{ value.nombre }}
+                        </mat-option>
+                    </mat-select>
+                    <mat-hint style="color: red" *ngIf="form.redElectrica.messages">{{form.redElectrica.messages}}</mat-hint>
+                </mat-form-field>
+            </mat-grid-tile>
+
+            <mat-grid-tile>
+                <mat-form-field style="width: 50%;">
+                    <mat-label>{{form.contieneSubestacion.required ? form.contieneSubestacion.label+' *' :form.contieneSubestacion.label}}</mat-label>
+                    <mat-select id="form_consigna-contiene_subestacion" [(ngModel)]="form.contieneSubestacion.value"
+                    (ngModelChange)="validarContieneSubestacion()"
+                        style="padding-top: 5px;padding-bottom: 5px;">
+                        <mat-option *ngFor="let value of dataControls?.contieneSubestacion;" [value]="value.value">
                             {{ value.nombre }}
                         </mat-option>
                     </mat-select>

@@ -16,7 +16,9 @@ export class ElementosSpardComponent implements OnInit {
     tipoElementos: [],
     subestacion: [],
     redElectrica: [],
+    redElectricaElementos: [], //para el formulario de elementos (se ignora Linea)
     estado: [],
+    contieneSubestacion: [],
   }
 
   temporales = {
@@ -24,7 +26,9 @@ export class ElementosSpardComponent implements OnInit {
     tipoElementos: [],
     subestacion: [],
     redElectrica: [],
+    redElectricaElementos: [], //para el formulario de elementos (se ignora Linea)
     estado: [],
+    contieneSubestacion: [],
   }
 
   constructor(
@@ -54,6 +58,10 @@ export class ElementosSpardComponent implements OnInit {
           }
         }
       }
+      
+      let redElectrica = this.dataControls.redElectrica;
+      this.dataControls.redElectricaElementos = redElectrica.filter(data => data.value != 1);
+      this.temporales.redElectricaElementos = this.dataControls.redElectricaElementos;
     }else{
       this.notifier.notify('warning',response.message);
     }

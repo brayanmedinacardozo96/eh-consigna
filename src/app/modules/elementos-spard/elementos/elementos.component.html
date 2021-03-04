@@ -9,7 +9,7 @@
                         [disabled]="form.redElectrica.disabled"
                         (ngModelChange)="validarRedElectrica()"
                         style="padding-top: 5px;padding-bottom: 5px;">
-                        <mat-option *ngFor="let value of dataControls?.redElectrica;" [value]="value.value">
+                        <mat-option *ngFor="let value of dataControls?.redElectricaElementos;" [value]="value.value">
                             {{ value.nombre }}
                         </mat-option>
                     </mat-select>

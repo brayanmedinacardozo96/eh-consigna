@@ -21,6 +21,13 @@ export class TipoElementoComponent implements OnInit {
       messages: null,
       required: true,
     },
+    contieneSubestacion: {
+      label: 'Contiene Subestación',
+      name: 'contieneSubestacion',
+      value: null,
+      messages: null,
+      required: true,
+    },
     tipoZona: {
       label: 'Tipo zona',
       name: 'tipoZona',
@@ -82,11 +89,15 @@ export class TipoElementoComponent implements OnInit {
     this.form[name].value = event;
   }
 
-  validarRedElectrica(){
+  validarContieneSubestacion(){
     let tipoZona = this.temporales.tipoZona;
     this.dataControls.subestacion = this.temporales.subestacion;
-    
-    if(this.form.redElectrica.value == 1){
+
+    this.form.tipoZona.disabled = false;
+    this.dataControls.tipoZona = tipoZona;
+    this.form.subestacion.value = null;
+
+    /* if(this.form.contieneSubestacion.value == 1){
       this.form.tipoZona.disabled = false;
       this.form.subestacion.value = null;
 
@@ -100,8 +111,8 @@ export class TipoElementoComponent implements OnInit {
       this.form.tipoZona.value = sinZona.id;
       this.form.tipoZona.disabled = true;
       this.form.subestacion.value = sinSubestacion.id;
-    }
-    
+    } */
+
     this.form.subestacion.disabled = true;
   }
 
@@ -125,7 +136,8 @@ export class TipoElementoComponent implements OnInit {
       tipoZona: this.form.tipoZona.value,
       subestacion: this.form.subestacion.value,
       nombre: this.form.nombre.value,
-      codigoSpard: this.form.codigoSpard.value
+      codigoSpard: this.form.codigoSpard.value,
+      contieneSubestacion: this.form.contieneSubestacion.value
     }
 
     const response = await this.api.post(`${environment.apiBackend}/tipo-elemento/save-or-update`, request);
@@ -155,12 +167,18 @@ export class TipoElementoComponent implements OnInit {
     if (event[0] == "select") {
       this.id = event[1].id;
       this.form.redElectrica.value = event[1].red_electrica;
-      this.validarRedElectrica();
+      this.form.contieneSubestacion.value = event[1].contiene_subestacion;
+      this.validarContieneSubestacion();
+      this.dataControls.tipoZona = this.temporales.tipoZona;
       this.form.tipoZona.value = parseInt(event[1].zona_id);
       this.validarTipoZona();
+      this.dataControls.subestacion = this.temporales.subestacion;
       this.form.subestacion.value = parseInt(event[1].subestacion_id);
       this.form.nombre.value = event[1].nombre;
       this.form.codigoSpard.value = event[1].codigo_spard;
+
+      this.form.tipoZona.disabled = true;
+      this.form.subestacion.disabled = true;
 
       this.boton.color = "btn-success";
       this.boton.value = "Actualizar";
