@@ -20,6 +20,7 @@ export class TipoElementoComponent implements OnInit {
       value: null,
       messages: null,
       required: true,
+      disabled: false,
     },
     contieneSubestacion: {
       label: 'Contiene Subestación',
@@ -97,7 +98,7 @@ export class TipoElementoComponent implements OnInit {
     this.dataControls.tipoZona = tipoZona;
     this.form.subestacion.value = null;
 
-    /* if(this.form.contieneSubestacion.value == 1){
+    if(this.form.contieneSubestacion.value == 1){
       this.form.tipoZona.disabled = false;
       this.form.subestacion.value = null;
 
@@ -111,7 +112,7 @@ export class TipoElementoComponent implements OnInit {
       this.form.tipoZona.value = sinZona.id;
       this.form.tipoZona.disabled = true;
       this.form.subestacion.value = sinSubestacion.id;
-    } */
+    }
 
     this.form.subestacion.disabled = true;
   }
@@ -121,7 +122,11 @@ export class TipoElementoComponent implements OnInit {
     this.form.subestacion.value = null;
 
     this.dataControls.subestacion = subestacion.filter(data => data.zona_id == this.form.tipoZona.value);
-    this.form.subestacion.disabled = false;
+    if(this.dataControls.subestacion.length == 1){
+      this.form.subestacion.disabled = true;
+    }else{
+      this.form.subestacion.disabled = false;
+    }
   }
 
   async guardar(){
@@ -161,6 +166,8 @@ export class TipoElementoComponent implements OnInit {
     this.form.tipoZona.disabled = true;
     this.form.subestacion.disabled = true;
     this.id = null;
+    this.dataControls.redElectricaElementos = this.temporales.redElectricaElementos;
+    this.form.redElectrica.disabled = false;
   }
 
   setDataTable(data, event) {
@@ -177,8 +184,11 @@ export class TipoElementoComponent implements OnInit {
       this.form.nombre.value = event[1].nombre;
       this.form.codigoSpard.value = event[1].codigo_spard;
 
-      this.form.tipoZona.disabled = true;
-      this.form.subestacion.disabled = true;
+      // this.form.tipoZona.disabled = true;
+      // this.form.subestacion.disabled = true;
+      this.dataControls.redElectricaElementos = this.temporales.redElectrica;
+      this.form.redElectrica.disabled = true;
+
 
       this.boton.color = "btn-success";
       this.boton.value = "Actualizar";

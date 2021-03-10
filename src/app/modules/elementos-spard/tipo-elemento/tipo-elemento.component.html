@@ -5,9 +5,9 @@
             <mat-grid-tile>
                 <mat-form-field style="width: 50%;">
                     <mat-label>{{form.redElectrica.required ? form.redElectrica.label+' *' :form.redElectrica.label}}</mat-label>
-                    <mat-select id="form_consigna-red_electrica" [(ngModel)]="form.redElectrica.value"
+                    <mat-select [disabled]="form.redElectrica.disabled" id="form_consigna-red_electrica" [(ngModel)]="form.redElectrica.value"
                         style="padding-top: 5px;padding-bottom: 5px;">
-                        <mat-option *ngFor="let value of dataControls?.redElectrica;" [value]="value.value">
+                        <mat-option *ngFor="let value of dataControls?.redElectricaElementos;" [value]="value.value">
                             {{ value.nombre }}
                         </mat-option>
                     </mat-select>
@@ -25,7 +25,7 @@
                             {{ value.nombre }}
                         </mat-option>
                     </mat-select>
-                    <mat-hint style="color: red" *ngIf="form.redElectrica.messages">{{form.redElectrica.messages}}</mat-hint>
+                    <mat-hint style="color: red" *ngIf="form.contieneSubestacion.messages">{{form.contieneSubestacion.messages}}</mat-hint>
                 </mat-form-field>
             </mat-grid-tile>
 
@@ -94,7 +94,7 @@
         <button mat-flat-button class="btn-default" (click)="limpiar()"
             style="margin-left: 20px; margin-top: 10px;">Limpiar</button>
         
-        <app-table-tipo-elemento [data]="dataControls.tipoElementos" [temporales]="temporales" 
+        <app-table-tipo-elemento [data]="temporales.tipoElementos" [temporales]="temporales" 
             (valueChange)="setDataTable(dataControls.data, $event)">
         </app-table-tipo-elemento>
         
