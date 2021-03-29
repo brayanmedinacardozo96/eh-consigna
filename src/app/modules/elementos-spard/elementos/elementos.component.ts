@@ -219,8 +219,8 @@ export class ElementosComponent implements OnInit {
     let request = {
       id: this.id,
       nombre: this.form.nombre.value.trim(),
-      codigoCreg: this.form.codigoCreg.value.trim(),
-      grupo: this.form.grupo.value.trim(),
+      codigoCreg: this.form.codigoCreg.value != null ? this.form.codigoCreg.value.trim(): null,
+      grupo: this.form.grupo.value != null ? this.form.grupo.value.trim(): null,
       latitud: this.form.latitud.value != null ? this.form.latitud.value.trim(): null,
       longitud: this.form.longitud.value != null ? this.form.longitud.value.trim(): null,
       tipoElementoId: this.form.tipoElemento.value,
