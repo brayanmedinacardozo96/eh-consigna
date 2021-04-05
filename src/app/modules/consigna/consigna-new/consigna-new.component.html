@@ -239,7 +239,7 @@
         <fieldset>
             <legend style="text-align: left;">Listado de Elementos a Consignar</legend>
             
-            <mat-grid-list *ngIf="mostrarPanelElemento"  class="row" cols="4" rowHeight="80px">
+            <mat-grid-list *ngIf="mostrarPanelElemento"  class="row" cols="3" rowHeight="80px">
                 <mat-grid-tile>
                     <mat-form-field>
                         <mat-label>{{formElementos.redElectrica.required ? formElementos.redElectrica.label+' *' :formElementos.redElectrica.label}}</mat-label>
@@ -268,7 +268,7 @@
                 </mat-grid-tile>
                 
                 <mat-grid-tile>
-                    <mat-form-field>
+                    <mat-form-field style="width: 95%;">
                         <mat-label>{{formElementos.elemento.required? formElementos.elemento.label+' *':formElementos.elemento.label}}</mat-label>
                         <mat-select [disabled]="dataControls?.elemento.length > 0 ? false: true" id="form_consigna-elemento" [(ngModel)]="formElementos.elemento.value" 
                             (ngModelChange)="validateElementos($event,'E')" style="padding-top: 5px;padding-bottom: 5px;">
