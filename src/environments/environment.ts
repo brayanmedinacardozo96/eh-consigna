@@ -6,10 +6,12 @@ export const environment = {
   production: false,
   appName: 'Sistema Local de Consignas',
   companyName: 'Electrohuila S.A. - E.S.P.',
-  apiTransverseSecurity: 'http://localhost/back-transverse-security/public/api',
-  keyTransverseSecurity: '$2y$10$OjsZGz0JqaUiFvvLHBt1I.sv5oW3bcZTOTavMOqwfAT2TxYhZa1HS',
-  apiBackend: 'http://localhost/eh-consigna-backend/public/api',
-  urlFiles: 'http://localhost/eh-consigna-backend/',
+  // apiTransverseSecurity: 'http://localhost:8000/back-transverse-security/public/api',
+  apiTransverseSecurity: 'https://enlinea.electrohuila.com.co/transverse-security/#',
+  //keyTransverseSecurity: '$2y$10$OjsZGz0JqaUiFvvLHBt1I.sv5oW3bcZTOTavMOqwfAT2TxYhZa1HS',
+  keyTransverseSecurity: '$2y$12$BemQm04jgWMJnbNRcQDhneWiOEfWSDfn7a7OjDoTmrd9IxH.Fpem6',
+  apiBackend: 'http://localhost:8000/eh-consigna-backend/public/api',
+  urlFiles: 'http://localhost:8000/eh-consigna-backend/',
 };
 
 /*
