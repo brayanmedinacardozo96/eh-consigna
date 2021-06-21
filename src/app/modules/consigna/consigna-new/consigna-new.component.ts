@@ -1585,8 +1585,10 @@ export class ConsignaNewComponent implements OnInit {
           zona:this.allZonaIndicador,
           zonaselect:this.form.tipoZona.value
         })) + '&user=' + this.utf8_to_b64(JSON.stringify(this.user));
+
+        
         child = window.open(environment.urlEhmapV2 + '?' + data + '&key=' + key, "MsgWindow", 'width=' + width + ',height=' + height + ',top=' + y + ',left=' + x + ',toolbar=no,resizable=no');
-        // child = window.open('http://192.9.200.44/hijo.html?key='+key+'&data={"feeders":[{"code":"'+feeders+'"}]}', 'Mapa', 'width=' + width + ',height=' + height + ',top=' + y + ',left=' + x + ',toolbar=no,resizable=no');
+        
         var apiLocal = this.api;
         var jsonLocal = '';
         var jsonIntervenirElementoMapa = '';
