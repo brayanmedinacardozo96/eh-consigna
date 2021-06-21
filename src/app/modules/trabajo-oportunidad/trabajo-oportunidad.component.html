@@ -1,68 +1,40 @@
 <mat-card class="container">
   <mat-card-content>
     <h1>Trabajos de oportunidad</h1>
-    <mat-grid-list class="row" cols="2" rowHeight="103px">
+    <mat-grid-list class="row" cols="2" rowHeight="107px">
 
+     <!-- <mat-grid-tile [colspan]="2">
 
-
-      
-      <mat-grid-tile [colspan]="2">
-
-        <!--<app-input-text style="width: 96%;" class="input" [label]="form.numeroConsigna.label"
-            [value]="form.numeroConsigna.value" [name]="form.numeroConsigna.name"
-            [messages]="form.numeroConsigna.messages"
-             (valueChange)="setData(form.numeroConsigna.name, $event)">
-          </app-input-text>-->
         <app-input-autocomplete style="width: 96%;" [label]="form.numeroConsigna.label"
           [value]="form.numeroConsigna.value" [name]="form.numeroConsigna.name"
           [messages]="form.numeroConsigna.messages" (valueChange)="setData(form.numeroConsigna.name, $event)"
           [urlApi]="form.numeroConsigna.url">
         </app-input-autocomplete>
+
         <div style="padding-bottom:20px">
-          <button mat-mini-fab color="accent" matTooltip="Consultar" matTooltipClass="custom-tooltip">
+          <button mat-mini-fab color="accent" (click)="dialogConsigna()" matTooltip="Consultar"
+            matTooltipClass="custom-tooltip">
             <mat-icon style="color: #FFFFFF">search</mat-icon>
           </button>
         </div>
 
-      </mat-grid-tile>
+      </mat-grid-tile>-->
 
 
 
       <mat-grid-tile [colspan]="2">
 
         <mat-form-field class="input" style="width: 95%;">
-
-          <mat-label>{{form.elemnto.label}}</mat-label>
-          <mat-select [(ngModel)]="form.elemnto.value">
-            <mat-option *ngFor="let value of dataControls?.elemento;" [value]="value.codigo">
-              {{value.nombre}}
+          <mat-label>{{form.elemento.required ? form.elemento.label +' *' : form.elemento.label}} </mat-label>
+          <mat-select id="form_trabajo-elemento" (valueChange)="setData(form.elemento.name, $event)" [(ngModel)]="form.elemento.elemento_id">
+            <mat-option *ngFor="let value of elementos;" [value]="value.value">
+              {{value.name}}
             </mat-option>
           </mat-select>
-
+          <mat-hint style="color: red" *ngIf="form.elemento.messages">{{form.elemento.messages}}</mat-hint>
         </mat-form-field>
-
-
       </mat-grid-tile>
 
-      <!--<mat-grid-tile  [colspan]="2">
-
-        <mat-accordion maxHe style="width: 96%;">
-          <mat-expansion-panel>
-            <mat-expansion-panel-header  [collapsedHeight]="customCollapsedHeight" [expandedHeight]="customExpandedHeight">
-              <mat-panel-title>
-                Información de la consigna
-              </mat-panel-title>
-            </mat-expansion-panel-header>
-
-            <mat-form-field>
-              <mat-label>First name</mat-label>
-              <input matInput>
-            </mat-form-field>
-          </mat-expansion-panel>
-        </mat-accordion>
-
-
-      </mat-grid-tile>-->
 
       <mat-grid-tile [colspan]="2">
 
@@ -104,8 +76,19 @@
 
       </mat-grid-tile>
 
-
-
     </mat-grid-list>
+
+    <button  mat-raised-button class="{{boton.color}}" (click)="guardar()" style="margin-left: 20px; margin-top: 10px;">
+      <span style="color: #FFF">{{boton.value}}</span>
+    </button>
+
+    <button  mat-raised-button (click)="limpiar()" style="background-color:lightslategrey;margin-left: 20px; margin-top: 10px;">
+      <span style="color: #FFF">Limpiar</span>
+    </button>
+
+    <div style="padding: 10px;">
+      <app-table-trabajo-oportunidad  (valueChange)="setDataTable(dataTrabajo, $event)" [data]="trabajosOportunidad"></app-table-trabajo-oportunidad>
+    </div>
+
   </mat-card-content>
 </mat-card>

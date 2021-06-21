@@ -1,0 +1,11 @@
+<mat-tab-group (selectedTabChange)="estado($event)"  mat-align-tabs="center" animationDuration="0ms">
+    <mat-tab label="Elementos">
+        <app-elementos [dataControls]="dataControls" [temporales]="temporales" (valueChange)="setDataTable($event)"></app-elementos>
+    </mat-tab>
+    <mat-tab label="Tipo Elementos">
+        <app-tipo-elemento [dataControls]="dataControls" [temporales]="temporales" (valueChange)="setDataTable($event)"></app-tipo-elemento>
+    </mat-tab>
+    <!-- <mat-tab label="Subestaciones">
+        <app-subestaciones [dataControls]="dataControls" [temporales]="temporales" (valueChange)="setDataTable($event)"></app-subestaciones>
+    </mat-tab> -->
+</mat-tab-group>

@@ -1,0 +1,31 @@
+<div style="width: 100%">
+    <mat-form-field style="width: 35%;padding-right:100%;">
+      <mat-label>Buscar en el listado</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="">
+    </mat-form-field>
+  
+    <div style="text-align: center !important; width: 100%; overflow-x: auto; ">
+      <table mat-table [dataSource]="dataSource" matSort class="custom-table">
+        
+          <ng-container *ngFor="let value of tableHeader" [matColumnDef]="value.nameColumn">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ value.name }}</th>
+            <td mat-cell  style="text-align:center" *matCellDef="let row"> 
+              <span *ngIf="value.name == 'Descripción'; else elseBlock">
+                <mat-icon (click)="verInformcion(value.name, row[value.nameColumn])" style="cursor: pointer;"
+                          [matTooltip]="'Ver '+value.name" matTooltipClass="custom-tooltip"
+                          color="primary">list
+                </mat-icon>
+              </span>
+              <ng-template #elseBlock>{{ row[value.nameColumn] }}</ng-template>
+            </td>
+          </ng-container>
+  
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+        </tr>
+      </table>
+  
+      <mat-paginator [pageSizeOptions]="[10, 50, 100]"></mat-paginator>
+    </div>
+  
+  </div>

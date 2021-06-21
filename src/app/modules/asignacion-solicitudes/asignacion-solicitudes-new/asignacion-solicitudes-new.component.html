@@ -1,0 +1,66 @@
+<mat-card class="container">
+    <mat-card-content>
+        <h1>Asignación de Solicitudes</h1>
+        <mat-grid-list class="row" cols="2" rowHeight="80px">
+            <mat-grid-tile class="col col-lg-12 col-sm-12">
+                <mat-form-field style="width: 80%;">
+                    <mat-label>{{ form.usuario.required ? form.usuario.label+' *' : form.usuario.label}}</mat-label>
+                    <mat-select [(ngModel)]="form.usuario.value" (ngModelChange)="setTipoZona()"
+                    style="padding-top: 5px;padding-bottom: 5px;">
+                        <mat-option *ngFor="let value of dataControls?.usuario;" [value]="value.id">
+                            {{value.identificacion}} - {{value.nombre}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-hint style="color: red" *ngIf="form.usuario.messages">{{form.usuario.messages}}</mat-hint>
+                </mat-form-field>
+                
+                
+            </mat-grid-tile>
+            <mat-grid-tile class="col col-lg-12 col-sm-12">
+                <mat-form-field style="width: 60%;">
+                    <mat-label>{{ form.tipoAsignacion.required ? form.tipoAsignacion.label+' *' : form.tipoAsignacion.label}}</mat-label>
+                    <mat-select [(ngModel)]="form.tipoAsignacion.value" (ngModelChange)="setTipoZona()"
+                    style="padding-top: 5px;padding-bottom: 5px;">
+                        <mat-option *ngFor="let value of dataControls?.tipoAsignacionUsuario;" [value]="value.id">
+                            {{value.nombre}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-hint style="color: red" *ngIf="form.tipoAsignacion.messages">{{form.tipoAsignacion.messages}}</mat-hint>
+                </mat-form-field>
+                <div style="padding-bottom:20px">
+                    <button mat-mini-fab color="accent" (click)="consultar()"  matTooltip="Consultar" matTooltipClass="custom-tooltip">
+                        <mat-icon style="color: #FFFFFF">search</mat-icon>
+                    </button>
+                </div>
+            </mat-grid-tile>
+
+        </mat-grid-list>   
+        
+        <p style="text-align: center; color: #e37222;" [innerHTML]="messageValidation"></p>
+
+    </mat-card-content>
+</mat-card>
+
+
+<div *ngIf="dataConsigna?.tipoZona?.length > 0">
+    <table class="custom-table">
+        <thead>
+        <tr>
+            <th>Zona</th>
+            <th>
+                <mat-checkbox [(ngModel)]="selectAllElementos" (ngModelChange)="checkAll()"></mat-checkbox>
+            </th>
+        </tr>
+        </thead>
+        <tbody *ngIf="dataConsigna?.tipoZona?.length > 0">
+        <tr *ngFor="let value of dataConsigna?.tipoZona; let i = index;">
+        <td>{{value?.zona.nombre}}</td>
+        <td><mat-checkbox [(ngModel)]="value.estado" (ngModelChange)="setCumplioCompleto()"></mat-checkbox></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <button mat-raised-button class="{{boton.color}}" (click)="guardar()" style="margin-left: 20px; margin-top: 10px;">
+        <span style="color: #FFF">{{boton.value}}</span>
+    </button>
+</div>

@@ -1,13 +1,46 @@
-<mat-toolbar color="primary">
+<mat-toolbar id="vtoolbar" color="primary">
   <mat-toolbar-row>
     <div class="title">
-      <div>{{appName}}</div>
+      <div class="container-left" *ngIf="auth.getLogin()">
+        <div class="material-icons btn-logout">
+          <span 
+          style="cursor: pointer;"
+          matTooltip="Inicio"
+          (click)="notificacion()"
+          matTooltipClass="custom-tooltip"
+          [routerLink]="['/dashboard']"
+          >home</span>
+        </div>       
+
+        <div class="material-icons" style="padding-left: 10px;">
+          <span 
+          style="cursor: pointer;"
+          matTooltip="Ver manual de usuario"
+          (click)="viewManual()"
+          matTooltipClass="custom-tooltip"
+          [routerLink]="['/dashboard']"
+          >help_outline</span>
+        </div>
+      </div>
+      <div>
+        <a (click)="notificacion()" [routerLink]="['/dashboard']" style="cursor: pointer; text-decoration: none; color: #FFFFFF;">{{appName}}</a>
+      </div>
 
       <div *ngIf="auth.getLogin()" class="container-right">
         <span class="name-user">{{auth.getNameUser()}}</span>
-        <span (click)="logout()" class="material-icons btn-logout"
+        
+        <span  matTooltip="Consignas" (click)="clickNotificacion('info')"  class="material-icons btn-right btn-change-password" matBadgeSize="small" matBadgeColor="accent" matBadge="{{numero}}" matBadgePosition="above before" >
+          notifications
+        </span>
+
+        <span *ngIf="numeroVisto>0" matTooltip="Visto bueno" (click)="clickNotificacion('visto')"  class="material-icons btn-right btn-change-password parpadea" matBadgeSize="small" matBadgeColor="accent" matBadge="{{numeroVisto}}" matBadgePosition="above before" >
+          add_task
+        </span>
+
+        <span (click)="logout()" class="material-icons btn-logout"></span>
+        <span (click)="changePassword()" matTooltip="Cambiar contraseña" class="material-icons btn-right btn-change-password">vpn_key</span>
+        <span (click)="logout()" class="material-icons btn-right"
           matTooltip="Salir"
-          matTooltipClass="custom-tooltip"
         >exit_to_app</span>
       </div>
 

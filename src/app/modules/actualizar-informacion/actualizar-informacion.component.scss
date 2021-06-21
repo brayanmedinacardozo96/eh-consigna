@@ -1,0 +1,26 @@
+@import '../../../custom-palettes';
+.container {
+    width: 90%;
+    text-align: center;
+    margin: 1% auto;
+}
+
+.mat-list-icon {
+    color: rgba(0, 0, 0, 0.54);
+}
+
+
+/* .item :hover {
+    background-color: #fafafa;
+} */
+
+.item {
+  width: 100%;
+  margin: 10px;
+  background-color: #f0efef;
+}
+
+.icon {
+    font-size: 50px;
+    color: $custom-secondary-hex;
+}

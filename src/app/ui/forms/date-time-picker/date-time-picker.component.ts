@@ -13,6 +13,7 @@ export class DateTimePickerComponent implements OnInit {
   @Input() messages;
   @Input() style;
   @Input() disable;
+  @Input() required;
   @Output() valueChange = new EventEmitter();
   constructor() { }
 
@@ -20,7 +21,10 @@ export class DateTimePickerComponent implements OnInit {
   }
 
   change(){
-    console.log(this.value);
+  }
+
+  setValue(data){
+    this.value = data;
   }
 
 }

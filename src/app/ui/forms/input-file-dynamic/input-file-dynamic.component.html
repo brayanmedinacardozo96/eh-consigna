@@ -1,0 +1,18 @@
+<mat-grid-list class="row" cols="1" rowHeight="110px">
+    <mat-grid-tile id="documents" *ngFor="let value of dataInputFile; let i=index">
+        <mat-form-field appearance="outline" style="width: 40%;">
+            <input matInput (click)="fileInput.click()" [(ngModel)]="value.fileName" [placeholder]="value.placeholder ? value.placeholder : 'Ingrese el documento'">
+            <input hidden [name]="value.nameDocument+'-'+value.required" (change)="onFileSelected($event,'file-'+i,i)" #fileInput type="file" [id]="'file-'+i">
+            <mat-hint style="color: red" *ngIf="value.messages">{{value.messages}}</mat-hint>
+        </mat-form-field>
+          <button  matTooltip="Agregar Documento" matTooltipClass="custom-tooltip" type="button" color="primary"
+            style="margin-top: -19px; padding: 7px; border-radius: 10%;" mat-raised-button (click)="fileInput.click()">
+            <mat-icon style="color: #FFF">insert_drive_file</mat-icon>
+          </button>
+          <button *ngIf="value.fileUrl != ''" matTooltip="Ver Documento" matTooltipClass="custom-tooltip" type="button"
+              (click)="openDocument(value.fileUrl)"
+              style="background-color:#E37222;margin-top: -19px; padding: 7px; border-radius: 10%;" mat-raised-button>
+              <mat-icon style="color: #FFF">visibility</mat-icon>
+          </button>           
+    </mat-grid-tile>
+</mat-grid-list>  

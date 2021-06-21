@@ -1,0 +1,84 @@
+<mat-card class="container">
+  <mat-card-content>
+    <h2>Parámetros</h2>
+    <mat-grid-list class="row" cols="2" rowHeight="103px">
+
+      <mat-grid-tile [colspan]="2">
+
+        <mat-form-field class="input" style="width: 90%;">
+          <mat-label>{{form.tipo.required ? form.tipo.label +' *' : form.tipo.label}} </mat-label>
+          <mat-select (valueChange)="setData(form.tipo.name, $event)" [(ngModel)]="form.tipo.id">
+            <mat-option *ngFor="let value of dataControls?.tipo;" [value]="value.id">
+              {{value.nombre}}
+            </mat-option>
+          </mat-select>
+          <mat-hint style="color: red" *ngIf="form.tipo.messages">{{form.tipo.messages}}</mat-hint>
+        </mat-form-field>
+
+
+        <div style="padding-bottom:20px">
+          <button mat-mini-fab color="accent" (click)="select()"  matTooltip="Consultar">
+            <mat-icon style="color: #FFFFFF">search</mat-icon>
+          </button>
+        </div>
+      </mat-grid-tile>
+
+      <mat-grid-tile [colspan]="2">
+
+        <app-input-text style="width: 98%;" [required]="form.nombre.required" [label]="form.nombre.label" [value]="form.nombre.value"
+          [name]="form.nombre.name" [length]="form.nombre.length" [messages]="form.nombre.messages" (valueChange)="setData(form.nombre.name, $event)">
+        </app-input-text>
+
+      </mat-grid-tile>
+
+      <mat-grid-tile [colspan]="2">
+
+        <app-input-text style="width: 98%;" [required]="form.codigo.required" [label]="form.codigo.label" [value]="form.codigo.value"
+          [name]="form.codigo.name" [disable]="form.codigo.disabled" [messages]="form.codigo.messages" [length]="form.codigo.length"
+          (valueChange)="setData(form.codigo.name, $event)">
+        </app-input-text>
+
+      </mat-grid-tile>
+
+
+
+      <mat-grid-tile [colspan]="2">
+
+        <app-input-text-area style="width: 98%;" [required]="form.descripcion.required" class="input" [label]="form.descripcion.label"
+          [value]="form.descripcion.value" [name]="form.descripcion.name" [messages]="form.descripcion.messages"
+          [length]="form.descripcion.length"
+          (valueChange)="setData(form.descripcion.name, $event)">
+        </app-input-text-area>
+
+
+      </mat-grid-tile>
+
+      <mat-grid-tile [colspan]="2">
+
+        <app-input-text style="width: 98%;" [required]="form.valor.required" [label]="form.valor.label" [value]="form.valor.value"
+          [name]="form.valor.name" [messages]="form.valor.messages" [length]="form.valor.length" 
+          (valueChange)="setData(form.valor.name, $event)">
+        </app-input-text>
+
+        <app-input-text style="width: 98%;" [required]="form.abreviatura.required" [label]="form.abreviatura.label" [value]="form.abreviatura.value"
+          [name]="form.abreviatura.name" [messages]="form.abreviatura.messages" [length]="form.abreviatura.length"
+          (valueChange)="setData(form.abreviatura.name, $event)">
+        </app-input-text>
+
+      </mat-grid-tile>
+
+
+    </mat-grid-list>
+
+    <button mat-raised-button class="{{boton.color}}" (click)="guardar()" style="margin-left: 20px; margin-top: 10px;">
+      <span style="color: #FFF">{{boton.value}}</span>
+    </button>
+
+    <button mat-flat-button class="btn-default" (click)="limpiar()"
+      style="margin-left: 20px; margin-top: 10px;">Limpiar</button>
+
+    <app-table-parametro style="width: 100%;" (valueChange)="setDataTable(dataControls.data, $event)"
+      [data]="dataControls.data"></app-table-parametro>
+
+  </mat-card-content>
+</mat-card>

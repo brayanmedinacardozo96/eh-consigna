@@ -23,30 +23,29 @@ export class InputAutocompleteComponent implements OnInit {
 @Input() disable;
 @Input() urlApi;
 @Input() display;
+@Input() upperCase = false;
 @Output() valueChange = new EventEmitter();
 
   url:"";
   myControl = new FormControl();
   options = [];
   filteredOptions: Observable<any[]>;
-  
 
-  //constructor(private http: HttpClient,private apiService:ApiService) { }
   constructor(private http: HttpClient) { }
 
   ngOnInit() {
-   
+
   }
 
   filter(val: string): Observable<any[]> {
-    
     return this.getData(this.url)
      .pipe(
-       map(response => response.filter(option => { 
-         return option.name.toLowerCase().indexOf(val.toLowerCase()) === 0
+       map(response => response.filter(option => {
+         return option.name.toLowerCase().indexOf(val.toLowerCase()) > -1
        }))
      )
-   }  
+
+   }
 
    autoComplete(){
 
@@ -56,31 +55,37 @@ export class InputAutocompleteComponent implements OnInit {
          debounceTime(400),
          distinctUntilChanged(),
          switchMap(val => {
-           return this.filter(val || '')
+            return this.filter(val || '')
          })
        )
      }
 
     }
 
-    setUrl(link,event)
+    setUrl(link)
     {
 
       this.url=link;
       this.autoComplete();
-      
+
     }
 
     opt = [];
 
   getData(urlApi) {
-
-
+//urlApi
     return this.opt.length ?
       of(this.opt) :
       this.http.get<any>(urlApi).pipe(tap(data => this.opt = data));
      // return this.apiService.get("https://jsonplaceholder.typicode.com/users");
-    
+
+  }
+
+  checkPattern(event){
+    if(this.upperCase && this.value != null){
+      this.value = this.value.toUpperCase();
+    }
+    this.valueChange.emit(this.value);
   }
 
 }

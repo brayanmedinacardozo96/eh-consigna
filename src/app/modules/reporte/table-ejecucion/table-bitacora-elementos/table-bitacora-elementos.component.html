@@ -1,0 +1,103 @@
+<div>
+    <h1 style="text-align: center;">Elementos
+      <button (click)="close()"
+              mat-mini-fab color="accent"
+              style="float: right;" matTooltip="Cerrar">
+        <mat-icon style="color: #FFFFFF;">close</mat-icon>
+      </button>
+    </h1>
+</div>
+
+<div>
+    <table class="custom-table">
+        <thead>
+        <tr>
+            <th>Completado</th>
+            <th>Tipo elemento</th>
+            <th>Elemento</th>
+            <th>Hora inicio programada</th>
+            <th>Hora inicio</th>
+            <th>Hora entrega</th>
+            <th>Hora devolución</th>
+            <th>Hora maniobra</th>
+            <th>Hora fin</th>
+            <th>Hora fin programada</th>
+            <th>Comentario</th>
+        </tr>
+        </thead>
+        <tbody *ngIf="data.length < 1">
+        <tr>
+            <td colspan="10">No hay registros...</td>
+        </tr>
+        </tbody>
+        <tbody *ngIf="data.length > 0">
+        <tr *ngFor="let value of data; let i = index;">
+            <td>{{ value.form.completado ? 'Si' : 'No' }}</td>
+            <td>{{ value?.tipo_elemento }}</td>
+            <td>{{ value?.elemento }}
+                <br>
+                <mat-icon color="accent" matTooltip="Elementos afectados"
+                    (click)="abrirSubelementos(value)" style="cursor: pointer;">offline_bolt
+                </mat-icon>
+
+                <mat-icon color="accent"
+                    matTooltip="Elementos afectados por corto tiempo" (click)="abrirSubelementosCortoTiempo(value)"
+                    style="cursor: pointer;">history_toggle_off
+                </mat-icon>
+            </td>
+            <td>{{value?.hora_inicio_prog}}</td>
+            <td>
+                <app-date-time-picker
+                [disable]="true"
+                [style]="'width: 100px;'"
+                [value]="value?.form?.hora_inicio?.value"
+                [name]="value?.form?.hora_inicio?.name">
+                </app-date-time-picker>
+            </td>
+            <td>
+                <app-date-time-picker
+                [disable]="true"
+                [style]="'width: 100px;'"
+                [value]="value?.form?.hora_entrega?.value"
+                [name]="value?.form?.hora_entrega?.name">
+                </app-date-time-picker>
+            </td>
+            <!--value?.form?.hora_fin?.value-->
+            <td>
+                <app-date-time-picker
+                [disable]="true"
+                [style]="'width: 100px;'"
+                [value]="value?.form?.hora_devolucion?.value"
+                [name]="value?.form?.hora_devolucion?.name">
+                </app-date-time-picker>
+            </td>
+            <td>
+                <app-date-time-picker
+                [disable]="true"
+                [style]="'width: 100px;'"
+                [value]="value?.form?.hora_maniobra?.value"
+                [name]="value?.form?.hora_maniobra?.name">
+                </app-date-time-picker>
+            </td>
+            <td>
+                <app-date-time-picker
+                [disable]="true"
+                [style]="'width: 100px;'"
+                [value]="value?.form?.hora_fin?.value"
+                [name]="value?.form?.hora_fin?.name">
+                </app-date-time-picker>
+            </td>
+            <td>{{value?.hora_final_prog}}</td>
+            <td>
+                <app-input-text-area
+                [disable]="true"
+                class="input"
+                [value]="value?.form?.comentario?.value"
+                [name]="value?.form?.comentario?.name"
+                [length]="500">
+                </app-input-text-area>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

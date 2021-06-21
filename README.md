@@ -25,3 +25,34 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+
+
+-------
+## Creación de carpetas environments 
+* se debe crear 1 carpeta dentro del src con el nombre *environments*
+* dentro de *environments* crear dos archivos 
+* environment.prod.ts => producción
+* environment.ts => desarrollo
+* dentro de ella se ingresará el siguiente código
+
+export const environment = {
+
+    configuración  
+
+};
+
+### configuración:
+| Variables: Tipo   			| Información    			    |
+| :------------- 		        | :--------- 			        |
+|production: boolean            |                               |
+|debug: boolean                 | //cuando esté en false ejecutar en el servidor de pruebas, pero apuntando a mapas en producción       |
+|appName: String                |                               |
+|companyName: String            |                               |
+|apiTransverseSecurity: String  |                               |
+|keyTransverseSecurity: String  |                               |
+|apiBackend: String             |                               |
+|urlFiles: String               |                               |
+|urlPublicFiles: String         |                               |
+|urlFrontendST: String          |                               |
+|urlEhmap: String               |                               |
+|urlapp: String                 |                               |

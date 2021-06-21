@@ -1,0 +1,83 @@
+<table class="custom-table" style="text-align: center;">
+  <thead>
+  <tr>
+    <th>Consignaciones</th>
+    <th style="width: 65% !important;">Contenido</th>
+    <th>Publicado</th>
+    <th>Fecha publicación</th>
+    <th>Fecha creación</th>
+    <th colspan="3">Acciones</th>
+  </tr>
+  </thead>
+  <tbody *ngIf="data.length === 0">
+  <tr>
+    <td colspan="7">No hay registros...</td>
+  </tr>
+  </tbody>
+  <tbody *ngIf="data.length > 0">
+  <tr *ngFor="let value of data;">
+    <td>
+      <ng-container *ngFor="let consigna of value?.consignaciones">
+        <span>{{consigna?.codigo}}</span><br>
+      </ng-container>
+    </td>
+    <td>
+      <mat-accordion class="example-headers-align">
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Ver comunicado de prensa
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <ckeditor
+            [readonly]="true"
+            [(ngModel)]="value.contenido">
+          </ckeditor>
+
+        </mat-expansion-panel>
+      </mat-accordion>
+    </td>
+
+    <ng-container *ngIf="value.publicado == 1">
+      <td>SI</td>
+    </ng-container>
+    <ng-container *ngIf="value.publicado == 0">
+      <td>NO</td>
+    </ng-container>
+
+    <td>{{value?.fecha_publicacion | date:'medium'}}</td>
+    <td>{{value?.created_at | date:'medium'}}</td>
+
+    <td>
+      <ng-container *ngIf="value.publicado == 1">
+        <mat-icon color="accent"
+                  matTooltip="Ver clientes"
+                  (click)="openVerClientes(value)"
+                  style="cursor: pointer;">group
+        </mat-icon>
+      </ng-container>
+    </td>
+
+    <td>
+      <ng-container *ngIf="value.publicado == 0">
+        <mat-icon color="accent"
+                  matTooltip="Editar"
+                  [routerLink]="['/comunicado-prensa/edit/'+value?.id]"
+                  style="cursor: pointer;">edit
+        </mat-icon>
+      </ng-container>
+    </td>
+    <td>
+      <ng-container *ngIf="value.publicado == 0">
+        <mat-icon color="accent"
+                  matTooltip="Borrar"
+                  (click)="eliminar(value)"
+                  style="cursor: pointer;">delete
+        </mat-icon>
+      </ng-container>
+    </td>
+  </tr>
+  </tbody>
+</table>
+

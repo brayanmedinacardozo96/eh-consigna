@@ -12,11 +12,20 @@ export class InputTextComponent implements OnInit {
   @Input() name;
   @Input() messages;
   @Input() style;
-  @Input() disable;
+  @Input() disable = false;
+  @Input() required;
+  @Input() length;
+  @Input() upperCase = false;
   @Output() valueChange = new EventEmitter();
   constructor() { }
 
   ngOnInit(): void {
   }
 
+  checkPattern(event){
+    if(this.upperCase){
+      this.value = this.value.toUpperCase();
+    }
+    this.valueChange.emit(this.value);
+  }
 }

@@ -1,0 +1,77 @@
+.container {
+  width: 90%;
+  text-align: center;
+  margin: 1% auto;
+}
+
+.mat-list-icon {
+  color: rgba(0, 0, 0, 0.54);
+}
+
+
+.item :hover {
+  background-color: #f0efef;
+}
+
+.item {
+  cursor: pointer;
+}
+
+.panel {
+  background: #fafafa;
+}
+
+.recordatorio-card {
+  border: 1px solid #CCC;
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  text-align: left;
+  background: white;
+}
+
+.recordatorio-card-title {
+  font-weight: 500;
+}
+
+.recordatorio-codigo {
+  font-weight: bold;
+  color: #ff5722;
+}
+
+.recordatorio-container {
+  height: 270px;
+  overflow-y: auto;
+  /*Estilos estándar experimentales (Principalmente Firefox)*/
+  scrollbar-color: rgba(0, 0, 0, .5) rgba(0, 0, 0, 0);
+  scrollbar-width: thin;
+}
+
+/* Estilos para motores Webkit y blink (Chrome, Safari, Opera... )*/
+
+.recordatorio-container::-webkit-scrollbar {
+  -webkit-appearance: none;
+}
+
+.recordatorio-container::-webkit-scrollbar:vertical {
+  width: 10px;
+}
+
+.recordatorio-container::-webkit-scrollbar-button:increment, .recordatorio-container::-webkit-scrollbar-button {
+  display: none;
+}
+
+.recordatorio-container::-webkit-scrollbar:horizontal {
+  height: 10px;
+}
+
+.recordatorio-container::-webkit-scrollbar-thumb {
+  background-color: #797979;
+  border-radius: 20px;
+  border: 2px solid #f1f2f3;
+}
+
+.recordatorio-container::-webkit-scrollbar-track {
+  border-radius: 10px;
+}

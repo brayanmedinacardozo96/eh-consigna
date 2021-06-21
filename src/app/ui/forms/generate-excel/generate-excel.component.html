@@ -1,0 +1,8 @@
+<!-- <mat-icon *ngIf="data.length > 0" (click)="generateExcel()" style="cursor: pointer;"
+    matTooltip="Generar Excel" matTooltipClass="custom-tooltip"
+    style="color: #0e7c3e; transform: scale(2); cursor: pointer;">explicit
+</mat-icon> -->
+<div *ngIf="data.length > 0">
+    <img src="assets/excel.png" (click)="generateExcel()" style="cursor: pointer; width: 38px;" alt=""
+        matTooltip="Generar Excel" matTooltipClass="custom-tooltip">
+</div>

@@ -1,23 +1,25 @@
 <mat-card class="container">
     <mat-card-content>
       <h1>Consulta de Consignas</h1>
-  
+
       <fieldset>
         <legend style="text-align: left;">Parámetros de búsqueda</legend>
-        
+
         <mat-grid-list class="row" cols="4" rowHeight="80px">
 
             <mat-grid-tile>
                 <app-input-text style="width: 95%;"
                   class="input"
+                  (keyup.enter)="search()"
                   [label]="form.numeroConsigna.label"
                   [value]="form.numeroConsigna.value"
                   [name]="form.numeroConsigna.name"
                   [messages]="form.numeroConsigna.messages"
+                  [upperCase]="true"
                   (valueChange)="setData(form.numeroConsigna.name, $event)">
                 </app-input-text>
             </mat-grid-tile>
-            
+
             <mat-grid-tile>
                 <app-input-text style="width: 95%;"
                   class="input"
@@ -29,23 +31,36 @@
                 </app-input-text>
             </mat-grid-tile>
 
+            <mat-grid-tile>
+                <mat-form-field>
+                    <mat-label>{{ form.codigoTipoFormato.required ? form.codigoTipoFormato.label+' *' : form.codigoTipoFormato.label}}</mat-label>
+                    <mat-select id="form_consigna-tipo_formato" [(ngModel)]="form.codigoTipoFormato.value"
+                         style="padding-top: 5px;padding-bottom: 5px;">
+                        <mat-option *ngFor="let value of dataControls?.tipoFormatoConsigna;" [value]="value.codigo">
+                            {{value.nombre}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-hint style="color: red" *ngIf="form.codigoTipoFormato.messages">{{form.codigoTipoFormato.messages}}</mat-hint>
+                </mat-form-field>
+            </mat-grid-tile>
+
             <mat-grid-tile class="col col-lg-12 col-sm-12">
                 <mat-form-field>
-                    <mat-label>{{form.tipoZona.label}}</mat-label>
+                    <mat-label>{{form.tipoZona.required ? form.tipoZona.label+' *' : form.tipoZona.label}}</mat-label>
                     <mat-select [(ngModel)]="form.tipoZona.value" style="padding-top: 5px;padding-bottom: 5px;">
-                        <mat-option *ngFor="let value of dataControls?.tipoZona;" [value]="value.codigo">
+                        <mat-option *ngFor="let value of dataControls?.tipoZona;" [value]="value.id">
                             {{value.nombre}}
                         </mat-option>
                     </mat-select>
                     <mat-hint style="color: red" *ngIf="form.tipoZona.messages">{{form.tipoZona.messages}}</mat-hint>
                 </mat-form-field>
             </mat-grid-tile>
-            
+
             <mat-grid-tile class="col col-lg-4 col-sm-12">
                 <mat-form-field>
-                    <mat-label>{{form.tipoSolicitud.label}}</mat-label>
+                    <mat-label>{{form.tipoSolicitud.required ? form.tipoSolicitud.label+' *' : form.tipoSolicitud.label}}</mat-label>
                     <mat-select [(ngModel)]="form.tipoSolicitud.value" style="padding-top: 5px;padding-bottom: 5px;">
-                        <mat-option *ngFor="let value of dataControls?.tipoSolicitud;" [value]="value.codigo">
+                        <mat-option *ngFor="let value of dataControls?.tipoSolicitud;" [value]="value.id">
                             {{value.nombre}}
                         </mat-option>
                     </mat-select>
@@ -55,66 +70,54 @@
 
             <mat-grid-tile class="col col-lg-4 col-sm-12">
                 <mat-form-field>
-                    <mat-label>{{form.tipoConsignacion.label}}</mat-label>
+                    <mat-label>{{form.tipoConsignacion.required ? form.tipoConsignacion.label+' *' : form.tipoConsignacion.label}}</mat-label>
                     <mat-select [(ngModel)]="form.tipoConsignacion.value" style="padding-top: 5px;padding-bottom: 5px;">
-                        <mat-option *ngFor="let value of dataControls?.tipoConsignacion;" [value]="value.codigo">
+                        <mat-option *ngFor="let value of dataControls?.tipoConsignacion;" [value]="value.id">
                             {{value.nombre}}
                         </mat-option>
                     </mat-select>
                     <mat-hint style="color: red" *ngIf="form.tipoConsignacion.messages">{{form.tipoConsignacion.messages}}</mat-hint>
                 </mat-form-field>
-            </mat-grid-tile>  
-            
+            </mat-grid-tile>
+
             <mat-grid-tile>
-                <app-datepicker 
-                    [label]="form.fechaSolicitud.label" 
+                <app-datepicker
+                    [label]="form.fechaSolicitud.label"
                     [value]="form.fechaSolicitud.value"
-                    [name]="form.fechaSolicitud.name" 
+                    [name]="form.fechaSolicitud.name"
                     [messages]="form.fechaSolicitud.messages"
                     [id]="'mat-prueba'"
                     (valueChange)="setData(form.fechaSolicitud.name, $event)"
-                ></app-datepicker>       
+                ></app-datepicker>
             </mat-grid-tile>
-            
+
             <mat-grid-tile class="col col-lg-4 col-sm-12">
                 <mat-form-field>
-                    <mat-label>{{form.tipoConsignacion.label}}</mat-label>
-                    <mat-select [(ngModel)]="form.tipoConsignacion.value" style="padding-top: 5px;padding-bottom: 5px;">
-                        <mat-option *ngFor="let value of dataControls?.tipoConsignacion;" [value]="value.codigo">
-                            {{value.nombre}}
-                        </mat-option>
-                    </mat-select>
-                    <mat-hint style="color: red" *ngIf="form.tipoConsignacion.messages">{{form.tipoConsignacion.messages}}</mat-hint>
-                </mat-form-field>
-            </mat-grid-tile>  
-            
-            <mat-grid-tile class="col col-lg-4 col-sm-12">
-                <mat-form-field>
-                    <mat-label>{{form.estadoConsigna.label}}</mat-label>
+                    <mat-label>{{form.estadoConsigna.required ? form.estadoConsigna.label+' *' : form.estadoConsigna.label}}</mat-label>
                     <mat-select [(ngModel)]="form.estadoConsigna.value" style="padding-top: 5px;padding-bottom: 5px;">
-                        <mat-option *ngFor="let value of dataControls?.estadoConsigna;" [value]="value.codigo">
+                        <mat-option *ngFor="let value of dataControls?.estadoConsigna;" [value]="value.id">
                             {{value.nombre}}
                         </mat-option>
                     </mat-select>
                     <mat-hint style="color: red" *ngIf="form.estadoConsigna.messages">{{form.estadoConsigna.messages}}</mat-hint>
                 </mat-form-field>
-            </mat-grid-tile>  
-            
+            </mat-grid-tile>
+
             <mat-grid-tile class="col col-lg-4 col-sm-12">
                 <mat-form-field>
-                    <mat-label>{{form.estadoEquipo.label}}</mat-label>
+                    <mat-label>{{form.estadoEquipo.required ? form.estadoEquipo.label+' *' : form.estadoEquipo.label}}</mat-label>
                     <mat-select [(ngModel)]="form.estadoEquipo.value" style="padding-top: 5px;padding-bottom: 5px;">
-                        <mat-option *ngFor="let value of dataControls?.estadoEquipo;" [value]="value.codigo">
+                        <mat-option *ngFor="let value of dataControls?.estadoEquipo;" [value]="value.id">
                             {{value.nombre}}
                         </mat-option>
                     </mat-select>
                     <mat-hint style="color: red" *ngIf="form.estadoEquipo.messages">{{form.estadoEquipo.messages}}</mat-hint>
                 </mat-form-field>
             </mat-grid-tile>
-            
+
             <mat-grid-tile class="col col-lg-4 col-sm-12">
                 <mat-form-field style="width: 95%;">
-                    <mat-label>{{form.solicitante.label}}</mat-label>
+                    <mat-label>{{form.solicitante.required ? form.solicitante.label+' *' : form.solicitante.label}}</mat-label>
                     <mat-select [(ngModel)]="form.solicitante.value" style="padding-top: 5px;padding-bottom: 5px;">
                         <mat-option *ngFor="let value of dataControls?.solicitante;" [value]="value.id">
                             {{value.identificacion}} - {{value.nombre}}
@@ -123,35 +126,56 @@
                     <mat-hint style="color: red" *ngIf="form.solicitante.messages">{{form.solicitante.messages}}</mat-hint>
                 </mat-form-field>
             </mat-grid-tile>
-            
+
             <mat-grid-tile class="col col-lg-4 col-sm-12">
-                <mat-form-field style="width: 95%;">
-                    <mat-label>{{form.subestacion.label}}</mat-label>
-                    <mat-select [(ngModel)]="form.subestacion.value" style="padding-top: 5px;padding-bottom: 5px;">
-                        <mat-option *ngFor="let value of dataControls?.subestacion;" [value]="value.codigo">
+                <mat-form-field style="width: 85%;">
+                    <mat-label>{{form.solicitadaTercero.required ? form.solicitadaTercero.label+' *' : form.solicitadaTercero.label}}</mat-label>
+                    <mat-select [(ngModel)]="form.solicitadaTercero.value" style="padding-top: 5px;padding-bottom: 5px;">
+                        <mat-option *ngFor="let value of dataControls?.solicitadaTercero;" [value]="value.id">
                             {{ value.nombre }}
                         </mat-option>
                     </mat-select>
-                    <mat-hint style="color: red" *ngIf="form.subestacion.messages">{{form.subestacion.messages}}</mat-hint>
+                    <mat-hint style="color: red" *ngIf="form.solicitadaTercero.messages">{{form.solicitadaTercero.messages}}</mat-hint>
                 </mat-form-field>
             </mat-grid-tile>
 
-        </mat-grid-list>    
-                    
-        <button (click)="search()" mat-mini-fab color="accent" style="margin-left: 20px;" matTooltip="Consultar" matTooltipClass="custom-tooltip">
-            <mat-icon style="color: #FFFFFF">search</mat-icon>
-        </button>        
-      </fieldset>
-  
-    </mat-card-content>
-  </mat-card>
+        </mat-grid-list>
 
-  <div style="padding: 10px;">
+        <mat-grid-list class="row" cols="1" rowHeight="80px">
+            <mat-grid-tile>
+                <button (click)="cleanFields()"
+                    mat-raised-button color="accent"
+                    style="margin-left: 20px;" matTooltip="Limpiar" matTooltipClass="custom-tooltip">
+                    <mat-icon style="color: #FFFFFF">brush</mat-icon>
+                </button>
+                <button (click)="search()" mat-raised-button color="primary" style="margin-left: 20px;" matTooltip="Consultar" matTooltipClass="custom-tooltip">
+                    <mat-icon style="color: #FFFFFF">search</mat-icon>
+                </button>
+                <div style="margin-left: 20px;">
+                    <app-generate-excel [data]="data" [dataHeader]="dataHeader" [nameDocument]="'Consulta de Consignas'"></app-generate-excel>
+                </div>
+            </mat-grid-tile>
+        </mat-grid-list>
+      </fieldset>
+
+    </mat-card-content>
+</mat-card>
+
+<div style="padding-top: 10px;">
     <app-consigna-list [data]="data"></app-consigna-list>
-  </div>
+</div>
 
 
   <!-- botón para abrir form nueva consigna -->
-  <button mat-fab style="position: fixed; right: 3%; top: 12%; background-color: #92D400;" [routerLink]="['/consigna/nueva-consigna']" matTooltip="Nueva Consigna" matTooltipClass="custom-tooltip">
+  <!-- <button mat-fab style="position: fixed; right: 3%; top: 12%; background-color: #92D400;" [routerLink]="['/consigna/nueva-consigna']" matTooltip="Nueva Consigna" matTooltipClass="custom-tooltip">
     <mat-icon style="color: #FFFFFF; transform: scale(2);">add</mat-icon>
-  </button> 
+  </button> -->
+
+<button mat-fab color="accent"
+        [routerLink]="['/consigna/nueva-consigna']"
+        matTooltip="Nueva Consigna"
+        matTooltipClass="custom-tooltip"
+        *appUserCan="['consignas-modulo-principal-consigna-crear']"
+        class="custom-float-button">
+    <mat-icon style="color: #FFFFFF; transform: scale(2);">add</mat-icon>
+</button>

@@ -1,0 +1,180 @@
+<mat-card class="container">
+    <mat-card-content>
+        <h2>Elementos</h2>
+        <mat-grid-list class="row" cols="3" rowHeight="103px">
+            <mat-grid-tile>
+                <mat-form-field style="width: 50%;">
+                    <mat-label>{{form.redElectrica.required ? form.redElectrica.label+' *' :form.redElectrica.label}}</mat-label>
+                    <mat-select id="form_consigna-red_electrica" [(ngModel)]="form.redElectrica.value"
+                        [disabled]="form.redElectrica.disabled"
+                        (ngModelChange)="validarRedElectrica()"
+                        style="padding-top: 5px;padding-bottom: 5px;">
+                        <mat-option *ngFor="let value of dataControls?.redElectricaElementos;" [value]="value.value">
+                            {{ value.nombre }}
+                        </mat-option>
+                    </mat-select>
+                    <mat-hint style="color: red" *ngIf="form.redElectrica.messages">{{form.redElectrica.messages}}</mat-hint>
+                </mat-form-field>
+            </mat-grid-tile>
+
+            <mat-grid-tile>
+                <mat-form-field style="width: 50%;">
+                    <mat-label>{{form.tipoElemento.required ? form.tipoElemento.label+' *' :form.tipoElemento.label}}</mat-label>
+                    <mat-select id="form_consigna-red_electrica" [(ngModel)]="form.tipoElemento.value"
+                        [disabled]="form.tipoElemento.disabled"
+                        (ngModelChange)="validarTipoElemento()"
+                        style="padding-top: 5px;padding-bottom: 5px;">
+                        <mat-option *ngFor="let value of dataControls?.tipoElementos;" [value]="value.id">
+                            {{ value.nombre }}
+                        </mat-option>
+                    </mat-select>
+                    <mat-hint style="color: red" *ngIf="form.tipoElemento.messages">{{form.tipoElemento.messages}}</mat-hint>
+                </mat-form-field>
+            </mat-grid-tile>
+
+            <mat-grid-tile>
+                <mat-form-field style="width: 50%;">
+                    <mat-label>{{ form.tipoZona.required ? form.tipoZona.label+' *' : form.tipoZona.label}}</mat-label>
+                    <mat-select [disabled]="form.tipoZona.disabled" [(ngModel)]="form.tipoZona.value" 
+                        (ngModelChange)="validarTipoZona()"
+                        style="padding-top: 5px;padding-bottom: 5px;">
+                        <mat-option *ngFor="let value of dataControls?.tipoZona;" [value]="value.id">
+                            {{value.nombre}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-hint style="color: red" *ngIf="form.tipoZona.messages">{{form.tipoZona.messages}}</mat-hint>
+                </mat-form-field>
+            </mat-grid-tile>
+
+            <mat-grid-tile>
+                <mat-form-field style="width: 80%">
+                    <mat-label>{{form.subestacion.required ? form.subestacion.label+' *' : form.subestacion.label}}</mat-label>
+                    <mat-select [disabled]="(dataControls?.subestacion.length > 0 ? false: true) || form.subestacion.disabled" 
+                        [(ngModel)]="form.subestacion.value"
+                        style="padding-top: 5px;padding-bottom: 5px;">
+                        <mat-option *ngFor="let value of dataControls?.subestacion;" [value]="value.id">
+                            {{ value.nombre }}
+                        </mat-option>
+                    </mat-select>
+                    <mat-hint style="color: red" *ngIf="form.subestacion.messages">{{form.subestacion.messages}}</mat-hint>
+                </mat-form-field>
+            </mat-grid-tile>
+
+            <mat-grid-tile>
+                <mat-form-field style="width: 50%;">
+                    <mat-label>{{form.estado.required ? form.estado.label+' *' :form.estado.label}}</mat-label>
+                    <mat-select id="form_consigna-red_electrica" [(ngModel)]="form.estado.value"
+                        style="padding-top: 5px;padding-bottom: 5px;">
+                        <mat-option *ngFor="let value of dataControls?.estado;" [value]="value.value">
+                            {{ value.nombre }}
+                        </mat-option>
+                    </mat-select>
+                    <mat-hint style="color: red" *ngIf="form.estado.messages">{{form.estado.messages}}</mat-hint>
+                </mat-form-field>
+            </mat-grid-tile>
+            
+            <mat-grid-tile>
+                <app-input-text style="width: 90%;"
+                    class="input"
+                    [label]="form.grupo.label"
+                    [value]="form.grupo.value"
+                    [name]="form.grupo.name"
+                    [messages]="form.grupo.messages"
+                    [required]="form.grupo.required"
+                    [disable]="form.grupo.disabled"
+                    [length]="form.grupo.length"
+                    (valueChange)="setData(form.grupo.name, $event)">
+                </app-input-text>
+            </mat-grid-tile>
+
+            <mat-grid-tile colspan="2">
+                <app-input-text style="width: 90%;"
+                    class="input"
+                    [label]="form.nombre.label"
+                    [value]="form.nombre.value"
+                    [name]="form.nombre.name"
+                    [messages]="form.nombre.messages"
+                    [required]="form.nombre.required"
+                    [disable]="form.nombre.disabled"
+                    [length]="form.nombre.length"
+                    (valueChange)="setData(form.nombre.name, $event)">
+                </app-input-text>
+            </mat-grid-tile>
+
+            <mat-grid-tile>
+                <app-input-text style="width: 90%;"
+                    class="input"
+                    [label]="form.codigoCreg.label"
+                    [value]="form.codigoCreg.value"
+                    [name]="form.codigoCreg.name"
+                    [messages]="form.codigoCreg.messages"
+                    [required]="form.codigoCreg.required"
+                    [disable]="form.codigoCreg.disabled"
+                    [length]="form.codigoCreg.length"
+                    (valueChange)="setData(form.codigoCreg.name, $event)">
+                </app-input-text>
+            </mat-grid-tile>
+
+            <mat-grid-tile>
+                <app-input-text style="width: 90%;"
+                    class="input"
+                    [label]="form.codigoSpard.label"
+                    [value]="form.codigoSpard.value"
+                    [name]="form.codigoSpard.name"
+                    [messages]="form.codigoSpard.messages"
+                    [required]="form.codigoSpard.required"
+                    [disable]="form.codigoSpard.disabled"
+                    [length]="form.codigoSpard.length"
+                    (valueChange)="setData(form.codigoSpard.name, $event)">
+                </app-input-text>
+            </mat-grid-tile>
+
+            <mat-grid-tile>
+                <app-input-text style="width: 90%;"
+                    class="input"
+                    [label]="form.latitud.label"
+                    [value]="form.latitud.value"
+                    [name]="form.latitud.name"
+                    [messages]="form.latitud.messages"
+                    [required]="form.latitud.required"
+                    [disable]="form.latitud.disabled"
+                    [length]="form.latitud.length"
+                    (valueChange)="setData(form.latitud.name, $event)">
+                </app-input-text>
+            </mat-grid-tile>
+
+            <mat-grid-tile>
+                <app-input-text style="width: 90%;"
+                    class="input"
+                    [label]="form.longitud.label"
+                    [value]="form.longitud.value"
+                    [name]="form.longitud.name"
+                    [messages]="form.longitud.messages"
+                    [required]="form.longitud.required"
+                    [disable]="form.longitud.disabled"
+                    [length]="form.longitud.length"
+                    (valueChange)="setData(form.longitud.name, $event)">
+                </app-input-text>
+            </mat-grid-tile>
+                    
+        </mat-grid-list>
+
+        <!-- <button (click)="consultar()" mat-raised-button color="accent" style="margin-left: 20px;" matTooltip="Consultar" matTooltipClass="custom-tooltip">
+            <mat-icon style="color: #FFFFFF">search</mat-icon>
+        </button> -->
+
+        <button mat-raised-button class="{{boton.color}}" (click)="guardar()" style="margin-left: 20px; margin-top: 10px;">
+            <span style="color: #FFF">{{boton.value}}</span>
+        </button>
+      
+        <button mat-flat-button class="btn-default" (click)="limpiar()"
+            style="margin-left: 20px; margin-top: 10px;">Limpiar</button>
+
+    </mat-card-content>
+</mat-card>
+
+<div>
+    <app-table-elementos [data]="dataControls.elementos" [temporales]="temporales" 
+        (valueChange)="setDataTable($event)">
+    </app-table-elementos>
+</div>

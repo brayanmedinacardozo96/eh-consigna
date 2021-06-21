@@ -1,0 +1,10 @@
+.custom-modalbox {
+    mat-dialog-container {
+        padding: 0;
+        background-color: grey;
+    }
+  }
+  
+::ng-deep.mat-dialog-container {
+background-color: #E6E8E3;
+}

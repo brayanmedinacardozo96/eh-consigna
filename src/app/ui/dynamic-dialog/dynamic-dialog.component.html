@@ -1,0 +1,11 @@
+<h1 mat-dialog-title [innerHTML]="title">
+</h1>
+  
+<div mat-dialog-content>
+  <p [innerHTML]="content"></p>
+</div>
+
+<div mat-dialog-actions [align]="alignButtons">
+  <button *ngIf="cancelButton != null"  mat-button (click)="onDismiss()" [innerHTML]="cancelButton"></button>
+  <button *ngIf="enterButton != null" mat-raised-button color="primary" (click)="onConfirm()" style="color: #FFFFFF;" [innerHTML]="enterButton"></button>
+</div>

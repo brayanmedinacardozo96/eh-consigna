@@ -10,15 +10,14 @@
 
         <mat-grid-list cols="1" rowHeight="80px">
           <mat-grid-tile>
-            <app-input-text-icon
+            <app-input-text
               class="input"
               (keyup.enter)="login()"
               [label]="form.user.label"
               [value]="form.user.value"
               [name]="form.user.name"
-              [icon]="'sentiment_very_satisfied'"
               [messages]="form.user.messages"
-              (valueChange)="setData(form.user.name, $event)"></app-input-text-icon>
+              (valueChange)="setData(form.user.name, $event)"></app-input-text>
           </mat-grid-tile>
 
           <mat-grid-tile>
@@ -36,6 +35,11 @@
           <mat-grid-tile>
             <button (click)="login()" mat-raised-button color="accent" class="button">Ingresar</button>
           </mat-grid-tile>
+
+          <mat-grid-tile id="recover-password">
+            <span (click)="openRecoverPassword()" style="color: #1976d2; text-decoration: none; cursor: pointer;">¿Olvidó su contraseña?</span>
+          </mat-grid-tile>
+
         </mat-grid-list>
 
         <app-box-alert-error [message]="message" (messageOut)="message = null"></app-box-alert-error>

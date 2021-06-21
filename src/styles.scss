@@ -27,6 +27,9 @@ $eh-invoice-massive-theme: mat-light-theme($eh-invoice-massive-primary, $eh-invo
 // that you are using.
 @include angular-material-theme($eh-invoice-massive-theme);
 
+// Estilos del TOAST
+@import "~angular-notifier/styles";
+
 /* You can add global styles to this file, and also import other style files */
 
 html, body {
@@ -79,4 +82,45 @@ body {
   top: 0;
   z-index: 2;
 
+}
+
+.btn-success {
+  background-color: #4caf50;
+  color: #fff;
+}
+
+.btn-primary {
+  background-color: #0098db;
+  color: #fff;
+}
+
+.btn-default {
+  color: #fff;
+  background-color: #6c757d;
+  border-color: #6c757d
+}
+
+.btn-danger {
+  background-color: #f44336;
+  color: #fff;
+}
+
+.btn-warning {
+  background-color: #f0ad4e;
+  color: #fff;
+}
+
+.custom-float-button {
+  position: fixed !important;
+  bottom: 40px !important;
+  right: 40px !important;
+  z-index: 999 !important;
+}
+
+.timepicker-overlay {
+  z-index: 10000000 !important;
+}
+
+.timepicker-backdrop-overlay {
+  z-index: 10000000 !important;
 }

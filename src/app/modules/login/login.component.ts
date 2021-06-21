@@ -5,6 +5,7 @@ import {environment} from '../../../environments/environment';
 import {HttpHeaders} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {Auth} from '../../shared/auth';
+import { SessionService } from './../../shared/services/session.service';
 
 @Component({
   selector: 'app-login',
@@ -14,7 +15,6 @@ import {Auth} from '../../shared/auth';
 export class LoginComponent implements OnInit {
 
   message: null;
-
   form = {
     user: {
       label: 'Usuario',
@@ -33,10 +33,11 @@ export class LoginComponent implements OnInit {
   };
 
   constructor(private api: ApiService,
-              private router: Router) {
+              private router: Router,
+              private session: SessionService) {
     const dataUser = Auth.getLogin();
-    if(dataUser != null){
-      if(dataUser.user_data.id != null){
+    if (dataUser != null) {
+      if (dataUser.user_data.id != null) {
         this.router.navigate(['/dashboard']);
       }
     }
@@ -67,8 +68,14 @@ export class LoginComponent implements OnInit {
       return false;
     }
     Auth.login(response.token);
-    this.router.navigate(['/dashboard']);
+    this.session.validarLinkRutaPrevia();
+    // this.router.navigate(['/mis-consignas/info']);
 
+  }
+
+  openRecoverPassword() {
+    const url = environment.urlFrontendST + '/recover-password';
+    window.open(url);
   }
 
 }

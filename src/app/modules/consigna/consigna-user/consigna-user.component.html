@@ -1,0 +1,156 @@
+<div style="width: 100%">
+  <div style="width: 70%; float: left;">
+
+    <mat-card *ngIf="panel" class="container">
+      <mat-card-content>
+        <h1>Mis Consignas</h1>
+        <mat-grid-list class="row" style="align-content: center;" cols="3" rowHeight="80px">
+
+          <mat-grid-tile class="item" (click)="buscarConsigna(request.codigos.solicitadas)" matTooltip="Ver Pendientes"
+                         matTooltipClass="custom-tooltip">
+            <mat-icon style="transform: scale(2); color: #e1a900f0;">preview</mat-icon>
+            <div style="margin-left: 10px;">Pendientes
+              <br>
+              {{ total.totalSolicitadas }}
+            </div>
+            <br>
+          </mat-grid-tile>
+          <mat-grid-tile class="item" (click)="buscarConsigna(request.codigos.aprobadas)"
+                         matTooltip="Ver Aprobadas/Ejecutadas" matTooltipClass="custom-tooltip">
+            <mat-icon style="transform: scale(2); color: #6868ae">check_circle_outline</mat-icon>
+            <div style="margin-left: 10px;">Aprobadas
+              <br>
+              {{total.totalAprobadas}}
+            </div>
+            <br>
+          </mat-grid-tile>
+          <mat-grid-tile class="item" (click)="buscarConsigna(request.codigos.ejecutadas)"
+                         matTooltip="Ver Aprobadas/Ejecutadas" matTooltipClass="custom-tooltip">
+            <mat-icon style="transform: scale(2); color: #e1a900f0">offline_bolt</mat-icon>
+            <div style="margin-left: 10px;">Ejecutadas
+              <br>
+              {{total.totalEjecutadas}}
+            </div>
+            <br>
+          </mat-grid-tile>
+          <mat-grid-tile class="item" (click)="buscarConsigna(request.codigos.canceladas)"
+                         matTooltip="Ver Canceladas/Reprogramadas" matTooltipClass="custom-tooltip">
+            <mat-icon style="transform: scale(2); color: #c64e4e;">cancel</mat-icon>
+            <div style="margin-left: 10px;">Canceladas
+              <br>
+              {{total.totalCanceladas}}
+            </div>
+            <br>
+          </mat-grid-tile>
+          <mat-grid-tile class="item" (click)="buscarConsigna(request.codigos.reprogramadas)"
+                         matTooltip="Ver Canceladas/Reprogramadas" matTooltipClass="custom-tooltip">
+            <mat-icon style="transform: scale(2); color: #481d10;">watch_later</mat-icon>
+            <div style="margin-left: 10px;">Reprogramada
+              <br>
+              {{total.totalReprogramadas}}
+            </div>
+            <br>
+          </mat-grid-tile>
+          <mat-grid-tile class="item" (click)="buscarBitacora()" matTooltip="Bitácora activas"
+                         matTooltipClass="custom-tooltip">
+            <mat-icon style="transform: scale(2); color: #6868ae;">menu_book</mat-icon>
+            <div style="margin-left: 10px;">Ejecución
+              <br>
+              {{total.totalBitacora}}
+            </div>
+            <br>
+          </mat-grid-tile>
+        </mat-grid-list>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card *ngIf="panel" [style.display]="isVisible ? 'visible' : 'none'" class="container">
+      <mat-card-content>
+        <mat-grid-list class="row" style="align-content: center;" cols="3" rowHeight="80px">
+
+          <mat-grid-tile class="item" (click)="buscarConsignaAprobar()" matTooltip="Ver Pendientes por aprobar"
+                         matTooltipClass="custom-tooltip">
+            <mat-icon style="transform: scale(2); color: #289c0481;">fact_check</mat-icon>
+            <div style="margin-left: 10px;">Por aprobar
+              <br>
+              {{ total.totalAprobar }}
+            </div>
+          </mat-grid-tile>
+
+          <mat-grid-tile class="item" (click)="buscarConsignaEstado()" matTooltip="Ver Pendientes por aprobar"
+                         matTooltipClass="custom-tooltip">
+            <mat-icon style="transform: scale(2); color: #0371d881;">flaky</mat-icon>
+            <div style="margin-left: 10px;">Estado
+              <br>
+              {{ total.totalAprobar }}
+            </div>
+          </mat-grid-tile>
+
+          <mat-grid-tile *ngIf="total.totalJefeZona > 0" class="item" (click)="verListaJefeZona()"
+                         matTooltip="Ver por dar visto bueno" matTooltipClass="custom-tooltip">
+            <mat-icon style="transform: scale(2); color: #0371d881;">add_task</mat-icon>
+            <div style="margin-left: 10px;">Visto Bueno (Jefe de Zona)
+              <br>
+              {{ total.totalJefeZona }}
+            </div>
+          </mat-grid-tile>
+
+        </mat-grid-list>
+      </mat-card-content>
+    </mat-card>
+
+  </div>
+  <div *ngIf="panel" style="width: 30%; float: left;">
+
+    <mat-card class="container" style="height: 400px;">
+      <mat-card-content>
+        <h1>Recordatorios</h1>
+
+        <mat-accordion>
+          <mat-expansion-panel *ngIf="consignasSinComunicado.length > 0" [expanded]="true" class="panel">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Consignaciones sin comunicados de prensa publicados
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <div class="recordatorio-container">
+                <div class="recordatorio-card" *ngFor="let value of consignasSinComunicado;"
+                     [routerLink]="['/comunicado-prensa/recordatorio/null/'+value?.codigo]">
+                  <span class="recordatorio-card-title">Código: </span> <span class="recordatorio-codigo">{{value?.codigo}}</span> <br>
+                  <span class="recordatorio-card-title">Fecha ejecución: </span><span>{{value?.fecha_solicitud}}</span> <br>
+                  <span class="recordatorio-card-title">Solicitante: </span> <span>{{value?.solicitante}}</span> <br>
+                </div>
+            </div>
+
+          </mat-expansion-panel>
+
+
+        </mat-accordion>
+
+
+      </mat-card-content>
+    </mat-card>
+
+  </div>
+</div>
+
+
+<!-- <button id="the-button" (click)="testFile()" mat-raised-button color="primary" style="margin-left: 20px; margin-top: 10px;">
+    <span style="color: #FFF">TestMigration</span>
+</button> -->
+
+<mat-spinner *ngIf="viewVistoSnipper" style="position: relative; margin-left: 50%;margin-right: 50%;" diameter="50" strokeWidth="5"></mat-spinner>
+
+<div style="padding: 10px;" *ngIf="viewList">
+  <app-consigna-list [data]="data"></app-consigna-list>
+</div>
+
+<div style="padding: 10px;" *ngIf="viewListEstado">
+  <app-consigna-solicitud-estado [data]="dataEstado"></app-consigna-solicitud-estado>
+</div>
+
+<div style="padding: 10px;">
+  <app-bitacora-list [data]="dataBitacora" *ngIf="viewListBitacora"></app-bitacora-list>
+</div>
+

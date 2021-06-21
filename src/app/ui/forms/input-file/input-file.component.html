@@ -1,13 +1,18 @@
-<mat-grid-list class="row" cols="1" rowHeight="110px">
-    <mat-grid-tile>
-        <mat-form-field appearance="outline" style="width: 40%;">
+<mat-grid-list class="row" cols="1" rowHeight="110px" [style]="style">
+    <mat-grid-tile id="document-file">
+        <mat-form-field appearance="outline" style="width: 80%;">
             <input matInput [id]="'form-file'" (click)="fileInput.click()" [(ngModel)]="fileName" [placeholder]="placeholder ? placeholder : 'Ingrese el documento'">
-            <input hidden (change)="onFileSelected($event,'form-file')" #fileInput type="file" id="file">
+            <input hidden (change)="onFileSelected($event)" #fileInput type="file" id="file">
+            <mat-hint style="color: red" *ngIf="messages">{{messages}}</mat-hint>
         </mat-form-field>
-        
-        <button matTooltip="Agregar Documento" matTooltipClass="custom-tooltip"
-            type="button" color="primary" style="margin-top: -19px; padding: 7px; border-radius: 10%;" mat-raised-button (click)="fileInput.click()">
+          <button  matTooltip="Agregar Documento" matTooltipClass="custom-tooltip" type="button" color="primary"
+            style="margin-top: -19px; padding: 7px; border-radius: 10%;" mat-raised-button (click)="fileInput.click()">
             <mat-icon style="color: #FFF">insert_drive_file</mat-icon>
-        </button>    
+          </button>
+          <button *ngIf="fileUrl != ''" matTooltip="Ver Documento" matTooltipClass="custom-tooltip" type="button"
+              (click)="openDocument()"
+              style="background-color:#E37222;margin-top: -19px; padding: 7px; border-radius: 10%;" mat-raised-button>
+              <mat-icon style="color: #FFF">visibility</mat-icon>
+          </button>
     </mat-grid-tile>
-</mat-grid-list>    
+</mat-grid-list>
