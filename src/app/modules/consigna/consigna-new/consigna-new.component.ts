@@ -18,7 +18,7 @@ import { Mensaje } from './../../../ui/forms/m-dialog/dialog';
 import { ConsignaNewSearchComponent } from './consigna-new-search/consigna-new-search.component';
 import * as moment from 'moment';
 import {BitacoraSubelementosVistaComponent} from "../../bitacora/bitacora-subelementos-vista/bitacora-subelementos-vista.component";
-import { element } from 'protractor';
+
 
 
 @Component({
@@ -490,13 +490,21 @@ export class ConsignaNewComponent implements OnInit {
 
   verMapaSelect = 'hidden';
 
-  indicador={
+  /*indicador={
     totalUsuarios:0,
     interrupcionUsuario:0,
     Saidi:0,
     Saifi:0,
     tiempoMaximo:0,
     horaTrabajo:0
+  }*/
+   indicador={
+    totalUsuarios:100,
+    transformadores:10,
+    kwh:1000,
+    tiempo:25,
+    saidi:0.2,
+    saifi:0.3
   }
 
   usuarioAfectadoTemp={
@@ -505,6 +513,12 @@ export class ConsignaNewComponent implements OnInit {
   }
 
   panelOpenStateResumen=false;
+
+  allZonaIndicador=[];
+
+  dataMapa=null;
+
+  urlMap=null;
   
   constructor(private api: ApiService,
               private validations: ValidationService,
@@ -690,7 +704,9 @@ export class ConsignaNewComponent implements OnInit {
 
   validateJsonMapa(){
 
-    if ((this.jsonMapa != null && this.jsonMapa != '' && this.jsonMapa != undefined)) {
+    this.addListElements();
+
+    /*if ((this.jsonMapa != null && this.jsonMapa != '' && this.jsonMapa != undefined)) {
       this.addListElements();
     } else {
       if (this.esRedElectrica) {
@@ -700,7 +716,7 @@ export class ConsignaNewComponent implements OnInit {
       } else {
         this.addListElements();
       }
-    }
+    }*/
   }
 
   validateListaElemetoRepetido(){
@@ -720,6 +736,34 @@ export class ConsignaNewComponent implements OnInit {
 
   async addListElements(){
 
+
+    if (this.esRedElectrica) {
+      let a = [{
+        day: 'numeric'
+      }, {
+        month: 'short'
+      }, {
+        year: 'numeric'
+      }];
+      let s = this.datejoin(new Date(this.form.fechaSolicitud.value), a, '-');
+
+      var response = await this.api.get(`${environment.apiBackend}/indicador-zona/getIndicadorMes/${this.form.tipoZona.value}/${s}`);
+
+      if (response.success) {
+        if (response.data.length == 0) {
+
+          var t = s.split("-")
+          this.snackBar.alert(`Los indicadores para el perido ${t[1]}-${t[2]} no estan configurados , contactar con el administrador.`, 10000);
+          return;
+        }
+      } else {
+        this.snackBar.alert(`Problemas con la comunicación , contactar con el administrador.`, 10000);
+        return;
+      }
+    }
+    
+    this.allZonaIndicador=response.all;
+
     this.usuarioAfectadoTemp.interrupcion=0;
     this.usuarioAfectadoTemp.interrupcionCorta=0;
 
@@ -733,7 +777,7 @@ export class ConsignaNewComponent implements OnInit {
     var fechaFinal = this.dateValidation.getYearMounthDay(this.formElementos.fechaFinal.value);
     var horaFinal = this.formElementos.horaFinal.value;
     var feeder= this.getFeederElemento(this.formElementos.elemento.value);
-    await this.getAreaAFectada( feeder);
+    await this.getAreaAFectada( feeder );
     
     
     var jsonAreaAfectada="";//[[],[]]
@@ -741,7 +785,7 @@ export class ConsignaNewComponent implements OnInit {
 
     var jsonAreaAfectadaCortoT="";//[[],[]]
     var jsonPersonaCortoT="";//[]
- 
+ /*
     if(this.formElementos.afectaUsuarios.value==1)
     {
       if(this.areaAFectada.length>0)
@@ -754,7 +798,7 @@ export class ConsignaNewComponent implements OnInit {
         jsonAreaAfectadaCortoT = JSON.stringify(this.areaAFectadaCortoTiempo[0].area);
         jsonPersonaCortoT = JSON.stringify(this.areaAFectadaCortoTiempo[0].persona);
       }
-    }
+    }*/
 
     const elemento = {
       id:             {value: null},
@@ -786,7 +830,7 @@ export class ConsignaNewComponent implements OnInit {
     this.setElemento.emit(elemento.elemento);
     this.escribrirAreaAfectada();
 
-    this.calcularIdicador();
+    //this.calcularIdicador();
 
     //oculta el boton de ver mapa seleccionado
     var botonVerMapaSelec = document.getElementById("botonVerMapaSelec");
@@ -807,12 +851,12 @@ export class ConsignaNewComponent implements OnInit {
 
   }
 
-  calcularIdicador() {
+  /*calcularIdicador() {
 
     //solo apertura
     if (this.validarEstadoEquipo() == "A") {
 
-      //hola
+      
       var total = 0;
       var tiempo = 0
 
@@ -872,7 +916,7 @@ export class ConsignaNewComponent implements OnInit {
 
 
 
-  }
+  }*/
 
   validarEstadoEquipo(){
 
@@ -936,7 +980,7 @@ export class ConsignaNewComponent implements OnInit {
         }
         this.escribrirAreaAfectada();
         this.getElementoMapa();
-        this.calcularIdicador();
+        //this.calcularIdicador();
       }
     });    
   }
@@ -1041,6 +1085,15 @@ export class ConsignaNewComponent implements OnInit {
       response.formData.append('interrupcionesCortoTiempo',JSON.stringify(this.interrupcionesCortoTiempo));
       response.formData.append('argNumConsigna',JSON.stringify(this.argNumConsigna));
       response.formData.append('user',JSON.stringify(this.user));
+      //INDICADOR
+      response.formData.append('indicador', JSON.stringify({
+        saidi: document.getElementById("txtSaidi").innerHTML,
+        saifi: document.getElementById("txtSaifi").innerHTML,
+        cuenta: document.getElementById("txtTotalUsuarios").innerHTML,
+        transformador: document.getElementById("txtTotalTransformadores").innerHTML,
+        kwh: document.getElementById("txtTotalKWH").innerHTML,
+        tiempo: document.getElementById("txtTiempo").innerHTML
+      }));
       //response.formData.append('personaAfectada',JSON.stringify(this.areaAFectada[0].persona));
 
       response.success = true;
@@ -1144,7 +1197,7 @@ export class ConsignaNewComponent implements OnInit {
     if(response.success){
       this.setSelect();
       
-      if(response.data.totalUsuario.length>0)
+      /*if(response.data.totalUsuario.length>0)
       {
         this.indicador.totalUsuarios=response.data.totalUsuario[0].usuarios;
       }
@@ -1152,8 +1205,8 @@ export class ConsignaNewComponent implements OnInit {
       if(response.data.validarTiempoIntCorta.length>0)
       {
         var valor=response.data.validarTiempoIntCorta[0].valor;
-        this.indicador.tiempoMaximo=valor!=""? parseInt(valor):0;
-      }
+        //this.indicador.tiempoMaximo=valor!=""? parseInt(valor):0;
+      }*/
       
     }
   }
@@ -1424,11 +1477,12 @@ export class ConsignaNewComponent implements OnInit {
             response = await apiLocal.get(`${environment.apiBackend}/integracion-mapa/get/${key}`);
           }
           intentos += 1;
+          
           if(response.success){
             var objJson=JSON.parse( response.data );
-          
-            jsonLocal =JSON.stringify({url: objJson });//url JSON.stringify(response.data.url);
             
+            jsonLocal =JSON.stringify({url: objJson });//url JSON.stringify(response.data.url);
+            console.log(jsonLocal);
             if(objJson.interrupcion!=null)
             {
               var jdata=objJson.interrupcion.data;//JSON.parse(objJson.interrupcion.data);
@@ -1468,10 +1522,237 @@ export class ConsignaNewComponent implements OnInit {
     
   }
 
+  getJsonMapaV2() {
+
+
+    if (this.dataElementos.length == 0) {
+
+      this.snackBar.alert('Adicione uno o varios elementos.', 5000);
+
+    } else {
+
+      //#region 
+
+      var __nativeST__ = window.setTimeout,
+        __nativeSI__ = window.setInterval;
+
+      var setInterval = function (vCallback, nDelay /*, argumentoAPasar1, argumentoAPasar2, etc. */ ) {
+        var oThis = this,
+          aArgs = Array.prototype.slice.call(arguments, 2);
+        return __nativeSI__(vCallback instanceof Function ? function () {
+          vCallback.apply(oThis, aArgs);
+        } : vCallback, nDelay);
+      };
+
+      //#endregion
+
+      //#region 
+
+      //  para ocultar el boton de ver el mapa
+      var botonVerMapaSelec = document.getElementById("botonVerMapaSelec");
+      this.verMapaSelect = "hidden";
+      botonVerMapaSelec.style.visibility = this.verMapaSelect;
+      this.jsonMapa = '';
+      document.getElementById("jsonDataMapa").innerText = ''
+
+      var child;
+      var date = new Date();
+      var key = date.getHours() + '' + date.getMinutes() + '' + date.getSeconds();
+
+      // definimos la anchura y altura de la ventana
+      const height = 600;
+      const width = 1000;
+
+      // calculamos la posicion x, y para centrar la ventana
+      const y = Number((window.innerHeight / 2) - (height / 2));
+      const x = Number((window.innerWidth / 2) - (width / 2));
+      var snackBar = this.snackBar;
+
+      //this.formElementos.elemento.value!=null
+      if (this.dataElementos.length > 0) {
+
+        var feeders = [];
+        this.dataElementos.forEach(element => {
+          feeders.push({
+            code: element.feeder
+          })
+        });
+
+
+        // var data = "data="+this.utf8_to_b64('{"feeders":[{"code":"'+feeders+'"}],"tipo":"feeders"}')+'&user='+this.utf8_to_b64(JSON.stringify(this.user));
+        var data = "data=" + this.utf8_to_b64(JSON.stringify({
+          feeders: feeders,
+          zona:this.allZonaIndicador,
+          zonaselect:this.form.tipoZona.value
+        })) + '&user=' + this.utf8_to_b64(JSON.stringify(this.user));
+        child = window.open(environment.urlEhmapV2 + '?' + data + '&key=' + key, "MsgWindow", 'width=' + width + ',height=' + height + ',top=' + y + ',left=' + x + ',toolbar=no,resizable=no');
+        // child = window.open('http://192.9.200.44/hijo.html?key='+key+'&data={"feeders":[{"code":"'+feeders+'"}]}', 'Mapa', 'width=' + width + ',height=' + height + ',top=' + y + ',left=' + x + ',toolbar=no,resizable=no');
+        var apiLocal = this.api;
+        var jsonLocal = '';
+        var jsonIntervenirElementoMapa = '';
+        var intentos = 0;
+
+        var timer = setInterval.call(this, async function () {
+          if (child.closed) {
+
+            let response = null;
+            // Se realiza el llamado del api que obtiene la data del mapa a partir del key
+            if (environment.debug && environment.production) {
+              //https://enlinea.electrohuila.com.co/back-consignas/public/api
+              response = await apiLocal.get(`https://enlinea.electrohuila.com.co/back-consignas/public/api/integracion-mapa/get/${key}`);
+            } else {
+              response = await apiLocal.get(`${environment.apiBackend}/integracion-mapa/get/${key}`);
+            }
+
+            intentos += 1;
+            if (response.success) {
+
+      
+              var objJson = JSON.parse(response.data);
+              
+              this.dataMapa = {
+                listaElemento: objJson.indicador.listaElemento,
+                indicador:objJson.indicador.indicador
+              };
+
+              this.urlMap=this.crearUrlMap();
+
+              jsonLocal = JSON.stringify({
+                url: objJson
+              }); //url JSON.stringify(response.data.url);
+
+              var jdata = objJson.indicador; //JSON.parse(objJson.interrupcion.data);
+              jsonIntervenirElementoMapa = JSON.stringify(jdata.elemento);
+              document.getElementById("jsonElementoIntervenirMapa").textContent = jsonIntervenirElementoMapa;
+              document.getElementById("jsonMapaTipo").textContent = "";
+
+
+              document.getElementById("jsonDataMapa").textContent = jsonLocal;
+
+              this.verMapaSelect = "visible";
+              botonVerMapaSelec.style.visibility = this.verMapaSelect;
+
+              sessionStorage.setItem("resultMapa", response.data);
+
+              var totales = JSON.parse(response.data).indicador.total;
+
+              document.getElementById("txtTotalUsuarios").innerHTML = totales.totalCuentas;
+              document.getElementById("txtTotalTransformadores").innerHTML = totales.totalTransfors;
+              document.getElementById("txtTotalKWH").innerHTML = totales.totalKwh;
+              document.getElementById("txtTiempo").innerHTML = totales.tiempo;
+              document.getElementById("txtSaidi").innerHTML = totales.totalSaidi;
+              document.getElementById("txtSaifi").innerHTML = totales.totalSaifi;
+
+
+              await objJson.indicador.elemento.reduce(async (accumulatorPromise, nextID) => {
+
+                var trans = "";
+
+                await nextID.TRANSFOR.reduce(async (accumulatorPromise, elem) => {
+                  if (trans == "") {
+                    trans = trans + elem.CODE;
+                  } else {
+                    trans = trans + "|" + elem.CODE;
+                  }
+                }, undefined);
+
+                await this.getDataAreaAfectada(`transf/${trans}`, true, nextID.feeder);
+
+              }, undefined);
+
+
+              this.escribrirAreaAfectada();
+
+              clearInterval(timer);
+
+
+            } else {
+              if (intentos <= 1 && this.verMapaSelect !== "visible") {
+                snackBar.alert('No se encontró registro de mapa para guardar!', 5000);
+              }
+            }
+            clearInterval(timer);
+          }
+        }, 500);
+
+      } else {
+        this.formElementos.elemento.messages = "Este campo es requerido.";
+      }
+
+      //#endregion
+
+    }
+
+
+  }
+
+  actualizarElemento() {
+    
+    //hola
+     
+     // console.log("SESSION=>",sessionStorage.getItem("resultMapa"))
+
+      var data=JSON.parse(sessionStorage.getItem("resultMapa"));
+
+      this.dataElementos.forEach(element=>{
+          var result= data.indicador.elemento.filter(b=>{
+             return (b.feeder==element.feeder)
+           });
+           
+           console.log(result[0].TRANSFOR);
+
+           element.jsonIntervenirElementoMapa=JSON.stringify(result)
+           element.jsonElementoMapa.value = JSON.stringify({
+             url: {
+               interrupcion: {
+                 key: null,
+                 data: {
+                   url: "vacio",
+                   json: {
+                    RECLOSER:result[0].RECLOSER,
+                    SWITCH:result[0].SWITCH,
+                    SWITCHES:result[0].SWITCHES,
+                    TRANSFOR: result[0].TRANSFOR,
+                   },
+                   tipo: "",
+                   tiempo: 0
+                 }
+               }
+             }
+           });
+      });
+
+      console.log("data =>",this.dataElementos);
+  }
+
+  verMapaGuardadoV2() {
+    if (this.dataMapa != null) {
+      
+      var child = window.open( this.crearUrlMap() );
+
+    }
+  }
+
+  crearUrlMap()
+  {
+    const height = 600;
+    const width = 1000;
+    // calculamos la posicion x, y para centrar la ventana
+    const y = Number((window.innerHeight / 2) - (height / 2));
+    const x = Number((window.innerWidth / 2) - (width / 2));
+
+    var data = "data=" + this.utf8_to_b64(JSON.stringify(
+      this.dataMapa 
+    ));
+
+    return environment.urlEhmapV2 + '?' + data + '&key=null', "MsgWindow", 'width=' + width + ',height=' + height + ',top=' + y + ',left=' + x + ',toolbar=no,resizable=no';
+  }
+
   verMapaGuardado(){
     this.jsonMapa = document.getElementById("jsonDataMapa").innerText;
     this.openMap(this.jsonMapa);
   }
+
 
   openMap(data = null){
 
@@ -1529,7 +1810,7 @@ export class ConsignaNewComponent implements OnInit {
         });
         if(padre!="")
         {
-          await this.getDataAreaAfectada(`transf/${padre}`, true);
+          await this.getDataAreaAfectada(`transf/${padre}`, true,"");
         }
         
       }
@@ -1550,7 +1831,7 @@ export class ConsignaNewComponent implements OnInit {
         });
         if(padre!="")
         {
-          await this.getDataAreaAfectada(`transf/${padre}`, false);
+          await this.getDataAreaAfectada(`transf/${padre}`, false,"");
         }
         
       }
@@ -1565,68 +1846,101 @@ export class ConsignaNewComponent implements OnInit {
 
   
 
-  async getDataAreaAfectada(elemento,duraTrabajo)
-  {
+  async getDataAreaAfectada(elemento, duraTrabajo, feeder) {
 
     var response = await this.api.get(
       `${environment.apiBackend}/consigna/getAreaAfectada/${elemento}`
     );
-    
-    var obj=[];
-    var objSector=[];
-    var objCliente=[];
-    
+
+    var obj = [];
+    var objSector = [];
+    var objCliente = [];
+
     if (response.success) {
-      
-      var municipio="inicio";
-    
-      if(response.data.barrioAfectado!=undefined)
-      {
+
+      var municipio = "inicio";
+
+      if (response.data.barrioAfectado != undefined) {
         response.data.barrioAfectado.forEach(element => {
-         
+
           if (municipio == "inicio") {
-             municipio = element.nombre_muni;
-             obj.push(this.crearJsonBarrio(municipio, response.data.barrioAfectado));
-             objSector.push(this.crearJsonSector(municipio, response.data.barrioAfectado));
-          }
- 
-          if (municipio != element.nombre_muni) {
-             municipio = element.nombre_muni;
-             obj.push(this.crearJsonBarrio(municipio, response.data.barrioAfectado));
-             objSector.push(this.crearJsonSector(municipio, response.data.barrioAfectado));
+            municipio = element.nombre_muni;
+            obj.push(this.crearJsonBarrio(municipio, response.data.barrioAfectado));
+            objSector.push(this.crearJsonSector(municipio, response.data.barrioAfectado));
           }
 
-       });
+          if (municipio != element.nombre_muni) {
+            municipio = element.nombre_muni;
+            obj.push(this.crearJsonBarrio(municipio, response.data.barrioAfectado));
+            objSector.push(this.crearJsonSector(municipio, response.data.barrioAfectado));
+          }
+
+        });
 
       }
-      
-      
-      if( response.data.clieteAfectado!=undefined)
-      {
+
+      if (response.data.clieteAfectado != undefined) {
         response.data.clieteAfectado.forEach(element => {
           objCliente.push({
             nombre: element.nombre_completo,
-            cuenta:element.code,
+            cuenta: element.code,
             emails: this.splitCorreo(element.correos),
-            tipo:element.tipo_usuario
+            tipo: element.tipo_usuario
           });
         });
       }
-      
+
     }
-      // hola
-      
-    if(duraTrabajo)
-    {
-      this.areaAFectada.push({area:[obj,objSector],persona:objCliente});
-      this.usuarioAfectadoTemp.interrupcion=objCliente.length
-    }else{
-      this.areaAFectadaCortoTiempo.push({area:[obj,objSector],persona:objCliente});
-      this.usuarioAfectadoTemp.interrupcionCorta=objCliente.length
+
+
+    if (duraTrabajo) {
+      this.areaAFectada.push({
+        area: [obj, objSector],
+        persona: objCliente
+      });
+      this.usuarioAfectadoTemp.interrupcion = objCliente.length
+    } else {
+      this.areaAFectadaCortoTiempo.push({
+        area: [obj, objSector],
+        persona: objCliente
+      });
+      this.usuarioAfectadoTemp.interrupcionCorta = objCliente.length
     }
-    
+
+    if (feeder != "") {
+
+      this.dataElementos.forEach(element => {
+        if (element.feeder == feeder) {
+
+          var jsonAreaAfectada = ""; //[[],[]]
+          var jsonPersona = ""; //[]
+
+          var jsonAreaAfectadaCortoT = ""; //[[],[]]
+          var jsonPersonaCortoT = ""; //[]
+
+          if (element.afectaUsuarios.value == 1) {
+            if (this.areaAFectada.length > 0) {
+              jsonAreaAfectada = JSON.stringify(this.areaAFectada[0].area);
+              jsonPersona = JSON.stringify(this.areaAFectada[0].persona);
+            }
+
+            if (this.areaAFectadaCortoTiempo.length > 0) {
+              jsonAreaAfectadaCortoT = JSON.stringify(this.areaAFectadaCortoTiempo[0].area);
+              jsonPersonaCortoT = JSON.stringify(this.areaAFectadaCortoTiempo[0].persona);
+            }
+          }
+
+          element.jsonAreaAfectada.value = jsonAreaAfectada;
+          element.jsonPersona.value = jsonPersona;
+
+        }
+      });
+
+    }
 
   }
+
+  
 
   crearJsonBarrio(municipio,element){
      var barrario=[];
@@ -2068,7 +2382,14 @@ export class ConsignaNewComponent implements OnInit {
 
   abrirSubelementos(obj) {
 
+
     try {
+
+     // console.log("MOSTRAR 2=>" ,obj.jsonElementoMapa.value);
+
+      this.actualizarElemento();
+
+    //  console.log("MOSTRAR=>" ,obj.jsonElementoMapa.value);
 
       if (JSON.parse(obj.jsonElementoMapa.value).url.interrupcion == null) {
         this.snackBar.alert('El elemento seleccionado no contiene subelementos.', 5000)
@@ -2082,6 +2403,8 @@ export class ConsignaNewComponent implements OnInit {
         return false;
       }
 
+      console.log("mostrar=>",elemento);
+
       const dialogConfig = new MatDialogConfig();
       dialogConfig.minWidth = 500;
       dialogConfig.minHeight = 650;
@@ -2091,6 +2414,7 @@ export class ConsignaNewComponent implements OnInit {
       };
       this.dialog.open(BitacoraSubelementosVistaComponent, dialogConfig);
     } catch (error) {
+      console.log(error)
       this.snackBar.alert('El elemento seleccionado no contiene subelementos.', 5000)
     }
   }
@@ -2179,6 +2503,14 @@ export class ConsignaNewComponent implements OnInit {
       }
 
     }
+
+   datejoin(t, a, s) {
+      function format(m) {
+         let f = new Intl.DateTimeFormat('en', m);
+         return f.format(t);
+      }
+      return a.map(format).join(s);
+   }
 
   
   

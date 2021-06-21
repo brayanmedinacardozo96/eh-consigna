@@ -24,7 +24,6 @@ export class BitacoraSubelementosVistaComponent implements OnInit {
               private dialogRef: MatDialogRef<BitacoraSubelementosVistaComponent>,
               @Inject(MAT_DIALOG_DATA) data) {
     this.data = data.data;
-
     //this.horasPadre = data.horas;
     //this.updateHours(this.horasPadre.hora_inicio, this.horasPadre.hora_fin);
 

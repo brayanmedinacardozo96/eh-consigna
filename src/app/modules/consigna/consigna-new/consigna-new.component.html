@@ -365,7 +365,12 @@
                  <mat-icon style="color: #FFF;">add</mat-icon>
                </button>
 
-               <button *ngIf="esRedElectrica" (click)="getJsonMapa()" mat-mini-fab color="primary"
+               <button *ngIf="false" (click)="getJsonMapa()" mat-mini-fab color="primary"
+                 style="margin-left: 20px; margin-bottom:20px;" matTooltip="Ver mapa" matTooltipClass="custom-tooltip">
+                 <mat-icon style="color: #FFF;">public</mat-icon>
+               </button>
+
+               <button *ngIf="esRedElectrica" (click)="getJsonMapaV2()" mat-mini-fab color="success"
                  style="margin-left: 20px; margin-bottom:20px;" matTooltip="Ver mapa" matTooltipClass="custom-tooltip">
                  <mat-icon style="color: #FFF;">public</mat-icon>
                </button>
@@ -376,7 +381,7 @@
                </button>
 
                <span>
-                 <button id="botonVerMapaSelec" (click)="verMapaGuardado()" mat-mini-fab
+                 <button id="botonVerMapaSelec" (click)="verMapaGuardadoV2()" mat-mini-fab
                    style="visibility: hidden; margin-left: 20px; margin-bottom:20px; background-color: rgb(227, 114, 34);"
                    matTooltip="Ver mapa guardado" matTooltipClass="custom-tooltip">
                    <mat-icon style="color: #FFF;">where_to_vote</mat-icon>
@@ -481,43 +486,51 @@
               </mat-expansion-panel-header>
           
               <table class="custom-table">
-          
-                <tr>
-                  <td>
-                    Total usuarios
-                  </td>
-                  <td>
-                    Usuarios afectados
-                  </td>
-                  <td>
-                    Tiempo.(H)
-                  </td>
-                  <td>
-                    SAIDI
-                  </td>
-                  <td>
-                    SAIFI
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                   {{this.indicador.totalUsuarios}}
-                  </td>
-                  <td>
-                    {{this.indicador.interrupcionUsuario}}
-                  </td>
-                  <td>
-                    {{this.indicador.horaTrabajo}}
-                  </td>
-                  <td>
-                    {{this.indicador.Saidi}}
-                  </td>
-                  <td>
-                    {{this.indicador.Saifi}}
-                  </td>
-                </tr>
-          
-          
+                  <thead>
+                    <tr>
+                        <td>
+                          Total usuarios
+                        </td>
+                        <td>
+                          Total Transformadores
+                        </td>
+                        <td>
+                          Total KWH
+                        </td>
+                        <td>
+                          Tiempo
+                        </td>
+                        <td>
+                          SAIDI
+                        </td>
+                        <td>
+                          SAIFI
+                        </td>
+                      </tr>
+                  </thead>
+                  <tbody id="tbIndicador">
+                    <tr>
+                        <td id="txtTotalUsuarios">
+                         
+                        </td>
+                        <td id="txtTotalTransformadores">
+                          
+                        </td>
+                        <td id="txtTotalKWH">
+                          
+                        </td>
+                        <td id="txtTiempo">
+                          
+                        </td>
+                        <td id="txtSaidi">
+                          
+                        </td>
+                        <td id="txtSaifi">
+                          
+                        </td>
+                      </tr>
+                  </tbody>
+               
               </table>
           
           
