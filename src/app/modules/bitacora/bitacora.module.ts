@@ -45,6 +45,8 @@ import { BitacoraSubelementosVistaComponent } from './bitacora-subelementos-vist
         MatTableModule,
         MatPaginatorModule
        
+    ],entryComponents:[
+      BitacoraSubelementosVistaComponent
     ]
 })
 export class BitacoraModule { }

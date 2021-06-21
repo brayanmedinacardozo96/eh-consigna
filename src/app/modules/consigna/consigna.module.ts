@@ -98,7 +98,9 @@ import { ConsignaTerceroListComponent } from './consigna-tercero-list/consigna-t
         MatExpansionModule,
         MatSidenavModule,
         MatProgressSpinnerModule
-    ],
+    ],entryComponents:[
+      ConsignaNewMessageComponent
+    ]
 
 })
 export  class ConsignaModule { }

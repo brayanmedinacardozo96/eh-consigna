@@ -10,9 +10,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConsignaNewMessageComponent } from './../consigna-new-message/consigna-new-message.component';
 import { SnackBarService } from './../../../shared/services/snack-bar.service';
 import { SessionService } from './../../../shared/services/session.service';
-import { ValueConverter } from '@angular/compiler/src/render3/view/template';
-import { ThrowStmt } from '@angular/compiler';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+
 
 
 @Component({
@@ -173,7 +171,7 @@ export class ConsignaTabsComponent implements OnInit {
 
         this.consigna.dataElementos.push(elemento);
         this.setElemento(elemento.elemento)
-        this.consigna.calcularIdicador()
+       // this.consigna.calcularIdicador()
         /* if(value.trabajo_oportunidad.length > 0){
           for(let valueTrabajo of value.trabajo_oportunidad){
 

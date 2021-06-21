@@ -22,12 +22,14 @@ import {DirectivesModule} from "../../shared/directives/directives.module";
 import {MatSortModule} from "@angular/material/sort";
 import {MatTooltipModule} from "@angular/material/tooltip";
 
+
 @NgModule({
   declarations: [
     AutorizarComponent,
     TableElementoCalidadComponent,
     TableAprobarConsignaComponent,
     AutorizarJefeZonaComponent
+    
   ],
   imports: [
     CommonModule,
@@ -48,6 +50,7 @@ import {MatTooltipModule} from "@angular/material/tooltip";
     DirectivesModule,
     MatSortModule,
     MatTooltipModule,
+    
 
   ]
 })

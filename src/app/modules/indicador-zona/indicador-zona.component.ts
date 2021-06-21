@@ -36,7 +36,7 @@ export class IndicadorZonaComponent implements OnInit {
       required: true
     },
     eneroSAIDI: {
-      label: 'SAIDI',
+      label: '',
       name: 'eneroSAIDI',
       value: null,
       messages: null,
@@ -44,7 +44,7 @@ export class IndicadorZonaComponent implements OnInit {
       maxLength: 20,
     },
     eneroSAIFI: {
-      label: 'SAIFI',
+      label: '',
       name: 'eneroSAIFI',
       value: null,
       messages: null,
@@ -52,7 +52,7 @@ export class IndicadorZonaComponent implements OnInit {
       maxLength: 20,
     },
     eneroTrabajadoSAIDI: {
-      label: 'SAIDI',
+      label: '',
       name: 'eneroTrabajadoSAIDI',
       value: null,
       messages: null,
@@ -61,7 +61,7 @@ export class IndicadorZonaComponent implements OnInit {
       maxLength: 20,
     },
     eneroTrabajadoSAIFI: {
-      label: 'SAIFI',
+      label: '',
       name: 'eneroTrabajadoSAIFI',
       value: null,
       messages: null,
@@ -70,7 +70,7 @@ export class IndicadorZonaComponent implements OnInit {
       maxLength: 20,
     },
     febreroSAIDI: {
-      label: 'SAIDI',
+      label: '',
       name: 'febreroSAIDI',
       value: null,
       messages: null,
@@ -78,7 +78,7 @@ export class IndicadorZonaComponent implements OnInit {
       maxLength: 20,
     },
     febreroSAIFI: {
-      label: 'SAIFI',
+      label: '',
       name: 'febreroSAIFI',
       value: null,
       messages: null,
@@ -86,7 +86,7 @@ export class IndicadorZonaComponent implements OnInit {
       maxLength: 20,
     },
     febreroTrabajadoSAIDI: {
-      label: 'SAIDI',
+      label: '',
       name: 'febreroTrabajadoSAIDI',
       value: null,
       messages: null,
@@ -95,7 +95,7 @@ export class IndicadorZonaComponent implements OnInit {
       maxLength: 20,
     },
     febreroTrabajadoSAIFI: {
-      label: 'SAIFI',
+      label: '',
       name: 'febreroTrabajadoSAIFI',
       value: null,
       messages: null,
@@ -105,7 +105,7 @@ export class IndicadorZonaComponent implements OnInit {
     },
 
     marzoSAIDI: {
-      label: 'SAIDI',
+      label: '',
       name: 'marzoSAIDI',
       value: null,
       messages: null,
@@ -113,7 +113,7 @@ export class IndicadorZonaComponent implements OnInit {
       maxLength: 20
     },
     marzoSAIFI: {
-      label: 'SAIFI',
+      label: '',
       name: 'marzoSAIFI',
       value: null,
       messages: null,
@@ -122,7 +122,7 @@ export class IndicadorZonaComponent implements OnInit {
     },
 
     marzoTrabajadoSAIDI: {
-      label: 'SAIDI',
+      label: '',
       name: 'marzoTrabajadoSAIDI',
       value: null,
       messages: null,
@@ -131,7 +131,7 @@ export class IndicadorZonaComponent implements OnInit {
       maxLength: 20,
     },
     marzoTrabajadoSAIFI: {
-      label: 'SAIFI',
+      label: '',
       name: 'marzoTrabajadoSAIFI',
       value: null,
       messages: null,
@@ -141,7 +141,7 @@ export class IndicadorZonaComponent implements OnInit {
     },
 
     abrilSAIDI: {
-      label: 'SAIDI',
+      label: '',
       name: 'abrilSAIDI',
       value: null,
       messages: null,
@@ -149,7 +149,7 @@ export class IndicadorZonaComponent implements OnInit {
       maxLength: 20
     },
     abrilSAIFI: {
-      label: 'SAIFI',
+      label: '',
       name: 'abrilSAIFI',
       value: null,
       messages: null,
@@ -158,7 +158,7 @@ export class IndicadorZonaComponent implements OnInit {
     },
 
     abrilTrabajadoSAIDI: {
-      label: 'SAIDI',
+      label: '',
       name: 'abrilTrabajadoSAIDI',
       value: null,
       messages: null,
@@ -167,7 +167,7 @@ export class IndicadorZonaComponent implements OnInit {
       maxLength: 20,
     },
     abrilTrabajadoSAIFI: {
-      label: 'SAIFI',
+      label: '',
       name: 'abrilTrabajadoSAIFI',
       value: null,
       messages: null,
@@ -177,7 +177,7 @@ export class IndicadorZonaComponent implements OnInit {
     },
 
     mayoSAIDI: {
-      label: 'SAIDI',
+      label: '',
       name: 'mayoSAIDI',
       value: null,
       messages: null,
@@ -185,7 +185,7 @@ export class IndicadorZonaComponent implements OnInit {
       maxLength: 20
     },
     mayoSAIFI: {
-      label: 'SAIFI',
+      label: '',
       name: 'mayoSAIFI',
       value: null,
       messages: null,
@@ -195,7 +195,7 @@ export class IndicadorZonaComponent implements OnInit {
 
 
     mayoTrabajadoSAIDI: {
-      label: 'SAIDI',
+      label: '',
       name: 'mayoTrabajadoSAIDI',
       value: null,
       messages: null,
@@ -204,7 +204,7 @@ export class IndicadorZonaComponent implements OnInit {
       maxLength: 20,
     },
     mayoTrabajadoSAIFI: {
-      label: 'SAIFI',
+      label: '',
       name: 'mayoTrabajadoSAIFI',
       value: null,
       messages: null,
@@ -215,7 +215,7 @@ export class IndicadorZonaComponent implements OnInit {
 
 
     junioSAIDI: {
-      label: 'SAIDI',
+      label: '',
       name: 'junioSAIDI',
       value: null,
       messages: null,
@@ -223,7 +223,7 @@ export class IndicadorZonaComponent implements OnInit {
       maxLength: 20
     },
     junioSAIFI: {
-      label: 'SAIFI',
+      label: '',
       name: 'junioSAIFI',
       value: null,
       messages: null,
@@ -233,7 +233,7 @@ export class IndicadorZonaComponent implements OnInit {
 
 
     junioTrabajadoSAIDI: {
-      label: 'SAIDI',
+      label: '',
       name: 'junioTrabajadoSAIDI',
       value: null,
       messages: null,
@@ -242,7 +242,7 @@ export class IndicadorZonaComponent implements OnInit {
       maxLength: 20,
     },
     junioTrabajadoSAIFI: {
-      label: 'SAIFI',
+      label: '',
       name: 'junioTrabajadoSAIFI',
       value: null,
       messages: null,
@@ -252,7 +252,7 @@ export class IndicadorZonaComponent implements OnInit {
     },
 
     julioSAIDI: {
-      label: 'SAIDI',
+      label: '',
       name: 'julioSAIDI',
       value: null,
       messages: null,
@@ -260,7 +260,7 @@ export class IndicadorZonaComponent implements OnInit {
       maxLength: 20
     },
     julioSAIFI: {
-      label: 'SAIFI',
+      label: '',
       name: 'julioSAIFI',
       value: null,
       messages: null,
@@ -270,7 +270,7 @@ export class IndicadorZonaComponent implements OnInit {
 
 
     julioTrabajadoSAIDI: {
-      label: 'SAIDI',
+      label: '',
       name: 'julioTrabajadoSAIDI',
       value: null,
       messages: null,
@@ -279,7 +279,7 @@ export class IndicadorZonaComponent implements OnInit {
       maxLength: 20,
     },
     julioTrabajadoSAIFI: {
-      label: 'SAIFI',
+      label: '',
       name: 'julioTrabajadoSAIFI',
       value: null,
       messages: null,
@@ -289,7 +289,7 @@ export class IndicadorZonaComponent implements OnInit {
     },
 
     agostoSAIDI: {
-      label: 'SAIDI',
+      label: '',
       name: 'agostoSAIDI',
       value: null,
       messages: null,
@@ -297,7 +297,7 @@ export class IndicadorZonaComponent implements OnInit {
       maxLength: 20
     },
     agostoSAIFI: {
-      label: 'SAIFI',
+      label: '',
       name: 'agostoSAIFI',
       value: null,
       messages: null,
@@ -307,7 +307,7 @@ export class IndicadorZonaComponent implements OnInit {
 
 
     agostoTrabajadoSAIDI: {
-      label: 'SAIDI',
+      label: '',
       name: 'agostoTrabajadoSAIDI',
       value: null,
       messages: null,
@@ -316,7 +316,7 @@ export class IndicadorZonaComponent implements OnInit {
       maxLength: 20,
     },
     agostoTrabajadoSAIFI: {
-      label: 'SAIFI',
+      label: '',
       name: 'agostoTrabajadoSAIFI',
       value: null,
       messages: null,
@@ -327,7 +327,7 @@ export class IndicadorZonaComponent implements OnInit {
 
 
     septiembreSAIDI: {
-      label: 'SAIDI',
+      label: '',
       name: 'septiembreSAIDI',
       value: null,
       messages: null,
@@ -335,7 +335,7 @@ export class IndicadorZonaComponent implements OnInit {
       maxLength: 20
     },
     septiembreSAIFI: {
-      label: 'SAIFI',
+      label: '',
       name: 'septiembreSAIFI',
       value: null,
       messages: null,
@@ -344,7 +344,7 @@ export class IndicadorZonaComponent implements OnInit {
     },
 
     septiembreTrabajadoSAIDI: {
-      label: 'SAIDI',
+      label: '',
       name: 'septiembreTrabajadoSAIDI',
       value: null,
       messages: null,
@@ -353,7 +353,7 @@ export class IndicadorZonaComponent implements OnInit {
       maxLength: 20,
     },
     septiembreTrabajadoSAIFI: {
-      label: 'SAIFI',
+      label: '',
       name: 'septiembreTrabajadoSAIFI',
       value: null,
       messages: null,
@@ -364,7 +364,7 @@ export class IndicadorZonaComponent implements OnInit {
 
 
     octubreSAIDI: {
-      label: 'SAIDI',
+      label: '',
       name: 'octubreSAIDI',
       value: null,
       messages: null,
@@ -372,7 +372,7 @@ export class IndicadorZonaComponent implements OnInit {
       maxLength: 20
     },
     octubreSAIFI: {
-      label: 'SAIFI',
+      label: '',
       name: 'octubreSAIFI',
       value: null,
       messages: null,
@@ -382,7 +382,7 @@ export class IndicadorZonaComponent implements OnInit {
 
 
     octubreTrabajadoSAIDI: {
-      label: 'SAIDI',
+      label: '',
       name: 'octubreTrabajadoSAIDI',
       value: null,
       messages: null,
@@ -391,7 +391,7 @@ export class IndicadorZonaComponent implements OnInit {
       maxLength: 20,
     },
     octubreTrabajadoSAIFI: {
-      label: 'SAIFI',
+      label: '',
       name: 'octubreTrabajadoSAIFI',
       value: null,
       messages: null,
@@ -402,7 +402,7 @@ export class IndicadorZonaComponent implements OnInit {
 
 
     noviembreSAIDI: {
-      label: 'SAIDI',
+      label: '',
       name: 'noviembreSAIDI',
       value: null,
       messages: null,
@@ -410,7 +410,7 @@ export class IndicadorZonaComponent implements OnInit {
       maxLength: 20
     },
     noviembreSAIFI: {
-      label: 'SAIFI',
+      label: '',
       name: 'noviembreSAIFI',
       value: null,
       messages: null,
@@ -419,7 +419,7 @@ export class IndicadorZonaComponent implements OnInit {
     },
 
     noviembreTrabajadoSAIDI: {
-      label: 'SAIDI',
+      label: '',
       name: 'noviembreTrabajadoSAIDI',
       value: null,
       messages: null,
@@ -428,7 +428,7 @@ export class IndicadorZonaComponent implements OnInit {
       maxLength: 20,
     },
     noviembreTrabajadoSAIFI: {
-      label: 'SAIFI',
+      label: '',
       name: 'noviembreTrabajadoSAIFI',
       value: null,
       messages: null,
@@ -438,7 +438,7 @@ export class IndicadorZonaComponent implements OnInit {
     },
 
     diciembreSAIDI: {
-      label: 'SAIDI',
+      label: '',
       name: 'diciembreSAIDI',
       value: null,
       messages: null,
@@ -446,7 +446,7 @@ export class IndicadorZonaComponent implements OnInit {
       maxLength: 20
     },
     diciembreSAIFI: {
-      label: 'SAIFI',
+      label: '',
       name: 'diciembreSAIFI',
       value: null,
       messages: null,
@@ -455,7 +455,7 @@ export class IndicadorZonaComponent implements OnInit {
     },
 
     diciembreTrabajadoSAIDI: {
-      label: 'SAIDI',
+      label: '',
       name: 'diciembreTrabajadoSAIDI',
       value: null,
       messages: null,
@@ -464,7 +464,7 @@ export class IndicadorZonaComponent implements OnInit {
       maxLength: 20,
     },
     diciembreTrabajadoSAIFI: {
-      label: 'SAIFI',
+      label: '',
       name: 'diciembreTrabajadoSAIFI',
       value: null,
       messages: null,
