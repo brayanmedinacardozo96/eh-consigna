@@ -147,6 +147,7 @@ export class ConsignaTabsComponent implements OnInit {
       for(let value of dataResponse.lista_elemento){
         const elemento = {
           id:               {value: value.id},
+          feeder:value.elemento.nemonico,
           redElectrica:     {name: 'redElectrica',  value: value.red_electrica},
           tipoElemento:     {name: value.elemento.tipo_elemento.nombre,                                     value: value.elemento.tipo_elemento.id},
           elemento:         {name: value.elemento.nombre,                                                   value: value.elemento.id},
@@ -192,6 +193,7 @@ export class ConsignaTabsComponent implements OnInit {
       }
 
       this.consigna.recorrerAreafectada();
+      this.consigna.recorrerAreafectadaCortoT();
       this.consigna.getElementoMapa();
 
       // this.trabajoOportunidad.setDataTrabajosOportunidad(this.trabajosOportunidad);
@@ -212,6 +214,25 @@ export class ConsignaTabsComponent implements OnInit {
       }
 
       this.maniobra.setDataRegistroManibra(this.registroManiobra);
+      if(dataResponse.datamapa!="" && dataResponse.datamapa!=null)
+      {
+        
+        var totales = JSON.parse(dataResponse.datamapa).url.indicador.total;
+        this.consigna.dataTiempo=totales.data;
+        this.consigna.txtTiempo = totales.tiempo;
+        this.consigna.txtSaidi = totales.totalSaidi;
+        this.consigna.txtSaifi = totales.totalSaifi;
+        this.consigna.jsonDataMapa=dataResponse.datamapa;
+        
+      }
+
+
+      let a = [{day: 'numeric' }, {month: 'short'}, {year: 'numeric'}];
+      let s = this.consigna.datejoin(new Date(dataResponse.fecha_solicitud), a, '-');
+      var result = await this.api.get(`${environment.apiBackend}/indicador-zona/getIndicadorMes/${dataResponse.zona_id}/${s}`);
+      this.consigna.allZonaIndicador=result.all;
+      
+
     }
     
   }

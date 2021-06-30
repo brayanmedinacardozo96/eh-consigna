@@ -14,7 +14,7 @@ export const environment = {
     urlFrontendST: 'http://192.9.200.44/transverse-security/#',
     urlEhmap:'https://enlinea.electrohuila.com.co/ehmaps/circuito',//'http://localhost/ehmaps/circuito',
     urlapp:'https://enlinea.electrohuila.com.co/consignas/#/',
-    urlEhmapV2:'https://enlinea.electrohuila.com.co/ehmaps/slc/map/',
+    urlEhmapV2:'https://enlinea.electrohuila.com.co/ehmaps/slc/map/' ///local - 'https://enlinea.electrohuila.com.co/ehmaps/slc/map/',
   //cuando pase a PRODUCCIÓN
     /* production: true,
     debug: false, //cuando esté en false ejecutar en el servidor de pruebas, pero apuntando a mapas en producción

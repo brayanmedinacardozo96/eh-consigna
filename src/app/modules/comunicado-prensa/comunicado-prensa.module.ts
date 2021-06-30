@@ -24,6 +24,7 @@ import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatGridListModule} from '@angular/material/grid-list';
 import { DirectivesModule } from './../../shared/directives/directives.module';
+import { ConfirmDialogComponent } from 'src/app/ui/confirm-dialog/confirm-dialog.component';
 
 @NgModule({
   declarations: [ComunicadoPrensaFormComponent, ComunicadoPrensaComponent, ComunicadoPrensaListComponent, ClientesAfectadosComponent],
@@ -49,6 +50,8 @@ import { DirectivesModule } from './../../shared/directives/directives.module';
         MatCheckboxModule,
         MatGridListModule,
         DirectivesModule,
+    ],entryComponents:[
+      ConfirmDialogComponent
     ]
 })
 export class ComunicadoPrensaModule { }
