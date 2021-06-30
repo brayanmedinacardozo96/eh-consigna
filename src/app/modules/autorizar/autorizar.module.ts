@@ -21,6 +21,7 @@ import { AutorizarJefeZonaComponent } from './autorizar-jefe-zona/autorizar-jefe
 import {DirectivesModule} from "../../shared/directives/directives.module";
 import {MatSortModule} from "@angular/material/sort";
 import {MatTooltipModule} from "@angular/material/tooltip";
+import {ModalConfirmComponent} from "../../ui/forms/modal-confirm/modal-confirm.component";
 
 
 @NgModule({
@@ -28,8 +29,8 @@ import {MatTooltipModule} from "@angular/material/tooltip";
     AutorizarComponent,
     TableElementoCalidadComponent,
     TableAprobarConsignaComponent,
-    AutorizarJefeZonaComponent
-    
+    AutorizarJefeZonaComponent,
+   
   ],
   imports: [
     CommonModule,
@@ -50,8 +51,8 @@ import {MatTooltipModule} from "@angular/material/tooltip";
     DirectivesModule,
     MatSortModule,
     MatTooltipModule,
-    
-
+  ],entryComponents:[
+     ModalConfirmComponent
   ]
 })
 export class AutorizarModule { }

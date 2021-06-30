@@ -519,6 +519,14 @@ export class ConsignaNewComponent implements OnInit {
   dataMapa=null;
 
   urlMap=null;
+
+  varTiempoMapa=null;
+
+  dataTiempo=[];
+  txtTiempo="";
+  txtSaidi=0;
+  txtSaifi=0
+  jsonDataMapa=""
   
   constructor(private api: ApiService,
               private validations: ValidationService,
@@ -550,7 +558,8 @@ export class ConsignaNewComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.getDataSelectConsigna();
-    this. valoresPorDefecto();
+    this.valoresPorDefecto();
+    this.getTiempoMapa();
   }
 
   valoresPorDefecto(){
@@ -1089,10 +1098,8 @@ export class ConsignaNewComponent implements OnInit {
       response.formData.append('indicador', JSON.stringify({
         saidi: document.getElementById("txtSaidi").innerHTML,
         saifi: document.getElementById("txtSaifi").innerHTML,
-        cuenta: document.getElementById("txtTotalUsuarios").innerHTML,
-        transformador: document.getElementById("txtTotalTransformadores").innerHTML,
-        kwh: document.getElementById("txtTotalKWH").innerHTML,
-        tiempo: document.getElementById("txtTiempo").innerHTML
+        tiempo: document.getElementById("txtTiempo").innerHTML,
+        data:document.getElementById("jsonDataMapa").textContent
       }));
       //response.formData.append('personaAfectada',JSON.stringify(this.areaAFectada[0].persona));
 
@@ -1208,6 +1215,21 @@ export class ConsignaNewComponent implements OnInit {
         //this.indicador.tiempoMaximo=valor!=""? parseInt(valor):0;
       }*/
       
+    }
+  }
+
+  async getTiempoMapa() {
+    const response = await this.api.get(`${environment.apiBackend}/parametro/getParametroCodigoTipo/VCONS`);
+    if (response.success) {
+      var result = response.data.filter(b => {
+        return (b.codigo == "MTU")
+      });
+      if (result.length > 0) {
+        this.varTiempoMapa = {
+          nombre: result[0].nombre,
+          valor: result[0].valor
+        };
+      }
     }
   }
 
@@ -1482,7 +1504,7 @@ export class ConsignaNewComponent implements OnInit {
             var objJson=JSON.parse( response.data );
             
             jsonLocal =JSON.stringify({url: objJson });//url JSON.stringify(response.data.url);
-            console.log(jsonLocal);
+            
             if(objJson.interrupcion!=null)
             {
               var jdata=objJson.interrupcion.data;//JSON.parse(objJson.interrupcion.data);
@@ -1575,7 +1597,11 @@ export class ConsignaNewComponent implements OnInit {
         this.dataElementos.forEach(element => {
           feeders.push({
             code: element.feeder
-          })
+          });
+          element.jsonAreaAfectada.value="";
+          element.jsonPersona.value="";
+          element.jsonAreaAfectadaCortoT.value="";
+          element.jsonPersonaCortoT.value="";
         });
 
 
@@ -1583,10 +1609,10 @@ export class ConsignaNewComponent implements OnInit {
         var data = "data=" + this.utf8_to_b64(JSON.stringify({
           feeders: feeders,
           zona:this.allZonaIndicador,
-          zonaselect:this.form.tipoZona.value
+          zonaselect:this.form.tipoZona.value,
+          tiempoMapa:this.varTiempoMapa
         })) + '&user=' + this.utf8_to_b64(JSON.stringify(this.user));
 
-        
         child = window.open(environment.urlEhmapV2 + '?' + data + '&key=' + key, "MsgWindow", 'width=' + width + ',height=' + height + ',top=' + y + ',left=' + x + ',toolbar=no,resizable=no');
         
         var apiLocal = this.api;
@@ -1609,7 +1635,14 @@ export class ConsignaNewComponent implements OnInit {
             intentos += 1;
             if (response.success) {
 
+              this.areaAFectada=[];
+              this.areaAFectadaCortoTiempo=[];
+              this.interrupcionesTrabajo.barrios.value = "";
+              this.interrupcionesTrabajo.clientesNoRegulados.value = "";
+              this.interrupcionesCortoTiempo.barrios.value = "";
+              this.interrupcionesCortoTiempo.clientesNoRegulados.value = "";
       
+
               var objJson = JSON.parse(response.data);
               
               this.dataMapa = {
@@ -1625,9 +1658,25 @@ export class ConsignaNewComponent implements OnInit {
 
               var jdata = objJson.indicador; //JSON.parse(objJson.interrupcion.data);
               jsonIntervenirElementoMapa = JSON.stringify(jdata.elemento);
-              document.getElementById("jsonElementoIntervenirMapa").textContent = jsonIntervenirElementoMapa;
-              document.getElementById("jsonMapaTipo").textContent = "";
 
+              this.dataElementos.forEach(element => {
+
+
+                var result = jdata.elemento.filter(b => {
+                  return (b.feeder == element.feeder)
+                });
+
+               
+                element.jsonElementoMapa.value = JSON.stringify({
+                  url: {
+                    interrupcion: this.clasificarTipo(result[0],element.feeder,"consigna"),
+                    interrupcionCorta:this.clasificarTipo(result[0],element.feeder,"corto"),
+                  }
+                });
+                 element.jsonIntervenirElementoMapa.value=JSON.stringify(this.clasificarTipo(result[0],element.feeder,"consigna").data.json);
+                 element.jsonIntervenirElementoMapaCortoT.value=JSON.stringify(this.clasificarTipo(result[0],element.feeder,"corto").data.json);
+
+              });
 
               document.getElementById("jsonDataMapa").textContent = jsonLocal;
 
@@ -1638,19 +1687,21 @@ export class ConsignaNewComponent implements OnInit {
 
               var totales = JSON.parse(response.data).indicador.total;
 
-              document.getElementById("txtTotalUsuarios").innerHTML = totales.totalCuentas;
-              document.getElementById("txtTotalTransformadores").innerHTML = totales.totalTransfors;
-              document.getElementById("txtTotalKWH").innerHTML = totales.totalKwh;
-              document.getElementById("txtTiempo").innerHTML = totales.tiempo;
-              document.getElementById("txtSaidi").innerHTML = totales.totalSaidi;
-              document.getElementById("txtSaifi").innerHTML = totales.totalSaifi;
+              this.dataTiempo=totales.data;
 
+              this.txtTiempo = totales.tiempo;
+              this.txtSaidi = totales.totalSaidi;
+              this.txtSaifi = totales.totalSaifi;
+              
 
               await objJson.indicador.elemento.reduce(async (accumulatorPromise, nextID) => {
 
                 var trans = "";
 
-                await nextID.TRANSFOR.reduce(async (accumulatorPromise, elem) => {
+                await nextID.TRANSFOR.filter(b => {
+                  return (b.tipoTiempo == "consigna")
+                }).reduce(async (accumulatorPromise, elem) => {
+                
                   if (trans == "") {
                     trans = trans + elem.CODE;
                   } else {
@@ -1658,8 +1709,35 @@ export class ConsignaNewComponent implements OnInit {
                   }
                 }, undefined);
 
-                await this.getDataAreaAfectada(`transf/${trans}`, true, nextID.feeder);
+                if(trans != "")
+                {
+                  await this.getDataAreaAfectada(`transf/${trans}`, true, nextID.feeder);
+                
+                }
+              
+              }, undefined);
 
+              await objJson.indicador.elemento.reduce(async (accumulatorPromise, nextID) => {
+
+                var trans = "";
+
+                await nextID.TRANSFOR.filter(b => {
+                  return (b.tipoTiempo == "corto")
+                }).reduce(async (accumulatorPromise, elem) => {
+                
+                  if (trans == "") {
+                    trans = trans + elem.CODE;
+                  } else {
+                    trans = trans + "|" + elem.CODE;
+                  }
+                }, undefined);
+
+                if(trans != "")
+                {
+                  await this.getDataAreaAfectada(`transf/${trans}`, false, nextID.feeder);
+                
+                }
+              
               }, undefined);
 
 
@@ -1688,12 +1766,41 @@ export class ConsignaNewComponent implements OnInit {
 
   }
 
+  clasificarTipo(item, feeder, tipo) {
+    var switches = item.SWITCHES.filter(b => {
+      return (b.tipoTiempo == tipo)
+    });
+
+    var transfor = item.TRANSFOR.filter(b => {
+      return (b.tipoTiempo == tipo)
+    });
+
+    var recloser = item.RECLOSER.filter(b => {
+      return (b.tipoTiempo == tipo)
+    });
+
+      return {
+          key: null,
+          data: {
+            url: "vacio",
+            json: {
+             feeder: feeder,
+             RECLOSER:recloser,
+             SWITCH:[],
+             SWITCHES:switches,
+             TRANSFOR: transfor,
+            },
+            tipo: "",
+            tiempo: 0
+          }
+        }
+      
+   
+  }
+
+
   actualizarElemento() {
     
-    //hola
-     
-     // console.log("SESSION=>",sessionStorage.getItem("resultMapa"))
-
       var data=JSON.parse(sessionStorage.getItem("resultMapa"));
 
       this.dataElementos.forEach(element=>{
@@ -1701,9 +1808,8 @@ export class ConsignaNewComponent implements OnInit {
              return (b.feeder==element.feeder)
            });
            
-           console.log(result[0].TRANSFOR);
-
-           element.jsonIntervenirElementoMapa=JSON.stringify(result)
+           
+           element.jsonIntervenirElementoMapa.value=JSON.stringify(result)
            element.jsonElementoMapa.value = JSON.stringify({
              url: {
                interrupcion: {
@@ -1724,30 +1830,31 @@ export class ConsignaNewComponent implements OnInit {
            });
       });
 
-      console.log("data =>",this.dataElementos);
+      
   }
 
   verMapaGuardadoV2() {
     if (this.dataMapa != null) {
-      
-      var child = window.open( this.crearUrlMap() );
 
+      console.log("hola=>",this.crearUrlMap())
+      const height = 600;
+      const width = 1000;
+      // calculamos la posicion x, y para centrar la ventana
+      const y = Number((window.innerHeight / 2) - (height / 2));
+      const x = Number((window.innerWidth / 2) - (width / 2));
+      window.open( this.crearUrlMap() + '&key=' + null, "MsgWindow", 'width=' + width + ',height=' + height + ',top=' + y + ',left=' + x + ',toolbar=no,resizable=no');
+    
     }
   }
 
   crearUrlMap()
   {
-    const height = 600;
-    const width = 1000;
-    // calculamos la posicion x, y para centrar la ventana
-    const y = Number((window.innerHeight / 2) - (height / 2));
-    const x = Number((window.innerWidth / 2) - (width / 2));
-
+    
     var data = "data=" + this.utf8_to_b64(JSON.stringify(
       this.dataMapa 
     ));
 
-    return environment.urlEhmapV2 + '?' + data + '&key=null', "MsgWindow", 'width=' + width + ',height=' + height + ',top=' + y + ',left=' + x + ',toolbar=no,resizable=no';
+    return environment.urlEhmapV2 + '?' + data;
   }
 
   verMapaGuardado(){
@@ -1932,8 +2039,16 @@ export class ConsignaNewComponent implements OnInit {
             }
           }
 
-          element.jsonAreaAfectada.value = jsonAreaAfectada;
-          element.jsonPersona.value = jsonPersona;
+          if(duraTrabajo)
+          {
+            element.jsonAreaAfectada.value = jsonAreaAfectada;
+            element.jsonPersona.value = jsonPersona;
+          }else{
+            element.jsonPersonaCortoT.value=jsonPersonaCortoT;
+            element.jsonAreaAfectadaCortoT.value=jsonAreaAfectadaCortoT;
+          }
+          
+          
 
         }
       });
@@ -2384,14 +2499,9 @@ export class ConsignaNewComponent implements OnInit {
 
   abrirSubelementos(obj) {
 
-
     try {
-
-     // console.log("MOSTRAR 2=>" ,obj.jsonElementoMapa.value);
-
-      this.actualizarElemento();
-
-    //  console.log("MOSTRAR=>" ,obj.jsonElementoMapa.value);
+      console.log(obj);
+     // this.actualizarElemento();
 
       if (JSON.parse(obj.jsonElementoMapa.value).url.interrupcion == null) {
         this.snackBar.alert('El elemento seleccionado no contiene subelementos.', 5000)
@@ -2405,8 +2515,7 @@ export class ConsignaNewComponent implements OnInit {
         return false;
       }
 
-      console.log("mostrar=>",elemento);
-
+      
       const dialogConfig = new MatDialogConfig();
       dialogConfig.minWidth = 500;
       dialogConfig.minHeight = 650;
