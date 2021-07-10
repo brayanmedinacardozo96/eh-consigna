@@ -769,9 +769,12 @@ export class ConsignaNewComponent implements OnInit {
         this.snackBar.alert(`Problemas con la comunicación , contactar con el administrador.`, 10000);
         return;
       }
+
+      this.allZonaIndicador=response.all;
+
     }
     
-    this.allZonaIndicador=response.all;
+    
 
     this.usuarioAfectadoTemp.interrupcion=0;
     this.usuarioAfectadoTemp.interrupcionCorta=0;
