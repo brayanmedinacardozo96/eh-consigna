@@ -15,8 +15,10 @@ export const environment = {
     urlEhmap:'https://enlinea.electrohuila.com.co/ehmaps/circuito',//'http://localhost/ehmaps/circuito',
     urlapp:'https://enlinea.electrohuila.com.co/consignas/#/',
     urlEhmapV2:'https://enlinea.electrohuila.com.co/ehmaps/slc/map/' ///local - 'https://enlinea.electrohuila.com.co/ehmaps/slc/map/',
+    
   //cuando pase a PRODUCCIÓN
-    /* production: true,
+  /* 
+    production: true,
     debug: false, //cuando esté en false ejecutar en el servidor de pruebas, pero apuntando a mapas en producción
     appName: 'Sistema Local de Consignas',
     companyName: 'Electrohuila S.A. - E.S.P.',
@@ -28,6 +30,7 @@ export const environment = {
     urlPublicFiles: 'https://enlinea.electrohuila.com.co/back-consignas/public/',
     urlFrontendST: 'https://enlinea.electrohuila.com.co/transverse-security/#',
     urlEhmap:'https://enlinea.electrohuila.com.co/ehmaps/circuito',
-    urlapp:'https://enlinea.electrohuila.com.co/consignas/#/' */
-    
+    urlapp:'https://enlinea.electrohuila.com.co/consignas/#/', 
+    urlEhmapV2:'https://enlinea.electrohuila.com.co/ehmaps/slc/map/' ///local - 'https://enlinea.electrohuila.com.co/ehmaps/slc/map/',
+ */
   };
