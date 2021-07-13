@@ -1099,9 +1099,9 @@ export class ConsignaNewComponent implements OnInit {
       response.formData.append('user',JSON.stringify(this.user));
       //INDICADOR
       response.formData.append('indicador', JSON.stringify({
-        saidi: document.getElementById("txtSaidi").innerHTML,
-        saifi: document.getElementById("txtSaifi").innerHTML,
-        tiempo: document.getElementById("txtTiempo").innerHTML,
+        saidi: document.getElementById("txtSaidi")!=null ? document.getElementById("txtSaidi").innerHTML:0,
+        saifi: document.getElementById("txtSaifi")!=null ? document.getElementById("txtSaifi").innerHTML:0,
+        tiempo: document.getElementById("txtTiempo") !=null ? document.getElementById("txtTiempo").innerHTML : "",
         data:document.getElementById("jsonDataMapa").textContent
       }));
       //response.formData.append('personaAfectada',JSON.stringify(this.areaAFectada[0].persona));
@@ -1613,7 +1613,8 @@ export class ConsignaNewComponent implements OnInit {
           feeders: feeders,
           zona:this.allZonaIndicador,
           zonaselect:this.form.tipoZona.value,
-          tiempoMapa:this.varTiempoMapa
+          tiempoMapa:this.varTiempoMapa,
+          estadoEquipo:this.form.estadoEquipo.value
         })) + '&user=' + this.utf8_to_b64(JSON.stringify(this.user));
 
         child = window.open(environment.urlEhmapV2 + '?' + data + '&key=' + key, "MsgWindow", 'width=' + width + ',height=' + height + ',top=' + y + ',left=' + x + ',toolbar=no,resizable=no');
@@ -1839,7 +1840,6 @@ export class ConsignaNewComponent implements OnInit {
   verMapaGuardadoV2() {
     if (this.dataMapa != null) {
 
-      console.log("hola=>",this.crearUrlMap())
       const height = 600;
       const width = 1000;
       // calculamos la posicion x, y para centrar la ventana
