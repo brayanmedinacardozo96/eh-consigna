@@ -51,7 +51,8 @@ import { ConfirmDialogComponent } from 'src/app/ui/confirm-dialog/confirm-dialog
         MatGridListModule,
         DirectivesModule,
     ],entryComponents:[
-      ConfirmDialogComponent
+      ConfirmDialogComponent,
+      ClientesAfectadosComponent
     ]
 })
 export class ComunicadoPrensaModule { }

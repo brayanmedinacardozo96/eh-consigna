@@ -3,20 +3,36 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-
+  //lo de brayin
+  /* 
     production: false,
     debug: true, //cuando esté en false ejecutar en el servidor de pruebas, pero apuntando a mapas en producción
     appName: 'Sistema Local de Consignas',
     companyName: 'Electrohuila S.A. - E.S.P.',
     messagesFile: 'assets/messages/es.json',
-   apiTransverseSecurity: 'http://192.9.200.44/back-transverse-security/public/api',//'http://localhost/back-transverse-security/public/api',
-   keyTransverseSecurity: '$2y$10$OjsZGz0JqaUiFvvLHBt1I.sv5oW3bcZTOTavMOqwfAT2TxYhZa1HS',
-   
+    apiTransverseSecurity: 'http://192.9.200.44/back-transverse-security/public/api',//'http://localhost/back-transverse-security/public/api',
+    keyTransverseSecurity: '$2y$10$OjsZGz0JqaUiFvvLHBt1I.sv5oW3bcZTOTavMOqwfAT2TxYhZa1HS',
+
     apiBackend: 'http://192.168.1.8/eh-consigna-backend/public/api',
     urlFiles: 'http://192.168.1.8/eh-consigna-backend/',
     urlPublicFiles: 'http://192.168.1.8/eh-consigna-backend/public/',
     urlFrontendST: 'http://192.9.200.44/transverse-security/#',
     urlEhmap:'http://localhost:8000/ehmaps/circuito/',
+    urlEhmapV2:'http://localhost:8000/ehmaps/slc/map/',
+    urlapp:'http://localhost:4200/#/', //'https://enlinea.electrohuila.com.co/consignas/#/'
+   */
+    production: false,
+    debug: true, //cuando esté en false ejecutar en el servidor de pruebas, pero apuntando a mapas en producción
+    appName: 'Sistema Local de Consignas',
+    companyName: 'Electrohuila S.A. - E.S.P.',
+    messagesFile: 'assets/messages/es.json',
+    apiTransverseSecurity: 'http://192.9.200.44/back-transverse-security/public/api',//'http://localhost/back-transverse-security/public/api',
+    keyTransverseSecurity: '$2y$10$OjsZGz0JqaUiFvvLHBt1I.sv5oW3bcZTOTavMOqwfAT2TxYhZa1HS',
+    apiBackend: 'http://localhost/back-consigna/public/api',
+    urlFiles: 'http://localhost/back-consigna/',
+    urlPublicFiles: 'http://localhost/back-consigna/public/',
+    urlFrontendST: 'http://192.9.200.44/transverse-security/#',
+    urlEhmap:'http://localhost/eh-maps/circuito/',
     urlEhmapV2:'http://localhost:8000/ehmaps/slc/map/',
     urlapp:'http://localhost:4200/#/', //'https://enlinea.electrohuila.com.co/consignas/#/'
   

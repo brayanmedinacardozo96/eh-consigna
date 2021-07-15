@@ -23,11 +23,11 @@
     >
     </app-input-file>
 
-    <button mat-raised-button class="{{boton.color}}" (click)="adicionar()" style="margin-left: 20px; margin-top: 10px;">
+    <button mat-raised-button [ngClass]="boton.color" (click)="adicionar()" style="margin-left: 20px; margin-top: 10px;">
       <span style="color: #FFF">{{boton.value}}</span>
     </button>
     
-    <!-- <button mat-raised-button class="{{boton.color}}" (click)="testManiobra()" style="margin-left: 20px; margin-top: 10px;">
+    <!-- <button mat-raised-button [ngClass]="boton.color" (click)="testManiobra()" style="margin-left: 20px; margin-top: 10px;">
       <span style="color: #FFF">test</span>
     </button> -->
 

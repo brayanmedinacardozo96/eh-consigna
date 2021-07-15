@@ -99,7 +99,12 @@ import { ConsignaTerceroListComponent } from './consigna-tercero-list/consigna-t
         MatSidenavModule,
         MatProgressSpinnerModule
     ],entryComponents:[
-      ConsignaNewMessageComponent
+      ConsignaNewMessageComponent,
+      ConsignaElementoListComponent,
+      ConsignaTrabajoListComponent,
+      ConsignaManiobraListComponent,
+      ConsignaListDocumentsComponent,
+      ConsignaTerceroListComponent
     ]
 
 })
