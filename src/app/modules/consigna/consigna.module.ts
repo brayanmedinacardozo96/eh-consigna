@@ -66,7 +66,6 @@ import { ConsignaTerceroListComponent } from './consigna-tercero-list/consigna-t
     BitacoraListComponent,
     ConsignaTerceroListComponent,
 
-
   ],
     imports: [
         CommonModule,
@@ -104,7 +103,8 @@ import { ConsignaTerceroListComponent } from './consigna-tercero-list/consigna-t
       ConsignaTrabajoListComponent,
       ConsignaManiobraListComponent,
       ConsignaListDocumentsComponent,
-      ConsignaTerceroListComponent
+      ConsignaTerceroListComponent,
+      ConsignaNewSearchComponent
     ]
 
 })
