@@ -238,7 +238,6 @@ export class ConsignaListComponent implements OnInit {
     const y = Number((window.innerHeight / 2) - (height / 2));
     const x = Number((window.innerWidth / 2) - (width / 2));
 
-
     var data = "data=" + this.utf8_to_b64(JSON.stringify(
       dataMapa
     ));
