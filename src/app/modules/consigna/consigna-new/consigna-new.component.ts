@@ -17,6 +17,7 @@ import { ModalConfirmComponent } from './../../../ui/forms/modal-confirm/modal-c
 import { Mensaje } from './../../../ui/forms/m-dialog/dialog';
 import { ConsignaNewSearchComponent } from './consigna-new-search/consigna-new-search.component';
 import * as moment from 'moment';
+import * as $ from 'jquery';
 import {BitacoraSubelementosVistaComponent} from "../../bitacora/bitacora-subelementos-vista/bitacora-subelementos-vista.component";
 
 
@@ -1105,7 +1106,7 @@ export class ConsignaNewComponent implements OnInit {
         data:document.getElementById("jsonDataMapa").textContent
       }));
       //response.formData.append('personaAfectada',JSON.stringify(this.areaAFectada[0].persona));
-
+       console.log(document.getElementById("jsonDataMapa").textContent);
       response.success = true;
 
       /* const response = await this.api.post(`${environment.apiBackend}/consigna/save-consigna`, formData);
@@ -1696,6 +1697,8 @@ export class ConsignaNewComponent implements OnInit {
               this.txtTiempo = totales.tiempo;
               this.txtSaidi = totales.totalSaidi;
               this.txtSaifi = totales.totalSaifi;
+
+              $("#panelTablaIndicador").html(JSON.parse(response.data).indicador.htmlIndicador);
               
 
               await objJson.indicador.elemento.reduce(async (accumulatorPromise, nextID) => {

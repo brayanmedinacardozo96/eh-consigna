@@ -1,92 +1,165 @@
 <mat-card class="container">
   <mat-card-content>
     <h1>Consigna</h1>
-    
+
     <div style="padding-left:20px;text-align: left;width: 98%;">
       <strong>Autorizador: </strong><label>{{form.usuario.value}}</label>
     </div>
     <mat-grid-list class="row" cols="2" rowHeight="104px">
       <mat-grid-tile [colspan]="2">
 
-        <app-input-autocomplete   matTooltip="Para listar las consignas por aprobar presionar ENTER" style="width: 96%;" [label]="form.numeroConsigna.label"
-          (keyup.enter)="buscar()"
-          [value]="form.numeroConsigna.value" [name]="form.numeroConsigna.name"
-          [messages]="form.numeroConsigna.messages" (valueChange)="setData(form.numeroConsigna.name, $event)"
-          [upperCase]="true"
+        <app-input-autocomplete matTooltip="Para listar las consignas por aprobar presionar ENTER" style="width: 96%;"
+          [label]="form.numeroConsigna.label" (keyup.enter)="buscar()" [value]="form.numeroConsigna.value"
+          [name]="form.numeroConsigna.name" [messages]="form.numeroConsigna.messages"
+          (valueChange)="setData(form.numeroConsigna.name, $event)" [upperCase]="true"
           [urlApi]="form.numeroConsigna.url">
         </app-input-autocomplete>
 
         <div style="padding-bottom:20px">
-          <button mat-mini-fab color="accent" (click)="buscar()" matTooltip="Consultar" matTooltipClass="custom-tooltip">
+          <button mat-mini-fab color="accent" (click)="buscar()" matTooltip="Consultar"
+            matTooltipClass="custom-tooltip">
             <mat-icon style="color: #FFFFFF">search</mat-icon>
           </button>
         </div>
 
-      </mat-grid-tile>      
+      </mat-grid-tile>
     </mat-grid-list>
 
     <mat-grid-list class="row" cols="2" rowHeight="104px" *ngIf="data.length > 0">
 
       <mat-grid-tile [colspan]="2">
         <mat-form-field class="input" style="width: 95%;">
-            <mat-label>{{form.estadoConsigna.required ? form.estadoConsigna.label+' *':form.estadoConsigna.label}}</mat-label>
-            <mat-select [disabled]="form.estadoConsigna.disabled" id="ddlEstadoConsigna" (valueChange)="setDataEstado(form.estadoConsigna.name, $event)" [(ngModel)]="form.estadoConsigna.value" style="padding-top: 5px;padding-bottom: 5px;">
-                <mat-option *ngFor="let value of dataControls?.estadoConsigna;" [value]="value.id">
-                    {{value.nombre}}
-                </mat-option>
-            </mat-select>
-            <mat-hint style="color: red" *ngIf="form.estadoConsigna.messages">{{form.estadoConsigna.messages}}</mat-hint>
+          <mat-label>{{form.estadoConsigna.required ? form.estadoConsigna.label+' *':form.estadoConsigna.label}}
+          </mat-label>
+          <mat-select [disabled]="form.estadoConsigna.disabled" id="ddlEstadoConsigna"
+            (valueChange)="setDataEstado(form.estadoConsigna.name, $event)" [(ngModel)]="form.estadoConsigna.value"
+            style="padding-top: 5px;padding-bottom: 5px;">
+            <mat-option *ngFor="let value of dataControls?.estadoConsigna;" [value]="value.id">
+              {{value.nombre}}
+            </mat-option>
+          </mat-select>
+          <mat-hint style="color: red" *ngIf="form.estadoConsigna.messages">{{form.estadoConsigna.messages}}</mat-hint>
         </mat-form-field>
-     </mat-grid-tile>
-  
-     <mat-grid-tile *ngIf="causal" [colspan]="2">
-      <mat-form-field class="input" style="width: 95%;">
+      </mat-grid-tile>
+
+      <mat-grid-tile *ngIf="causal" [colspan]="2">
+        <mat-form-field class="input" style="width: 95%;">
           <mat-label>{{form.causalEstado.required ? form.causalEstado.label+' *':form.causalEstado.label}}</mat-label>
-          <mat-select id="ddlCausalEstado"  [(ngModel)]="form.causalEstado.value" style="padding-top: 5px;padding-bottom: 5px;">
-              <mat-option *ngFor="let value of dataControls?.causalEstado;" [value]="value.id">
-                  {{value.nombre}}
-              </mat-option>
+          <mat-select id="ddlCausalEstado" [(ngModel)]="form.causalEstado.value"
+            style="padding-top: 5px;padding-bottom: 5px;">
+            <mat-option *ngFor="let value of dataControls?.causalEstado;" [value]="value.id">
+              {{value.nombre}}
+            </mat-option>
           </mat-select>
           <mat-hint style="color: red" *ngIf="form.causalEstado.messages">{{form.causalEstado.messages}}</mat-hint>
-      </mat-form-field>
-   </mat-grid-tile>
-  
-     <mat-grid-tile *ngIf="form.estadoConsigna.value==7">
-       <app-datepicker 
-       style="width: 95%;"
-       [label]="form.fechaSolicitud.label" 
-       [value]="form.fechaSolicitud.value"
-       [name]="form.fechaSolicitud.name" 
-       [messages]="form.fechaSolicitud.messages"
-          [required]="form.fechaSolicitud.required"
-          (valueChange)="setData(form.fechaSolicitud.name, $event)"
-          ></app-datepicker>
+        </mat-form-field>
       </mat-grid-tile>
-  
+
+      <mat-grid-tile *ngIf="form.estadoConsigna.value==7">
+        <app-datepicker style="width: 95%;" [label]="form.fechaSolicitud.label" [value]="form.fechaSolicitud.value"
+          [name]="form.fechaSolicitud.name" [messages]="form.fechaSolicitud.messages"
+          [required]="form.fechaSolicitud.required" (valueChange)="setData(form.fechaSolicitud.name, $event)">
+        </app-datepicker>
+      </mat-grid-tile>
+
       <mat-grid-tile [colspan]="2">
-  
+
         <app-input-text-area style="width: 98%;" class="input" [label]="form.observacion.label"
           [value]="form.observacion.value" [name]="form.observacion.name" [messages]="form.observacion.messages"
-          [length]="form.observacion.length"
-          (valueChange)="setData(form.observacion.name, $event)">
-        </app-input-text-area>  
-  
+          [length]="form.observacion.length" (valueChange)="setData(form.observacion.name, $event)">
+        </app-input-text-area>
+
       </mat-grid-tile>
 
     </mat-grid-list>
-    
-    <div style="padding: 10px;"  *ngIf="viewList" >
+
+    <div style="padding: 10px;" *ngIf="viewList">
       <table-aprobar-consigna [data]="data"></table-aprobar-consigna>
     </div>
 
-   <!-- <div style="padding: 10px;">
+    <br><br>
+
+    <mat-accordion style="position:relative; z-index:0;">
+      <mat-expansion-panel [expanded]="panelOpenStateResumen" (opened)="panelOpenStateResumen = true"
+        (closed)="panelOpenStateResumen = false">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Indicador
+          </mat-panel-title>
+          <mat-panel-description>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <table class="custom-table">
+          <thead>
+            <tr>
+              <td>
+                Tiempo
+              </td>
+              <td>
+                SAIDI
+              </td>
+              <td>
+                SAIFI
+              </td>
+            </tr>
+          </thead>
+          <tbody id="tbIndicador">
+            <tr>
+              <td id="txtTiempo">
+                {{txtTiempo}}
+              </td>
+              <td id="txtSaidi">
+                {{txtSaidi}}
+              </td>
+              <td id="txtSaifi">
+                {{txtSaifi}}
+              </td>
+            </tr>
+          </tbody>
+
+        </table>
+        <table class="custom-table">
+          <thead>
+            <td>Tipo</td>
+            <td>
+              Total usuarios
+            </td>
+            <td>
+              Total Transformadores
+            </td>
+            <td>
+              Total KWH
+            </td>
+          </thead>
+          <tbody>
+            <tr *ngFor="let value of dataTiempo; let i=index">
+              <td>{{value.tipo}}</td>
+              <td>{{value.usuario}}</td>
+              <td>{{value.tranfo}}</td>
+              <td>{{value.kwh}}</td>
+            </tr>
+          </tbody>
+        </table>
+        <br>
+
+        <div id="panelTablaIndicador"></div>
+
+      </mat-expansion-panel>
+    </mat-accordion>
+
+    <br />
+    <br />
+
+    <!-- <div style="padding: 10px;">
       <app-table-elemento-calidad [data]="dataElementoCalidad"></app-table-elemento-calidad>
     </div>-->
     <div *ngIf="data.length > 0">
-      <button *ngIf="permitir" mat-raised-button color="primary" (click)="guardar()" style="margin-left: 20px; margin-top: 10px;">
+      <button *ngIf="permitir" mat-raised-button color="primary" (click)="guardar()"
+        style="margin-left: 20px; margin-top: 10px;">
         <span style="color: #FFF">Guardar</span>
       </button>
-  
+
       <button mat-raised-button (click)="limpiar()"
         style="background-color:lightslategrey;margin-left: 20px; margin-top: 10px;">
         <span style="color: #FFF">Limpiar</span>

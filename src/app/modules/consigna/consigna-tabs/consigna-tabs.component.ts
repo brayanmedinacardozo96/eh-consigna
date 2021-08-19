@@ -10,6 +10,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConsignaNewMessageComponent } from './../consigna-new-message/consigna-new-message.component';
 import { SnackBarService } from './../../../shared/services/snack-bar.service';
 import { SessionService } from './../../../shared/services/session.service';
+import * as $ from 'jquery';
 
 
 
@@ -223,7 +224,7 @@ export class ConsignaTabsComponent implements OnInit {
         this.consigna.txtSaidi = totales.totalSaidi;
         this.consigna.txtSaifi = totales.totalSaifi;
         this.consigna.jsonDataMapa=dataResponse.datamapa;
-        
+        $("#panelTablaIndicador2").html(JSON.parse(dataResponse.datamapa).url.indicador.htmlIndicador);
       }
 
 
@@ -242,6 +243,7 @@ export class ConsignaTabsComponent implements OnInit {
     let formData: FormData = new FormData();
        
     let dataConsigna = this.consigna.guardarConsigna();
+    
     for (const key in dataConsigna) {
       if (dataConsigna.hasOwnProperty(key)) {
           if(key == 'success'){

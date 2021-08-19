@@ -1,18 +1,19 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
-import {SessionService} from '../../shared/services/session.service';
-import {ApiService} from '../../shared/services/api.service';
-import {environment} from '../../../environments/environment';
-import {ValidationService} from '../../shared/services/validations.service';
-import {Auth} from '../../shared/auth';
-import {User} from '../../shared/models/user';
-import {MatSnackBar} from '@angular/material/snack-bar';
-import {Mensaje} from '../../ui/forms/modal-confirm/mensaje';
-import {ModalConfirmComponent} from "../../ui/forms/modal-confirm/modal-confirm.component";
-import {MDialogComponent} from "../../ui/forms/m-dialog/m-dialog.component"
-import {MatDialog} from "@angular/material/dialog";
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { SessionService } from '../../shared/services/session.service';
+import { ApiService } from '../../shared/services/api.service';
+import { environment } from '../../../environments/environment';
+import { ValidationService } from '../../shared/services/validations.service';
+import { Auth } from '../../shared/auth';
+import { User } from '../../shared/models/user';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Mensaje } from '../../ui/forms/modal-confirm/mensaje';
+import { ModalConfirmComponent } from "../../ui/forms/modal-confirm/modal-confirm.component";
+import { MDialogComponent } from "../../ui/forms/m-dialog/m-dialog.component"
+import { MatDialog } from "@angular/material/dialog";
 import { NotifierService } from 'angular-notifier';
 import * as moment from 'moment';
+import * as $ from 'jquery';
 
 
 @Component({
@@ -25,26 +26,25 @@ export class AutorizarComponent implements OnInit {
   user: User = Auth.getUserDataPerson();
 
   constructor(private activeRoute: ActivatedRoute,
-              private session: SessionService,
-              private api: ApiService,
-              private validations: ValidationService,
-              private notifier: NotifierService,
-              private dialogo: MatDialog
+    private session: SessionService,
+    private api: ApiService,
+    private validations: ValidationService,
+    private notifier: NotifierService,
+    private dialogo: MatDialog
   ) {
     this.activeRoute.params.subscribe(params => {
 
 
       if (params.id !== undefined && params.id !== null && params.id != "") {
 
-        if(params.tipo=="v")
-        {
-          document.getElementById("vtoolbar").style.visibility='hidden';
+        if (params.tipo == "v") {
+          document.getElementById("vtoolbar").style.visibility = 'hidden';
         }
 
         if (isNaN(parseInt(params.id))) {
-          this.buscarConsigna({numeroConsigna: {value: params.id}});
+          this.buscarConsigna({ numeroConsigna: { value: params.id } });
         } else {
-          this.buscarConsigna({consignacion_id: {value: params.id}});
+          this.buscarConsigna({ consignacion_id: { value: params.id } });
         }
       }
 
@@ -120,7 +120,7 @@ export class AutorizarComponent implements OnInit {
   }
 
   dataElementoCalidad = [
-    {elemento: "xxx", sDesconexion: "100", desMax: "10", feMax: "10", deHora: "10", feHora: "10"}
+    { elemento: "xxx", sDesconexion: "100", desMax: "10", feMax: "10", deHora: "10", feHora: "10" }
   ]
   valor = null;
   viewList = false;
@@ -128,15 +128,21 @@ export class AutorizarComponent implements OnInit {
   permitir = true;
   tipo_solicitud = "";
   causal = false;
-  plazoReprogramar=null;
+  plazoReprogramar = null;
 
+  dataTiempo = [];
+  txtTiempo = "";
+  txtSaidi = 0;
+  txtSaifi = 0
+  panelOpenStateResumen = false;
+  datamapa=null;
 
   ngOnInit(): void {
 
     this.form.usuario.id = this.user.id;
     let nombreUsuario = `${this.user.first_name} `;
-    nombreUsuario += `${this.user.second_name != null && this.user.second_name != undefined && this.user.second_name != '' ? this.user.second_name : '' } `;
-    nombreUsuario += `${this.user.first_lastname != null && this.user.first_lastname != undefined && this.user.first_lastname != '' ? this.user.first_lastname : '' } `;
+    nombreUsuario += `${this.user.second_name != null && this.user.second_name != undefined && this.user.second_name != '' ? this.user.second_name : ''} `;
+    nombreUsuario += `${this.user.first_lastname != null && this.user.first_lastname != undefined && this.user.first_lastname != '' ? this.user.first_lastname : ''} `;
     nombreUsuario += `${this.user.second_lastname != null && this.user.second_lastname != undefined && this.user.second_lastname != '' ? this.user.second_lastname : ''}`;
 
     this.form.usuario.value = nombreUsuario;
@@ -152,21 +158,20 @@ export class AutorizarComponent implements OnInit {
     this.form.estadoConsigna.value = null;
     this.form.estadoConsigna.messages = null;
     this.form.observacion.messages = null;
-    this.form.estadoConsigna.disabled=false;
-    this.causal=false;
-    this.dataControls.causalEstado=[];
+    this.form.estadoConsigna.disabled = false;
+    this.causal = false;
+    this.dataControls.causalEstado = [];
 
   }
 
   setData(name, event) {
     this.form[name].value = event;
-    this.validarFecha( this.form[name],event);
+    this.validarFecha(this.form[name], event);
 
   }
 
-  validarFecha(item,event)
-  {
-    var t=moment().format('YYYY-MM-DD');
+  validarFecha(item, event) {
+    var t = moment().format('YYYY-MM-DD');
     var fecha = moment(t);
     var plazo = moment(event, 'YYYY-MM-DD');
 
@@ -190,16 +195,16 @@ export class AutorizarComponent implements OnInit {
     const response = await this.api.get(`${environment.apiBackend}/consigna/getCausal`);
     if (response.success) {
       this.dataControls.causalEstado = response.data;
-    }else{
+    } else {
       this.notifier.notify('warning', response.message);
     }
   }
 
-  async getPlazoReprogramada(){
+  async getPlazoReprogramada() {
     const response = await this.api.get(`${environment.apiBackend}/parametro/getPlazoReprogramada`);
     if (response.success) {
-       this.plazoReprogramar = response.data;
-    }else{
+      this.plazoReprogramar = response.data;
+    } else {
       this.notifier.notify('warning', response.message);
     }
   }
@@ -212,7 +217,7 @@ export class AutorizarComponent implements OnInit {
     var estado = this.dataControls.estadoConsigna.filter(b => {
       return (b.id == event)
     });
-    
+
     this.valor = estado[0].valor;
     this.validarEstados(estado);
 
@@ -224,14 +229,13 @@ export class AutorizarComponent implements OnInit {
       this.getCausal();
     }
 
-    if(estado[0].nombre == "Reprogramada")
-    {
+    if (estado[0].nombre == "Reprogramada") {
       this.getPlazoReprogramada();
     }
 
   }
 
-  
+
   validarEstados(estado) {
 
     this.permitir = true;
@@ -239,14 +243,14 @@ export class AutorizarComponent implements OnInit {
     if (this.tipo_solicitud == "Emergencia") {
       return;
     }
-   
+
     if (this.valor != null) {
 
       var plazo = moment(this.form.numeroConsigna.fechaSolicitud).add(-this.valor, 'days').format('YYY-MM-DD');
       var fecha = moment().format('YYYY-MM-DD');
 
-       var tfecha = moment(fecha);
-       var tplazo = moment(plazo);
+      var tfecha = moment(fecha);
+      var tplazo = moment(plazo);
       if (tfecha > tplazo) {
         this.permitir = false;
         this.dialogo
@@ -292,13 +296,24 @@ export class AutorizarComponent implements OnInit {
       this.tipo_solicitud = this.data[0].tipo_solicitud;
       this.form.estadoConsigna.disabled = false;
 
-      if (this.data[0].estado_consigna != "Solicitada" && this.data[0].estado_consigna != "Reprogramada" &&  this.data[0].estado_consigna != "Aprobada") {
+      this.datamapa = JSON.parse(this.data[0].datamapa);
+      var t=JSON.parse(this.data[0].datamapa);
+
+      this.dataTiempo =  this.datamapa.url.indicador.total.data;
+      var totales =  this.datamapa.url.indicador.total;
+      this.txtTiempo = totales.tiempo;
+      this.txtSaidi = totales.totalSaidi;
+      this.txtSaifi = totales.totalSaifi;
+      
+      $("#panelTablaIndicador").html(t.url.indicador.htmlIndicador);
+
+      if (this.data[0].estado_consigna != "Solicitada" && this.data[0].estado_consigna != "Reprogramada" && this.data[0].estado_consigna != "Aprobada") {
         this.permitir = false;
-        this.form.estadoConsigna.disabled=true;
+        this.form.estadoConsigna.disabled = true;
         this.notifier.notify('warning', 'Acción no permitida para esta consigna.');
       }
 
-    }else{
+    } else {
       this.notifier.notify('warning', 'No se encontraron registros.');
     }
   }
@@ -345,7 +360,7 @@ export class AutorizarComponent implements OnInit {
 
     if (textEstado == "Cancelada") { // Se verifica si existen consignas hijas o trabajos de oportunidad
 
-      const response = await this.api.post(`${environment.apiBackend}/consigna/validar-consignas-hijas`, {consignacion_id: this.form.id.value});
+      const response = await this.api.post(`${environment.apiBackend}/consigna/validar-consignas-hijas`, { consignacion_id: this.form.id.value });
       if (response.success) {
         if (response.hijas.length > 0) { // Si la consigna tiene otras consignas hijas
           this.dialogo
@@ -405,7 +420,7 @@ export class AutorizarComponent implements OnInit {
       }
       this.limpiar();
       this.notifier.notify('success', 'Se realizo el cambio de estado de forma exitosa.');
-    }else{
+    } else {
       this.notifier.notify('warning', response.message);
     }
   }
@@ -413,7 +428,7 @@ export class AutorizarComponent implements OnInit {
   async buscar() {
 
     if (this.form.numeroConsigna.value !== undefined && this.form.numeroConsigna.value !== null && this.form.numeroConsigna.value != "") {
-      this.buscarConsigna({numeroConsigna: {value: this.form.numeroConsigna.value}});
+      this.buscarConsigna({ numeroConsigna: { value: this.form.numeroConsigna.value } });
     }
   }
 

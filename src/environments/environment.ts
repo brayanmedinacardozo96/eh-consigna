@@ -28,12 +28,12 @@ export const environment = {
     messagesFile: 'assets/messages/es.json',
     apiTransverseSecurity: 'http://192.9.200.44/back-transverse-security/public/api',//'http://localhost/back-transverse-security/public/api',
     keyTransverseSecurity: '$2y$10$OjsZGz0JqaUiFvvLHBt1I.sv5oW3bcZTOTavMOqwfAT2TxYhZa1HS',
-    apiBackend: 'http://localhost/back-consigna/public/api',
-    urlFiles: 'http://localhost/back-consigna/',
-    urlPublicFiles: 'http://localhost/back-consigna/public/',
+    apiBackend: 'http://192.168.1.8/eh-consigna-backend/public/api',
+    urlFiles: 'http://192.168.1.8/eh-consigna-backend/',
+    urlPublicFiles: 'http://192.168.1.8/eh-consigna-backend/public/',
     urlFrontendST: 'http://192.9.200.44/transverse-security/#',
-    urlEhmap:'http://localhost/eh-maps/circuito/',
-    urlEhmapV2:'http://localhost:8000/ehmaps/slc/map/',
+    urlEhmap:'http://localhost:80/eh-maps/circuito/',
+    urlEhmapV2:'http://localhost:80/ehmaps/slc/map/',
     urlapp:'http://localhost:4200/#/', //'https://enlinea.electrohuila.com.co/consignas/#/'
   
   /*
