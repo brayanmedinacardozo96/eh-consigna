@@ -217,7 +217,6 @@ export class ConsignaTabsComponent implements OnInit {
       this.maniobra.setDataRegistroManibra(this.registroManiobra);
       if(dataResponse.datamapa!="" && dataResponse.datamapa!=null)
       {
-        
         var totales = JSON.parse(dataResponse.datamapa).url.indicador.total;
         this.consigna.dataTiempo=totales.data;
         this.consigna.txtTiempo = totales.tiempo;

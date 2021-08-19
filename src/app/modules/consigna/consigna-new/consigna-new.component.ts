@@ -1,14 +1,14 @@
 import { Component, OnInit, ViewChild, Input, Output, EventEmitter } from '@angular/core';
-import {ApiService} from '../../../shared/services/api.service';
-import {ValidationService} from '../../../shared/services/validations.service';
-import {DateValidationervice} from '../../../shared/services/date-validations.service';
+import { ApiService } from '../../../shared/services/api.service';
+import { ValidationService } from '../../../shared/services/validations.service';
+import { DateValidationervice } from '../../../shared/services/date-validations.service';
 import { FileValidationService } from './../../../shared/services/file-validation.service';
-import {environment} from '../../../../environments/environment';
+import { environment } from '../../../../environments/environment';
 import { SnackBarService } from './../../../shared/services/snack-bar.service';
 import { Auth } from './../../../shared/auth';
 import { User } from './../../../shared/models/user';
-import {MatDialog,MatDialogConfig} from '@angular/material/dialog';
-import {Router,ActivatedRoute} from '@angular/router';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { Router, ActivatedRoute } from '@angular/router';
 import { SessionService } from './../../../shared/services/session.service';
 import { TrabajoOportunidadComponent } from './../../trabajo-oportunidad/trabajo-oportunidad.component';
 import { InputFileDynamicComponent } from './../../../ui/forms/input-file-dynamic/input-file-dynamic.component';
@@ -18,7 +18,7 @@ import { Mensaje } from './../../../ui/forms/m-dialog/dialog';
 import { ConsignaNewSearchComponent } from './consigna-new-search/consigna-new-search.component';
 import * as moment from 'moment';
 import * as $ from 'jquery';
-import {BitacoraSubelementosVistaComponent} from "../../bitacora/bitacora-subelementos-vista/bitacora-subelementos-vista.component";
+import { BitacoraSubelementosVistaComponent } from "../../bitacora/bitacora-subelementos-vista/bitacora-subelementos-vista.component";
 
 
 
@@ -33,53 +33,53 @@ export class ConsignaNewComponent implements OnInit {
   @ViewChild(InputFileDynamicComponent) inputFileDynamic: InputFileDynamicComponent;
   @ViewChild(InputFileMultipleComponent) inputFileMultiple: InputFileMultipleComponent;
   @Output() setElemento = new EventEmitter();
-  
+
   action = 'Guardar';
   consignacionId = null;
   consignaPadreId = null;
   tempTipoFormatoConsigna = 'C';
   tipoFormato = 'Consignación';
   data = [];
-  argNumConsigna = ['','','',''];
+  argNumConsigna = ['', '', '', ''];
   dataElementos = [];
   dataControls = {
-    tipoFormatoConsigna:[],
-    divisionArea:[],
-    tipoZona:[],
-    tipoSolicitud:[],
-    tipoConsignacion:[],
-    estadoConsigna:[],
-    estadoEquipo:[],
-    subestacion:[
+    tipoFormatoConsigna: [],
+    divisionArea: [],
+    tipoZona: [],
+    tipoSolicitud: [],
+    tipoConsignacion: [],
+    estadoConsigna: [],
+    estadoEquipo: [],
+    subestacion: [
     ],
-    tipoMantenimiento:[],
-    tipoElemento:[],
-    elemento:[],
-    ramal:[
-      {nombre:'Si',value:'1'},
-      {nombre:'No',value:'0'}
+    tipoMantenimiento: [],
+    tipoElemento: [],
+    elemento: [],
+    ramal: [
+      { nombre: 'Si', value: '1' },
+      { nombre: 'No', value: '0' }
     ],
-    redElectrica:[
-      {nombre:'Linea',value:'1'},
-      {nombre:'Subestación',value:'0'}
+    redElectrica: [
+      { nombre: 'Linea', value: '1' },
+      { nombre: 'Subestación', value: '0' }
     ],
-    solicitadaTercero:[ 
-      {id: "1",nombre: "Si"},
-      {id: "0", nombre: "No"}
+    solicitadaTercero: [
+      { id: "1", nombre: "Si" },
+      { id: "0", nombre: "No" }
     ],
-    tipoTercerosConsigna:[],
+    tipoTercerosConsigna: [],
     selectYear: this.dateValidation.getSelectCurrentDate(true),
   };
 
   form = {
-    tipoFormatoConsigna:{
+    tipoFormatoConsigna: {
       label: 'Tipo de Formato',
       name: 'tipoFormatoConsigna',
       value: null,
       messages: null,
       required: true,
     },
-    divisionArea:{
+    divisionArea: {
       label: 'División Area',
       name: 'divisionArea',
       value: null,
@@ -87,14 +87,14 @@ export class ConsignaNewComponent implements OnInit {
       required: true,
       disabled: false
     },
-    numeroConsigna:{
+    numeroConsigna: {
       label: 'Consignación No.',
       name: 'numeroConsigna',
       value: null,
       messages: null,
       required: false,
     },
-    consecutivoSnc:{
+    consecutivoSnc: {
       label: 'Consecutivo SNC',
       name: 'consecutivoSnc',
       value: null,
@@ -435,37 +435,37 @@ export class ConsignaNewComponent implements OnInit {
     message: null,
     files: new FormData()
   };
-  areaAFectada=[];
-  areaAFectadaCortoTiempo=[];
-  logAreaAFectada=[];
+  areaAFectada = [];
+  areaAFectadaCortoTiempo = [];
+  logAreaAFectada = [];
   messageListaElementos = '';
   user: User = Auth.getUserDataPerson();
-  login:User=Auth.getLogin();
+  login: User = Auth.getLogin();
   fileAnexos = {
     placeholder: 'Ingrese los anexos',
-    typeExtension: ['pdf','png','jpg','jpeg','xls','xlsx','doc','docx','txt','ppt','pptx'],
+    typeExtension: ['pdf', 'png', 'jpg', 'jpeg', 'xls', 'xlsx', 'doc', 'docx', 'txt', 'ppt', 'pptx'],
     maxSize: '5',
     messages: '',
     fileName: '',
-    fileUrl:  '',
-    required:  false,
+    fileUrl: '',
+    required: false,
     package: 'anexos'
   };
 
   dataInputFile = [
-    { 
-      placeholder: 'Ingrese la topología de inicio (obligatorio)', 
+    {
+      placeholder: 'Ingrese la topología de inicio (obligatorio)',
       required: true,
-      typeExtension: ['png','jpg','jpeg'],
+      typeExtension: ['png', 'jpg', 'jpeg'],
       maxSize: '5',
       fileName: '',
       fileUrl: '',
       nameDocument: 'topologia inicio'
     },
-    { 
-      placeholder: 'Ingrese la topología de fin (opcional)', 
+    {
+      placeholder: 'Ingrese la topología de fin (opcional)',
       required: false,
-      typeExtension: ['png','jpg','jpeg'],
+      typeExtension: ['png', 'jpg', 'jpeg'],
       maxSize: '5',
       fileName: '',
       fileUrl: '',
@@ -473,21 +473,21 @@ export class ConsignaNewComponent implements OnInit {
     }
   ];
 
-  jsonMapa = ''; 
-  numeroAreaAfectada={
-    barrios:0,
-    clienteRegulado:0,
-    clienteNoRegulado:0
+  jsonMapa = '';
+  numeroAreaAfectada = {
+    barrios: 0,
+    clienteRegulado: 0,
+    clienteNoRegulado: 0
   };
-  numeroAreaAfectadaCortoT={
-    barrios:0,
-    clienteRegulado:0,
-    clienteNoRegulado:0
+  numeroAreaAfectadaCortoT = {
+    barrios: 0,
+    clienteRegulado: 0,
+    clienteNoRegulado: 0
   };
-  
-  mostrarPanelElemento=true;
-  elementUpdateID=null;
-  esRedElectrica=true;
+
+  mostrarPanelElemento = true;
+  elementUpdateID = null;
+  esRedElectrica = true;
 
   verMapaSelect = 'hidden';
 
@@ -499,63 +499,62 @@ export class ConsignaNewComponent implements OnInit {
     tiempoMaximo:0,
     horaTrabajo:0
   }*/
-   indicador={
-    totalUsuarios:100,
-    transformadores:10,
-    kwh:1000,
-    tiempo:25,
-    saidi:0.2,
-    saifi:0.3
+  indicador = {
+    totalUsuarios: 100,
+    transformadores: 10,
+    kwh: 1000,
+    tiempo: 25,
+    saidi: 0.2,
+    saifi: 0.3
   }
 
-  usuarioAfectadoTemp={
-    interrupcion:0,
-    interrupcionCorta:0
+  usuarioAfectadoTemp = {
+    interrupcion: 0,
+    interrupcionCorta: 0
   }
 
-  panelOpenStateResumen=false;
+  panelOpenStateResumen = false;
 
-  allZonaIndicador=[];
+  allZonaIndicador = [];
 
-  dataMapa=null;
+  dataMapa = null;
 
-  urlMap=null;
+  urlMap = null;
 
-  varTiempoMapa=null;
+  varTiempoMapa = null;
 
-  dataTiempo=[];
-  txtTiempo="";
-  txtSaidi=0;
-  txtSaifi=0
-  jsonDataMapa=""
-  
+  dataTiempo = [];
+  txtTiempo = "";
+  txtSaidi = 0;
+  txtSaifi = 0
+  jsonDataMapa = ""
+
   constructor(private api: ApiService,
-              private validations: ValidationService,
-              private dateValidation: DateValidationervice,
-              private fileValidation: FileValidationService,
-              private snackBar: SnackBarService,
-              public dialog: MatDialog,
-              private activeRoute: ActivatedRoute,
-              private router: Router,
-              private session: SessionService,
-              private dialogo: MatDialog,
-              ) {
-                window.scrollTo(0,0);
-                this.getDataSolicitante();
-                this.activeRoute.params.subscribe(params => {
+    private validations: ValidationService,
+    private dateValidation: DateValidationervice,
+    private fileValidation: FileValidationService,
+    private snackBar: SnackBarService,
+    public dialog: MatDialog,
+    private activeRoute: ActivatedRoute,
+    private router: Router,
+    private session: SessionService,
+    private dialogo: MatDialog,
+  ) {
+    window.scrollTo(0, 0);
+    this.getDataSolicitante();
+    this.activeRoute.params.subscribe(params => {
 
-                  if (params.id !== undefined && params.id !== null) {
-                    this.consignacionId = params.id;
-                    this.action = 'Editar';
-                    if(params.tipo=="v")
-                    {
-                      document.getElementById("vtoolbar").style.visibility='hidden';
-                    }
-                    // this.search(this.consignacionId).then();
-                  }
+      if (params.id !== undefined && params.id !== null) {
+        this.consignacionId = params.id;
+        this.action = 'Editar';
+        if (params.tipo == "v") {
+          document.getElementById("vtoolbar").style.visibility = 'hidden';
+        }
+        // this.search(this.consignacionId).then();
+      }
 
-                });
-              }
+    });
+  }
 
   async ngOnInit(): Promise<void> {
     this.getDataSelectConsigna();
@@ -563,21 +562,21 @@ export class ConsignaNewComponent implements OnInit {
     this.getTiempoMapa();
   }
 
-  valoresPorDefecto(){
+  valoresPorDefecto() {
     this.form.solicitadaTercero.value = "0";
   }
 
-  getDataSolicitante(){
+  getDataSolicitante() {
     this.form.solicitante.value = `${this.user.document_number} - ${this.user.first_name} ${this.user.second_name} ${this.user.first_lastname} ${this.user.second_lastname}`;
   }
 
-  async search(id){
+  async search(id) {
     const response = await this.api.get(`${environment.apiBackend}/consigna/get/${id}`);
-    if(response.success){
+    if (response.success) {
       let dataResponse = response.data[0];
       this.fileUrl = dataResponse.url_diagrama;
       let urlDocument = this.fileUrl.split('/');
-      this.form.solicitante.label='Usuario';
+      this.form.solicitante.label = 'Usuario';
 
       this.form.tipoZona.value = parseInt(dataResponse.zona_id);
       this.form.tipoSolicitud.value = parseInt(dataResponse.tipo_solicitud_id);
@@ -599,65 +598,65 @@ export class ConsignaNewComponent implements OnInit {
       this.form.jefeTrabajoContratista.value = dataResponse.jefe_contratista;
       this.form.telJefeTrabajoContratista.value = dataResponse.telefono_jefe_contratista;
       this.form.moviles.value = dataResponse.movil;
-      this.fileName = urlDocument[urlDocument.length-1];
+      this.fileName = urlDocument[urlDocument.length - 1];
 
       this.dataElementos = [];
-      for(let value of dataResponse.lista_elemento){
+      for (let value of dataResponse.lista_elemento) {
         const elemento = {
-          id:           {value: value.id},
-          tipoElemento: {name: value.elemento.tipo_elemento.nombre,                                     value: value.elemento.tipo_elemento.id},
-          elemento:     {name: value.elemento.nombre,                                                   value: value.elemento.id},
-          ramal:        {name: value.ramal == '1' ? 'Si' : 'No',                                        value: value.ramal},
-          fechaInicio:  {name: this.dateValidation.getYearMounthDay(new Date(value.fech_inicio_prog)),  value: value.fech_inicio_prog },
-          horaInicio:   {name: value.hora_inicio_prog,                                                  value: value.hora_inicio_prog },
-          fechaFinal:   {name: this.dateValidation.getYearMounthDay(new Date(value.fech_final_prog)),   value: value.fech_final_prog},
-          horaFinal:    {name: value.hora_final_prog,                                                   value: value.hora_final_prog},
+          id: { value: value.id },
+          tipoElemento: { name: value.elemento.tipo_elemento.nombre, value: value.elemento.tipo_elemento.id },
+          elemento: { name: value.elemento.nombre, value: value.elemento.id },
+          ramal: { name: value.ramal == '1' ? 'Si' : 'No', value: value.ramal },
+          fechaInicio: { name: this.dateValidation.getYearMounthDay(new Date(value.fech_inicio_prog)), value: value.fech_inicio_prog },
+          horaInicio: { name: value.hora_inicio_prog, value: value.hora_inicio_prog },
+          fechaFinal: { name: this.dateValidation.getYearMounthDay(new Date(value.fech_final_prog)), value: value.fech_final_prog },
+          horaFinal: { name: value.hora_final_prog, value: value.hora_final_prog },
         }
         this.dataElementos.push(elemento);
       }
-    }else{
-      this.snackBar.alert(response.message,5000);
+    } else {
+      this.snackBar.alert(response.message, 5000);
     }
   }
 
   setData(name, event, obj: any = undefined) {
-    if(obj == undefined){
+    if (obj == undefined) {
       this.form[name].value = event;
-    }else{
+    } else {
       obj[name].value = event;
     }
   }
-  
+
   setListElementoFecha(name, event, obj: any = undefined) {
     this.setData(name, event, obj);
-    if(name == 'fechaInicio'){
-      this.setData('fechaFinal',event,obj);
-    }else{
-      this.setData('fechaInicio',event,obj);
+    if (name == 'fechaInicio') {
+      this.setData('fechaFinal', event, obj);
+    } else {
+      this.setData('fechaInicio', event, obj);
     }
   }
 
-  validateHours(){
+  validateHours() {
     let response = {
       success: true
     }
 
-    if(this.formElementos.horaInicio.value != undefined && this.formElementos.horaInicio.value != null && this.formElementos.horaInicio.value != ''
+    if (this.formElementos.horaInicio.value != undefined && this.formElementos.horaInicio.value != null && this.formElementos.horaInicio.value != ''
       && this.formElementos.horaFinal.value != undefined && this.formElementos.horaFinal.value != null && this.formElementos.horaFinal.value != ''
-    ){
-        let horaInicio = moment(this.formElementos.horaInicio.value, 'h:mm a');
-        let horaFinal = moment(this.formElementos.horaFinal.value, 'h:mm a');
+    ) {
+      let horaInicio = moment(this.formElementos.horaInicio.value, 'h:mm a');
+      let horaFinal = moment(this.formElementos.horaFinal.value, 'h:mm a');
 
-        if(horaInicio > horaFinal){
-          response.success = false;
-          this.snackBar.alert('La hora de inicio es mayor a la hora final!',5000);
-        }
+      if (horaInicio > horaFinal) {
+        response.success = false;
+        this.snackBar.alert('La hora de inicio es mayor a la hora final!', 5000);
+      }
     }
     return response;
 
   }
 
-  setDataDatePicker(name, event, obj: any = undefined){
+  setDataDatePicker(name, event, obj: any = undefined) {
     let day: string = event.getDate().toString();
     day = +day < 10 ? '0' + day : day;
     let month: string = (event.getMonth() + 1).toString();
@@ -665,21 +664,20 @@ export class ConsignaNewComponent implements OnInit {
     let year = event.getFullYear();
     let date = `${day}-${month}-${year}`;
 
-    if(obj == undefined){
+    if (obj == undefined) {
       this.form[name].value = date;
-    }else{
+    } else {
       obj[name].value = date;
     }
 
   }
 
-  validateListElements(){
+  validateListElements() {
     this.jsonMapa = document.getElementById("jsonDataMapa").innerText;
     const responseValidate = this.validations.validateEmptyFields(this.formElementos);
 
-    if(this.form.estadoEquipo.value==null)
-    {
-      this.form.estadoEquipo.messages="Este campo es requerido.";
+    if (this.form.estadoEquipo.value == null) {
+      this.form.estadoEquipo.messages = "Este campo es requerido.";
       return;
     }
 
@@ -688,31 +686,31 @@ export class ConsignaNewComponent implements OnInit {
     }
 
     const respValidateHours = this.validateHours();
-    
+
     if (!respValidateHours.success) {
       return false;
     }
-    
+
     const respValidateListElemRepetido = this.validateListaElemetoRepetido();
-    if(!respValidateListElemRepetido.success){
+    if (!respValidateListElemRepetido.success) {
       this.dialogo
-            .open(ModalConfirmComponent, {
-            data: new Mensaje("Mensaje:",respValidateListElemRepetido.message)
-          })
-          .afterClosed()
-          .subscribe((confirmado: Boolean) => {
-            if(confirmado) {
-              this.validateJsonMapa();
-            }else{
-              this.validateJsonMapa();
-            }
-          });  
-    }else{
+        .open(ModalConfirmComponent, {
+          data: new Mensaje("Mensaje:", respValidateListElemRepetido.message)
+        })
+        .afterClosed()
+        .subscribe((confirmado: Boolean) => {
+          if (confirmado) {
+            this.validateJsonMapa();
+          } else {
+            this.validateJsonMapa();
+          }
+        });
+    } else {
       this.validateJsonMapa();
-    }   
+    }
   }
 
-  validateJsonMapa(){
+  validateJsonMapa() {
 
     this.addListElements();
 
@@ -729,22 +727,22 @@ export class ConsignaNewComponent implements OnInit {
     }*/
   }
 
-  validateListaElemetoRepetido(){
+  validateListaElemetoRepetido() {
     let response = {
       success: true,
       message: '¡Existe un tipo de elemento y elemento previamente guardado! ¿Desea guardarlo?'
     }
-    for(let value of this.dataElementos ){
-      if(this.formElementos.tipoElemento.value == value.tipoElemento.value 
-        && this.formElementos.elemento.value == value.elemento.value ){
-          response.success = false;
-          return response;
+    for (let value of this.dataElementos) {
+      if (this.formElementos.tipoElemento.value == value.tipoElemento.value
+        && this.formElementos.elemento.value == value.elemento.value) {
+        response.success = false;
+        return response;
       }
     }
     return response;
   }
 
-  async addListElements(){
+  async addListElements() {
 
 
     if (this.esRedElectrica) {
@@ -771,14 +769,14 @@ export class ConsignaNewComponent implements OnInit {
         return;
       }
 
-      this.allZonaIndicador=response.all;
+      this.allZonaIndicador = response.all;
 
     }
-    
-    
 
-    this.usuarioAfectadoTemp.interrupcion=0;
-    this.usuarioAfectadoTemp.interrupcionCorta=0;
+
+
+    this.usuarioAfectadoTemp.interrupcion = 0;
+    this.usuarioAfectadoTemp.interrupcionCorta = 0;
 
     var textRedElectrica = ((document.getElementById("form_consigna-red_electrica")) as HTMLSelectElement).textContent;
     var textTipoElemento = ((document.getElementById("form_consigna-tipo_elemento")) as HTMLSelectElement).textContent;
@@ -789,54 +787,54 @@ export class ConsignaNewComponent implements OnInit {
     var horaInicio = this.formElementos.horaInicio.value;
     var fechaFinal = this.dateValidation.getYearMounthDay(this.formElementos.fechaFinal.value);
     var horaFinal = this.formElementos.horaFinal.value;
-    var feeder= this.getFeederElemento(this.formElementos.elemento.value);
-    await this.getAreaAFectada( feeder );
-    
-    
-    var jsonAreaAfectada="";//[[],[]]
-    var jsonPersona="";//[]
+    var feeder = this.getFeederElemento(this.formElementos.elemento.value);
+    await this.getAreaAFectada(feeder);
 
-    var jsonAreaAfectadaCortoT="";//[[],[]]
-    var jsonPersonaCortoT="";//[]
- /*
-    if(this.formElementos.afectaUsuarios.value==1)
-    {
-      if(this.areaAFectada.length>0)
-      {
-        jsonAreaAfectada=JSON.stringify( this.areaAFectada[0].area );
-        jsonPersona= JSON.stringify( this.areaAFectada[0].persona );
-      }
-      
-      if (this.areaAFectadaCortoTiempo.length > 0) {
-        jsonAreaAfectadaCortoT = JSON.stringify(this.areaAFectadaCortoTiempo[0].area);
-        jsonPersonaCortoT = JSON.stringify(this.areaAFectadaCortoTiempo[0].persona);
-      }
-    }*/
+
+    var jsonAreaAfectada = "";//[[],[]]
+    var jsonPersona = "";//[]
+
+    var jsonAreaAfectadaCortoT = "";//[[],[]]
+    var jsonPersonaCortoT = "";//[]
+    /*
+       if(this.formElementos.afectaUsuarios.value==1)
+       {
+         if(this.areaAFectada.length>0)
+         {
+           jsonAreaAfectada=JSON.stringify( this.areaAFectada[0].area );
+           jsonPersona= JSON.stringify( this.areaAFectada[0].persona );
+         }
+         
+         if (this.areaAFectadaCortoTiempo.length > 0) {
+           jsonAreaAfectadaCortoT = JSON.stringify(this.areaAFectadaCortoTiempo[0].area);
+           jsonPersonaCortoT = JSON.stringify(this.areaAFectadaCortoTiempo[0].persona);
+         }
+       }*/
 
     const elemento = {
-      id:             {value: null},
-      redElectrica:   {name: textRedElectrica,  value: this.formElementos.redElectrica.value},
-      tipoElemento:   {name: textTipoElemento,  value: this.formElementos.tipoElemento.value},
-      elemento:       {name: textElemento,      value: this.formElementos.elemento.value},
-      ramal:          {name: textRamal,         value: this.formElementos.ramal.value},
-      afectaUsuarios: {name: textAfectaUsuarios,value: this.formElementos.afectaUsuarios.value},
-      fechaInicio:    {name: fechaInicio,       value: fechaInicio },
-      horaInicio:     {name: horaInicio,        value: horaInicio },
-      fechaFinal:     {name: fechaFinal,        value: fechaFinal},
-      horaFinal:      {name: horaFinal,         value: horaFinal},
-      jsonAreaAfectada: {name:'jsonAreaAfectada', value: jsonAreaAfectada   },
-      jsonPersona:{name:'jsonPersona',value: jsonPersona},
-      jsonAreaAfectadaCortoT: {name:'jsonAreaAfectadaCortoT', value: jsonAreaAfectadaCortoT   },
-      jsonPersonaCortoT:{name:'jsonPersonaCortoT',value: jsonPersonaCortoT},
-      jsonElementoMapa:{name:'jsonElementoMapa', value: this.jsonMapa},
-      feeder:feeder,
-      jsonIntervenirElementoMapa:{name:'jsonIntervenirElementoMapa', value: document.getElementById("jsonElementoIntervenirMapa").innerText } ,
-      jsonIntervenirElementoMapaCortoT:{name:'jsonElementoIntervenirMapaCortoTiempo', value: document.getElementById("jsonElementoIntervenirMapaCortoTiempo").innerText } ,
-      jsonTiempo:{name:'jsonTiempo',value:document.getElementById('jsonTiempo').innerText},
-      totalUsuarioInterrupcion:{name:'totalUsuarioInterrupcion',value:this.usuarioAfectadoTemp.interrupcion},
-      totalUsuarioInterrupcionCorta:{name:'totalUsuarioInterrupcionCorta',value:this.usuarioAfectadoTemp.interrupcionCorta}
+      id: { value: null },
+      redElectrica: { name: textRedElectrica, value: this.formElementos.redElectrica.value },
+      tipoElemento: { name: textTipoElemento, value: this.formElementos.tipoElemento.value },
+      elemento: { name: textElemento, value: this.formElementos.elemento.value },
+      ramal: { name: textRamal, value: this.formElementos.ramal.value },
+      afectaUsuarios: { name: textAfectaUsuarios, value: this.formElementos.afectaUsuarios.value },
+      fechaInicio: { name: fechaInicio, value: fechaInicio },
+      horaInicio: { name: horaInicio, value: horaInicio },
+      fechaFinal: { name: fechaFinal, value: fechaFinal },
+      horaFinal: { name: horaFinal, value: horaFinal },
+      jsonAreaAfectada: { name: 'jsonAreaAfectada', value: jsonAreaAfectada },
+      jsonPersona: { name: 'jsonPersona', value: jsonPersona },
+      jsonAreaAfectadaCortoT: { name: 'jsonAreaAfectadaCortoT', value: jsonAreaAfectadaCortoT },
+      jsonPersonaCortoT: { name: 'jsonPersonaCortoT', value: jsonPersonaCortoT },
+      jsonElementoMapa: { name: 'jsonElementoMapa', value: this.jsonMapa },
+      feeder: feeder,
+      jsonIntervenirElementoMapa: { name: 'jsonIntervenirElementoMapa', value: document.getElementById("jsonElementoIntervenirMapa").innerText },
+      jsonIntervenirElementoMapaCortoT: { name: 'jsonElementoIntervenirMapaCortoTiempo', value: document.getElementById("jsonElementoIntervenirMapaCortoTiempo").innerText },
+      jsonTiempo: { name: 'jsonTiempo', value: document.getElementById('jsonTiempo').innerText },
+      totalUsuarioInterrupcion: { name: 'totalUsuarioInterrupcion', value: this.usuarioAfectadoTemp.interrupcion },
+      totalUsuarioInterrupcionCorta: { name: 'totalUsuarioInterrupcionCorta', value: this.usuarioAfectadoTemp.interrupcionCorta }
     }
-    
+
     this.dataElementos.push(elemento);
     this.getElementoMapa();
 
@@ -850,8 +848,8 @@ export class ConsignaNewComponent implements OnInit {
     botonVerMapaSelec.style.visibility = "hidden";
     this.jsonMapa = '';
     document.getElementById("jsonDataMapa").textContent = '';
-    document.getElementById("jsonElementoIntervenirMapa").textContent ="";
-    document.getElementById("jsonMapaTipo").textContent="";
+    document.getElementById("jsonElementoIntervenirMapa").textContent = "";
+    document.getElementById("jsonMapaTipo").textContent = "";
 
     this.formElementos.tipoElemento.value = null;
     this.formElementos.elemento.value = null;
@@ -931,129 +929,124 @@ export class ConsignaNewComponent implements OnInit {
 
   }*/
 
-  validarEstadoEquipo(){
+  validarEstadoEquipo() {
 
-    var result= this.session.getItem('estadoEquipo').filter(b=>{
-      return (b.id==this.form.estadoEquipo.value)
-    }) 
-   
-    return result.length==0?"":result[0].codigo;
-    
+    var result = this.session.getItem('estadoEquipo').filter(b => {
+      return (b.id == this.form.estadoEquipo.value)
+    })
+
+    return result.length == 0 ? "" : result[0].codigo;
+
   }
 
-  getElementoMapa(){
+  getElementoMapa() {
     this.form.urlMapa.value = [];
-    for(let value of this.dataElementos){
-      if(value.jsonElementoMapa != '' && value.jsonElementoMapa != undefined && value.jsonElementoMapa != null){
-       if (value.jsonElementoMapa.value != "" && value.jsonElementoMapa.value != null) {
-         var dataJson = JSON.parse(value.jsonElementoMapa.value);
-         if (typeof dataJson == 'string') {
-           dataJson = JSON.parse(dataJson);
-         }
-         this.form.urlMapa.value.push(dataJson.url);
-       }
+    for (let value of this.dataElementos) {
+      if (value.jsonElementoMapa != '' && value.jsonElementoMapa != undefined && value.jsonElementoMapa != null) {
+        if (value.jsonElementoMapa.value != "" && value.jsonElementoMapa.value != null) {
+          var dataJson = JSON.parse(value.jsonElementoMapa.value);
+          if (typeof dataJson == 'string') {
+            dataJson = JSON.parse(dataJson);
+          }
+          this.form.urlMapa.value.push(dataJson.url);
+        }
       }
     }
   }
 
-  removeListElement(id){
+  removeListElement(id) {
     this.dialogo
       .open(ModalConfirmComponent, {
-      data: new Mensaje("Eliminar:","¿Está seguro de eliminar el registro?")
-    })
-    .afterClosed()
-    .subscribe((confirmado: Boolean) => {
-      if(confirmado) {
+        data: new Mensaje("Eliminar:", "¿Está seguro de eliminar el registro?")
+      })
+      .afterClosed()
+      .subscribe((confirmado: Boolean) => {
+        if (confirmado) {
 
-        var elemento=this.dataElementos[id];
-        var feederEli= elemento.feeder;
-        this.dataElementos.splice(id,1);
-        this.logAreaAFectada=[];
+          var elemento = this.dataElementos[id];
+          var feederEli = elemento.feeder;
+          this.dataElementos.splice(id, 1);
+          this.logAreaAFectada = [];
 
-        for (let index = 0; index < this.dataElementos.length; index++) {
-          const element = this.dataElementos[index];
-          
-          if (element.feeder == feederEli) {
-            var data = this.logAreaAFectada.filter(b => {
-              return (b.feeder == elemento)
-            });
-            
-            if (data.length == 0) {
-              if (element.jsonAreaAfectada.value == "") {//[[],[]]
-                element.jsonAreaAfectada.value = elemento.jsonAreaAfectada.value;
-              }
-              if (element.jsonPersona.value == "") {//[]
-                element.jsonPersona.value = elemento.jsonPersona.value;
+          for (let index = 0; index < this.dataElementos.length; index++) {
+            const element = this.dataElementos[index];
+
+            if (element.feeder == feederEli) {
+              var data = this.logAreaAFectada.filter(b => {
+                return (b.feeder == elemento)
+              });
+
+              if (data.length == 0) {
+                if (element.jsonAreaAfectada.value == "") {//[[],[]]
+                  element.jsonAreaAfectada.value = elemento.jsonAreaAfectada.value;
+                }
+                if (element.jsonPersona.value == "") {//[]
+                  element.jsonPersona.value = elemento.jsonPersona.value;
+                }
               }
             }
+
+            this.logAreaAFectada.push({ feeder: element.feeder });
+
           }
-
-          this.logAreaAFectada.push({feeder: element.feeder});
-
+          this.escribrirAreaAfectada();
+          this.getElementoMapa();
+          //this.calcularIdicador();
         }
-        this.escribrirAreaAfectada();
-        this.getElementoMapa();
-        //this.calcularIdicador();
-      }
-    });    
+      });
   }
 
-  selectListElement(id)
-  {
-    if(id==null)
-    {
-      this.mostrarPanelElemento=true;
-      this.elementUpdateID=null;
+  selectListElement(id) {
+    if (id == null) {
+      this.mostrarPanelElemento = true;
+      this.elementUpdateID = null;
       this.validacionUpdate("");
-      
-    }else{
-      this.elementUpdateID=id;
-      this.mostrarPanelElemento=false;
+
+    } else {
+      this.elementUpdateID = id;
+      this.mostrarPanelElemento = false;
     }
-    
+
   }
 
-  updateElement()
-  {
+  updateElement() {
 
-    if(this.formElementos.fechaInicio.value==null || this.formElementos.fechaFinal.value==null ||
-       this.formElementos.horaInicio.value==null || this.formElementos.horaFinal.value==null || this.form.estadoEquipo.value==null )
-    {
+    if (this.formElementos.fechaInicio.value == null || this.formElementos.fechaFinal.value == null ||
+      this.formElementos.horaInicio.value == null || this.formElementos.horaFinal.value == null || this.form.estadoEquipo.value == null) {
       this.validacionUpdate("Este campo es requerido.");
-       return;
+      return;
     }
-    var elemento=this.dataElementos[this.elementUpdateID];
+    var elemento = this.dataElementos[this.elementUpdateID];
     var fechaInicio = this.dateValidation.getYearMounthDay(this.formElementos.fechaInicio.value);
     var horaInicio = this.formElementos.horaInicio.value;
     var fechaFinal = this.dateValidation.getYearMounthDay(this.formElementos.fechaFinal.value);
     var horaFinal = this.formElementos.horaFinal.value;
-    elemento.fechaInicio.name=fechaInicio;
-    elemento.fechaInicio.value=fechaInicio;
-    elemento.horaInicio.name=horaInicio;
-    elemento.horaInicio.value=horaInicio;
-    elemento.fechaFinal.name=fechaFinal;
-    elemento.fechaFinal.value=fechaFinal;
-    elemento.horaFinal.name=horaFinal;
-    elemento.horaFinal.value=horaFinal;
-    this.dataElementos[this.elementUpdateID]=elemento;
+    elemento.fechaInicio.name = fechaInicio;
+    elemento.fechaInicio.value = fechaInicio;
+    elemento.horaInicio.name = horaInicio;
+    elemento.horaInicio.value = horaInicio;
+    elemento.fechaFinal.name = fechaFinal;
+    elemento.fechaFinal.value = fechaFinal;
+    elemento.horaFinal.name = horaFinal;
+    elemento.horaFinal.value = horaFinal;
+    this.dataElementos[this.elementUpdateID] = elemento;
     this.validacionUpdate("");
     this.selectListElement(null);
     this.escribrirAreaAfectada();
-    
+
   }
 
-  validacionUpdate(mensaje)
-  {
-    this.formElementos.fechaInicio.messages=mensaje;
-    this.formElementos.fechaFinal.messages=mensaje;
-    this.formElementos.horaInicio.messages=mensaje;
-    this.formElementos.horaFinal.messages=mensaje;
-    this.form.fechaSolicitud.messages=mensaje;
-    this.form.estadoEquipo.messages=mensaje;
+  validacionUpdate(mensaje) {
+    this.formElementos.fechaInicio.messages = mensaje;
+    this.formElementos.fechaFinal.messages = mensaje;
+    this.formElementos.horaInicio.messages = mensaje;
+    this.formElementos.horaFinal.messages = mensaje;
+    this.form.fechaSolicitud.messages = mensaje;
+    this.form.estadoEquipo.messages = mensaje;
   }
 
 
-  guardarConsigna(){
+  guardarConsigna() {
     let response = {
       formData: new FormData(),
       success: false,
@@ -1077,13 +1070,13 @@ export class ConsignaNewComponent implements OnInit {
     // }
     // if( this.validateEmptyFields() && this.fileUpload.success){
 
-    if( this.validateEmptyFields() && inputFile.success && inputFileMultiple.success && this.validarTiempoElmento()){
+    if (this.validateEmptyFields() && inputFile.success && inputFileMultiple.success && this.validarTiempoElmento()) {
 
       response.formData = inputFile.files;
       //adjuntar los documentos(anexos)
       let fileMultiple = this.inputFileMultiple.getFiles();
-      if(fileMultiple != undefined){
-        for(let i = 0;i< fileMultiple.length; i++){
+      if (fileMultiple != undefined) {
+        for (let i = 0; i < fileMultiple.length; i++) {
           let fileUpload = fileMultiple[i];
           response.formData.append("anexos[]", fileUpload);
         }
@@ -1092,21 +1085,21 @@ export class ConsignaNewComponent implements OnInit {
       response.formData.append('consignacionId', this.consignacionId);
       response.formData.append('consignaPadreId', this.consignaPadreId);
       response.formData.append('fileUrl', this.fileUrl);
-      response.formData.append('form',JSON.stringify(this.form));
-      response.formData.append('dataElementos',JSON.stringify(this.dataElementos));
-      response.formData.append('interrupcionesTrabajo',JSON.stringify(this.interrupcionesTrabajo));
-      response.formData.append('interrupcionesCortoTiempo',JSON.stringify(this.interrupcionesCortoTiempo));
-      response.formData.append('argNumConsigna',JSON.stringify(this.argNumConsigna));
-      response.formData.append('user',JSON.stringify(this.user));
+      response.formData.append('form', JSON.stringify(this.form));
+      response.formData.append('dataElementos', JSON.stringify(this.dataElementos));
+      response.formData.append('interrupcionesTrabajo', JSON.stringify(this.interrupcionesTrabajo));
+      response.formData.append('interrupcionesCortoTiempo', JSON.stringify(this.interrupcionesCortoTiempo));
+      response.formData.append('argNumConsigna', JSON.stringify(this.argNumConsigna));
+      response.formData.append('user', JSON.stringify(this.user));
       //INDICADOR
       response.formData.append('indicador', JSON.stringify({
-        saidi: document.getElementById("txtSaidi")!=null ? document.getElementById("txtSaidi").innerHTML:0,
-        saifi: document.getElementById("txtSaifi")!=null ? document.getElementById("txtSaifi").innerHTML:0,
-        tiempo: document.getElementById("txtTiempo") !=null ? document.getElementById("txtTiempo").innerHTML : "",
-        data:document.getElementById("jsonDataMapa").textContent
+        saidi: document.getElementById("txtSaidi") != null ? document.getElementById("txtSaidi").innerHTML : 0,
+        saifi: document.getElementById("txtSaifi") != null ? document.getElementById("txtSaifi").innerHTML : 0,
+        tiempo: document.getElementById("txtTiempo") != null ? document.getElementById("txtTiempo").innerHTML : "",
+        data: document.getElementById("jsonDataMapa").textContent
       }));
       //response.formData.append('personaAfectada',JSON.stringify(this.areaAFectada[0].persona));
-       console.log(document.getElementById("jsonDataMapa").textContent);
+      console.log(document.getElementById("jsonDataMapa").textContent);
       response.success = true;
 
       /* const response = await this.api.post(`${environment.apiBackend}/consigna/save-consigna`, formData);
@@ -1128,9 +1121,9 @@ export class ConsignaNewComponent implements OnInit {
         this.snackBar.alert(message,10000)
       } */
 
-    }else{
+    } else {
       response.success = false;
-      this.snackBar.alert('Faltan campos a diligenciar',5000)
+      this.snackBar.alert('Faltan campos a diligenciar', 5000)
     }
 
     return response;
@@ -1150,64 +1143,64 @@ export class ConsignaNewComponent implements OnInit {
     return valido;
   }
 
-  setInput(event){
+  setInput(event) {
     this.inputFile = event;
   }
 
-  validateEmptyFields(){
+  validateEmptyFields() {
     this.messageListaElementos = '';
     let success = true;
 
-    if(!this.validations.validateEmptyFields(this.form).success){
+    if (!this.validations.validateEmptyFields(this.form).success) {
       success = false;
     }
 
-    if(this.dataElementos.length < 1){
+    if (this.dataElementos.length < 1) {
       this.messageListaElementos = 'Debe ingresar mínimo un valor en la lista de elementos a consignar'
       success = false;
     }
     return success;
   }
 
-  setConsecutivo(position,data,id){
+  setConsecutivo(position, data, id) {
     let value = '';
     // obtiene el código
-    for(let val of data){
-      if(val.id == id){
-        value = position == 2 ? val.codigo.charAt(1): val.codigo;
+    for (let val of data) {
+      if (val.id == id) {
+        value = position == 2 ? val.codigo.charAt(1) : val.codigo;
       }
     }
 
-    switch(position){
+    switch (position) {
       case 0:
-          if(value == 'A'){
-            this.form.consecutivoSnc.disabled = false;
-            this.form.consecutivoSnc.required = true;
-          }else{
-            value = '';
-            this.form.consecutivoSnc.disabled = true;
-            this.form.consecutivoSnc.required = false;
-            this.form.consecutivoSnc.messages = '';
-            this.form.consecutivoSnc.value = '';
-          }
-          value = value=='A' ? value : '';
+        if (value == 'A') {
+          this.form.consecutivoSnc.disabled = false;
+          this.form.consecutivoSnc.required = true;
+        } else {
+          value = '';
+          this.form.consecutivoSnc.disabled = true;
+          this.form.consecutivoSnc.required = false;
+          this.form.consecutivoSnc.messages = '';
+          this.form.consecutivoSnc.value = '';
+        }
+        value = value == 'A' ? value : '';
         break;
     }
     this.argNumConsigna[position] = value;
 
     this.form.numeroConsigna.value = this.argNumConsigna.join('');
 
-    if(position == 2){
+    if (position == 2) {
       this.getSubestaciones(id);
     }
   }
 
   //Llena los selects del formulario
-  async getDataSelectConsigna(){
+  async getDataSelectConsigna() {
     const response = await this.session.getDataSelectConsigna();
-    if(response.success){
+    if (response.success) {
       this.setSelect();
-      
+
       /*if(response.data.totalUsuario.length>0)
       {
         this.indicador.totalUsuarios=response.data.totalUsuario[0].usuarios;
@@ -1218,7 +1211,7 @@ export class ConsignaNewComponent implements OnInit {
         var valor=response.data.validarTiempoIntCorta[0].valor;
         //this.indicador.tiempoMaximo=valor!=""? parseInt(valor):0;
       }*/
-      
+
     }
   }
 
@@ -1237,7 +1230,7 @@ export class ConsignaNewComponent implements OnInit {
     }
   }
 
-  setSelect(){
+  setSelect() {
     this.dataControls.divisionArea = this.session.getItem('divisionArea');
     this.dataControls.tipoZona = this.session.getItem('tipoZona');
     this.dataControls.tipoSolicitud = this.session.getItem('tipoSolicitud');
@@ -1247,7 +1240,7 @@ export class ConsignaNewComponent implements OnInit {
     // this.dataControls.subestacion = this.session.getItem('subestacion');
     // this.dataControls.tipoElemento = this.session.getItem('tempTipoElemento');
     // this.dataControls.elemento = this.session.getItem('elemento');
-    this.form.medidasSeguiridad.value=this.session.getItem('medidaSeguridad')[0]['descripcion'];
+    this.form.medidasSeguiridad.value = this.session.getItem('medidaSeguridad')[0]['descripcion'];
     this.dataControls.tipoFormatoConsigna = this.session.getItem('tipoFormatoConsigna');
     this.dataControls.tipoTercerosConsigna = this.session.getItem('tipoTercerosConsigna');
     this.setDefaultTipoConsigna();
@@ -1255,10 +1248,10 @@ export class ConsignaNewComponent implements OnInit {
     this.dataControls.estadoConsigna = this.session.getItem('estadoConsigna').filter(b => {
       return (b.codigo == 'S')
     })
-    
+
   }
 
-  cleanAllFields(){
+  cleanAllFields() {
     this.validations.cleanFields(this.form);
     this.validations.cleanFields(this.formElementos);
     this.validations.cleanFields(this.interrupcionesTrabajo);
@@ -1274,32 +1267,32 @@ export class ConsignaNewComponent implements OnInit {
     this.inputFileMultiple.cleanFiles();
   }
 
-  async getSubestaciones(event){
+  async getSubestaciones(event) {
     this.dataControls.tipoElemento = [];
     this.dataControls.elemento = [];
     let request = {
       zona_id: event
     };
 
-    let dataSubestacion = this.session.getDataInfo('subestacion','zona_id',event);
-    if(dataSubestacion.success && dataSubestacion.data.length >0){
+    let dataSubestacion = this.session.getDataInfo('subestacion', 'zona_id', event);
+    if (dataSubestacion.success && dataSubestacion.data.length > 0) {
       this.dataControls.subestacion = dataSubestacion.data;
-    }else{
+    } else {
       const response = await this.api.post(`${environment.apiBackend}/subestacion/get-subestacion`, request);
       let success = response.success;
       let message = response.message;
-      if(success){
+      if (success) {
         this.dataControls.subestacion = [];
-        for(let value of response.data){
-          this.dataControls.subestacion.push(value);        
+        for (let value of response.data) {
+          this.dataControls.subestacion.push(value);
         }
-      }else{
-        this.snackBar.alert(message,10000)
+      } else {
+        this.snackBar.alert(message, 10000)
       }
     }
   }
 
-  validateSubestacion(){
+  validateSubestacion() {
     this.dataControls.tipoElemento = [];
     this.dataControls.elemento = [];
     var dataConsigna = [];
@@ -1307,21 +1300,21 @@ export class ConsignaNewComponent implements OnInit {
     this.getTipoElementos();
   }
 
-  async validateElementos(event, tipoSelect){
+  async validateElementos(event, tipoSelect) {
 
     // validar si existe una consigna con la misma subestación y solicitada
-    if(this.consignaPadreId == null && this.form.tipoFormatoConsigna.value == 'C'){
+    if (this.consignaPadreId == null && this.form.tipoFormatoConsigna.value == 'C') {
       var fechaInicio = moment().format('YYYY/MM/DD');
       var fechaFinal = moment(fechaFinal).endOf('month').format('YYYY/MM/DD');//fecha final del mes
 
       let request = {
-        codigoEstadoConsigna:{ //consultar unicamente las solicitadas
+        codigoEstadoConsigna: { //consultar unicamente las solicitadas
           value: 'S'
         },
-        fechaSolicitudInicio:{
+        fechaSolicitudInicio: {
           value: fechaInicio
         },
-        fechaSolicitudFinal:{
+        fechaSolicitudFinal: {
           value: fechaFinal
         },
         /*codigoTipoFormato:{
@@ -1329,44 +1322,44 @@ export class ConsignaNewComponent implements OnInit {
         }*/
       }
       const response = await this.api.post(`${environment.apiBackend}/consigna/get-list`, request);
-      if(response.success){
+      if (response.success) {
         //si el select es una subestacion
-        if(tipoSelect == 'S'){ 
-          for(let value of response.data){
-            if(event == parseInt(value.subestacion_id)){
-              var message = "Existe una solicitud con la subestación seleccionada en estado pendiente para la fecha ejecución "+moment(value.fecha_solicitud).format('YYYY/MM/DD')+" ¿desea crear la solicitud como trabajo de oportunidad?"
+        if (tipoSelect == 'S') {
+          for (let value of response.data) {
+            if (event == parseInt(value.subestacion_id)) {
+              var message = "Existe una solicitud con la subestación seleccionada en estado pendiente para la fecha ejecución " + moment(value.fecha_solicitud).format('YYYY/MM/DD') + " ¿desea crear la solicitud como trabajo de oportunidad?"
               this.dialogo
                 .open(ModalConfirmComponent, {
-                data: new Mensaje("Atención:", message)
-              })
-              .afterClosed()
-              .subscribe((confirmado: Boolean) => {
-                if(confirmado) {
-                  this.tempTipoFormatoConsigna = "TDO";
-                  this.form.tipoFormatoConsigna.value = "TDO";
-                  this.setDataFormAndDisable(value);
-                }
-              });
+                  data: new Mensaje("Atención:", message)
+                })
+                .afterClosed()
+                .subscribe((confirmado: Boolean) => {
+                  if (confirmado) {
+                    this.tempTipoFormatoConsigna = "TDO";
+                    this.form.tipoFormatoConsigna.value = "TDO";
+                    this.setDataFormAndDisable(value);
+                  }
+                });
               return;
             }
           }
         }
         var dataConsigna = response.data;
         //si el select es un elemento
-        if(tipoSelect == 'E'){
-          for(let value of response.lista_elemento){
-            if(parseInt(value.subestacion_id) == this.form.subestacion.value && 
-              parseInt(value.elemento_id) == event){
-                var message = "Existe una solicitud con la subestación y elemento seleccionado en estado pendiente para la fecha ejecución "+moment(value.fecha_solicitud).format('YYYY/MM/DD')+" ¿desea crear la solicitud como trabajo de oportunidad?"
-                this.dialogo
-                  .open(ModalConfirmComponent, {
+        if (tipoSelect == 'E') {
+          for (let value of response.lista_elemento) {
+            if (parseInt(value.subestacion_id) == this.form.subestacion.value &&
+              parseInt(value.elemento_id) == event) {
+              var message = "Existe una solicitud con la subestación y elemento seleccionado en estado pendiente para la fecha ejecución " + moment(value.fecha_solicitud).format('YYYY/MM/DD') + " ¿desea crear la solicitud como trabajo de oportunidad?"
+              this.dialogo
+                .open(ModalConfirmComponent, {
                   data: new Mensaje("Atención:", message)
                 })
                 .afterClosed()
                 .subscribe((confirmado: Boolean) => {
-                  if(confirmado) {
-                    for(let data of dataConsigna){
-                      if(data.consignacion_id == value.consignacion_id){
+                  if (confirmado) {
+                    for (let data of dataConsigna) {
+                      if (data.consignacion_id == value.consignacion_id) {
                         this.tempTipoFormatoConsigna = "TDO";
                         this.form.tipoFormatoConsigna.value = "TDO";
                         this.setDataFormAndDisable(data);
@@ -1374,61 +1367,61 @@ export class ConsignaNewComponent implements OnInit {
                     }
                   }
                 });
-                return;
+              return;
             }
           }
         }
-      }else{
-        this.snackBar.alert(response.message,10000)
+      } else {
+        this.snackBar.alert(response.message, 10000)
       }
     }
   }
 
-  async getTipoElementos(){
+  async getTipoElementos() {
     this.dataControls.tipoElemento = [];
     this.dataControls.elemento = [];
 
-    if(this.form.subestacion.value != null && this.form.subestacion.value != undefined){
-      if(this.formElementos.redElectrica.value != null && this.formElementos.redElectrica.value != undefined){
-        this.esRedElectrica=this.formElementos.redElectrica.value=="1"?true:false;
-        if(this.formElementos.redElectrica.value == '1'){
+    if (this.form.subestacion.value != null && this.form.subestacion.value != undefined) {
+      if (this.formElementos.redElectrica.value != null && this.formElementos.redElectrica.value != undefined) {
+        this.esRedElectrica = this.formElementos.redElectrica.value == "1" ? true : false;
+        if (this.formElementos.redElectrica.value == '1') {
           let request = {
             subestacion_id: event
           };
-  
-          let dataSession = this.session.getDataInfo('tipoElemento','subestacion_id',this.form.subestacion.value);
-          if(dataSession.success && dataSession.data.length >0){
-            for(let value of dataSession.data){
+
+          let dataSession = this.session.getDataInfo('tipoElemento', 'subestacion_id', this.form.subestacion.value);
+          if (dataSession.success && dataSession.data.length > 0) {
+            for (let value of dataSession.data) {
               this.dataControls.tipoElemento.push(value);
             }
-          }else{
+          } else {
             const response = await this.api.post(`${environment.apiBackend}/tipo-elemento/get-tipo-elemento`, request);
             let success = response.success;
             let message = response.message;
-            if(success){
-              if(response.data.length > 0){
-                for(let value of response.data){
-                  this.dataControls.tipoElemento.push(value);        
+            if (success) {
+              if (response.data.length > 0) {
+                for (let value of response.data) {
+                  this.dataControls.tipoElemento.push(value);
                 }
-              }else{
-                this.snackBar.alert('No se encontró información con la subestación seleccionada!',5000);
+              } else {
+                this.snackBar.alert('No se encontró información con la subestación seleccionada!', 5000);
               }
-            }else{
-              this.snackBar.alert(message,10000)
-            } 
+            } else {
+              this.snackBar.alert(message, 10000)
+            }
           }
-        }else{
+        } else {
           this.dataControls.tipoElemento = this.session.getItem('tempTipoElemento');
         }
-        this.getElementos(this.formElementos.tipoElemento.value);        
-      }      
-    }else{
-      this.snackBar.alert('seleccione una subestación!',5000);
+        this.getElementos(this.formElementos.tipoElemento.value);
+      }
+    } else {
+      this.snackBar.alert('seleccione una subestación!', 5000);
     }
   }
 
-  async getElementos(event){
-    if(event != null && event != undefined){
+  async getElementos(event) {
+    if (event != null && event != undefined) {
       this.dataControls.elemento = [];
       let request = {
         tipo_elemento_id: event
@@ -1436,24 +1429,24 @@ export class ConsignaNewComponent implements OnInit {
 
       let tipoElementos = this.dataControls.tipoElemento;
       let tpElemento = tipoElementos.find(data => data.id == event);
-  
-      let dataSession = this.session.getDataInfo('elemento','tipo_elemento_id',event);
-      if(dataSession.success && dataSession.data.length >0){
+
+      let dataSession = this.session.getDataInfo('elemento', 'tipo_elemento_id', event);
+      if (dataSession.success && dataSession.data.length > 0) {
         this.dataControls.elemento = dataSession.data;
-      }else{
+      } else {
         const response = await this.api.post(`${environment.apiBackend}/elemento/get-elemento`, request);
         let success = response.success;
         let message = response.message;
-        if(success){
+        if (success) {
           this.dataControls.elemento = response.data;
-        }else{
-          this.snackBar.alert(message,10000)
-        } 
-      }    
+        } else {
+          this.snackBar.alert(message, 10000)
+        }
+      }
 
-      if(tpElemento != undefined){
-        if(tpElemento.contiene_subestacion == 1){
-          let dataElementos =  this.dataControls.elemento;
+      if (tpElemento != undefined) {
+        if (tpElemento.contiene_subestacion == 1) {
+          let dataElementos = this.dataControls.elemento;
           dataElementos = dataElementos.filter(data => data.subestacion_id == this.form.subestacion.value && data.estado == 1);
           this.dataControls.elemento = dataElementos;
         }
@@ -1461,13 +1454,13 @@ export class ConsignaNewComponent implements OnInit {
     }
   }
 
- getJsonMapa(){
-  //  para ocultar el boton de ver el mapa
-   var botonVerMapaSelec = document.getElementById("botonVerMapaSelec");
-   this.verMapaSelect = "hidden";
-   botonVerMapaSelec.style.visibility = this.verMapaSelect;
-   this.jsonMapa = '';
-   document.getElementById("jsonDataMapa").innerText = ''
+  getJsonMapa() {
+    //  para ocultar el boton de ver el mapa
+    var botonVerMapaSelec = document.getElementById("botonVerMapaSelec");
+    this.verMapaSelect = "hidden";
+    botonVerMapaSelec.style.visibility = this.verMapaSelect;
+    this.jsonMapa = '';
+    document.getElementById("jsonDataMapa").innerText = ''
 
     var child;
     var date = new Date();
@@ -1481,71 +1474,69 @@ export class ConsignaNewComponent implements OnInit {
     const y = Number((window.innerHeight / 2) - (height / 2));
     const x = Number((window.innerWidth / 2) - (width / 2));
     var snackBar = this.snackBar;
-    
-    if(this.formElementos.elemento.value!=null){
-      var feeders=this.getFeederElemento(this.formElementos.elemento.value);
-      var data = "data="+this.utf8_to_b64('{"feeders":[{"code":"'+feeders+'"}],"tipo":"feeders"}')+'&user='+this.utf8_to_b64(JSON.stringify(this.user));
-      child = window.open(environment.urlEhmap+ '?' + data + '&key=' + key, "MsgWindow", 'width=' + width + ',height=' + height + ',top=' + y + ',left=' + x + ',toolbar=no,resizable=no');
+
+    if (this.formElementos.elemento.value != null) {
+      var feeders = this.getFeederElemento(this.formElementos.elemento.value);
+      var data = "data=" + this.utf8_to_b64('{"feeders":[{"code":"' + feeders + '"}],"tipo":"feeders"}') + '&user=' + this.utf8_to_b64(JSON.stringify(this.user));
+      child = window.open(environment.urlEhmap + '?' + data + '&key=' + key, "MsgWindow", 'width=' + width + ',height=' + height + ',top=' + y + ',left=' + x + ',toolbar=no,resizable=no');
       // child = window.open('http://192.9.200.44/hijo.html?key='+key+'&data={"feeders":[{"code":"'+feeders+'"}]}', 'Mapa', 'width=' + width + ',height=' + height + ',top=' + y + ',left=' + x + ',toolbar=no,resizable=no');
       var apiLocal = this.api;
       var jsonLocal = '';
-      var jsonIntervenirElementoMapa='';
-      var jsonElementoIntervenirMapaCortoTiempo='';
+      var jsonIntervenirElementoMapa = '';
+      var jsonElementoIntervenirMapaCortoTiempo = '';
       var intentos = 0;
       var timer = setInterval(async function () {
         if (child.closed) {
           let response = null;
           // Se realiza el llamado del api que obtiene la data del mapa a partir del key
-          if(environment.debug && environment.production){
+          if (environment.debug && environment.production) {
             //https://enlinea.electrohuila.com.co/back-consignas/public/api
             response = await apiLocal.get(`https://enlinea.electrohuila.com.co/back-consignas/public/api/integracion-mapa/get/${key}`);
-          }else{
+          } else {
             response = await apiLocal.get(`${environment.apiBackend}/integracion-mapa/get/${key}`);
           }
           intentos += 1;
-          
-          if(response.success){
-            var objJson=JSON.parse( response.data );
-            
-            jsonLocal =JSON.stringify({url: objJson });//url JSON.stringify(response.data.url);
-            
-            if(objJson.interrupcion!=null)
-            {
-              var jdata=objJson.interrupcion.data;//JSON.parse(objJson.interrupcion.data);
-              jsonIntervenirElementoMapa=JSON.stringify( jdata.json ) ;
+
+          if (response.success) {
+            var objJson = JSON.parse(response.data);
+
+            jsonLocal = JSON.stringify({ url: objJson });//url JSON.stringify(response.data.url);
+
+            if (objJson.interrupcion != null) {
+              var jdata = objJson.interrupcion.data;//JSON.parse(objJson.interrupcion.data);
+              jsonIntervenirElementoMapa = JSON.stringify(jdata.json);
               document.getElementById("jsonElementoIntervenirMapa").textContent = jsonIntervenirElementoMapa;
               document.getElementById("jsonMapaTipo").textContent = jdata.tipo;
             }
 
-            if(objJson.interrupcionCorta!=null)
-            {
-              var jdata=objJson.interrupcionCorta.data;//JSON.parse(objJson.interrupcionCorta.data);
-              jsonElementoIntervenirMapaCortoTiempo=JSON.stringify( jdata.json ) ;
-              document.getElementById('jsonTiempo').textContent=jdata.tiempo;
-              document.getElementById("jsonElementoIntervenirMapaCortoTiempo").textContent=jsonElementoIntervenirMapaCortoTiempo;
+            if (objJson.interrupcionCorta != null) {
+              var jdata = objJson.interrupcionCorta.data;//JSON.parse(objJson.interrupcionCorta.data);
+              jsonElementoIntervenirMapaCortoTiempo = JSON.stringify(jdata.json);
+              document.getElementById('jsonTiempo').textContent = jdata.tiempo;
+              document.getElementById("jsonElementoIntervenirMapaCortoTiempo").textContent = jsonElementoIntervenirMapaCortoTiempo;
               document.getElementById("jsonMapaTipoCortoTiempo").textContent = jdata.tipo;
             }
 
             document.getElementById("jsonDataMapa").textContent = jsonLocal;
-            
+
 
             this.verMapaSelect = "visible";
             botonVerMapaSelec.style.visibility = this.verMapaSelect;
             clearInterval(timer);
-            
-          }else{
-            if(intentos <= 1 && this.verMapaSelect !== "visible"){
-              snackBar.alert('No se encontró registro de mapa para guardar!',5000);
+
+          } else {
+            if (intentos <= 1 && this.verMapaSelect !== "visible") {
+              snackBar.alert('No se encontró registro de mapa para guardar!', 5000);
             }
           }
           clearInterval(timer);
         }
       }, 500);
 
-    }else{
-      this.formElementos.elemento.messages="Este campo es requerido.";
+    } else {
+      this.formElementos.elemento.messages = "Este campo es requerido.";
     }
-    
+
   }
 
   getJsonMapaV2() {
@@ -1562,7 +1553,7 @@ export class ConsignaNewComponent implements OnInit {
       var __nativeST__ = window.setTimeout,
         __nativeSI__ = window.setInterval;
 
-      var setInterval = function (vCallback, nDelay /*, argumentoAPasar1, argumentoAPasar2, etc. */ ) {
+      var setInterval = function (vCallback, nDelay /*, argumentoAPasar1, argumentoAPasar2, etc. */) {
         var oThis = this,
           aArgs = Array.prototype.slice.call(arguments, 2);
         return __nativeSI__(vCallback instanceof Function ? function () {
@@ -1602,24 +1593,24 @@ export class ConsignaNewComponent implements OnInit {
           feeders.push({
             code: element.feeder
           });
-          element.jsonAreaAfectada.value="";
-          element.jsonPersona.value="";
-          element.jsonAreaAfectadaCortoT.value="";
-          element.jsonPersonaCortoT.value="";
+          element.jsonAreaAfectada.value = "";
+          element.jsonPersona.value = "";
+          element.jsonAreaAfectadaCortoT.value = "";
+          element.jsonPersonaCortoT.value = "";
         });
 
 
         // var data = "data="+this.utf8_to_b64('{"feeders":[{"code":"'+feeders+'"}],"tipo":"feeders"}')+'&user='+this.utf8_to_b64(JSON.stringify(this.user));
         var data = "data=" + this.utf8_to_b64(JSON.stringify({
           feeders: feeders,
-          zona:this.allZonaIndicador,
-          zonaselect:this.form.tipoZona.value,
-          tiempoMapa:this.varTiempoMapa,
-          estadoEquipo:this.form.estadoEquipo.value
+          zona: this.allZonaIndicador,
+          zonaselect: this.form.tipoZona.value,
+          tiempoMapa: this.varTiempoMapa,
+          estadoEquipo: this.form.estadoEquipo.value
         })) + '&user=' + this.utf8_to_b64(JSON.stringify(this.user));
 
         child = window.open(environment.urlEhmapV2 + '?' + data + '&key=' + key, "MsgWindow", 'width=' + width + ',height=' + height + ',top=' + y + ',left=' + x + ',toolbar=no,resizable=no');
-        
+
         var apiLocal = this.api;
         var jsonLocal = '';
         var jsonIntervenirElementoMapa = '';
@@ -1640,22 +1631,22 @@ export class ConsignaNewComponent implements OnInit {
             intentos += 1;
             if (response.success) {
 
-              this.areaAFectada=[];
-              this.areaAFectadaCortoTiempo=[];
+              this.areaAFectada = [];
+              this.areaAFectadaCortoTiempo = [];
               this.interrupcionesTrabajo.barrios.value = "";
               this.interrupcionesTrabajo.clientesNoRegulados.value = "";
               this.interrupcionesCortoTiempo.barrios.value = "";
               this.interrupcionesCortoTiempo.clientesNoRegulados.value = "";
-      
+
 
               var objJson = JSON.parse(response.data);
-              
+
               this.dataMapa = {
                 listaElemento: objJson.indicador.listaElemento,
-                indicador:objJson.indicador.indicador
+                indicador: objJson.indicador.indicador
               };
 
-              this.urlMap=this.crearUrlMap();
+              this.urlMap = this.crearUrlMap();
 
               jsonLocal = JSON.stringify({
                 url: objJson
@@ -1671,15 +1662,15 @@ export class ConsignaNewComponent implements OnInit {
                   return (b.feeder == element.feeder)
                 });
 
-               
+
                 element.jsonElementoMapa.value = JSON.stringify({
                   url: {
-                    interrupcion: this.clasificarTipo(result[0],element.feeder,"consigna"),
-                    interrupcionCorta:this.clasificarTipo(result[0],element.feeder,"corto"),
+                    interrupcion: this.clasificarTipo(result[0], element.feeder, "consigna"),
+                    interrupcionCorta: this.clasificarTipo(result[0], element.feeder, "corto"),
                   }
                 });
-                 element.jsonIntervenirElementoMapa.value=JSON.stringify(this.clasificarTipo(result[0],element.feeder,"consigna").data.json);
-                 element.jsonIntervenirElementoMapaCortoT.value=JSON.stringify(this.clasificarTipo(result[0],element.feeder,"corto").data.json);
+                element.jsonIntervenirElementoMapa.value = JSON.stringify(this.clasificarTipo(result[0], element.feeder, "consigna").data.json);
+                element.jsonIntervenirElementoMapaCortoT.value = JSON.stringify(this.clasificarTipo(result[0], element.feeder, "corto").data.json);
 
               });
 
@@ -1692,14 +1683,14 @@ export class ConsignaNewComponent implements OnInit {
 
               var totales = JSON.parse(response.data).indicador.total;
 
-              this.dataTiempo=totales.data;
+              this.dataTiempo = totales.data;
 
               this.txtTiempo = totales.tiempo;
               this.txtSaidi = totales.totalSaidi;
               this.txtSaifi = totales.totalSaifi;
 
               $("#panelTablaIndicador").html(JSON.parse(response.data).indicador.htmlIndicador);
-              
+
 
               await objJson.indicador.elemento.reduce(async (accumulatorPromise, nextID) => {
 
@@ -1708,7 +1699,7 @@ export class ConsignaNewComponent implements OnInit {
                 await nextID.TRANSFOR.filter(b => {
                   return (b.tipoTiempo == "consigna")
                 }).reduce(async (accumulatorPromise, elem) => {
-                
+
                   if (trans == "") {
                     trans = trans + elem.CODE;
                   } else {
@@ -1716,12 +1707,11 @@ export class ConsignaNewComponent implements OnInit {
                   }
                 }, undefined);
 
-                if(trans != "")
-                {
+                if (trans != "") {
                   await this.getDataAreaAfectada(`transf/${trans}`, true, nextID.feeder);
-                
+
                 }
-              
+
               }, undefined);
 
               await objJson.indicador.elemento.reduce(async (accumulatorPromise, nextID) => {
@@ -1731,7 +1721,7 @@ export class ConsignaNewComponent implements OnInit {
                 await nextID.TRANSFOR.filter(b => {
                   return (b.tipoTiempo == "corto")
                 }).reduce(async (accumulatorPromise, elem) => {
-                
+
                   if (trans == "") {
                     trans = trans + elem.CODE;
                   } else {
@@ -1739,12 +1729,11 @@ export class ConsignaNewComponent implements OnInit {
                   }
                 }, undefined);
 
-                if(trans != "")
-                {
+                if (trans != "") {
                   await this.getDataAreaAfectada(`transf/${trans}`, false, nextID.feeder);
-                
+
                 }
-              
+
               }, undefined);
 
 
@@ -1786,58 +1775,58 @@ export class ConsignaNewComponent implements OnInit {
       return (b.tipoTiempo == tipo)
     });
 
-      return {
-          key: null,
-          data: {
-            url: "vacio",
-            json: {
-             feeder: feeder,
-             RECLOSER:recloser,
-             SWITCH:[],
-             SWITCHES:switches,
-             TRANSFOR: transfor,
-            },
-            tipo: "",
-            tiempo: 0
-          }
-        }
-      
-   
+    return {
+      key: null,
+      data: {
+        url: "vacio",
+        json: {
+          feeder: feeder,
+          RECLOSER: recloser,
+          SWITCH: [],
+          SWITCHES: switches,
+          TRANSFOR: transfor,
+        },
+        tipo: "",
+        tiempo: 0
+      }
+    }
+
+
   }
 
 
   actualizarElemento() {
-    
-      var data=JSON.parse(sessionStorage.getItem("resultMapa"));
 
-      this.dataElementos.forEach(element=>{
-          var result= data.indicador.elemento.filter(b=>{
-             return (b.feeder==element.feeder)
-           });
-           
-           
-           element.jsonIntervenirElementoMapa.value=JSON.stringify(result)
-           element.jsonElementoMapa.value = JSON.stringify({
-             url: {
-               interrupcion: {
-                 key: null,
-                 data: {
-                   url: "vacio",
-                   json: {
-                    RECLOSER:result[0].RECLOSER,
-                    SWITCH:result[0].SWITCH,
-                    SWITCHES:result[0].SWITCHES,
-                    TRANSFOR: result[0].TRANSFOR,
-                   },
-                   tipo: "",
-                   tiempo: 0
-                 }
-               }
-             }
-           });
+    var data = JSON.parse(sessionStorage.getItem("resultMapa"));
+
+    this.dataElementos.forEach(element => {
+      var result = data.indicador.elemento.filter(b => {
+        return (b.feeder == element.feeder)
       });
 
-      
+
+      element.jsonIntervenirElementoMapa.value = JSON.stringify(result)
+      element.jsonElementoMapa.value = JSON.stringify({
+        url: {
+          interrupcion: {
+            key: null,
+            data: {
+              url: "vacio",
+              json: {
+                RECLOSER: result[0].RECLOSER,
+                SWITCH: result[0].SWITCH,
+                SWITCHES: result[0].SWITCHES,
+                TRANSFOR: result[0].TRANSFOR,
+              },
+              tipo: "",
+              tiempo: 0
+            }
+          }
+        }
+      });
+    });
+
+
   }
 
   verMapaGuardadoV2() {
@@ -1848,54 +1837,51 @@ export class ConsignaNewComponent implements OnInit {
       // calculamos la posicion x, y para centrar la ventana
       const y = Number((window.innerHeight / 2) - (height / 2));
       const x = Number((window.innerWidth / 2) - (width / 2));
-      window.open( this.crearUrlMap() + '&key=' + null, "MsgWindow", 'width=' + width + ',height=' + height + ',top=' + y + ',left=' + x + ',toolbar=no,resizable=no');
-    
+      window.open(this.crearUrlMap() + '&key=' + null, "MsgWindow", 'width=' + width + ',height=' + height + ',top=' + y + ',left=' + x + ',toolbar=no,resizable=no');
+
     }
   }
 
-  crearUrlMap()
-  {
-    
+  crearUrlMap() {
+
     var data = "data=" + this.utf8_to_b64(JSON.stringify(
-      this.dataMapa 
+      this.dataMapa
     ));
 
     return environment.urlEhmapV2 + '?' + data;
   }
 
-  verMapaGuardado(){
+  verMapaGuardado() {
     this.jsonMapa = document.getElementById("jsonDataMapa").innerText;
     this.openMap(this.jsonMapa);
   }
 
 
-  openMap(data = null){
+  openMap(data = null) {
 
-    var url="";
-    if(data != '' && data != null && data != undefined){
-      if(typeof data == 'string'){
+    var url = "";
+    if (data != '' && data != null && data != undefined) {
+      if (typeof data == 'string') {
         data = JSON.parse(data);
-        var interrupcion="";
-        if(data.url.interrupcion!=null)
-        {
-           interrupcion=data.url.interrupcion.data.url;// JSON.parse(data.url.interrupcion.data).url;
+        var interrupcion = "";
+        if (data.url.interrupcion != null) {
+          interrupcion = data.url.interrupcion.data.url;// JSON.parse(data.url.interrupcion.data).url;
         }
-        var interrupcionCorta="";
-        if(data.url.interrupcionCorta!=null)
-        {
-           interrupcionCorta=data.url.interrupcionCorta.data.url;//JSON.parse(data.url.interrupcionCorta.data).url;
+        var interrupcionCorta = "";
+        if (data.url.interrupcionCorta != null) {
+          interrupcionCorta = data.url.interrupcionCorta.data.url;//JSON.parse(data.url.interrupcionCorta.data).url;
         }
-        
-        url=`visor=${interrupcion}@${interrupcionCorta}`;
+
+        url = `visor=${interrupcion}@${interrupcionCorta}`;
       }
-    
-      var child = window.open(environment.urlEhmap+'?'+url+'&user='+this.utf8_to_b64(JSON.stringify(this.user)),"MsgWindow", "width=1200,height=600");
-    }else{
-      this.snackBar.alert('No se encontró mapa',5000);
-    }    
+
+      var child = window.open(environment.urlEhmap + '?' + url + '&user=' + this.utf8_to_b64(JSON.stringify(this.user)), "MsgWindow", "width=1200,height=600");
+    } else {
+      this.snackBar.alert('No se encontró mapa', 5000);
+    }
   }
 
-  
+
   async getAreaAFectada(elemento) {
 
     this.areaAFectada = [];
@@ -1909,7 +1895,7 @@ export class ConsignaNewComponent implements OnInit {
 
     var padre = "";
 
-    if (document.getElementById("jsonMapaTipo").innerText == "getAbrir" || document.getElementById("jsonMapaTipoCortoTiempo").innerText == "getAbrir" ) {
+    if (document.getElementById("jsonMapaTipo").innerText == "getAbrir" || document.getElementById("jsonMapaTipoCortoTiempo").innerText == "getAbrir") {
 
       var elementoMapa = document.getElementById("jsonElementoIntervenirMapa").innerText;
       if (elementoMapa != "") {
@@ -1923,11 +1909,10 @@ export class ConsignaNewComponent implements OnInit {
              feeder: element.CODE
            });*/
         });
-        if(padre!="")
-        {
-          await this.getDataAreaAfectada(`transf/${padre}`, true,"");
+        if (padre != "") {
+          await this.getDataAreaAfectada(`transf/${padre}`, true, "");
         }
-        
+
       }
 
 
@@ -1944,11 +1929,10 @@ export class ConsignaNewComponent implements OnInit {
              feeder: element.CODE
            });*/
         });
-        if(padre!="")
-        {
-          await this.getDataAreaAfectada(`transf/${padre}`, false,"");
+        if (padre != "") {
+          await this.getDataAreaAfectada(`transf/${padre}`, false, "");
         }
-        
+
       }
 
       //  elemento = "transf/" + padre;
@@ -1959,7 +1943,7 @@ export class ConsignaNewComponent implements OnInit {
     }
   }
 
-  
+
 
   async getDataAreaAfectada(elemento, duraTrabajo, feeder) {
 
@@ -2045,16 +2029,15 @@ export class ConsignaNewComponent implements OnInit {
             }
           }
 
-          if(duraTrabajo)
-          {
+          if (duraTrabajo) {
             element.jsonAreaAfectada.value = jsonAreaAfectada;
             element.jsonPersona.value = jsonPersona;
-          }else{
-            element.jsonPersonaCortoT.value=jsonPersonaCortoT;
-            element.jsonAreaAfectadaCortoT.value=jsonAreaAfectadaCortoT;
+          } else {
+            element.jsonPersonaCortoT.value = jsonPersonaCortoT;
+            element.jsonAreaAfectadaCortoT.value = jsonAreaAfectadaCortoT;
           }
-          
-          
+
+
 
         }
       });
@@ -2063,29 +2046,28 @@ export class ConsignaNewComponent implements OnInit {
 
   }
 
-  
 
-  crearJsonBarrio(municipio,element){
-     var barrario=[];
-     var varBarrio="";
-     var varDepartamento="";
-     element.filter(b => {
+
+  crearJsonBarrio(municipio, element) {
+    var barrario = [];
+    var varBarrio = "";
+    var varDepartamento = "";
+    element.filter(b => {
       return (b.nombre_muni == municipio)
-     }).forEach(elemen => {
+    }).forEach(elemen => {
 
-       if(varBarrio!=elemen.barrio)
-       {
-         if (elemen.barrio != null) {
-           barrario.push(elemen.barrio);
-           varBarrio = elemen.barrio;
-           varDepartamento = elemen.nombre_depto;
-         }
-       
-       }
-       
-     });
-     
-     return {departamento:varDepartamento,municipio:municipio,barrio:barrario};
+      if (varBarrio != elemen.barrio) {
+        if (elemen.barrio != null) {
+          barrario.push(elemen.barrio);
+          varBarrio = elemen.barrio;
+          varDepartamento = elemen.nombre_depto;
+        }
+
+      }
+
+    });
+
+    return { departamento: varDepartamento, municipio: municipio, barrio: barrario };
   }
 
   splitCorreo(correo) {
@@ -2104,18 +2086,18 @@ export class ConsignaNewComponent implements OnInit {
   crearJsonSector(municipio, element) {
     var sector = [];
     var name = "";
-    var varDepartamento="";
+    var varDepartamento = "";
     element.filter(b => {
       return (b.nombre_muni == municipio)
     }).forEach(elemen => {
       if (name != elemen.nombre_sector) {
         sector.push(elemen.nombre_sector);
         name = elemen.nombre_sector;
-        varDepartamento=elemen.nombre_depto;
+        varDepartamento = elemen.nombre_depto;
       }
     });
 
-    return {departamento:varDepartamento, municipio: municipio,sector: sector};
+    return { departamento: varDepartamento, municipio: municipio, sector: sector };
   }
 
   getFeederElemento(id) {
@@ -2127,14 +2109,14 @@ export class ConsignaNewComponent implements OnInit {
 
   escribrirAreaAfectada() {
 
-     if (this.formElementos.afectaUsuarios.value == 0 ) {
-       return;
-     }
+    if (this.formElementos.afectaUsuarios.value == 0) {
+      return;
+    }
 
-     this.recorrerAreafectada();
+    this.recorrerAreafectada();
 
-     this.recorrerAreafectadaCortoT();
-      
+    this.recorrerAreafectadaCortoT();
+
   }
 
   recorrerAreafectada() {
@@ -2153,8 +2135,7 @@ export class ConsignaNewComponent implements OnInit {
           if (data.length > 0) {
             data.forEach(elemen => {
               elemen.barrio.forEach(element => {
-                if(barrio!=null)
-                {
+                if (barrio != null) {
                   barrio += element + "\r";
                   this.numeroAreaAfectada.barrios++;
                 }
@@ -2198,8 +2179,7 @@ export class ConsignaNewComponent implements OnInit {
           if (data.length > 0) {
             data.forEach(elemen => {
               elemen.barrio.forEach(element => {
-                if(barrio!=null)
-                {
+                if (barrio != null) {
                   barrio += element + "\r";
                   this.numeroAreaAfectadaCortoT.barrios++;
                 }
@@ -2228,72 +2208,72 @@ export class ConsignaNewComponent implements OnInit {
     this.interrupcionesTrabajoCortoTiempo.clientesNoRegulados.value = cliente;*/
     this.interrupcionesCortoTiempo.barrios.value = barrio;
     this.interrupcionesCortoTiempo.clientesNoRegulados.value = cliente;
-    
+
   }
 
-  utf8_to_b64( str ) {
-    return window.btoa(unescape(encodeURIComponent( str )));
+  utf8_to_b64(str) {
+    return window.btoa(unescape(encodeURIComponent(str)));
   }
 
-  setDefaultTipoConsigna(){
+  setDefaultTipoConsigna() {
     this.form.tipoFormatoConsigna.value = 'C';
   }
 
-  validateTipoFormato(data){
-    if(this.consignacionId != null || this.consignaPadreId != null){
+  validateTipoFormato(data) {
+    if (this.consignacionId != null || this.consignaPadreId != null) {
       this.dialogo
         .open(ModalConfirmComponent, {
-        data: new Mensaje("Atención:","Si realiza esta acción, se eliminará los registros guardados anteriormente. ¿ Desea realizarlo ?")
-      })
-      .afterClosed()
-      .subscribe((confirmado: Boolean) => {
-        if(confirmado) {
-          this.limpiarForm();
-          this.dataElementos = [];
-          this.showDialogBuscarConsigna(data);
-        }else{
-          this.form.tipoFormatoConsigna.value = this.tempTipoFormatoConsigna;
-        }
-      });  
-    }else{
+          data: new Mensaje("Atención:", "Si realiza esta acción, se eliminará los registros guardados anteriormente. ¿ Desea realizarlo ?")
+        })
+        .afterClosed()
+        .subscribe((confirmado: Boolean) => {
+          if (confirmado) {
+            this.limpiarForm();
+            this.dataElementos = [];
+            this.showDialogBuscarConsigna(data);
+          } else {
+            this.form.tipoFormatoConsigna.value = this.tempTipoFormatoConsigna;
+          }
+        });
+    } else {
       this.showDialogBuscarConsigna(data);
     }
   }
 
-  showDialogBuscarConsigna(data){
+  showDialogBuscarConsigna(data) {
     var response = {
       success: true,
       message: 'por favor agregue un consecutivo!'
     };
-    this.setDisableForm(this.form,false);
+    this.setDisableForm(this.form, false);
 
-    if(this.form.tipoFormatoConsigna.value != 'C'){
+    if (this.form.tipoFormatoConsigna.value != 'C') {
       const dialogRef = this.dialog.open(ConsignaNewSearchComponent, {
-        width:'100%',
+        width: '100%',
         data: data
       });
 
       dialogRef.afterClosed().subscribe(result => {
-        if(result == undefined){
+        if (result == undefined) {
           response.success = false;
           this.snackBar.alert('por favor agregue un consecutivo!', 5000);
           this.form.tipoFormatoConsigna.value = 'C';
-        }else if(result.data[0] == undefined){
+        } else if (result.data[0] == undefined) {
           response.success = false;
           this.snackBar.alert('por favor agregue un consecutivo!', 5000);
           this.form.tipoFormatoConsigna.value = 'C';
-        }else{
+        } else {
           this.tempTipoFormatoConsigna = this.form.tipoFormatoConsigna.value;
           var data = result.data[0];
           this.setDataFormAndDisable(data);
 
-          if(this.form.tipoFormatoConsigna.value == 'CH'){
+          if (this.form.tipoFormatoConsigna.value == 'CH') {
             this.dataElementos = result.listaElemento;
             this.recorrerAreafectada();
           }
         }
 
-        if(!response.success){
+        if (!response.success) {
           this.limpiarForm();
         }
 
@@ -2302,8 +2282,8 @@ export class ConsignaNewComponent implements OnInit {
     }
   }
 
-  setDataFormAndDisable(data){
-    
+  setDataFormAndDisable(data) {
+
     this.consignaPadreId = data.consignacion_id;
     this.form.divisionArea.value = parseInt(data.division_area_id);
     this.form.tipoZona.value = parseInt(data.zona_id);
@@ -2320,7 +2300,7 @@ export class ConsignaNewComponent implements OnInit {
 
     this.getTipoElementos();
     this.setElementoFechaSolicitud();
-    this.setDisableForm(this.form,true);
+    this.setDisableForm(this.form, true);
 
     if (this.form.tipoFormatoConsigna.value == "CH") {
       if (data.estado_consigna == "Ejecutada") {
@@ -2328,16 +2308,16 @@ export class ConsignaNewComponent implements OnInit {
           return (b.codigo == "S")
         });
         this.form.estadoConsigna.value = parseInt(estadoConsigna[0].id);
-        this.form.fechaSolicitud.disabled=false;
-        this.form.fechaSolicitud.value=null;
-        this.formElementos.fechaInicio.value=null;
-        this.formElementos.fechaFinal.value=null;
+        this.form.fechaSolicitud.disabled = false;
+        this.form.fechaSolicitud.value = null;
+        this.formElementos.fechaInicio.value = null;
+        this.formElementos.fechaFinal.value = null;
       }
     }
 
   }
 
-  limpiarForm(){
+  limpiarForm() {
     this.consignaPadreId = null;
     this.form.divisionArea.value = null;
     this.form.tipoZona.value = null;
@@ -2352,91 +2332,91 @@ export class ConsignaNewComponent implements OnInit {
     this.form.tipoMantenimiento.value = null;
   }
 
-  setDisableForm(object, state){
+  setDisableForm(object, state) {
     for (const key in object) {
       if (object.hasOwnProperty(key)) {
-          if(object[key].disabled != undefined) {
-            object[key].disabled = state;
-          } 
+        if (object[key].disabled != undefined) {
+          object[key].disabled = state;
+        }
       }
     }
   }
 
-  async validateFechaSolicitud(){
+  async validateFechaSolicitud() {
     var message = '';
 
     //valida que no exista un id para identificar que sea una consigna nueva
-    if(this.consignacionId == null && this.consignaPadreId == null && this.form.fechaSolicitud.value != null){
+    if (this.consignacionId == null && this.consignaPadreId == null && this.form.fechaSolicitud.value != null) {
 
-      if(moment(this.form.fechaSolicitud.value).format('YYYY/MM/DD') >= moment().format('YYYY/MM/DD')){
+      if (moment(this.form.fechaSolicitud.value).format('YYYY/MM/DD') >= moment().format('YYYY/MM/DD')) {
         this.form.fechaSolicitud.messages = message;
 
-        if(this.form.tipoSolicitud.value != null){
-          var tipoSolicitud = this.dataControls.tipoSolicitud.filter(b=>{
+        if (this.form.tipoSolicitud.value != null) {
+          var tipoSolicitud = this.dataControls.tipoSolicitud.filter(b => {
             return (b.id == this.form.tipoSolicitud.value)
           });
-  
+
           var codTipoSolicitud = tipoSolicitud[0].codigo;
           //valida que no sea una solicitud de emergencia
-          if(codTipoSolicitud != 'E'){
+          if (codTipoSolicitud != 'E') {
             var dataFechaSolicitud = this.session.getItem('validacionFechaSolicitud');
             var valorValidacion = null;
-            if(dataFechaSolicitud == null){ //valida si trae información
+            if (dataFechaSolicitud == null) { //valida si trae información
               const response = await this.session.getDataSelectConsigna();
-              if(response.success){
+              if (response.success) {
                 dataFechaSolicitud = this.session.getItem('validacionFechaSolicitud');
               }
             }
-        
-            for(let value of dataFechaSolicitud){
-              if(value.estado == '1' && value.codigo == 'FDS'){
+
+            for (let value of dataFechaSolicitud) {
+              if (value.estado == '1' && value.codigo == 'FDS') {
                 valorValidacion = value.valor
               }
             }
-            
-            if(valorValidacion != null && valorValidacion != undefined){
+
+            if (valorValidacion != null && valorValidacion != undefined) {
               //var diaSemana = moment(this.form.fechaSolicitud.value).day(); //0 a 6, donde 0 = Domingo
               var diaSemanaActual = moment().isoWeekday();//1 a 7, donde 7 = Domingo
               var fechaValidacion = moment().add(1, 'weeks').startOf('isoWeek');//inicia la semana el lunes
-        
-              if(diaSemanaActual > parseInt(valorValidacion)){
+
+              if (diaSemanaActual > parseInt(valorValidacion)) {
                 fechaValidacion = moment().add(2, 'weeks').startOf('isoWeek');//inicia la semana el lunes
-              }        
-              if(this.form.fechaSolicitud.value < fechaValidacion){
-                message = 'No se puede agregar para la fecha indicada';              
+              }
+              if (this.form.fechaSolicitud.value < fechaValidacion) {
+                message = 'No se puede agregar para la fecha indicada';
               }
             }
           }
         }
-        
-      }else{
+
+      } else {
         message = 'La fecha debe ser mayor o igual a la actual';
       }
 
-      if(message != ''){
+      if (message != '') {
         this.snackBar.alert(message, 5000);
-        this.form.fechaSolicitud.value = null; 
+        this.form.fechaSolicitud.value = null;
         this.form.fechaSolicitud.messages = message;
       }
-      
+
     }
     this.setElementoFechaSolicitud();
   }
-  
-  setElementoFechaSolicitud(){
+
+  setElementoFechaSolicitud() {
     this.formElementos.fechaInicio.value = this.form.fechaSolicitud.value;
     this.formElementos.fechaFinal.value = this.form.fechaSolicitud.value;
   }
 
-  unique(value, index, self) { 
+  unique(value, index, self) {
     return self.indexOf(value) === index;
   }
 
-  validarSelectSolicitaTercero(){
-    if(this.form.solicitadaTercero.value == "1"){
+  validarSelectSolicitaTercero() {
+    if (this.form.solicitadaTercero.value == "1") {
       this.form.tipoTercero.visible = true
       this.form.tipoTercero.required = true
-    }else{
+    } else {
       this.form.tipoTercero.value = null
       this.form.tipoTercero.visible = false
       this.form.tipoTercero.required = false
@@ -2456,17 +2436,17 @@ export class ConsignaNewComponent implements OnInit {
     }
   }
 
-  validarTipoTercero(){
+  validarTipoTercero() {
     //obtiene el codigo del tipo tercero
-    if(this.form.tipoTercero.value != null){
+    if (this.form.tipoTercero.value != null) {
       let code = ""
-      for(let value of this.dataControls?.tipoTercerosConsigna){
-        if(parseInt(value.id) == parseInt(this.form.tipoTercero.value)){
+      for (let value of this.dataControls?.tipoTercerosConsigna) {
+        if (parseInt(value.id) == parseInt(this.form.tipoTercero.value)) {
           code = value.codigo
         }
       }
 
-      if(code == 'CTA' || code == 'PDI'){
+      if (code == 'CTA' || code == 'PDI') {
         this.form.terceroNumeroContrato.visible = true
         this.form.terceroNumeroContrato.required = true
 
@@ -2475,7 +2455,7 @@ export class ConsignaNewComponent implements OnInit {
 
         this.form.terceroDescripcion.visible = true
         this.form.terceroDescripcion.required = true
-      }else{
+      } else {
         this.form.terceroNumeroContrato.value = null
         this.form.terceroNumeroContrato.visible = false
         this.form.terceroNumeroContrato.required = false
@@ -2487,7 +2467,7 @@ export class ConsignaNewComponent implements OnInit {
         this.form.terceroDescripcion.visible = true
         this.form.terceroDescripcion.required = true
       }
-    }else{
+    } else {
       this.form.terceroNumeroContrato.value = null
       this.form.terceroNumeroContrato.visible = false
       this.form.terceroNumeroContrato.required = false
@@ -2507,7 +2487,7 @@ export class ConsignaNewComponent implements OnInit {
 
     try {
       console.log(obj);
-     // this.actualizarElemento();
+      // this.actualizarElemento();
 
       if (JSON.parse(obj.jsonElementoMapa.value).url.interrupcion == null) {
         this.snackBar.alert('El elemento seleccionado no contiene subelementos.', 5000)
@@ -2521,7 +2501,7 @@ export class ConsignaNewComponent implements OnInit {
         return false;
       }
 
-      
+
       const dialogConfig = new MatDialogConfig();
       dialogConfig.minWidth = 500;
       dialogConfig.minHeight = 650;
@@ -2537,7 +2517,7 @@ export class ConsignaNewComponent implements OnInit {
   }
 
   abrirSubelementosCortoTiempo(obj) {
-   
+
     try {
       if (JSON.parse(obj.jsonElementoMapa.value).url.interrupcionCorta == null) {
         this.snackBar.alert('El elemento seleccionado no contiene subelementos.', 5000)
@@ -2562,73 +2542,73 @@ export class ConsignaNewComponent implements OnInit {
       this.snackBar.alert('El elemento seleccionado no contiene subelementos.', 5000)
     }
 
-    }
+  }
 
-    async resumenMapa() {
-      
-      var url = "";
-      var interrupcion = "";
-      var interrupcionCorta = "";
+  async resumenMapa() {
 
-      this.dataElementos.forEach(element => {
+    var url = "";
+    var interrupcion = "";
+    var interrupcionCorta = "";
 
-        if (element.jsonElementoMapa.value != "") {
-          var elemento = JSON.parse(element.jsonElementoMapa.value);
+    this.dataElementos.forEach(element => {
 
-          if (elemento.url.interrupcion != null) {
-            url += elemento.url.interrupcion.data.url;
-            interrupcion += elemento.url.interrupcion.data.url;
-          }
+      if (element.jsonElementoMapa.value != "") {
+        var elemento = JSON.parse(element.jsonElementoMapa.value);
 
-          if (elemento.url.interrupcionCorta != null) {
-            url += elemento.url.interrupcionCorta.data.url;
-            interrupcionCorta += elemento.url.interrupcionCorta.data.url
-          }
-
+        if (elemento.url.interrupcion != null) {
+          url += elemento.url.interrupcion.data.url;
+          interrupcion += elemento.url.interrupcion.data.url;
         }
 
-
-      });
-
-      if (url != "") {
-
-        var date = new Date();
-        var key = date.getHours() + '' + date.getMinutes() + '' + date.getSeconds();
-
-        var parametro = {
-          key: key,
-          data: JSON.stringify({
-            interrupcion: interrupcion,
-            interrupcionCorta: interrupcionCorta,
-          })
+        if (elemento.url.interrupcionCorta != null) {
+          url += elemento.url.interrupcionCorta.data.url;
+          interrupcionCorta += elemento.url.interrupcionCorta.data.url
         }
 
-        const response = await this.api.post(`${environment.apiBackend}/integracion-mapa/set`, parametro);
-
-        // definimos la anchura y altura de la ventana
-        const height = 600;
-        const width = 1000;
-
-        // calculamos la posicion x, y para centrar la ventana
-        const y = Number((window.innerHeight / 2) - (height / 2));
-        const x = Number((window.innerWidth / 2) - (width / 2));
-
-        window.open(environment.urlEhmap + '?keyload=' + key + '&user=' + this.utf8_to_b64(JSON.stringify(this.user)), "MsgWindow", 'width=' + width + ',height=' + height + ',top=' + y + ',left=' + x + ',toolbar=no,resizable=no');
-
-      } else {
-        this.snackBar.alert('El elemento seleccionado no contiene subelementos.', 5000)
       }
 
+
+    });
+
+    if (url != "") {
+
+      var date = new Date();
+      var key = date.getHours() + '' + date.getMinutes() + '' + date.getSeconds();
+
+      var parametro = {
+        key: key,
+        data: JSON.stringify({
+          interrupcion: interrupcion,
+          interrupcionCorta: interrupcionCorta,
+        })
+      }
+
+      const response = await this.api.post(`${environment.apiBackend}/integracion-mapa/set`, parametro);
+
+      // definimos la anchura y altura de la ventana
+      const height = 600;
+      const width = 1000;
+
+      // calculamos la posicion x, y para centrar la ventana
+      const y = Number((window.innerHeight / 2) - (height / 2));
+      const x = Number((window.innerWidth / 2) - (width / 2));
+
+      window.open(environment.urlEhmap + '?keyload=' + key + '&user=' + this.utf8_to_b64(JSON.stringify(this.user)), "MsgWindow", 'width=' + width + ',height=' + height + ',top=' + y + ',left=' + x + ',toolbar=no,resizable=no');
+
+    } else {
+      this.snackBar.alert('El elemento seleccionado no contiene subelementos.', 5000)
     }
 
-   datejoin(t, a, s) {
-      function format(m) {
-         let f = new Intl.DateTimeFormat('en', m);
-         return f.format(t);
-      }
-      return a.map(format).join(s);
-   }
+  }
 
-  
-  
+  datejoin(t, a, s) {
+    function format(m) {
+      let f = new Intl.DateTimeFormat('en', m);
+      return f.format(t);
+    }
+    return a.map(format).join(s);
+  }
+
+
+
 }
