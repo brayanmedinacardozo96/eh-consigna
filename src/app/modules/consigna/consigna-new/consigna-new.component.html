@@ -371,7 +371,7 @@
                </button>
 
                <button *ngIf="esRedElectrica" (click)="getJsonMapaV2()" mat-mini-fab color="success"
-                 style="margin-left: 20px; margin-bottom:20px;" matTooltip="Ver mapa" matTooltipClass="custom-tooltip">
+                 style="margin-left: 20px; margin-bottom:20px;" matTooltip="Mapa" matTooltipClass="custom-tooltip">
                  <mat-icon style="color: #FFF;">public</mat-icon>
                </button>
 
@@ -387,7 +387,7 @@
                    <mat-icon style="color: #FFF;">where_to_vote</mat-icon>
                  </button>
                  <!-- para ver obtener de manera temporar la data del mapa -->
-                 <span style="display: none;" id="jsonDataMapa"></span>
+                 <span style="display: none;" id="jsonDataMapa">{{jsonDataMapa}}</span>
                  <span style="display: none;" id="jsonElementoIntervenirMapa"></span>
                  <span style="display: none;" id="jsonElementoIntervenirMapaCortoTiempo"></span>
                  <span style="display: none;" id="jsonTiempo">0</span>
@@ -418,7 +418,7 @@
                   <th>Afecta Usuarios</th>
                   <th>Fecha y hora inicio</th>
                   <th>Fecha y hora final</th>
-                  <th>Mapa</th>
+                  <th style="display:none;">Mapa</th>
                   <th>Subelementos</th>
                   <th>Usuarios afectados</th>
                   <th>Acciones</th>
@@ -433,7 +433,7 @@
                     <td [ngClass]="{'mal': value.fechaInicio.name==null}">{{ value.fechaInicio.name }} - {{ value.horaInicio.name }}</td>
                     <td [ngClass]="{'mal': value.fechaFinal.name==null }">{{ value.fechaFinal.name }} - {{ value.horaFinal.name }}</td>
                 
-                    <td><button *ngIf="value.jsonElementoMapa.value != undefined && value.jsonElementoMapa.value != '' && value.jsonElementoMapa.value != null " 
+                    <td style="display:none;"><button *ngIf="value.jsonElementoMapa.value != undefined && value.jsonElementoMapa.value != '' && value.jsonElementoMapa.value != null " 
                         color="primary"
                         (click)="openMap(value.jsonElementoMapa.value)" mat-icon-button matTooltip="Ver en mapa" matTooltipClass="custom-tooltip">
                         <mat-icon>map</mat-icon>
@@ -489,15 +489,6 @@
                   <thead>
                     <tr>
                         <td>
-                          Total usuarios
-                        </td>
-                        <td>
-                          Total Transformadores
-                        </td>
-                        <td>
-                          Total KWH
-                        </td>
-                        <td>
                           Tiempo
                         </td>
                         <td>
@@ -510,29 +501,41 @@
                   </thead>
                   <tbody id="tbIndicador">
                     <tr>
-                        <td id="txtTotalUsuarios">
-                         
-                        </td>
-                        <td id="txtTotalTransformadores">
-                          
-                        </td>
-                        <td id="txtTotalKWH">
-                          
-                        </td>
                         <td id="txtTiempo">
-                          
+                            {{txtTiempo}}
                         </td>
                         <td id="txtSaidi">
-                          
+                           {{txtSaidi}}
                         </td>
                         <td id="txtSaifi">
-                          
+                           {{txtSaifi}}
                         </td>
                       </tr>
                   </tbody>
                
               </table>
-          
+              <table class="custom-table">
+                <thead>
+                  <td>Tipo</td>
+                  <td>
+                    Total usuarios
+                  </td>
+                  <td>
+                    Total Transformadores
+                  </td>
+                  <td>
+                    Total KWH
+                  </td>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let value of dataTiempo; let i=index">
+                    <td>{{value.tipo}}</td>
+                    <td>{{value.usuario}}</td>
+                    <td>{{value.tranfo}}</td>
+                    <td>{{value.kwh}}</td>
+                  </tr>
+                </tbody>
+              </table>
           
             </mat-expansion-panel>
            </mat-accordion>

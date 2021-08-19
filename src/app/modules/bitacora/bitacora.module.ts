@@ -23,6 +23,8 @@ import { ColorPickerModule } from 'ngx-color-picker';
 import {MatTableModule} from '@angular/material/table';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import { BitacoraSubelementosVistaComponent } from './bitacora-subelementos-vista/bitacora-subelementos-vista.component';
+import { ConfirmDialogComponent } from 'src/app/ui/confirm-dialog/confirm-dialog.component';
+
 
 @NgModule({
   declarations: [BitacoraComponent, BitacoraFormComponent, BitacoraListComponent, BitacoraDocumentosComponent, BitacoraElementosComponent, BitacoraSubelementosComponent, BitacoraSubelementosVistaComponent],
@@ -46,7 +48,9 @@ import { BitacoraSubelementosVistaComponent } from './bitacora-subelementos-vist
         MatPaginatorModule
        
     ],entryComponents:[
-      BitacoraSubelementosVistaComponent
+      BitacoraSubelementosVistaComponent,
+      ConfirmDialogComponent,
+      BitacoraSubelementosComponent
     ]
 })
 export class BitacoraModule { }

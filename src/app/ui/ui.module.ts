@@ -41,6 +41,9 @@ import { DynamicDialogComponent } from './dynamic-dialog/dynamic-dialog.componen
     MatButtonModule
   ],
   exports: [HeaderComponent, FooterComponent, LoadingComponent],
+  entryComponents:[
+    DynamicDialogComponent  
+  ]
 })
 export class UiModule {
 }

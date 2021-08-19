@@ -163,7 +163,7 @@
             <mat-icon style="color: #FFFFFF">search</mat-icon>
         </button> -->
 
-        <button mat-raised-button class="{{boton.color}}" (click)="guardar()" style="margin-left: 20px; margin-top: 10px;">
+        <button mat-raised-button [ngClass]="boton.color" (click)="guardar()" style="margin-left: 20px; margin-top: 10px;">
             <span style="color: #FFF">{{boton.value}}</span>
         </button>
       
